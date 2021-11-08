@@ -10,7 +10,15 @@ const cors = require('cors');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache(
   { stdTTL: 60 * 15, checkperiod: 120 }
+  // { stdTTL: 45, checkperiod: 120 } // 45 seconds for testing the cache
 );
+
+myCache.clear = () => {
+  myCache.flushAll();
+};
+myCache.delete = (key: string) => {
+  myCache.del(key);
+}
 
 const app = express();
 
@@ -24,14 +32,10 @@ const pgConfig = {
 const batchGetUserById = async (ids: string[]) => {
   console.log('called once per tick:', ids);
   const handles = ids.map(async id => {
-    const cache = myCache.get(id);
-    if (cache) {
-      console.log("Cache hit for " + id);
-      return cache;
-    }
     console.log("Cache miss hit for " + id);
+    // this is not a m-get so this use of batching is kind of pointless
+    // except for using the cache
     const result = await getdata(id);
-    myCache.set(id, result);
     return result;
   });
 
@@ -39,7 +43,7 @@ const batchGetUserById = async (ids: string[]) => {
 };
 
 const userLoader = new DataLoader(batchGetUserById, {
-  cache: false,
+  cacheMap: myCache,
 });
 
 const MyRandomUserPlugin = makeExtendSchemaPlugin((build: any) => {
