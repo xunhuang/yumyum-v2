@@ -1,0 +1,1675 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Global11042021`."""
+  allGlobal11042021S(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Global11042021`."""
+    orderBy: [Global11042021SOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: Global11042021Condition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: Global11042021Filter
+  ): Global11042021SConnection
+
+  """Reads and enables pagination through a set of `T`."""
+  allTs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `T`."""
+    orderBy: [TsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: TCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: TFilter
+  ): TsConnection
+
+  """Reads and enables pagination through a set of `T1`."""
+  allT1S(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `T1`."""
+    orderBy: [T1SOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: T1Condition
+  ): T1SConnection
+
+  """Reads and enables pagination through a set of `Venue`."""
+  allVenues(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Venue`."""
+    orderBy: [VenuesOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: VenueCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: VenueFilter
+  ): VenuesConnection
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `Global11042021` values."""
+type Global11042021SConnection {
+  """A list of `Global11042021` objects."""
+  nodes: [Global11042021]!
+
+  """
+  A list of edges which contains the `Global11042021` and cursor to aid in pagination.
+  """
+  edges: [Global11042021SEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Global11042021` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Global11042021 {
+  area: String
+  city: String
+  country: String
+  cuisines: String
+  imageList: String
+  latitude: String
+  longitude: String
+  mainImage: String
+  michelinAward: String
+  name: String
+  objectId: String
+  onlineBooking: Boolean
+  otherUrls: String
+  postcode: String
+  region: String
+  siteName: String
+  siteSlug: String
+  slug: String
+  street: String
+  takeAway: Boolean
+  url: String
+}
+
+"""A `Global11042021` edge in the connection."""
+type Global11042021SEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Global11042021` at the end of the edge."""
+  node: Global11042021
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `Global11042021`."""
+enum Global11042021SOrderBy {
+  NATURAL
+  AREA_ASC
+  AREA_DESC
+  CITY_ASC
+  CITY_DESC
+  COUNTRY_ASC
+  COUNTRY_DESC
+  CUISINES_ASC
+  CUISINES_DESC
+  IMAGE_LIST_ASC
+  IMAGE_LIST_DESC
+  LATITUDE_ASC
+  LATITUDE_DESC
+  LONGITUDE_ASC
+  LONGITUDE_DESC
+  MAIN_IMAGE_ASC
+  MAIN_IMAGE_DESC
+  MICHELIN_AWARD_ASC
+  MICHELIN_AWARD_DESC
+  NAME_ASC
+  NAME_DESC
+  OBJECT_ID_ASC
+  OBJECT_ID_DESC
+  ONLINE_BOOKING_ASC
+  ONLINE_BOOKING_DESC
+  OTHER_URLS_ASC
+  OTHER_URLS_DESC
+  POSTCODE_ASC
+  POSTCODE_DESC
+  REGION_ASC
+  REGION_DESC
+  SITE_NAME_ASC
+  SITE_NAME_DESC
+  SITE_SLUG_ASC
+  SITE_SLUG_DESC
+  SLUG_ASC
+  SLUG_DESC
+  STREET_ASC
+  STREET_DESC
+  TAKE_AWAY_ASC
+  TAKE_AWAY_DESC
+  URL_ASC
+  URL_DESC
+}
+
+"""
+A condition to be used against `Global11042021` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input Global11042021Condition {
+  """Checks for equality with the object’s `area` field."""
+  area: String
+
+  """Checks for equality with the object’s `city` field."""
+  city: String
+
+  """Checks for equality with the object’s `country` field."""
+  country: String
+
+  """Checks for equality with the object’s `cuisines` field."""
+  cuisines: String
+
+  """Checks for equality with the object’s `imageList` field."""
+  imageList: String
+
+  """Checks for equality with the object’s `latitude` field."""
+  latitude: String
+
+  """Checks for equality with the object’s `longitude` field."""
+  longitude: String
+
+  """Checks for equality with the object’s `mainImage` field."""
+  mainImage: String
+
+  """Checks for equality with the object’s `michelinAward` field."""
+  michelinAward: String
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `objectId` field."""
+  objectId: String
+
+  """Checks for equality with the object’s `onlineBooking` field."""
+  onlineBooking: Boolean
+
+  """Checks for equality with the object’s `otherUrls` field."""
+  otherUrls: String
+
+  """Checks for equality with the object’s `postcode` field."""
+  postcode: String
+
+  """Checks for equality with the object’s `region` field."""
+  region: String
+
+  """Checks for equality with the object’s `siteName` field."""
+  siteName: String
+
+  """Checks for equality with the object’s `siteSlug` field."""
+  siteSlug: String
+
+  """Checks for equality with the object’s `slug` field."""
+  slug: String
+
+  """Checks for equality with the object’s `street` field."""
+  street: String
+
+  """Checks for equality with the object’s `takeAway` field."""
+  takeAway: Boolean
+
+  """Checks for equality with the object’s `url` field."""
+  url: String
+}
+
+"""
+A filter to be used against `Global11042021` object types. All fields are combined with a logical ‘and.’
+"""
+input Global11042021Filter {
+  """Filter by the object’s `area` field."""
+  area: StringFilter
+
+  """Filter by the object’s `city` field."""
+  city: StringFilter
+
+  """Filter by the object’s `country` field."""
+  country: StringFilter
+
+  """Filter by the object’s `cuisines` field."""
+  cuisines: StringFilter
+
+  """Filter by the object’s `imageList` field."""
+  imageList: StringFilter
+
+  """Filter by the object’s `latitude` field."""
+  latitude: StringFilter
+
+  """Filter by the object’s `longitude` field."""
+  longitude: StringFilter
+
+  """Filter by the object’s `mainImage` field."""
+  mainImage: StringFilter
+
+  """Filter by the object’s `michelinAward` field."""
+  michelinAward: StringFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `objectId` field."""
+  objectId: StringFilter
+
+  """Filter by the object’s `onlineBooking` field."""
+  onlineBooking: BooleanFilter
+
+  """Filter by the object’s `otherUrls` field."""
+  otherUrls: StringFilter
+
+  """Filter by the object’s `postcode` field."""
+  postcode: StringFilter
+
+  """Filter by the object’s `region` field."""
+  region: StringFilter
+
+  """Filter by the object’s `siteName` field."""
+  siteName: StringFilter
+
+  """Filter by the object’s `siteSlug` field."""
+  siteSlug: StringFilter
+
+  """Filter by the object’s `slug` field."""
+  slug: StringFilter
+
+  """Filter by the object’s `street` field."""
+  street: StringFilter
+
+  """Filter by the object’s `takeAway` field."""
+  takeAway: BooleanFilter
+
+  """Filter by the object’s `url` field."""
+  url: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [Global11042021Filter!]
+
+  """Checks for any expressions in this list."""
+  or: [Global11042021Filter!]
+
+  """Negates the expression."""
+  not: Global11042021Filter
+}
+
+"""
+A filter to be used against String fields. All fields are combined with a logical ‘and.’
+"""
+input StringFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: String
+
+  """Not equal to the specified value."""
+  notEqualTo: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: String
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: String
+
+  """Included in the specified list."""
+  in: [String!]
+
+  """Not included in the specified list."""
+  notIn: [String!]
+
+  """Less than the specified value."""
+  lessThan: String
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: String
+
+  """Greater than the specified value."""
+  greaterThan: String
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: String
+
+  """Contains the specified string (case-sensitive)."""
+  includes: String
+
+  """Does not contain the specified string (case-sensitive)."""
+  notIncludes: String
+
+  """Contains the specified string (case-insensitive)."""
+  includesInsensitive: String
+
+  """Does not contain the specified string (case-insensitive)."""
+  notIncludesInsensitive: String
+
+  """Starts with the specified string (case-sensitive)."""
+  startsWith: String
+
+  """Does not start with the specified string (case-sensitive)."""
+  notStartsWith: String
+
+  """Starts with the specified string (case-insensitive)."""
+  startsWithInsensitive: String
+
+  """Does not start with the specified string (case-insensitive)."""
+  notStartsWithInsensitive: String
+
+  """Ends with the specified string (case-sensitive)."""
+  endsWith: String
+
+  """Does not end with the specified string (case-sensitive)."""
+  notEndsWith: String
+
+  """Ends with the specified string (case-insensitive)."""
+  endsWithInsensitive: String
+
+  """Does not end with the specified string (case-insensitive)."""
+  notEndsWithInsensitive: String
+
+  """
+  Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  like: String
+
+  """
+  Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLike: String
+
+  """
+  Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  likeInsensitive: String
+
+  """
+  Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLikeInsensitive: String
+
+  """Equal to the specified value (case-insensitive)."""
+  equalToInsensitive: String
+
+  """Not equal to the specified value (case-insensitive)."""
+  notEqualToInsensitive: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  distinctFromInsensitive: String
+
+  """
+  Equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  notDistinctFromInsensitive: String
+
+  """Included in the specified list (case-insensitive)."""
+  inInsensitive: [String!]
+
+  """Not included in the specified list (case-insensitive)."""
+  notInInsensitive: [String!]
+
+  """Less than the specified value (case-insensitive)."""
+  lessThanInsensitive: String
+
+  """Less than or equal to the specified value (case-insensitive)."""
+  lessThanOrEqualToInsensitive: String
+
+  """Greater than the specified value (case-insensitive)."""
+  greaterThanInsensitive: String
+
+  """Greater than or equal to the specified value (case-insensitive)."""
+  greaterThanOrEqualToInsensitive: String
+}
+
+"""
+A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’
+"""
+input BooleanFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Boolean
+
+  """Not equal to the specified value."""
+  notEqualTo: Boolean
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Boolean
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Boolean
+
+  """Included in the specified list."""
+  in: [Boolean!]
+
+  """Not included in the specified list."""
+  notIn: [Boolean!]
+
+  """Less than the specified value."""
+  lessThan: Boolean
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Boolean
+
+  """Greater than the specified value."""
+  greaterThan: Boolean
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Boolean
+}
+
+"""A connection to a list of `T` values."""
+type TsConnection {
+  """A list of `T` objects."""
+  nodes: [T]!
+
+  """
+  A list of edges which contains the `T` and cursor to aid in pagination.
+  """
+  edges: [TsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `T` you could get from the connection."""
+  totalCount: Int!
+}
+
+type T {
+  j: JSON
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""A `T` edge in the connection."""
+type TsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `T` at the end of the edge."""
+  node: T
+}
+
+"""Methods to use when ordering `T`."""
+enum TsOrderBy {
+  NATURAL
+  J_ASC
+  J_DESC
+}
+
+"""
+A condition to be used against `T` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input TCondition {
+  """Checks for equality with the object’s `j` field."""
+  j: JSON
+}
+
+"""
+A filter to be used against `T` object types. All fields are combined with a logical ‘and.’
+"""
+input TFilter {
+  """Filter by the object’s `j` field."""
+  j: JSONFilter
+
+  """Checks for all expressions in this list."""
+  and: [TFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [TFilter!]
+
+  """Negates the expression."""
+  not: TFilter
+}
+
+"""
+A filter to be used against JSON fields. All fields are combined with a logical ‘and.’
+"""
+input JSONFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: JSON
+
+  """Not equal to the specified value."""
+  notEqualTo: JSON
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: JSON
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: JSON
+
+  """Included in the specified list."""
+  in: [JSON!]
+
+  """Not included in the specified list."""
+  notIn: [JSON!]
+
+  """Less than the specified value."""
+  lessThan: JSON
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: JSON
+
+  """Greater than the specified value."""
+  greaterThan: JSON
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: JSON
+
+  """Contains the specified JSON."""
+  contains: JSON
+
+  """Contains the specified key."""
+  containsKey: String
+
+  """Contains all of the specified keys."""
+  containsAllKeys: [String!]
+
+  """Contains any of the specified keys."""
+  containsAnyKeys: [String!]
+
+  """Contained by the specified JSON."""
+  containedBy: JSON
+}
+
+"""A connection to a list of `T1` values."""
+type T1SConnection {
+  """A list of `T1` objects."""
+  nodes: [T1]!
+
+  """
+  A list of edges which contains the `T1` and cursor to aid in pagination.
+  """
+  edges: [T1SEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `T1` you could get from the connection."""
+  totalCount: Int!
+}
+
+type T1 {
+  j: JSON
+}
+
+"""A `T1` edge in the connection."""
+type T1SEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `T1` at the end of the edge."""
+  node: T1
+}
+
+"""Methods to use when ordering `T1`."""
+enum T1SOrderBy {
+  NATURAL
+  J_ASC
+  J_DESC
+}
+
+"""
+A condition to be used against `T1` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input T1Condition {
+  """Checks for equality with the object’s `j` field."""
+  j: JSON
+}
+
+"""A connection to a list of `Venue` values."""
+type VenuesConnection {
+  """A list of `Venue` objects."""
+  nodes: [Venue]!
+
+  """
+  A list of edges which contains the `Venue` and cursor to aid in pagination.
+  """
+  edges: [VenuesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Venue` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Venue {
+  accomondation: String
+  address: String
+  area: String
+  autodetected: String
+  bookatableClientid: String
+  bookatablePartnerCode: String
+  bookingnotes: String
+  businessId: String
+  businessid: String
+  city: String
+  close: Boolean
+  closed: Boolean
+  closehours: String
+  connectionid: String
+  country: String
+  countryIso: String
+  coverImage: String
+  creationTime: String
+  cuisine: String
+  currency: String
+  devnotes: String
+  distinction: String
+  email: String
+  fulladdress: String
+  guide: String
+  imageList: String
+  key: String
+  latitude: Float
+  localarea: String
+  localname: String
+  longitude: Float
+  menuurl: String
+  metro: String
+  michelinId: String
+  michelineOnlineReservation: Boolean
+  name: String
+  oldImages: String
+  openhours: String
+  otherReservation: String
+  phone: String
+  priceline: String
+  realurl: String
+  region: String
+  reservation: String
+  reservationHint: String
+  reservationUrl: String
+  resyCityCode: String
+  resyUrlSlug: String
+  rsvpSupport: String
+  sf: String
+  showvenue: Boolean
+  stars: String
+  tags: String
+  timezone: String
+  tockUrlSlug: String
+  url: String
+  urlSlug: String
+  withOnlineReservation: String
+  workqueue: String
+  zip: String
+}
+
+"""A `Venue` edge in the connection."""
+type VenuesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Venue` at the end of the edge."""
+  node: Venue
+}
+
+"""Methods to use when ordering `Venue`."""
+enum VenuesOrderBy {
+  NATURAL
+  ACCOMONDATION_ASC
+  ACCOMONDATION_DESC
+  ADDRESS_ASC
+  ADDRESS_DESC
+  AREA_ASC
+  AREA_DESC
+  AUTODETECTED_ASC
+  AUTODETECTED_DESC
+  BOOKATABLE_CLIENTID_ASC
+  BOOKATABLE_CLIENTID_DESC
+  BOOKATABLE_PARTNER_CODE_ASC
+  BOOKATABLE_PARTNER_CODE_DESC
+  BOOKINGNOTES_ASC
+  BOOKINGNOTES_DESC
+  BUSINESS_ID_ASC
+  BUSINESS_ID_DESC
+  BUSINESSID_ASC
+  BUSINESSID_DESC
+  CITY_ASC
+  CITY_DESC
+  CLOSE_ASC
+  CLOSE_DESC
+  CLOSED_ASC
+  CLOSED_DESC
+  CLOSEHOURS_ASC
+  CLOSEHOURS_DESC
+  CONNECTIONID_ASC
+  CONNECTIONID_DESC
+  COUNTRY_ASC
+  COUNTRY_DESC
+  COUNTRY_ISO_ASC
+  COUNTRY_ISO_DESC
+  COVER_IMAGE_ASC
+  COVER_IMAGE_DESC
+  CREATION_TIME_ASC
+  CREATION_TIME_DESC
+  CUISINE_ASC
+  CUISINE_DESC
+  CURRENCY_ASC
+  CURRENCY_DESC
+  DEVNOTES_ASC
+  DEVNOTES_DESC
+  DISTINCTION_ASC
+  DISTINCTION_DESC
+  EMAIL_ASC
+  EMAIL_DESC
+  FULLADDRESS_ASC
+  FULLADDRESS_DESC
+  GUIDE_ASC
+  GUIDE_DESC
+  IMAGE_LIST_ASC
+  IMAGE_LIST_DESC
+  KEY_ASC
+  KEY_DESC
+  LATITUDE_ASC
+  LATITUDE_DESC
+  LOCALAREA_ASC
+  LOCALAREA_DESC
+  LOCALNAME_ASC
+  LOCALNAME_DESC
+  LONGITUDE_ASC
+  LONGITUDE_DESC
+  MENUURL_ASC
+  MENUURL_DESC
+  METRO_ASC
+  METRO_DESC
+  MICHELIN_ID_ASC
+  MICHELIN_ID_DESC
+  MICHELINE_ONLINE_RESERVATION_ASC
+  MICHELINE_ONLINE_RESERVATION_DESC
+  NAME_ASC
+  NAME_DESC
+  OLD_IMAGES_ASC
+  OLD_IMAGES_DESC
+  OPENHOURS_ASC
+  OPENHOURS_DESC
+  OTHER_RESERVATION_ASC
+  OTHER_RESERVATION_DESC
+  PHONE_ASC
+  PHONE_DESC
+  PRICELINE_ASC
+  PRICELINE_DESC
+  REALURL_ASC
+  REALURL_DESC
+  REGION_ASC
+  REGION_DESC
+  RESERVATION_ASC
+  RESERVATION_DESC
+  RESERVATION_HINT_ASC
+  RESERVATION_HINT_DESC
+  RESERVATION_URL_ASC
+  RESERVATION_URL_DESC
+  RESY_CITY_CODE_ASC
+  RESY_CITY_CODE_DESC
+  RESY_URL_SLUG_ASC
+  RESY_URL_SLUG_DESC
+  RSVP_SUPPORT_ASC
+  RSVP_SUPPORT_DESC
+  SF_ASC
+  SF_DESC
+  SHOWVENUE_ASC
+  SHOWVENUE_DESC
+  STARS_ASC
+  STARS_DESC
+  TAGS_ASC
+  TAGS_DESC
+  TIMEZONE_ASC
+  TIMEZONE_DESC
+  TOCK_URL_SLUG_ASC
+  TOCK_URL_SLUG_DESC
+  URL_ASC
+  URL_DESC
+  URL_SLUG_ASC
+  URL_SLUG_DESC
+  WITH_ONLINE_RESERVATION_ASC
+  WITH_ONLINE_RESERVATION_DESC
+  WORKQUEUE_ASC
+  WORKQUEUE_DESC
+  ZIP_ASC
+  ZIP_DESC
+}
+
+"""
+A condition to be used against `Venue` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input VenueCondition {
+  """Checks for equality with the object’s `accomondation` field."""
+  accomondation: String
+
+  """Checks for equality with the object’s `address` field."""
+  address: String
+
+  """Checks for equality with the object’s `area` field."""
+  area: String
+
+  """Checks for equality with the object’s `autodetected` field."""
+  autodetected: String
+
+  """Checks for equality with the object’s `bookatableClientid` field."""
+  bookatableClientid: String
+
+  """Checks for equality with the object’s `bookatablePartnerCode` field."""
+  bookatablePartnerCode: String
+
+  """Checks for equality with the object’s `bookingnotes` field."""
+  bookingnotes: String
+
+  """Checks for equality with the object’s `businessId` field."""
+  businessId: String
+
+  """Checks for equality with the object’s `businessid` field."""
+  businessid: String
+
+  """Checks for equality with the object’s `city` field."""
+  city: String
+
+  """Checks for equality with the object’s `close` field."""
+  close: Boolean
+
+  """Checks for equality with the object’s `closed` field."""
+  closed: Boolean
+
+  """Checks for equality with the object’s `closehours` field."""
+  closehours: String
+
+  """Checks for equality with the object’s `connectionid` field."""
+  connectionid: String
+
+  """Checks for equality with the object’s `country` field."""
+  country: String
+
+  """Checks for equality with the object’s `countryIso` field."""
+  countryIso: String
+
+  """Checks for equality with the object’s `coverImage` field."""
+  coverImage: String
+
+  """Checks for equality with the object’s `creationTime` field."""
+  creationTime: String
+
+  """Checks for equality with the object’s `cuisine` field."""
+  cuisine: String
+
+  """Checks for equality with the object’s `currency` field."""
+  currency: String
+
+  """Checks for equality with the object’s `devnotes` field."""
+  devnotes: String
+
+  """Checks for equality with the object’s `distinction` field."""
+  distinction: String
+
+  """Checks for equality with the object’s `email` field."""
+  email: String
+
+  """Checks for equality with the object’s `fulladdress` field."""
+  fulladdress: String
+
+  """Checks for equality with the object’s `guide` field."""
+  guide: String
+
+  """Checks for equality with the object’s `imageList` field."""
+  imageList: String
+
+  """Checks for equality with the object’s `key` field."""
+  key: String
+
+  """Checks for equality with the object’s `latitude` field."""
+  latitude: Float
+
+  """Checks for equality with the object’s `localarea` field."""
+  localarea: String
+
+  """Checks for equality with the object’s `localname` field."""
+  localname: String
+
+  """Checks for equality with the object’s `longitude` field."""
+  longitude: Float
+
+  """Checks for equality with the object’s `menuurl` field."""
+  menuurl: String
+
+  """Checks for equality with the object’s `metro` field."""
+  metro: String
+
+  """Checks for equality with the object’s `michelinId` field."""
+  michelinId: String
+
+  """
+  Checks for equality with the object’s `michelineOnlineReservation` field.
+  """
+  michelineOnlineReservation: Boolean
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `oldImages` field."""
+  oldImages: String
+
+  """Checks for equality with the object’s `openhours` field."""
+  openhours: String
+
+  """Checks for equality with the object’s `otherReservation` field."""
+  otherReservation: String
+
+  """Checks for equality with the object’s `phone` field."""
+  phone: String
+
+  """Checks for equality with the object’s `priceline` field."""
+  priceline: String
+
+  """Checks for equality with the object’s `realurl` field."""
+  realurl: String
+
+  """Checks for equality with the object’s `region` field."""
+  region: String
+
+  """Checks for equality with the object’s `reservation` field."""
+  reservation: String
+
+  """Checks for equality with the object’s `reservationHint` field."""
+  reservationHint: String
+
+  """Checks for equality with the object’s `reservationUrl` field."""
+  reservationUrl: String
+
+  """Checks for equality with the object’s `resyCityCode` field."""
+  resyCityCode: String
+
+  """Checks for equality with the object’s `resyUrlSlug` field."""
+  resyUrlSlug: String
+
+  """Checks for equality with the object’s `rsvpSupport` field."""
+  rsvpSupport: String
+
+  """Checks for equality with the object’s `sf` field."""
+  sf: String
+
+  """Checks for equality with the object’s `showvenue` field."""
+  showvenue: Boolean
+
+  """Checks for equality with the object’s `stars` field."""
+  stars: String
+
+  """Checks for equality with the object’s `tags` field."""
+  tags: String
+
+  """Checks for equality with the object’s `timezone` field."""
+  timezone: String
+
+  """Checks for equality with the object’s `tockUrlSlug` field."""
+  tockUrlSlug: String
+
+  """Checks for equality with the object’s `url` field."""
+  url: String
+
+  """Checks for equality with the object’s `urlSlug` field."""
+  urlSlug: String
+
+  """Checks for equality with the object’s `withOnlineReservation` field."""
+  withOnlineReservation: String
+
+  """Checks for equality with the object’s `workqueue` field."""
+  workqueue: String
+
+  """Checks for equality with the object’s `zip` field."""
+  zip: String
+}
+
+"""
+A filter to be used against `Venue` object types. All fields are combined with a logical ‘and.’
+"""
+input VenueFilter {
+  """Filter by the object’s `accomondation` field."""
+  accomondation: StringFilter
+
+  """Filter by the object’s `address` field."""
+  address: StringFilter
+
+  """Filter by the object’s `area` field."""
+  area: StringFilter
+
+  """Filter by the object’s `autodetected` field."""
+  autodetected: StringFilter
+
+  """Filter by the object’s `bookatableClientid` field."""
+  bookatableClientid: StringFilter
+
+  """Filter by the object’s `bookatablePartnerCode` field."""
+  bookatablePartnerCode: StringFilter
+
+  """Filter by the object’s `bookingnotes` field."""
+  bookingnotes: StringFilter
+
+  """Filter by the object’s `businessId` field."""
+  businessId: StringFilter
+
+  """Filter by the object’s `businessid` field."""
+  businessid: StringFilter
+
+  """Filter by the object’s `city` field."""
+  city: StringFilter
+
+  """Filter by the object’s `close` field."""
+  close: BooleanFilter
+
+  """Filter by the object’s `closed` field."""
+  closed: BooleanFilter
+
+  """Filter by the object’s `closehours` field."""
+  closehours: StringFilter
+
+  """Filter by the object’s `connectionid` field."""
+  connectionid: StringFilter
+
+  """Filter by the object’s `country` field."""
+  country: StringFilter
+
+  """Filter by the object’s `countryIso` field."""
+  countryIso: StringFilter
+
+  """Filter by the object’s `coverImage` field."""
+  coverImage: StringFilter
+
+  """Filter by the object’s `creationTime` field."""
+  creationTime: StringFilter
+
+  """Filter by the object’s `cuisine` field."""
+  cuisine: StringFilter
+
+  """Filter by the object’s `currency` field."""
+  currency: StringFilter
+
+  """Filter by the object’s `devnotes` field."""
+  devnotes: StringFilter
+
+  """Filter by the object’s `distinction` field."""
+  distinction: StringFilter
+
+  """Filter by the object’s `email` field."""
+  email: StringFilter
+
+  """Filter by the object’s `fulladdress` field."""
+  fulladdress: StringFilter
+
+  """Filter by the object’s `guide` field."""
+  guide: StringFilter
+
+  """Filter by the object’s `imageList` field."""
+  imageList: StringFilter
+
+  """Filter by the object’s `key` field."""
+  key: StringFilter
+
+  """Filter by the object’s `latitude` field."""
+  latitude: FloatFilter
+
+  """Filter by the object’s `localarea` field."""
+  localarea: StringFilter
+
+  """Filter by the object’s `localname` field."""
+  localname: StringFilter
+
+  """Filter by the object’s `longitude` field."""
+  longitude: FloatFilter
+
+  """Filter by the object’s `menuurl` field."""
+  menuurl: StringFilter
+
+  """Filter by the object’s `metro` field."""
+  metro: StringFilter
+
+  """Filter by the object’s `michelinId` field."""
+  michelinId: StringFilter
+
+  """Filter by the object’s `michelineOnlineReservation` field."""
+  michelineOnlineReservation: BooleanFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `oldImages` field."""
+  oldImages: StringFilter
+
+  """Filter by the object’s `openhours` field."""
+  openhours: StringFilter
+
+  """Filter by the object’s `otherReservation` field."""
+  otherReservation: StringFilter
+
+  """Filter by the object’s `phone` field."""
+  phone: StringFilter
+
+  """Filter by the object’s `priceline` field."""
+  priceline: StringFilter
+
+  """Filter by the object’s `realurl` field."""
+  realurl: StringFilter
+
+  """Filter by the object’s `region` field."""
+  region: StringFilter
+
+  """Filter by the object’s `reservation` field."""
+  reservation: StringFilter
+
+  """Filter by the object’s `reservationHint` field."""
+  reservationHint: StringFilter
+
+  """Filter by the object’s `reservationUrl` field."""
+  reservationUrl: StringFilter
+
+  """Filter by the object’s `resyCityCode` field."""
+  resyCityCode: StringFilter
+
+  """Filter by the object’s `resyUrlSlug` field."""
+  resyUrlSlug: StringFilter
+
+  """Filter by the object’s `rsvpSupport` field."""
+  rsvpSupport: StringFilter
+
+  """Filter by the object’s `sf` field."""
+  sf: StringFilter
+
+  """Filter by the object’s `showvenue` field."""
+  showvenue: BooleanFilter
+
+  """Filter by the object’s `stars` field."""
+  stars: StringFilter
+
+  """Filter by the object’s `tags` field."""
+  tags: StringFilter
+
+  """Filter by the object’s `timezone` field."""
+  timezone: StringFilter
+
+  """Filter by the object’s `tockUrlSlug` field."""
+  tockUrlSlug: StringFilter
+
+  """Filter by the object’s `url` field."""
+  url: StringFilter
+
+  """Filter by the object’s `urlSlug` field."""
+  urlSlug: StringFilter
+
+  """Filter by the object’s `withOnlineReservation` field."""
+  withOnlineReservation: StringFilter
+
+  """Filter by the object’s `workqueue` field."""
+  workqueue: StringFilter
+
+  """Filter by the object’s `zip` field."""
+  zip: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [VenueFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [VenueFilter!]
+
+  """Negates the expression."""
+  not: VenueFilter
+}
+
+"""
+A filter to be used against Float fields. All fields are combined with a logical ‘and.’
+"""
+input FloatFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Float
+
+  """Not equal to the specified value."""
+  notEqualTo: Float
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Float
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Float
+
+  """Included in the specified list."""
+  in: [Float!]
+
+  """Not included in the specified list."""
+  notIn: [Float!]
+
+  """Less than the specified value."""
+  lessThan: Float
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Float
+
+  """Greater than the specified value."""
+  greaterThan: Float
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Float
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Global11042021`."""
+  createGlobal11042021(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateGlobal11042021Input!
+  ): CreateGlobal11042021Payload
+
+  """Creates a single `T`."""
+  createT(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateTInput!
+  ): CreateTPayload
+
+  """Creates a single `T1`."""
+  createT1(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateT1Input!
+  ): CreateT1Payload
+
+  """Creates a single `Venue`."""
+  createVenue(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateVenueInput!
+  ): CreateVenuePayload
+}
+
+"""The output of our create `Global11042021` mutation."""
+type CreateGlobal11042021Payload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Global11042021` that was created by this mutation."""
+  global11042021: Global11042021
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Global11042021`. May be used by Relay 1."""
+  global11042021Edge(
+    """The method to use when ordering `Global11042021`."""
+    orderBy: [Global11042021SOrderBy!] = [NATURAL]
+  ): Global11042021SEdge
+}
+
+"""All input for the create `Global11042021` mutation."""
+input CreateGlobal11042021Input {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Global11042021` to be created by this mutation."""
+  global11042021: Global11042021Input!
+}
+
+"""An input for mutations affecting `Global11042021`"""
+input Global11042021Input {
+  area: String
+  city: String
+  country: String
+  cuisines: String
+  imageList: String
+  latitude: String
+  longitude: String
+  mainImage: String
+  michelinAward: String
+  name: String
+  objectId: String
+  onlineBooking: Boolean
+  otherUrls: String
+  postcode: String
+  region: String
+  siteName: String
+  siteSlug: String
+  slug: String
+  street: String
+  takeAway: Boolean
+  url: String
+}
+
+"""The output of our create `T` mutation."""
+type CreateTPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `T` that was created by this mutation."""
+  t: T
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `T`. May be used by Relay 1."""
+  tEdge(
+    """The method to use when ordering `T`."""
+    orderBy: [TsOrderBy!] = [NATURAL]
+  ): TsEdge
+}
+
+"""All input for the create `T` mutation."""
+input CreateTInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `T` to be created by this mutation."""
+  t: TInput!
+}
+
+"""An input for mutations affecting `T`"""
+input TInput {
+  j: JSON
+}
+
+"""The output of our create `T1` mutation."""
+type CreateT1Payload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `T1` that was created by this mutation."""
+  t1: T1
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `T1`. May be used by Relay 1."""
+  t1Edge(
+    """The method to use when ordering `T1`."""
+    orderBy: [T1SOrderBy!] = [NATURAL]
+  ): T1SEdge
+}
+
+"""All input for the create `T1` mutation."""
+input CreateT1Input {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `T1` to be created by this mutation."""
+  t1: T1Input!
+}
+
+"""An input for mutations affecting `T1`"""
+input T1Input {
+  j: JSON
+}
+
+"""The output of our create `Venue` mutation."""
+type CreateVenuePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Venue` that was created by this mutation."""
+  venue: Venue
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Venue`. May be used by Relay 1."""
+  venueEdge(
+    """The method to use when ordering `Venue`."""
+    orderBy: [VenuesOrderBy!] = [NATURAL]
+  ): VenuesEdge
+}
+
+"""All input for the create `Venue` mutation."""
+input CreateVenueInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Venue` to be created by this mutation."""
+  venue: VenueInput!
+}
+
+"""An input for mutations affecting `Venue`"""
+input VenueInput {
+  accomondation: String
+  address: String
+  area: String
+  autodetected: String
+  bookatableClientid: String
+  bookatablePartnerCode: String
+  bookingnotes: String
+  businessId: String
+  businessid: String
+  city: String
+  close: Boolean
+  closed: Boolean
+  closehours: String
+  connectionid: String
+  country: String
+  countryIso: String
+  coverImage: String
+  creationTime: String
+  cuisine: String
+  currency: String
+  devnotes: String
+  distinction: String
+  email: String
+  fulladdress: String
+  guide: String
+  imageList: String
+  key: String
+  latitude: Float
+  localarea: String
+  localname: String
+  longitude: Float
+  menuurl: String
+  metro: String
+  michelinId: String
+  michelineOnlineReservation: Boolean
+  name: String
+  oldImages: String
+  openhours: String
+  otherReservation: String
+  phone: String
+  priceline: String
+  realurl: String
+  region: String
+  reservation: String
+  reservationHint: String
+  reservationUrl: String
+  resyCityCode: String
+  resyUrlSlug: String
+  rsvpSupport: String
+  sf: String
+  showvenue: Boolean
+  stars: String
+  tags: String
+  timezone: String
+  tockUrlSlug: String
+  url: String
+  urlSlug: String
+  withOnlineReservation: String
+  workqueue: String
+  zip: String
+}
