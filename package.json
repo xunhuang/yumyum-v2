@@ -1,6 +1,99 @@
 {
+  "name": "react-firebase",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "@apollo/client": "^3.4.15",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.23",
+    "@types/js-cookie": "^3.0.0",
+    "@types/node": "^12.20.13",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "@types/react-tabs": "^2.3.3",
+    "@types/styled-components": "^5.1.14",
+    "@types/superagent": "^4.1.13",
+    "deepcopy": "^2.1.0",
+    "moment": "^2.29.1",
+    "moving-average": "^1.0.1",
+    "moving-averages": "^4.0.6",
     "postgraphile": "^4.12.5",
-    "postgraphile-plugin-connection-filter": "^2.2.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-select": "^4.3.1",
+    "react-tabs": "^3.2.2",
+    "recharts": "^2.1.4",
+    "styled-components": "^5.3.1",
+    "superagent": "^6.1.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.2.4",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "npx firebase deploy",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "db_cloud": "npx postgraphile -c postgres://postgres:3DdeMKqEsqyOE5jL@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
+    "db_2": "npx postgraphile -c postgres://grqssupe:wVuhYC8zcz31f1PR36tqsuKBoK7GTJFX@kashin.db.elephantsql.com/grqssupe  --watch --enhance-graphiql --dynamic-json   --export-schema-graphql schema.graphql -o",
+    "db": "npx postgraphile --append-plugins postgraphile-plugin-connection-filter -c postgres://postgres:mysecretpassword@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@emotion/styled": "^11.3.0",
+    "@google-cloud/bigquery": "^5.9.0",
+    "@graphql-codegen/cli": "^2.2.0",
+    "@graphql-codegen/typescript": "^2.2.2",
+    "@graphql-codegen/typescript-operations": "^2.1.4",
+    "@graphql-codegen/typescript-react-apollo": "^3.1.4",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/material": "^5.0.2",
+    "@types/material-ui": "^0.21.9",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/react-select": "^4.0.17",
+    "@types/react-table": "^7.7.5",
+    "@types/react-tap-event-plugin": "^0.0.31",
+    "apollo3-cache-persist": "^0.13.0",
+    "dayjs": "^1.10.6",
+    "disqus-react": "^1.1.2",
+    "firebase": "^9.1.3",
+    "firebase-tools": "^9.20.0",
+    "geolib": "^3.3.1",
+    "graphql": "^15.6.0",
+    "js-cookie": "^3.0.1",
+    "postgraphile-plugin-connection-filter": "^2.2.2",
+    "react-device-detect": "^2.0.0",
+    "react-error-boundary": "^3.1.3",
+    "react-share": "^4.4.0",
+    "react-table": "^7.7.0",
+    "recoil": "^0.4.1",
+    "short-number": "^1.0.7",
+    "simple-statistics": "^7.7.0"
   }
 }

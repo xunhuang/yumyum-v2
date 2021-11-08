@@ -1,0 +1,16 @@
+query BayArea {
+  allVenues(
+    first: 35
+    condition: { metro: "bayarea", withOnlineReservation: "true" }
+  ) {
+    nodes {
+      name
+      stars
+      city
+      cuisine
+      priceline
+      withOnlineReservation
+      coverImage
+    }
+  }
+}
