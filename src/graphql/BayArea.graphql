@@ -1,16 +1,32 @@
+query BayAreaWithSlots {
+  allVenues(
+    first: 35
+    condition: { metro: "bayarea", withOnlineReservation: "true" }
+  ) {
+    nodes {
+      slots(date: "2021-11-15")
+      ...VenuMainInfo
+    }
+  }
+}
+
 query BayArea {
   allVenues(
     first: 35
     condition: { metro: "bayarea", withOnlineReservation: "true" }
   ) {
     nodes {
-      name
-      stars
-      city
-      cuisine
-      priceline
-      withOnlineReservation
-      coverImage
+      ...VenuMainInfo
     }
   }
+}
+
+fragment VenuMainInfo on Venue {
+  name
+  stars
+  city
+  cuisine
+  priceline
+  withOnlineReservation
+  coverImage
 }

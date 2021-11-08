@@ -93,11 +93,11 @@ const App: React.FunctionComponent<IApplicationProps> = (props) => {
 };
 
 const FooterSection = () => {
-  const disqusShortname = "covid19direct";
+  const disqusShortname = "yumyumlife";
   const disqusConfig = {
-    url: "https://covid-19.direct",
-    identifier: "article-id",
-    title: "main page",
+    url: "https://yumyum.life",
+    identifier: "yummain",
+    title: "YumYum.life Michelin Reservations Made Easy",
   };
   return (
     <FullDiv>

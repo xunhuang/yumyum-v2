@@ -14,7 +14,7 @@ export type Scalars = {
   Float: number;
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: any;
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  /** A JavaScript object encoded in the JSON format as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
 };
 
@@ -826,6 +826,7 @@ export type Venue = {
   rsvpSupport?: Maybe<Scalars['String']>;
   sf?: Maybe<Scalars['String']>;
   showvenue?: Maybe<Scalars['Boolean']>;
+  slots?: Maybe<Array<Scalars['String']>>;
   stars?: Maybe<Scalars['String']>;
   tags?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
@@ -835,6 +836,13 @@ export type Venue = {
   withOnlineReservation?: Maybe<Scalars['String']>;
   workqueue?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
+};
+
+
+export type VenueSlotsArgs = {
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
 };
 
 /** A condition to be used against `Venue` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -1302,12 +1310,69 @@ export enum VenuesOrderBy {
   ZipDesc = 'ZIP_DESC'
 }
 
+export type BayAreaWithSlotsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
+
 export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
 
+export type VenuMainInfoFragment = { __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> };
 
+export const VenuMainInfoFragmentDoc = gql`
+    fragment VenuMainInfo on Venue {
+  name
+  stars
+  city
+  cuisine
+  priceline
+  withOnlineReservation
+  coverImage
+}
+    `;
+export const BayAreaWithSlotsDocument = gql`
+    query BayAreaWithSlots {
+  allVenues(
+    first: 35
+    condition: {metro: "bayarea", withOnlineReservation: "true"}
+  ) {
+    nodes {
+      slots(date: "2021-11-15")
+      ...VenuMainInfo
+    }
+  }
+}
+    ${VenuMainInfoFragmentDoc}`;
+
+/**
+ * __useBayAreaWithSlotsQuery__
+ *
+ * To run a query within a React component, call `useBayAreaWithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaWithSlotsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBayAreaWithSlotsQuery(baseOptions?: Apollo.QueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>(BayAreaWithSlotsDocument, options);
+      }
+export function useBayAreaWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>(BayAreaWithSlotsDocument, options);
+        }
+export type BayAreaWithSlotsQueryHookResult = ReturnType<typeof useBayAreaWithSlotsQuery>;
+export type BayAreaWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaWithSlotsLazyQuery>;
+export type BayAreaWithSlotsQueryResult = Apollo.QueryResult<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>;
 export const BayAreaDocument = gql`
     query BayArea {
   allVenues(
@@ -1315,17 +1380,11 @@ export const BayAreaDocument = gql`
     condition: {metro: "bayarea", withOnlineReservation: "true"}
   ) {
     nodes {
-      name
-      stars
-      city
-      cuisine
-      priceline
-      withOnlineReservation
-      coverImage
+      ...VenuMainInfo
     }
   }
 }
-    `;
+    ${VenuMainInfoFragmentDoc}`;
 
 /**
  * __useBayAreaQuery__

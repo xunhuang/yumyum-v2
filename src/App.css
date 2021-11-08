@@ -1,5 +1,10 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+}
+
+.App .ant-list-vertical .ant-list-item-meta-title
+{
+    margin-bottom: 0;
 }
 
 .App-logo {

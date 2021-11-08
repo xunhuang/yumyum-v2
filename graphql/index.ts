@@ -96,6 +96,8 @@ const postgraphileOptions = {
   enhanceGraphiql: true,
   graphiql: true,
   appendPlugins: [ConnectionFilterPlugin, MyRandomUserPlugin],
+  exportGqlSchemaPath: "../schema.graphql",
+
 };
 
 app.use(cors({
