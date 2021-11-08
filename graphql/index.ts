@@ -5,8 +5,12 @@ const { postgraphile } = require("postgraphile");
 
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const ConnectionFilterPlugin = require("postgraphile-plugin-connection-filter");
-
+const DataLoader = require('dataloader');
 const cors = require('cors');
+const NodeCache = require("node-cache");
+const myCache = new NodeCache(
+  { stdTTL: 60 * 15, checkperiod: 120 }
+);
 
 const app = express();
 
@@ -16,6 +20,27 @@ const pgConfig = {
   database: process.env.PGDATABASE || "yumyum",
   password: process.env.PGPASSWORD || "mysecretpassword",
 };
+
+const batchGetUserById = async (ids: string[]) => {
+  console.log('called once per tick:', ids);
+  const handles = ids.map(async id => {
+    const cache = myCache.get(id);
+    if (cache) {
+      console.log("Cache hit for " + id);
+      return cache;
+    }
+    console.log("Cache miss hit for " + id);
+    const result = await getdata(id);
+    myCache.set(id, result);
+    return result;
+  });
+
+  return await Promise.all(handles);
+};
+
+const userLoader = new DataLoader(batchGetUserById, {
+  cache: false,
+});
 
 const MyRandomUserPlugin = makeExtendSchemaPlugin((build: any) => {
   const { pgSql: sql } = build;
@@ -28,6 +53,11 @@ const MyRandomUserPlugin = makeExtendSchemaPlugin((build: any) => {
     resolvers: {
       Venue: {
         aaa: async (_query: any, args: any, context: any, resolveInfo: any) => {
+          console.log(_query.key); // this came from the @requires above
+          const result = await userLoader.load(_query.key);
+          return result;
+        },
+        bbb: async (_query: any, args: any, context: any, resolveInfo: any) => {
           console.log(_query.key); // this came from the @requires above
           const result = await getdata(_query.key);
           return result;
