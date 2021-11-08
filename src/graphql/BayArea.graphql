@@ -2,9 +2,10 @@ query BayAreaWithSlots(
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
+  $first: Int = 100
 ) {
   allVenues(
-    first: 15
+    first: $first
     condition: { metro: "bayarea", withOnlineReservation: "true" }
   ) {
     nodes {
@@ -15,10 +16,7 @@ query BayAreaWithSlots(
 }
 
 query BayArea {
-  allVenues(
-    first: 35
-    condition: { metro: "bayarea", withOnlineReservation: "true" }
-  ) {
+  allVenues(condition: { metro: "bayarea", withOnlineReservation: "true" }) {
     nodes {
       ...VenuMainInfo
     }

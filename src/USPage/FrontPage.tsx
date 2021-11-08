@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 
-import { Avatar, Button, List, Space } from 'antd';
+import { Avatar, Button, List } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useRecoilState } from 'recoil';
@@ -36,6 +36,7 @@ export const FrontPage = () => {
     <RestaurantList
       list={real.data?.allVenues?.nodes.filter(
         (node) => node?.slots?.length! > 0
+        // (node) => true
       )}
     ></RestaurantList>
   );
@@ -93,17 +94,15 @@ export const RestaurantList = ({
 
           {!showLoading &&
             item?.slots?.map((timestr) => (
-              <Space size="large">
-                <Button
-                  type="primary"
-                  size={"small"}
-                  style={{
-                    margin: "1px",
-                  }}
-                >
-                  {dayjs(timestr).format("h:mm A")}
-                </Button>
-              </Space>
+              <Button
+                type="primary"
+                size={"small"}
+                style={{
+                  margin: "1px",
+                }}
+              >
+                {dayjs(timestr).format("h:mm A")}
+              </Button>
             ))}
         </List.Item>
       )}

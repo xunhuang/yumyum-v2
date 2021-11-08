@@ -1314,6 +1314,7 @@ export type BayAreaWithSlotsQueryVariables = Exact<{
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1338,9 +1339,9 @@ export const VenuMainInfoFragmentDoc = gql`
 }
     `;
 export const BayAreaWithSlotsDocument = gql`
-    query BayAreaWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner") {
+    query BayAreaWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 100) {
   allVenues(
-    first: 15
+    first: $first
     condition: {metro: "bayarea", withOnlineReservation: "true"}
   ) {
     nodes {
@@ -1366,6 +1367,7 @@ export const BayAreaWithSlotsDocument = gql`
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
  *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
  *   },
  * });
  */
@@ -1382,10 +1384,7 @@ export type BayAreaWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaWi
 export type BayAreaWithSlotsQueryResult = Apollo.QueryResult<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>;
 export const BayAreaDocument = gql`
     query BayArea {
-  allVenues(
-    first: 35
-    condition: {metro: "bayarea", withOnlineReservation: "true"}
-  ) {
+  allVenues(condition: {metro: "bayarea", withOnlineReservation: "true"}) {
     nodes {
       ...VenuMainInfo
     }
