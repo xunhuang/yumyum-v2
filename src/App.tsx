@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Link, Redirect, Route, RouteComponentProps, Sw
 import { RecoilRoot } from 'recoil';
 
 import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
-import { Footer } from './HeaderFooter/Footer';
 import { FullDiv } from './styles/HomeStyles';
 import { FrontPage } from './USPage/FrontPage';
 
@@ -105,7 +104,6 @@ const FooterSection = () => {
         shortname={disqusShortname}
         config={disqusConfig}
       />
-      <Footer></Footer>
     </FullDiv>
   );
 };
