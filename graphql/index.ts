@@ -32,10 +32,11 @@ const pgConfig = {
 const batchGetUserById = async (ids: string[]) => {
   console.log('called once per tick:', ids);
   const handles = ids.map(async id => {
-    console.log("Cache miss hit for " + id);
+    // console.log("Cache miss hit for " + id);
     // this is not a m-get so this use of batching is kind of pointless
     // except for using the cache
-    const result = await getdata(id);
+    const args = JSON.parse(id);
+    const result = await getdata(args.venue.key, args.date, args.party_size, args.timeOption);
     return result;
   });
 
@@ -51,19 +52,16 @@ const MyRandomUserPlugin = makeExtendSchemaPlugin((build: any) => {
   return {
     typeDefs: gql`
       extend type Venue {
-        aaa (aaa:String!): [String!]  @requires(columns: ["key"])
+        slots (date:String!, party_size:Int=2, timeOption:String = "dinner" ): [String!]  @requires(columns: ["key"])
       }
     `,
     resolvers: {
       Venue: {
-        aaa: async (_query: any, args: any, context: any, resolveInfo: any) => {
-          console.log(_query.key); // this came from the @requires above
-          const result = await userLoader.load(_query.key);
-          return result;
-        },
-        bbb: async (_query: any, args: any, context: any, resolveInfo: any) => {
-          console.log(_query.key); // this came from the @requires above
-          const result = await getdata(_query.key);
+        slots: async (_query: any, args: any, context: any, resolveInfo: any) => {
+          // console.log(_query.key); // this came from the @requires above
+          // console.log(args);
+          args.venue = { key: _query.key };
+          const result = await userLoader.load(JSON.stringify(args));
           return result;
         },
       },
@@ -71,7 +69,7 @@ const MyRandomUserPlugin = makeExtendSchemaPlugin((build: any) => {
   };
 });
 
-async function getdata(key: string): Promise<string[]> {
+async function getdata(key: string, date: string, party_size: number, timeOption: string): Promise<string[]> {
   const url = 'https://us-central1-yumyumlife.cloudfunctions.net/singleVenueSearch';
   return await superagent.post(url)
     .set('Content-Type', 'application/json')
@@ -80,13 +78,12 @@ async function getdata(key: string): Promise<string[]> {
         venue: {
           key: key
         },
-        date: '2021-11-12',
-        timeOption: "dinner",
-        party_size: 2,
+        date: date, // '2021-11-12',
+        timeOption: timeOption,//"dinner",
+        party_size: party_size, // 2
       },
     })
     .then((res: superagent.Response) => {
-      // console.log(res.text);
       const result = JSON.parse(res.text);
       return result.result.slots?.map((a: any) => a.time);
     }, (err: any) => {
