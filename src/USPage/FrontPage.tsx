@@ -6,42 +6,6 @@ import React from 'react';
 
 import { useBayAreaQuery, useBayAreaWithSlotsQuery, Venue } from '../generated/graphql';
 
-const IconText = ({ icon, text }: any) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-
-// const FrontPageFindLocation = () => {
-//   const [county_fips_code, setCountyFipsCode] = React.useState<
-//     undefined | string
-//   >(undefined);
-
-//   React.useEffect(() => {
-//     fetchApproximatePoliticalLocation().then((location) => {
-//       setCountyFipsCode(location.county_fips_code);
-//     });
-//   }, []);
-
-//   if (county_fips_code) {
-//     return <Redirect to={`/county/${county_fips_code}`}></Redirect>;
-//   }
-
-//   return <FullDiv>Determining location</FullDiv>;
-// };
-
-// export const FrontPage = () => {
-//   const last = getLastCountyLocation();
-//   if (last) {
-//     if (last.county_fips_code) {
-//       console.log("found list location " + last.county_fips_code);
-//       return <Redirect to={`/county/${last.county_fips_code}`}></Redirect>;
-//     }
-//   }
-//   return <FrontPageFindLocation />;
-// };
-
 type RestaurantListProps = {
   list?: Array<Venue | null>;
   showLoading?: boolean;

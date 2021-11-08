@@ -1,11 +1,6 @@
 import { Link, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-
-import { LastUpdatedState } from '../RecoilState';
-import { SocialMediaButtons } from './SocialMedia';
 
 export const FullDivPadded = styled.div`
   margin: 3px;
@@ -68,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppHeaderSection = () => {
   const classes = useStyles();
-  const lastUpdated = useRecoilValue(LastUpdatedState);
 
   return (
     <FullDivPadded>
@@ -76,18 +70,11 @@ export const AppHeaderSection = () => {
         <div className={classes.topleft}>
           <Link href={"https://covid-19.direct"}>
             <Typography noWrap className={classes.appName} variant="h6">
-              COVID-19.direct (v2)
+              YumYum
             </Typography>
           </Link>
-
-          <SocialMediaButtons
-            buttonClassName={classes.socialButton}
-            className={classes.socialButtons}
-          />
-          {lastUpdated && `Updated : ${moment(lastUpdated).format("lll")}`}
         </div>
         <div className={classes.expander} />
-        {/* <div className={classes.actions}> */}
         <div>
           <Link
             target="_blank"
@@ -96,7 +83,6 @@ export const AppHeaderSection = () => {
           >
             Buy Us A Coffee
           </Link>
-          <Link href={"https://coviddatausa.com"}>v1 Site</Link>
         </div>
       </Toolbar>
     </FullDivPadded>
