@@ -1310,7 +1310,11 @@ export enum VenuesOrderBy {
   ZipDesc = 'ZIP_DESC'
 }
 
-export type BayAreaWithSlotsQueryVariables = Exact<{ [key: string]: never; }>;
+export type BayAreaWithSlotsQueryVariables = Exact<{
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+}>;
 
 
 export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
@@ -1334,13 +1338,13 @@ export const VenuMainInfoFragmentDoc = gql`
 }
     `;
 export const BayAreaWithSlotsDocument = gql`
-    query BayAreaWithSlots {
+    query BayAreaWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner") {
   allVenues(
-    first: 35
+    first: 15
     condition: {metro: "bayarea", withOnlineReservation: "true"}
   ) {
     nodes {
-      slots(date: "2021-11-15")
+      slots(date: $date, party_size: $party_size, timeOption: $timeOption)
       ...VenuMainInfo
     }
   }
@@ -1359,10 +1363,13 @@ export const BayAreaWithSlotsDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaWithSlotsQuery({
  *   variables: {
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
  *   },
  * });
  */
-export function useBayAreaWithSlotsQuery(baseOptions?: Apollo.QueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
+export function useBayAreaWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>(BayAreaWithSlotsDocument, options);
       }

@@ -3,8 +3,10 @@ import 'antd/dist/antd.css';
 import { Avatar, Button, List, Space } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
 import { useBayAreaQuery, useBayAreaWithSlotsQuery, Venue } from '../generated/graphql';
+import { SelectedDateState } from '../HeaderFooter/SelectedDateState';
 
 type RestaurantListProps = {
   list?: Array<Venue | null>;
@@ -12,8 +14,13 @@ type RestaurantListProps = {
 };
 
 export const FrontPage = () => {
+  const [date] = useRecoilState(SelectedDateState);
   const { data, loading } = useBayAreaQuery();
-  const real = useBayAreaWithSlotsQuery();
+  const real = useBayAreaWithSlotsQuery({
+    variables: {
+      date: date,
+    },
+  });
   if (loading) {
     return "loading";
   }
