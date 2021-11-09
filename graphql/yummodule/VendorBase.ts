@@ -11,6 +11,8 @@ export interface VenueVendorInfo {
     businessid?: string;
     businessgroupid?: string;
     timezone?: string;
+    resy_city_code?: string;
+    url_slug?: string;
 }
 
 export class VendorBase {
@@ -32,6 +34,10 @@ export class VendorBase {
     }
 
     async venueSearch(venue: any, date: string, party_size: number, timeOption: string): Promise<Array<TimeSlots> | null> {
+        return null;
+    }
+
+    getReservationUrl(venue: any, date: string, party_size: number, timeOption: string): string | null {
         return null;
     }
 

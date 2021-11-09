@@ -66,9 +66,7 @@ class VendorOpentable extends VendorBase {
         return total;
     }
 
-    /*
-    getReservationUrl(venue, date, parties, timeOption) {
-    
+    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         let url = `https://www.opentable.com/restaurant/profile/${venue.businessid}/reserve`;
         let datestr = (timeOption === "dinner") ? date + "T19:00" : date + "T12:00";
         let reservationUrl = buildUrl(url, {
@@ -76,11 +74,12 @@ class VendorOpentable extends VendorBase {
                 rid: venue.businessid,
                 restref: venue.businessid,
                 datetime: datestr,
-                covers: parties
+                covers: party_size,
             }
         });
         return reservationUrl;
     }
+    /*
     
         async fetchVenueInfoFromURL(url) {
         return await superagent.get(url)
