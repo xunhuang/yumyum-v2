@@ -810,6 +810,7 @@ export type Venue = {
   metro?: Maybe<Scalars['String']>;
   michelinId?: Maybe<Scalars['String']>;
   michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  myReservationUrl?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   oldImages?: Maybe<Scalars['String']>;
   openhours?: Maybe<Scalars['String']>;
@@ -836,6 +837,13 @@ export type Venue = {
   withOnlineReservation?: Maybe<Scalars['String']>;
   workqueue?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
+};
+
+
+export type VenueMyReservationUrlArgs = {
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
 };
 
 
@@ -1318,7 +1326,7 @@ export type BayAreaWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
+export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
 
 export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1346,6 +1354,7 @@ export const BayAreaWithSlotsDocument = gql`
   ) {
     nodes {
       slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+      myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
       ...VenuMainInfo
     }
   }

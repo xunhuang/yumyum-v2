@@ -1,5 +1,3 @@
-import superagent = require('superagent');
-
 import { myCache } from './myCache';
 import { VenueVendorInfo } from './yummodule/VendorBase';
 import { getVendor } from './yummodule/Vendors';
@@ -13,15 +11,17 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
         typeDefs: gql`
       extend type Venue {
         slots (date:String!, party_size:Int=2, timeOption:String = "dinner" ): [String!]
-        @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid"])
+        @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid",
+    "urlSlug", "longitude", "latitude"])
 
-        myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String!  @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code", "url_slug"])
+        myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String  @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code", "url_slug"])
       }
     `,
         resolvers: {
             Venue: {
                 slots: async (_query: any, args: any, context: any, resolveInfo: any) => {
-                    console.log(args);
+                    // console.log(args);
+                    // console.log(_query);
                     const venue: VenueVendorInfo = {
                         // these  came from the @requires above
                         reservation: _query.reservation,
@@ -30,6 +30,9 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                         businessid: _query.businessid,
                         businessgroupid: _query.businessgroupid,
                         timezone: _query.timezone,
+                        url_slug: _query.urlSlug,
+                        latitude: _query.latitude,
+                        longitude: _query.longitude,
                     };
                     args.venue = venue;
                     const result = await AvailablilityLoader.load(JSON.stringify(args));
@@ -47,9 +50,9 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                         resy_city_code: _query.resyCityCode,
                         url_slug: _query.urlSlug,
                     };
-                    console.log(venue);
+
                     const vendor = getVendor(venue.reservation);
-                    const url = vendor.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
+                    const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
                     return url;
                 },
             },
@@ -65,7 +68,6 @@ const batchGetUserById = async (ids: string[]) => {
         // except for using the cache
         const args = JSON.parse(id);
         const result = await singleVenueSearch(args.venue, args.date, args.party_size, args.timeOption);
-        console.log(result);
         return result;
     });
 
@@ -76,34 +78,18 @@ const AvailablilityLoader = new DataLoader(batchGetUserById, {
     cacheMap: myCache,
 });
 
-async function singleVenueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<string[]> {
+async function singleVenueSearch(
+    venue: VenueVendorInfo, date: string, party_size: number, timeOption: string
+): Promise<string[]> {
     const vendor = getVendor(venue.reservation);
+    if (venue.reservation === "none") {
+        return [];
+    }
+    if (!vendor) {
+        console.log('XXXX missssssssssssssssssssssing ' + venue.reservation);
+        return [];
+    }
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);
     const return_v = result?.map(t => t.time) || [];
-    console.log(return_v);
     return return_v;
-}
-async function singleVenueSearchold(key: string, date: string, party_size: number, timeOption: string): Promise<string[]> {
-    const a = getVendor("opentable");
-
-    const url = 'https://us-central1-yumyumlife.cloudfunctions.net/singleVenueSearch';
-    return await superagent.post(url)
-        .set('Content-Type', 'application/json')
-        .send({
-            data: {
-                venue: {
-                    key: key
-                },
-                date: date,
-                timeOption: timeOption,
-                party_size: party_size, // 2
-            },
-        })
-        .then((res: superagent.Response) => {
-            const result = JSON.parse(res.text);
-            return result.result.slots?.map((a: any) => a.time);
-        }, (err: any) => {
-            console.log(err);
-            return null;
-        });
 }

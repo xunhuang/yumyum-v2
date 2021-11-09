@@ -840,7 +840,7 @@ type Venue {
   workqueue: String
   zip: String
   slots(date: String!, party_size: Int = 2, timeOption: String = "dinner"): [String!]
-  myReservationUrl(date: String!, party_size: Int = 2, timeOption: String = "dinner"): String!
+  myReservationUrl(date: String!, party_size: Int = 2, timeOption: String = "dinner"): String
 }
 
 """A `Venue` edge in the connection."""

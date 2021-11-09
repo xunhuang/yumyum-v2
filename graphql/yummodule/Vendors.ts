@@ -2,31 +2,31 @@ import { VendorBase } from './VendorBase';
 
 const { VendorOpentable } = require("./VendorOpentable");
 const { VendorResy } = require("./VendorResy");
-// const { VendorTock } = require("./VendorTock");
-// const { VendorBookarestaurant } = require("./VendorBookarestaurant");
-// const { VendorBookatable } = require("./VendorBookatable");
-// const { VendorDinesuperb } = require("./VendorDinesuperb");
-// const { VendorResdiary } = require("./VendorResdiary");
-// const { VendorSevenrooms } = require("./VendorSevenrooms");
-// const { VendorYelp } = require("./VendorYelp");
-// const { VendorTablecheck } = require("./VendorTablecheck");
-// const { VendorPocketConcierge } = require("./VendorPocketConcierge");
-// const { VendorToreta } = require("./VendorToreta");
-// const { VendorOmakase } = require("./VendorOmakase");
-// const { VendorIkyu } = require("./VendorIkyu");
-// const { VendorChope } = require("./VendorChope");
-// const { VendorFunNow } = require("./VendorFunNow");
-// const { VendorDineout } = require("./VendorDineout");
-// const { VendorTabelog } = require("./VendorTabelog");
-// const { VendorEat2Eat } = require("./VendorEat2Eat");
-// const { VendorQuandoo } = require("./VendorQuandoo");
-// const { VendorInlineApp } = require("./VendorInlineApp");
-// const { VendorEztable } = require("./VendorEztable");
-// const { VendorLafourchette } = require("./VendorLafourchette");
-// const { VendorZenchef } = require("./VendorZenchef");
-// const { VendorCovermanager } = require("./VendorCovermanager");
-// const { VendorRestaurantes } = require("./VendorRestaurantes");
-// const { VendorResengo } = require("./VendorResengo");
+const { VendorTock } = require("./VendorTock");
+const { VendorBookarestaurant } = require("./VendorBookarestaurant");
+const { VendorBookatable } = require("./VendorBookatable");
+const { VendorDinesuperb } = require("./VendorDinesuperb");
+const { VendorResdiary } = require("./VendorResdiary");
+const { VendorSevenrooms } = require("./VendorSevenrooms");
+const { VendorYelp } = require("./VendorYelp");
+const { VendorTablecheck } = require("./VendorTablecheck");
+const { VendorPocketConcierge } = require("./VendorPocketConcierge");
+const { VendorToreta } = require("./VendorToreta");
+const { VendorOmakase } = require("./VendorOmakase");
+const { VendorIkyu } = require("./VendorIkyu");
+const { VendorChope } = require("./VendorChope");
+const { VendorFunNow } = require("./VendorFunNow");
+const { VendorDineout } = require("./VendorDineout");
+const { VendorTabelog } = require("./VendorTabelog");
+const { VendorEat2Eat } = require("./VendorEat2Eat");
+const { VendorQuandoo } = require("./VendorQuandoo");
+const { VendorInlineApp } = require("./VendorInlineApp");
+const { VendorEztable } = require("./VendorEztable");
+const { VendorLafourchette } = require("./VendorLafourchette");
+const { VendorZenchef } = require("./VendorZenchef");
+const { VendorCovermanager } = require("./VendorCovermanager");
+const { VendorRestaurantes } = require("./VendorRestaurantes");
+const { VendorResengo } = require("./VendorResengo");
 
 type tplotOptions = {
     [key: string]: VendorBase
@@ -35,31 +35,31 @@ type tplotOptions = {
 const VendorMap: tplotOptions = {
     opentable: new VendorOpentable(),
     resy: new VendorResy(),
-    // tock: new VendorTock(),
-    // bookarestaurant: new VendorBookarestaurant(),
-    // bookatable: new VendorBookatable(),
-    // dinesuperb: new VendorDinesuperb(),
-    // resdiary: new VendorResdiary(),
-    // sevenrooms: new VendorSevenrooms(),
-    // yelp: new VendorYelp(),
-    // tablecheck: new VendorTablecheck(),
-    // "pocket-concierge": new VendorPocketConcierge(),
-    // toreta: new VendorToreta(),
-    // omakase: new VendorOmakase(),
-    // ikyu: new VendorIkyu(),
-    // chope: new VendorChope(),
-    // funnow: new VendorFunNow(),
-    // dineout: new VendorDineout(),
-    // tabelog: new VendorTabelog(),
-    // eat2eat: new VendorEat2Eat(),
-    // quandoo: new VendorQuandoo(),
-    // inline: new VendorInlineApp(),
-    // eztable: new VendorEztable(),
-    // lafourchette: new VendorLafourchette(),
-    // zenchef: new VendorZenchef(),
-    // covermanager: new VendorCovermanager(),
-    // restaurantes: new VendorRestaurantes(),
-    // "resengo.com": new VendorResengo(),
+    tock: new VendorTock(),
+    bookarestaurant: new VendorBookarestaurant(),
+    bookatable: new VendorBookatable(),
+    dinesuperb: new VendorDinesuperb(),
+    resdiary: new VendorResdiary(),
+    sevenrooms: new VendorSevenrooms(),
+    yelp: new VendorYelp(),
+    tablecheck: new VendorTablecheck(),
+    "pocket-concierge": new VendorPocketConcierge(),
+    toreta: new VendorToreta(),
+    omakase: new VendorOmakase(),
+    ikyu: new VendorIkyu(),
+    chope: new VendorChope(),
+    funnow: new VendorFunNow(),
+    dineout: new VendorDineout(),
+    tabelog: new VendorTabelog(),
+    eat2eat: new VendorEat2Eat(),
+    quandoo: new VendorQuandoo(),
+    inline: new VendorInlineApp(),
+    eztable: new VendorEztable(),
+    lafourchette: new VendorLafourchette(),
+    zenchef: new VendorZenchef(),
+    covermanager: new VendorCovermanager(),
+    restaurantes: new VendorRestaurantes(),
+    "resengo.com": new VendorResengo(),
 }
 
 const VendorKeywordMap =

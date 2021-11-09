@@ -43,7 +43,6 @@ class VendorOpentable extends VendorBase {
     }
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
-        console.log("HERE!!!!")
 
         let resbody = await this.venueSearchInternal(venue, date, party_size, timeOption);
 
@@ -62,7 +61,6 @@ class VendorOpentable extends VendorBase {
                 time: datestr,
             });
         });
-        console.log("hhmmm HERE!!!!")
         return total;
     }
 

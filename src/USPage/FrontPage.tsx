@@ -111,7 +111,6 @@ export const RestaurantList = ({
               Loading
             </Button>
           )}
-
           {!showLoading &&
             // the "Set" below is to deduplicate
             [...new Set(item?.slots)].map((timestr) => (
@@ -122,6 +121,7 @@ export const RestaurantList = ({
                 style={{
                   margin: "1px",
                 }}
+                href={item?.myReservationUrl!}
               >
                 {dayjs(timestr).format("h:mm A")}
               </Button>
