@@ -1,0 +1,83 @@
+const { VendorBase } = require("./VendorBase");
+
+const superagent = require('superagent');
+const moment = require('moment-timezone');
+
+class VendorRestaurantes extends VendorBase {
+    vendorID() {
+        return "restaurantes";
+    }
+
+    requiedFieldsForReservation() {
+        return ["businessid"];
+    }
+
+    async getSlotForDate(venue, date, party_size, timeOption) {
+
+        const url = `https://www.restaurantes.com/widgetmichelin/${venue.businessid}/availability`;
+        const queryparam = {
+            date: date,
+            timeFrom: "09:00",
+            timeTo: "21:00",
+            partySize: party_size,
+            languageCode: "en-GB",
+            partnerCode: "INTL-MICHELIN%3A6645",
+        }
+
+        return await superagent.get(url)
+            .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
+            .set('Content-Type', "application/json; charset=UTF-8")
+            .query(queryparam)
+            .then((res) => {
+                console.log(res.text);
+                let body = JSON.parse(res.text);
+                if (body.availabilityResult !== "Yes") {
+                    return [];
+                }
+                return body.areas;
+            });
+    }
+
+    async venueSearch(venue, date, party_size, timeOption) {
+        let areas = await this.getSlotForDate(venue, date, party_size, timeOption);
+        let total = [];
+        areas.map(area => {
+            area.sessions.map(session => {
+                session.slots.map(slot => {
+                    let dstr = moment.tz(slot.time.local, venue.timezone).format();
+                    total.push(dstr);
+                })
+            })
+        })
+
+        const dedup = [... new Set(total)].map(t => {
+            let s = { time: t }
+            return s;
+        });
+        return dedup;
+    }
+
+    getReservationUrl(venue, date, parties, timeOption, slot) {
+        let url = `https://www.restaurantes.com/en/widgetmichelin/index/${venue.businessid}/ccg`;
+        let timestr = moment(slot.time).tz(venue.timezone).format("HH:mm")
+        let reservationUrl = buildUrl(url, {
+            queryParams: {
+                hour: date + "T" + timestr,
+                partySize: parties,
+                time: timestr,
+                date: date,
+            }
+        });
+        return reservationUrl;
+    }
+
+    bankingNoteHint() {
+        return "https://www.restaurantes.com/en/widgetmichelin/index/12334/ccg";
+    }
+
+    async fetchVenueInfoFromURL(redirect_url) {
+        return null;
+    }
+}
+
+exports.VendorRestaurantes = VendorRestaurantes;
