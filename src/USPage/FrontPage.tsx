@@ -73,9 +73,7 @@ export const RestaurantList = ({
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
+        onChange: (page) => {},
         pageSize: 20,
       }}
       dataSource={list}

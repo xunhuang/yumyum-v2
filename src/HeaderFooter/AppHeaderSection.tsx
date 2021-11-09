@@ -1,5 +1,6 @@
 import { Link, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Select } from 'antd';
 import dayjs from 'dayjs';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ import { SelectedDateState } from './SelectedDateState';
 export const FullDivPadded = styled.div`
   margin: 3px;
 `;
+const { Option } = Select;
 
 const DONATION_URL = "https://ko-fi.com/covid19direct";
 
@@ -66,6 +68,18 @@ export const AppHeaderSection = () => {
             setDate(dateString);
           }}
         />
+        <Select
+          defaultValue={"2 dssdsd"}
+          // optionLabelProp={"Guests"}
+          style={{ width: 120 }}
+        >
+          <Option value="1"> 1 Guest</Option>
+          {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+            <Option key={n} value={n}>
+              {n} Guests
+            </Option>
+          ))}
+        </Select>
         <div className={classes.expander} />
         <div>
           <Link
