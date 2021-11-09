@@ -2,7 +2,6 @@ import 'antd/dist/antd.css';
 
 import { Avatar, Button, List } from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useBayAreaQuery, useBayAreaWithSlotsQuery, Venue } from '../generated/graphql';
@@ -15,26 +14,49 @@ type RestaurantListProps = {
 
 export const FrontPage = () => {
   const [date] = useRecoilState(SelectedDateState);
-  const { data, loading } = useBayAreaQuery();
-  const real = useBayAreaWithSlotsQuery({
+
+  const first = useBayAreaQuery();
+  const second = useBayAreaWithSlotsQuery({
     variables: {
       date: date,
+      first: 30,
     },
   });
-  if (loading) {
+
+  const third = useBayAreaWithSlotsQuery({
+    variables: {
+      date: date,
+      first: 500,
+    },
+  });
+
+  if (first.loading) {
     return "loading";
   }
-  if (real.loading) {
+
+  if (second.loading) {
     return (
       <RestaurantList
-        list={data?.allVenues?.nodes}
+        list={first.data?.allVenues?.nodes}
         showLoading={true}
       ></RestaurantList>
     );
   }
+
+  if (!third.called || third.loading) {
+    return (
+      <RestaurantList
+        list={second.data?.allVenues?.nodes.filter(
+          (node) => node?.slots?.length! > 0
+          // (node) => true
+        )}
+      ></RestaurantList>
+    );
+  }
+
   return (
     <RestaurantList
-      list={real.data?.allVenues?.nodes.filter(
+      list={third.data?.allVenues?.nodes.filter(
         (node) => node?.slots?.length! > 0
         // (node) => true
       )}
@@ -93,8 +115,10 @@ export const RestaurantList = ({
           )}
 
           {!showLoading &&
-            item?.slots?.map((timestr) => (
+            // the "Set" below is to deduplicate
+            [...new Set(item?.slots)].map((timestr) => (
               <Button
+                key={timestr}
                 type="primary"
                 size={"small"}
                 style={{
