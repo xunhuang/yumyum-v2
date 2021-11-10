@@ -1,0 +1,41 @@
+import Cookies from 'js-cookie';
+import superagent from 'superagent';
+
+const LastUserSelectionCookieName = "LAST_USER_LOCATION";
+
+export interface UserLocation {
+    longitude: number;
+    latitude: number;
+}
+
+function getLastUserSelection(): null | UserLocation {
+    const cache = Cookies.get(LastUserSelectionCookieName);
+    if (cache == null) return null;
+    return JSON.parse(cache) as UserLocation;
+}
+
+function setLastUserLocation(last: UserLocation) {
+    console.log("settting cookie");
+    Cookies.set(LastUserSelectionCookieName, JSON.stringify(last), { expires: 1 });
+};
+
+export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
+    const last = getLastUserSelection();
+    if (last) {
+        return last;
+    }
+    let iplocation = await superagent
+        .get("https://api.ipdata.co/?api-key=fde5c5229bc2f57db71114590baaf58ce032876915321889a66cec61")
+        .then(res => {
+            return {
+                longitude: res.body.longitude,
+                latitude: res.body.latitude,
+            }
+        })
+        .catch(err => {
+            return null;
+        });
+    if (iplocation)
+        setLastUserLocation(iplocation);
+    return iplocation;
+}

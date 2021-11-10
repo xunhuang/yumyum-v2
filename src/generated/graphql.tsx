@@ -1328,6 +1328,22 @@ export type BayAreaWithSlotsQueryVariables = Exact<{
 
 export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
 
+export type BayAreaNearbySlotsQueryVariables = Exact<{
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  maxLongitude: Scalars['Float'];
+  minLongitude: Scalars['Float'];
+  maxLatitude: Scalars['Float'];
+  minLatitude: Scalars['Float'];
+}>;
+
+
+export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> }>> }> };
+
+export type VenuAvaibiltyFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string> };
+
 export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1346,6 +1362,13 @@ export const VenuMainInfoFragmentDoc = gql`
   coverImage
 }
     `;
+export const VenuAvaibiltyFragmentDoc = gql`
+    fragment VenuAvaibilty on Venue {
+  slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+  myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
+  ...VenuMainInfo
+}
+    ${VenuMainInfoFragmentDoc}`;
 export const BayAreaWithSlotsDocument = gql`
     query BayAreaWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 100) {
   allVenues(
@@ -1391,6 +1414,54 @@ export function useBayAreaWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type BayAreaWithSlotsQueryHookResult = ReturnType<typeof useBayAreaWithSlotsQuery>;
 export type BayAreaWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaWithSlotsLazyQuery>;
 export type BayAreaWithSlotsQueryResult = Apollo.QueryResult<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>;
+export const BayAreaNearbySlotsDocument = gql`
+    query BayAreaNearbySlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 100, $maxLongitude: Float!, $minLongitude: Float!, $maxLatitude: Float!, $minLatitude: Float!) {
+  allVenues(
+    first: $first
+    filter: {longitude: {lessThan: $maxLongitude, greaterThan: $minLongitude}, latitude: {lessThan: $maxLatitude, greaterThan: $minLatitude}}
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvaibilty
+    }
+  }
+}
+    ${VenuAvaibiltyFragmentDoc}`;
+
+/**
+ * __useBayAreaNearbySlotsQuery__
+ *
+ * To run a query within a React component, call `useBayAreaNearbySlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaNearbySlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaNearbySlotsQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
+ *      maxLongitude: // value for 'maxLongitude'
+ *      minLongitude: // value for 'minLongitude'
+ *      maxLatitude: // value for 'maxLatitude'
+ *      minLatitude: // value for 'minLatitude'
+ *   },
+ * });
+ */
+export function useBayAreaNearbySlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>(BayAreaNearbySlotsDocument, options);
+      }
+export function useBayAreaNearbySlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>(BayAreaNearbySlotsDocument, options);
+        }
+export type BayAreaNearbySlotsQueryHookResult = ReturnType<typeof useBayAreaNearbySlotsQuery>;
+export type BayAreaNearbySlotsLazyQueryHookResult = ReturnType<typeof useBayAreaNearbySlotsLazyQuery>;
+export type BayAreaNearbySlotsQueryResult = Apollo.QueryResult<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>;
 export const BayAreaDocument = gql`
     query BayArea {
   allVenues(condition: {metro: "bayarea", withOnlineReservation: "true"}) {

@@ -21,6 +21,40 @@ query BayAreaWithSlots(
   }
 }
 
+query BayAreaNearbySlots(
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 100
+  $maxLongitude: Float!
+  $minLongitude: Float!
+  $maxLatitude: Float!
+  $minLatitude: Float!
+) {
+  allVenues(
+    first: $first
+    filter: {
+      longitude: { lessThan: $maxLongitude, greaterThan: $minLongitude }
+      latitude: { lessThan: $maxLatitude, greaterThan: $minLatitude }
+    }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvaibilty
+    }
+  }
+}
+
+fragment VenuAvaibilty on Venue {
+  slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+  myReservationUrl(
+    date: $date
+    party_size: $party_size
+    timeOption: $timeOption
+  )
+  ...VenuMainInfo
+}
+
 query BayArea {
   allVenues(condition: { metro: "bayarea", withOnlineReservation: "true" }) {
     nodes {

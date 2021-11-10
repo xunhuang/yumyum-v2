@@ -1,10 +1,15 @@
 import 'antd/dist/antd.css';
 
+import { Tabs } from 'antd';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useBayAreaQuery, useBayAreaWithSlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
+import { FrontPageNearby } from './FrontPageNearby';
 import { RestaurantList } from './RestaurantListProps';
+
+const { TabPane } = Tabs;
 
 export const FrontPageOld = () => {
   const [date] = useRecoilState(SelectedDateState);
@@ -68,7 +73,8 @@ export const FrontPageOld = () => {
   //   ></RestaurantList>
   // );
 };
-export const FrontPage = () => {
+
+export const FrontPage100 = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -87,6 +93,37 @@ export const FrontPage = () => {
       list={first.data?.allVenues?.nodes}
       showLoading={true}
     ></RestaurantList>
+  );
+};
+
+export const FrontPage = () => {
+  return (
+    <Tabs defaultActiveKey="1" type="card" size={"large"}>
+      <TabPane tab="Nearby" key="1">
+        <FrontPageNearby />
+      </TabPane>
+      <TabPane tab="New 2021" key="5">
+        New in 2021, coming soon
+      </TabPane>
+      <TabPane tab="Card Tab 1" key="2">
+        Content of card tab 1
+      </TabPane>
+      <TabPane tab="Plates" key="3">
+        Content of card tab 3
+      </TabPane>
+      <TabPane tab="Bib" key="4">
+        bib
+      </TabPane>
+      <TabPane tab="New 2021" key="5">
+        New
+      </TabPane>
+      <TabPane tab="Offine" key="6">
+        Offline
+      </TabPane>
+      <TabPane tab="All" key="7">
+        All
+      </TabPane>
+    </Tabs>
   );
 };
 
