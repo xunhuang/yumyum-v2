@@ -1,17 +1,22 @@
 import dayjs from 'dayjs';
 import { atom } from 'recoil';
 
+import { getLastUserSelection } from '../USPage/CookieUserSelection';
+
+const cookieState = getLastUserSelection();
+console.log(cookieState);
+
 export const SelectedDateState = atom({
   key: "selectedDate",
-  default: dayjs().format("YYYY-MM-DD"), // default value (aka initial value)
+  default: cookieState?.date || dayjs().format("YYYY-MM-DD"), // default value (aka initial value)
 });
 
 export const SelectedPartySize = atom({
   key: "selectedPartySize",
-  default: 2,
+  default: cookieState?.party_size || 2,
 });
 
 export const SelectedTimeOption = atom({
   key: "selectedTimeOption",
-  default: "dinner",
+  default: cookieState?.timeOption || "dinner",
 });

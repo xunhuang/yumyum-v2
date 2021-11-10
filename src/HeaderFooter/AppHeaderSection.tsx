@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
+import { setLastUserSelection } from '../USPage/CookieUserSelection';
 import DatePicker from './DatePicker';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
 
@@ -74,6 +75,11 @@ export const AppHeaderSection = () => {
           defaultValue={dayjs(date)}
           onChange={(value, dateString) => {
             setDate(dateString);
+            setLastUserSelection({
+              date: dateString,
+              party_size: party_size,
+              timeOption: timeOption,
+            });
           }}
         />
         <Select
@@ -81,6 +87,11 @@ export const AppHeaderSection = () => {
           style={{ width: 120 }}
           onSelect={(value, option) => {
             setPartySize(parseInt(value.toString()));
+            setLastUserSelection({
+              date: date,
+              party_size: parseInt(value.toString()),
+              timeOption: timeOption,
+            });
           }}
         >
           <Option value="1"> 1 Guest</Option>
