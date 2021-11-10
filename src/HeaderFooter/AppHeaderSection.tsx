@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import DatePicker from './DatePicker';
-import { SelectedDateState } from './SelectedDateState';
+import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
 
 export const FullDivPadded = styled.div`
   margin: 3px;
@@ -50,6 +50,8 @@ export const AppHeaderSection = () => {
   const classes = useStyles();
 
   const [date, setDate] = useRecoilState(SelectedDateState);
+  const [party_size, setPartySize] = useRecoilState(SelectedPartySize);
+  const [timeOption, setTimeOption] = useRecoilState(SelectedTimeOption);
 
   return (
     <FullDivPadded>
@@ -69,9 +71,11 @@ export const AppHeaderSection = () => {
           }}
         />
         <Select
-          defaultValue={"2 dssdsd"}
-          // optionLabelProp={"Guests"}
+          defaultValue={"2"}
           style={{ width: 120 }}
+          onSelect={(value, option) => {
+            setPartySize(parseInt(value.toString()));
+          }}
         >
           <Option value="1"> 1 Guest</Option>
           {[2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
