@@ -1,6 +1,6 @@
-import { Link, Toolbar, Typography } from '@material-ui/core';
+import { Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Select } from 'antd';
+import { Button, Select } from 'antd';
 import dayjs from 'dayjs';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -57,11 +57,17 @@ export const AppHeaderSection = () => {
     <FullDivPadded>
       <Toolbar className={classes.appBar}>
         <div className={classes.topleft}>
-          <Link href={"https://yumyum.life"}>
-            <Typography noWrap className={classes.appName} variant="h6">
-              YumYum
-            </Typography>
-          </Link>
+          <Button
+            type="primary"
+            size="large"
+            style={{
+              background: "red",
+              borderColor: "red",
+              fontWeight: "bold",
+            }}
+          >
+            YumYum
+          </Button>
         </div>
         <div className={classes.expander} />
         <DatePicker
@@ -71,7 +77,7 @@ export const AppHeaderSection = () => {
           }}
         />
         <Select
-          defaultValue={"2"}
+          defaultValue={party_size}
           style={{ width: 120 }}
           onSelect={(value, option) => {
             setPartySize(parseInt(value.toString()));
@@ -84,7 +90,7 @@ export const AppHeaderSection = () => {
             </Option>
           ))}
         </Select>
-        <div className={classes.expander} />
+        {/* <div className={classes.expander} />
         <div>
           <Link
             target="_blank"
@@ -93,7 +99,7 @@ export const AppHeaderSection = () => {
           >
             Buy Us A Coffee
           </Link>
-        </div>
+        </div> */}
       </Toolbar>
     </FullDivPadded>
   );
