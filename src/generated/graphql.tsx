@@ -1318,7 +1318,7 @@ export enum VenuesOrderBy {
   ZipDesc = 'ZIP_DESC'
 }
 
-export type BayAreaWithSlotsQueryVariables = Exact<{
+export type BayAreaAllWithSlotsQueryVariables = Exact<{
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
@@ -1326,7 +1326,37 @@ export type BayAreaWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
+export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
+
+export type BayAreaStarredWithSlotsQueryVariables = Exact<{
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
+
+export type BayAreaBibWithSlotsQueryVariables = Exact<{
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
+
+export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
 
 export type BayAreaNearbySlotsQueryVariables = Exact<{
   date: Scalars['String'];
@@ -1342,7 +1372,7 @@ export type BayAreaNearbySlotsQueryVariables = Exact<{
 
 export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
 
-export type VenuAvaibiltyFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> };
+export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> };
 
 export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1369,39 +1399,37 @@ export const VenuMainInfoFragmentDoc = gql`
   longitude
 }
     `;
-export const VenuAvaibiltyFragmentDoc = gql`
-    fragment VenuAvaibilty on Venue {
+export const VenuAvailabilityFragmentDoc = gql`
+    fragment VenuAvailability on Venue {
   slots(date: $date, party_size: $party_size, timeOption: $timeOption)
   myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
   ...VenuMainInfo
 }
     ${VenuMainInfoFragmentDoc}`;
-export const BayAreaWithSlotsDocument = gql`
-    query BayAreaWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 100) {
+export const BayAreaAllWithSlotsDocument = gql`
+    query BayAreaAllWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
     condition: {metro: "bayarea", withOnlineReservation: "true"}
   ) {
     nodes {
-      slots(date: $date, party_size: $party_size, timeOption: $timeOption)
-      myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
-      ...VenuMainInfo
+      ...VenuAvailability
     }
   }
 }
-    ${VenuMainInfoFragmentDoc}`;
+    ${VenuAvailabilityFragmentDoc}`;
 
 /**
- * __useBayAreaWithSlotsQuery__
+ * __useBayAreaAllWithSlotsQuery__
  *
- * To run a query within a React component, call `useBayAreaWithSlotsQuery` and pass it any options that fit your needs.
- * When your component renders, `useBayAreaWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useBayAreaAllWithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaAllWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBayAreaWithSlotsQuery({
+ * const { data, loading, error } = useBayAreaAllWithSlotsQuery({
  *   variables: {
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
@@ -1410,17 +1438,152 @@ export const BayAreaWithSlotsDocument = gql`
  *   },
  * });
  */
-export function useBayAreaWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
+export function useBayAreaAllWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>(BayAreaWithSlotsDocument, options);
+        return Apollo.useQuery<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>(BayAreaAllWithSlotsDocument, options);
       }
-export function useBayAreaWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>) {
+export function useBayAreaAllWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>(BayAreaWithSlotsDocument, options);
+          return Apollo.useLazyQuery<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>(BayAreaAllWithSlotsDocument, options);
         }
-export type BayAreaWithSlotsQueryHookResult = ReturnType<typeof useBayAreaWithSlotsQuery>;
-export type BayAreaWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaWithSlotsLazyQuery>;
-export type BayAreaWithSlotsQueryResult = Apollo.QueryResult<BayAreaWithSlotsQuery, BayAreaWithSlotsQueryVariables>;
+export type BayAreaAllWithSlotsQueryHookResult = ReturnType<typeof useBayAreaAllWithSlotsQuery>;
+export type BayAreaAllWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaAllWithSlotsLazyQuery>;
+export type BayAreaAllWithSlotsQueryResult = Apollo.QueryResult<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>;
+export const BayAreaStarredWithSlotsDocument = gql`
+    query BayAreaStarredWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+  allVenues(
+    first: $first
+    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    filter: {stars: {in: ["1", "2", "3"]}}
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+    ${VenuAvailabilityFragmentDoc}`;
+
+/**
+ * __useBayAreaStarredWithSlotsQuery__
+ *
+ * To run a query within a React component, call `useBayAreaStarredWithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaStarredWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaStarredWithSlotsQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useBayAreaStarredWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>(BayAreaStarredWithSlotsDocument, options);
+      }
+export function useBayAreaStarredWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>(BayAreaStarredWithSlotsDocument, options);
+        }
+export type BayAreaStarredWithSlotsQueryHookResult = ReturnType<typeof useBayAreaStarredWithSlotsQuery>;
+export type BayAreaStarredWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaStarredWithSlotsLazyQuery>;
+export type BayAreaStarredWithSlotsQueryResult = Apollo.QueryResult<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>;
+export const BayAreaBibWithSlotsDocument = gql`
+    query BayAreaBibWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+  allVenues(
+    first: $first
+    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    filter: {stars: {in: ["BIB_GOURMAND"]}}
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+    ${VenuAvailabilityFragmentDoc}`;
+
+/**
+ * __useBayAreaBibWithSlotsQuery__
+ *
+ * To run a query within a React component, call `useBayAreaBibWithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaBibWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaBibWithSlotsQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useBayAreaBibWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>(BayAreaBibWithSlotsDocument, options);
+      }
+export function useBayAreaBibWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>(BayAreaBibWithSlotsDocument, options);
+        }
+export type BayAreaBibWithSlotsQueryHookResult = ReturnType<typeof useBayAreaBibWithSlotsQuery>;
+export type BayAreaBibWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaBibWithSlotsLazyQuery>;
+export type BayAreaBibWithSlotsQueryResult = Apollo.QueryResult<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>;
+export const BayAreaPlatesWithSlotsDocument = gql`
+    query BayAreaPlatesWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+  allVenues(
+    first: $first
+    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    filter: {stars: {in: ["MICHELIN_PLATE"]}}
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+    ${VenuAvailabilityFragmentDoc}`;
+
+/**
+ * __useBayAreaPlatesWithSlotsQuery__
+ *
+ * To run a query within a React component, call `useBayAreaPlatesWithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaPlatesWithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaPlatesWithSlotsQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useBayAreaPlatesWithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayAreaPlatesWithSlotsQuery, BayAreaPlatesWithSlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaPlatesWithSlotsQuery, BayAreaPlatesWithSlotsQueryVariables>(BayAreaPlatesWithSlotsDocument, options);
+      }
+export function useBayAreaPlatesWithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaPlatesWithSlotsQuery, BayAreaPlatesWithSlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaPlatesWithSlotsQuery, BayAreaPlatesWithSlotsQueryVariables>(BayAreaPlatesWithSlotsDocument, options);
+        }
+export type BayAreaPlatesWithSlotsQueryHookResult = ReturnType<typeof useBayAreaPlatesWithSlotsQuery>;
+export type BayAreaPlatesWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaPlatesWithSlotsLazyQuery>;
+export type BayAreaPlatesWithSlotsQueryResult = Apollo.QueryResult<BayAreaPlatesWithSlotsQuery, BayAreaPlatesWithSlotsQueryVariables>;
 export const BayAreaNearbySlotsDocument = gql`
     query BayAreaNearbySlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 100, $maxLongitude: Float!, $minLongitude: Float!, $maxLatitude: Float!, $minLatitude: Float!) {
   allVenues(
@@ -1429,11 +1592,11 @@ export const BayAreaNearbySlotsDocument = gql`
   ) {
     totalCount
     nodes {
-      ...VenuAvaibilty
+      ...VenuAvailability
     }
   }
 }
-    ${VenuAvaibiltyFragmentDoc}`;
+    ${VenuAvailabilityFragmentDoc}`;
 
 /**
  * __useBayAreaNearbySlotsQuery__

@@ -4,37 +4,114 @@ import { Tabs } from 'antd';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-import { useBayAreaOfflineQuery, useBayAreaQuery, useBayAreaWithSlotsQuery } from '../generated/graphql';
+import {
+  useBayAreaAllWithSlotsQuery,
+  useBayAreaBibWithSlotsQuery,
+  useBayAreaOfflineQuery,
+  useBayAreaPlatesWithSlotsQuery,
+  useBayAreaQuery,
+  useBayAreaStarredWithSlotsQuery,
+} from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { FrontPageNearby } from './FrontPageNearby';
 import { RestaurantList } from './RestaurantListProps';
 
 const { TabPane } = Tabs;
+export const FrontPagePlatesOnly = () => {
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
 
-export const FrontPageOld = () => {
+  const { data, loading } = useBayAreaPlatesWithSlotsQuery({
+    variables: {
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
+
+  if (loading) {
+    return <p>loading</p>;
+  }
+
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
+};
+export const FrontPageBibOnly = () => {
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
+
+  const { data, loading } = useBayAreaBibWithSlotsQuery({
+    variables: {
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
+
+  if (loading) {
+    return <p>loading</p>;
+  }
+
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
+};
+export const FrontPageStarredOnly = () => {
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
+
+  const { data, loading } = useBayAreaStarredWithSlotsQuery({
+    variables: {
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
+
+  if (loading) {
+    return <p>loading</p>;
+  }
+
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
+};
+
+export const FrontPageAll = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
   const first = useBayAreaQuery();
-  const second = useBayAreaWithSlotsQuery({
+  const second = useBayAreaAllWithSlotsQuery({
     variables: {
       date: date,
       party_size: party_size,
       timeOption: timeOption,
-      first: 100,
     },
   });
 
-  // const third = useBayAreaWithSlotsQuery({
-  //   variables: {
-  //     date: date,
-  //     first: 500,
-  //   },
-  // });
-
   if (first.loading) {
-    return "loading";
+    return <p>loading</p>;
   }
 
   if (second.loading) {
@@ -44,34 +121,22 @@ export const FrontPageOld = () => {
         date={date}
         party_size={party_size}
         timeOption={timeOption}
+        showAvailableOnly={false}
         showLoading={true}
       ></RestaurantList>
     );
   }
 
-  // if (!third.called || third.loading) {
   if (true) {
     return (
       <RestaurantList
         date={date}
         party_size={party_size}
         timeOption={timeOption}
-        list={second.data?.allVenues?.nodes.filter(
-          (node) => node?.slots?.length! > 0
-          // (node) => true
-        )}
+        list={second.data?.allVenues?.nodes}
       ></RestaurantList>
     );
   }
-
-  // return (
-  //   <RestaurantList
-  //     list={third.data?.allVenues?.nodes.filter(
-  //       (node) => node?.slots?.length! > 0
-  //       // (node) => true
-  //     )}
-  //   ></RestaurantList>
-  // );
 };
 
 export const FrontPageOfflineVenues = () => {
@@ -101,19 +166,19 @@ export const FrontPage = () => {
         New in 2021, coming soon
       </TabPane>
       <TabPane tab="stars" key="2">
-        Content of card tab 1
+        <FrontPageStarredOnly />
       </TabPane>
       <TabPane tab="Plates" key="3">
-        Content of card tab 3
+        <FrontPagePlatesOnly />
       </TabPane>
       <TabPane tab="Bib" key="4">
-        bib
+        <FrontPageBibOnly />
       </TabPane>
       <TabPane tab="Offine" key="6">
         <FrontPageOfflineVenues></FrontPageOfflineVenues>
       </TabPane>
       <TabPane tab="All" key="7">
-        All
+        <FrontPageAll />
       </TabPane>
     </Tabs>
   );

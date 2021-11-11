@@ -1,22 +1,69 @@
-query BayAreaWithSlots(
+query BayAreaAllWithSlots(
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
-  $first: Int = 100
+  $first: Int = 1000
 ) {
   allVenues(
     first: $first
     condition: { metro: "bayarea", withOnlineReservation: "true" }
   ) {
     nodes {
-      slots(date: $date, party_size: $party_size, timeOption: $timeOption)
-      myReservationUrl(
-        date: $date
-        party_size: $party_size
-        timeOption: $timeOption
-      )
+      ...VenuAvailability
+    }
+  }
+}
 
-      ...VenuMainInfo
+query BayAreaStarredWithSlots(
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 1000
+) {
+  allVenues(
+    first: $first
+    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    filter: { stars: { in: ["1", "2", "3"] } }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+
+query BayAreaBibWithSlots(
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 1000
+) {
+  allVenues(
+    first: $first
+    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    filter: { stars: { in: ["BIB_GOURMAND"] } }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+
+query BayAreaPlatesWithSlots(
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 1000
+) {
+  allVenues(
+    first: $first
+    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    filter: { stars: { in: ["MICHELIN_PLATE"] } }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
     }
   }
 }
@@ -40,12 +87,12 @@ query BayAreaNearbySlots(
   ) {
     totalCount
     nodes {
-      ...VenuAvaibilty
+      ...VenuAvailability
     }
   }
 }
 
-fragment VenuAvaibilty on Venue {
+fragment VenuAvailability on Venue {
   slots(date: $date, party_size: $party_size, timeOption: $timeOption)
   myReservationUrl(
     date: $date
