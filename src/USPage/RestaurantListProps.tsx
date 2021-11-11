@@ -12,6 +12,7 @@ type RestaurantListProps = {
   party_size: number;
   timeOption: string;
   showLoading?: boolean;
+  showAvailableOnly?: boolean;
   userLocation?: UserLocation;
   sortByDistanceFromUser?: boolean;
 };
@@ -22,12 +23,16 @@ export const RestaurantList = ({
   party_size,
   timeOption,
   showLoading = false,
+  showAvailableOnly = true,
   userLocation,
   sortByDistanceFromUser = false,
 }: RestaurantListProps) => {
   var data = list;
+  if (showAvailableOnly) {
+    data = data?.filter((node) => node?.slots?.length! > 0);
+  }
   if (sortByDistanceFromUser && userLocation) {
-    data = list?.sort((a, b) => {
+    data = data?.slice()?.sort((a, b) => {
       let a_d = getDistance(
         { latitude: a?.latitude, longitude: a?.longitude },
         { latitude: userLocation?.latitude, longitude: userLocation?.longitude }

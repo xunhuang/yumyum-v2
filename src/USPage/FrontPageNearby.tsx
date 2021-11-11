@@ -45,11 +45,10 @@ export const FrontPageNearLocation = ({
       date={date}
       party_size={party_size}
       timeOption={timeOption}
-      list={first.data?.allVenues?.nodes.filter(
-        (node) => node?.slots?.length! > 0
-      )}
+      list={first.data?.allVenues?.nodes}
       userLocation={location}
       sortByDistanceFromUser={true}
+      // showAvailableOnly={false}
     ></RestaurantList>
   );
 };
