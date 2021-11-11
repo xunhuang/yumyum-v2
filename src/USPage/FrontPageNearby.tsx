@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useBayAreaNearbySlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { fetchApproxIPLocation, UserLocation } from './CookieGeoLocation';
+import { useIPLocation, UserLocation } from './CookieGeoLocation';
 import { RestaurantList } from './RestaurantListProps';
 
 export const FrontPageNearby = () => {
-  const [location, setLocation] = React.useState<UserLocation | null>(null);
-
-  useEffect(() => {
-    fetchApproxIPLocation().then((userlocation) => {
-      setLocation(userlocation);
-    });
-  }, []);
+  const location = useIPLocation();
   if (!location) {
     return <p>Loading location</p>;
   }
   return <FrontPageNearLocation location={location!} />;
 };
+
 type FrontPageNearLocationProp = {
   location: UserLocation;
 };
@@ -54,6 +48,8 @@ export const FrontPageNearLocation = ({
       list={first.data?.allVenues?.nodes.filter(
         (node) => node?.slots?.length! > 0
       )}
+      userLocation={location}
+      sortByDistanceFromUser={true}
     ></RestaurantList>
   );
 };

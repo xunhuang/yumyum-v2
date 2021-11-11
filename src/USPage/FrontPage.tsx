@@ -105,7 +105,7 @@ export const FrontPage = () => {
       <TabPane tab="New 2021" key="5">
         New in 2021, coming soon
       </TabPane>
-      <TabPane tab="Card Tab 1" key="2">
+      <TabPane tab="stars" key="2">
         Content of card tab 1
       </TabPane>
       <TabPane tab="Plates" key="3">
@@ -113,9 +113,6 @@ export const FrontPage = () => {
       </TabPane>
       <TabPane tab="Bib" key="4">
         bib
-      </TabPane>
-      <TabPane tab="New 2021" key="5">
-        New
       </TabPane>
       <TabPane tab="Offine" key="6">
         Offline

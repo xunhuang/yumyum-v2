@@ -2,6 +2,9 @@ import { Avatar, Button, List } from 'antd';
 import dayjs from 'dayjs';
 
 import { Venue } from '../generated/graphql';
+import { UserLocation } from './CookieGeoLocation';
+
+const getDistance = require("geolib").getDistance;
 
 type RestaurantListProps = {
   list?: Array<Venue | null>;
@@ -9,6 +12,8 @@ type RestaurantListProps = {
   party_size: number;
   timeOption: string;
   showLoading?: boolean;
+  userLocation?: UserLocation;
+  sortByDistanceFromUser?: boolean;
 };
 
 export const RestaurantList = ({
@@ -17,7 +22,24 @@ export const RestaurantList = ({
   party_size,
   timeOption,
   showLoading = false,
+  userLocation,
+  sortByDistanceFromUser = false,
 }: RestaurantListProps) => {
+  var data = list;
+  if (sortByDistanceFromUser && userLocation) {
+    data = list?.sort((a, b) => {
+      let a_d = getDistance(
+        { latitude: a?.latitude, longitude: a?.longitude },
+        { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
+      );
+      let b_d = getDistance(
+        { latitude: b?.latitude, longitude: b?.longitude },
+        { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
+      );
+      return a_d - b_d;
+    });
+  }
+
   return (
     <div>
       <p>
@@ -30,7 +52,7 @@ export const RestaurantList = ({
           onChange: (page) => {},
           pageSize: 20,
         }}
-        dataSource={list}
+        dataSource={data}
         renderItem={(item) => (
           <List.Item
             key={item?.name}

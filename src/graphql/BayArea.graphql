@@ -71,4 +71,6 @@ fragment VenuMainInfo on Venue {
   priceline
   withOnlineReservation
   coverImage
+  latitude
+  longitude
 }

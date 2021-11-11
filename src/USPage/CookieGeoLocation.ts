@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import React, { useEffect } from 'react';
 import superagent from 'superagent';
 
 const LastUserSelectionCookieName = "LAST_USER_LOCATION";
@@ -15,8 +16,8 @@ function getLastUserSelection(): null | UserLocation {
 }
 
 function setLastUserLocation(last: UserLocation) {
-    console.log("settting cookie");
-    Cookies.set(LastUserSelectionCookieName, JSON.stringify(last), { expires: 1 });
+    // location cookie expire every hour.
+    Cookies.set(LastUserSelectionCookieName, JSON.stringify(last), { expires: 1 / 24 });
 };
 
 export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
@@ -38,4 +39,15 @@ export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
     if (iplocation)
         setLastUserLocation(iplocation);
     return iplocation;
+}
+
+export function useIPLocation(): UserLocation | null {
+    const [location, setLocation] = React.useState<UserLocation | null>(null);
+    console.log("location....");
+    useEffect(() => {
+        fetchApproxIPLocation().then((userlocation) => {
+            setLocation(userlocation);
+        });
+    }, []);
+    return location;
 }
