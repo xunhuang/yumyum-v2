@@ -8,9 +8,9 @@ const getDistance = require("geolib").getDistance;
 
 type RestaurantListProps = {
   list?: Array<Venue | null>;
-  date: string;
-  party_size: number;
-  timeOption: string;
+  date?: string;
+  party_size?: number;
+  timeOption?: string;
   showLoading?: boolean;
   showAvailableOnly?: boolean;
   userLocation?: UserLocation;
@@ -47,9 +47,11 @@ export const RestaurantList = ({
 
   return (
     <div>
-      <p>
-        Showing results for party of {party_size} on {date} for {timeOption}
-      </p>
+      {date && (
+        <p>
+          Showing results for party of {party_size} on {date} for {timeOption}
+        </p>
+      )}
       <List
         itemLayout="vertical"
         size="large"

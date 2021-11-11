@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-import { useBayAreaQuery, useBayAreaWithSlotsQuery } from '../generated/graphql';
+import { useBayAreaOfflineQuery, useBayAreaQuery, useBayAreaWithSlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { FrontPageNearby } from './FrontPageNearby';
 import { RestaurantList } from './RestaurantListProps';
@@ -74,25 +74,20 @@ export const FrontPageOld = () => {
   // );
 };
 
-export const FrontPage100 = () => {
-  const [date] = useRecoilState(SelectedDateState);
-  const [party_size] = useRecoilState(SelectedPartySize);
-  const [timeOption] = useRecoilState(SelectedTimeOption);
-
-  const first = useBayAreaQuery();
-
-  if (first.loading) {
-    return "loading";
+export const FrontPageOfflineVenues = () => {
+  const { data, loading } = useBayAreaOfflineQuery();
+  if (loading) {
+    return <p>loading</p>;
   }
 
   return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={first.data?.allVenues?.nodes}
-      showLoading={true}
-    ></RestaurantList>
+    <div>
+      <p>Call or walk in. Good luck and enjoy! </p>
+      <RestaurantList
+        list={data?.allVenues?.nodes}
+        showAvailableOnly={false}
+      ></RestaurantList>
+    </div>
   );
 };
 
@@ -115,7 +110,7 @@ export const FrontPage = () => {
         bib
       </TabPane>
       <TabPane tab="Offine" key="6">
-        Offline
+        <FrontPageOfflineVenues></FrontPageOfflineVenues>
       </TabPane>
       <TabPane tab="All" key="7">
         All

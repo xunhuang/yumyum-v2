@@ -48,7 +48,6 @@ export const FrontPageNearLocation = ({
       list={first.data?.allVenues?.nodes}
       userLocation={location}
       sortByDistanceFromUser={true}
-      // showAvailableOnly={false}
     ></RestaurantList>
   );
 };

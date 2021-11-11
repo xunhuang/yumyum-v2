@@ -1349,6 +1349,11 @@ export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
 
+export type BayAreaOfflineQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> }>> }> };
+
 export type VenuMainInfoFragment = { __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number> };
 
 export const VenuMainInfoFragmentDoc = gql`
@@ -1500,3 +1505,39 @@ export function useBayAreaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ba
 export type BayAreaQueryHookResult = ReturnType<typeof useBayAreaQuery>;
 export type BayAreaLazyQueryHookResult = ReturnType<typeof useBayAreaLazyQuery>;
 export type BayAreaQueryResult = Apollo.QueryResult<BayAreaQuery, BayAreaQueryVariables>;
+export const BayAreaOfflineDocument = gql`
+    query BayAreaOffline {
+  allVenues(condition: {metro: "bayarea", withOnlineReservation: "false"}) {
+    nodes {
+      ...VenuMainInfo
+    }
+  }
+}
+    ${VenuMainInfoFragmentDoc}`;
+
+/**
+ * __useBayAreaOfflineQuery__
+ *
+ * To run a query within a React component, call `useBayAreaOfflineQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayAreaOfflineQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayAreaOfflineQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBayAreaOfflineQuery(baseOptions?: Apollo.QueryHookOptions<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>(BayAreaOfflineDocument, options);
+      }
+export function useBayAreaOfflineLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>(BayAreaOfflineDocument, options);
+        }
+export type BayAreaOfflineQueryHookResult = ReturnType<typeof useBayAreaOfflineQuery>;
+export type BayAreaOfflineLazyQueryHookResult = ReturnType<typeof useBayAreaOfflineLazyQuery>;
+export type BayAreaOfflineQueryResult = Apollo.QueryResult<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>;

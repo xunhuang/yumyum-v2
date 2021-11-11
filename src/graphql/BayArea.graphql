@@ -63,6 +63,14 @@ query BayArea {
   }
 }
 
+query BayAreaOffline {
+  allVenues(condition: { metro: "bayarea", withOnlineReservation: "false" }) {
+    nodes {
+      ...VenuMainInfo
+    }
+  }
+}
+
 fragment VenuMainInfo on Venue {
   name
   stars
