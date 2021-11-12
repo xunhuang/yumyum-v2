@@ -45,3 +45,44 @@
 font-family: "michelinIcon";
 src: url("https://guide.michelin.com/assets/web/fonts/annuel/Annuels-b8bdb9951dba18a04c14aa0293712e27.woff") format('woff');
 }
+.site-calendar-demo-card {
+  width: 300px;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+}
+
+.calendar-date-box {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px ;
+    height: 100%;
+    margin-left: 20.9%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-date-available {
+    border-color:#1890ff;
+    font-weight: bold;
+    color: #1890ff;
+}
+
+.calendar-date-available-today {
+    background-color:#1890ff;
+    font-weight: bold;
+    color: white;
+}
+
+.calendar-date-not-available {
+  text-decoration: line-through;
+    color: grey;
+}
+
+
+.carousel_container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+

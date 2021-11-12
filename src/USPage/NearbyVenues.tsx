@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useBayAreaNearbySlotsQuery } from '../generated/graphql';
@@ -18,7 +19,7 @@ type FrontPageNearLocationProp = {
 };
 
 const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
-  const delta = 0.25;
+  const [delta, setDelta] = React.useState<number>(0.25);
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -36,6 +37,11 @@ const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
 
   if (first.loading) {
     return <p>loading</p>;
+  }
+
+  if (first.data?.allVenues?.totalCount! < 100) {
+    console.log("no enough restuarnt found, expanding circle " + delta);
+    setDelta(delta * 2);
   }
 
   return (

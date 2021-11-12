@@ -7,6 +7,14 @@ query VenueByKey(
   allVenues(condition: { key: $key }) {
     nodes {
       slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+      monthlySlots(
+        date: $date
+        party_size: $party_size
+        timeOption: $timeOption
+      ) {
+        date
+        slots
+      }
       myReservationUrl(
         date: $date
         party_size: $party_size
