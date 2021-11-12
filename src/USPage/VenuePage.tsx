@@ -1,4 +1,4 @@
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { useParams } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ export const VenuePage = () => {
     return <p>loading</p>;
   }
   const venue = data?.allVenues?.nodes[0];
+  const imageList =
+    venue?.imageList && (JSON.parse(venue.imageList) as Array<string>);
   return (
     <div
       style={{
@@ -22,7 +24,6 @@ export const VenuePage = () => {
       }}
     >
       <Card
-        style={{ minWidth: 400, margin: "auto" }}
         actions={
           [
             // <SettingOutlined key="setting" />,
@@ -32,14 +33,18 @@ export const VenuePage = () => {
         }
       >
         <Meta
-          avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+          avatar={<Avatar src={venue?.coverImage} />}
           title={venue?.name}
           description={
-            <img
-              alt="example"
-              src={`${venue?.coverImage}`}
-              style={{ maxWidth: "400px" }}
-            />
+            <Carousel
+              swipeToSlide
+              draggable
+              autoplay
+              style={{ maxWidth: "500px" }}
+            >
+              {imageList &&
+                imageList.map((image) => <img src={image} alt="imagex" />)}
+            </Carousel>
           }
         />
       </Card>
