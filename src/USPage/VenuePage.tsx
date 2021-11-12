@@ -1,11 +1,11 @@
-import { Avatar, Card, Carousel } from 'antd';
+import { Avatar, Calendar, Card, Carousel } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { useVenueByKeyQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { VenueAvailabilityList } from './VenueProp';
+import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
 
 export const VenuePage = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
@@ -43,9 +43,10 @@ export const VenuePage = () => {
       >
         <Meta
           avatar={<Avatar src={venue?.coverImage} />}
-          title={venue?.name}
+          title={<VenueTitle venue={venue!} />}
           description={
             <div>
+              <VenueDescription venue={venue!} />
               <VenueAvailabilityList venue={venue!}></VenueAvailabilityList>
               <Carousel
                 swipeToSlide
@@ -60,6 +61,11 @@ export const VenuePage = () => {
           }
         />
       </Card>
+      <Calendar
+        // dateCellRender={dateCellRender}
+        // monthCellRender={monthCellRender}
+        mode="month"
+      />
     </div>
   );
 };

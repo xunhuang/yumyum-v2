@@ -4,53 +4,83 @@ import { getVendor } from './yummodule/Vendors';
 
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const DataLoader = require('dataloader');
+const dayjs = require("dayjs");
+
+const slot_required_fields = ' @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","urlSlug", "longitude", "latitude"])';
+
+// dayjs('2019-01-25').daysInMonth()
+
+const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
+    const venue: VenueVendorInfo = {
+        // these  came from the @requires above
+        reservation: _query.reservation,
+        name: _query.name,
+        key: _query.key,
+        businessid: _query.businessid,
+        businessgroupid: _query.businessgroupid,
+        timezone: _query.timezone,
+        url_slug: _query.urlSlug,
+        latitude: _query.latitude,
+        longitude: _query.longitude,
+        resy_city_code: _query.resyCityCode,
+    };
+    return venue;
+
+}
 
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
     const { pgSql: sql } = build;
     return {
         typeDefs: gql`
+      type DateAvailability {
+        date: String
+        slots: [String]
+      }
+
       extend type Venue {
         slots (date:String!, party_size:Int=2, timeOption:String = "dinner" ): [String!]
-        @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid",
-    "urlSlug", "longitude", "latitude"])
-
-        myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String  @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code", "url_slug"])
+        ${slot_required_fields}
+        monthlySlots(date:String!, party_size:Int=2, timeOption:String = "dinner" ): [DateAvailability!]
+        ${slot_required_fields}
+        myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String
+        ${slot_required_fields}
       }
     `,
         resolvers: {
             Venue: {
                 slots: async (_query: any, args: any, context: any, resolveInfo: any) => {
-                    // console.log(args);
-                    // console.log(_query);
-                    const venue: VenueVendorInfo = {
-                        // these  came from the @requires above
-                        reservation: _query.reservation,
-                        name: _query.name,
-                        key: _query.key,
-                        businessid: _query.businessid,
-                        businessgroupid: _query.businessgroupid,
-                        timezone: _query.timezone,
-                        url_slug: _query.urlSlug,
-                        latitude: _query.latitude,
-                        longitude: _query.longitude,
-                    };
+                    const venue = getRequiredFieldsFromQuery(_query);
                     args.venue = venue;
                     const result = await AvailablilityLoader.load(JSON.stringify(args));
                     return result;
                 },
 
-                myReservationUrl: (_query: any, args: any, context: any, resolveInfo: any) => {
-                    const venue: VenueVendorInfo = {
-                        key: _query.key,
-                        reservation: _query.reservation,
-                        name: _query.name,
-                        businessid: _query.businessid,
-                        businessgroupid: _query.businessgroupid,
-                        timezone: _query.timezone,
-                        resy_city_code: _query.resyCityCode,
-                        url_slug: _query.urlSlug,
-                    };
+                monthlySlots: async (_query: any, args: any, context: any, resolveInfo: any) => {
+                    const venue = getRequiredFieldsFromQuery(_query);
+                    // console.log(dayjs(args.date).daysInMonth());
+                    const numdays = dayjs(args.date).daysInMonth();
+                    const days: string[] = [];
+                    for (var i = 1; i <= numdays; i++) {
+                        const newdate = dayjs(args.date).set("date", i);
+                        if (newdate.isAfter(dayjs().subtract(1, 'day'))) {
+                            console.log(newdate.format("YYYY-MM-DD"));
+                            days.push(newdate.format("YYYY-MM-DD"));
+                        }
+                    }
 
+                    const handles = days.map(async date => {
+                        args.venue = venue;
+                        args.date = date;
+                        return {
+                            date: date,
+                            slots: await AvailablilityLoader.load(JSON.stringify(args)),
+                        }
+                    });
+                    return await Promise.all(handles);
+                },
+
+                myReservationUrl: (_query: any, args: any, context: any, resolveInfo: any) => {
+                    const venue = getRequiredFieldsFromQuery(_query);
                     const vendor = getVendor(venue.reservation);
                     const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
                     return url;

@@ -41,3 +41,7 @@
     transform: rotate(360deg);
   }
 }
+@font-face {
+font-family: "michelinIcon";
+src: url("https://guide.michelin.com/assets/web/fonts/annuel/Annuels-b8bdb9951dba18a04c14aa0293712e27.woff") format('woff');
+}
