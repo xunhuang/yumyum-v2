@@ -80,7 +80,7 @@ export const RestaurantList = ({
                 />
               }
               title={
-                <a href={item?.coverImage!}>
+                <a href={`/venue/${item?.key}`}>
                   {item?.name}, {item?.stars}
                 </a>
               }

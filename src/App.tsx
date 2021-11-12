@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
 import { ListsPage } from './USPage/ListsPage';
+import { VenuePage } from './USPage/VenuePage';
 
 interface IRoute {
   path: string;
@@ -20,17 +21,17 @@ const routes: IRoute[] = [
   {
     path: "/",
     component: ListsPage,
-    name: "Front Page",
+    name: "Venue",
+  },
+  {
+    path: "/venue/:venue_id",
+    component: VenuePage,
+    name: "State",
   },
   // {
   //   path: "/US",
   //   component: USPage,
   //   name: "US Page",
-  // },
-  // {
-  //   path: "/state/:state_fips_code",
-  //   component: StatePage,
-  //   name: "State",
   // },
   // {
   //   path: "/county/:county_fips_code",

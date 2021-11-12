@@ -128,4 +128,5 @@ fragment VenuMainInfo on Venue {
   coverImage
   latitude
   longitude
+  key
 }
