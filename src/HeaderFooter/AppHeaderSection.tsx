@@ -65,6 +65,7 @@ export const AppHeaderSection = () => {
               borderColor: "red",
               fontWeight: "bold",
             }}
+            href="/"
           >
             YumYum
           </Button>

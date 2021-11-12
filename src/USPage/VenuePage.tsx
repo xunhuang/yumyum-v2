@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 
 import { useVenueByKeyQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { VenueAvailabilityList } from './RestaurantListProps';
+import { VenueAvailabilityList } from './VenueProp';
 
 export const VenuePage = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
@@ -46,9 +46,7 @@ export const VenuePage = () => {
           title={venue?.name}
           description={
             <div>
-              <VenueAvailabilityList
-                venueWithSlots={venue!}
-              ></VenueAvailabilityList>
+              <VenueAvailabilityList venue={venue!}></VenueAvailabilityList>
               <Carousel
                 swipeToSlide
                 draggable

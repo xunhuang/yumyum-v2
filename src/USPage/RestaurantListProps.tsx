@@ -1,37 +1,10 @@
 import { Avatar, Button, List } from 'antd';
-import dayjs from 'dayjs';
 
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
+import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
 
 const getDistance = require("geolib").getDistance;
-
-type VenueAvailabilityListProp = {
-  venueWithSlots?: Venue;
-};
-
-export const VenueAvailabilityList = ({
-  venueWithSlots,
-}: VenueAvailabilityListProp) => {
-  // dedup first
-  return (
-    <div>
-      {[...new Set(venueWithSlots?.slots)]?.map((timestr) => (
-        <Button
-          key={timestr}
-          type="primary"
-          size={"small"}
-          style={{
-            margin: "1px",
-          }}
-          href={venueWithSlots?.myReservationUrl!}
-        >
-          {dayjs(timestr).format("h:mm A")}
-        </Button>
-      ))}
-    </div>
-  );
-};
 
 type RestaurantListProps = {
   list?: Array<Venue | null>;
@@ -106,12 +79,8 @@ export const RestaurantList = ({
                   src={item?.coverImage}
                 />
               }
-              title={
-                <a href={`/venue/${item?.key}`}>
-                  {item?.name}, {item?.stars}
-                </a>
-              }
-              description={`${item?.cuisine}, ${item?.city}, ${item?.priceline}`}
+              title={<VenueTitle venue={item!} />}
+              description={<VenueDescription venue={item!} />}
               style={{
                 marginBottom: "0px",
               }}
@@ -121,7 +90,7 @@ export const RestaurantList = ({
                 Loading
               </Button>
             )}
-            {!showLoading && <VenueAvailabilityList venueWithSlots={item!} />}
+            {!showLoading && <VenueAvailabilityList venue={item!} />}
           </List.Item>
         )}
       />
