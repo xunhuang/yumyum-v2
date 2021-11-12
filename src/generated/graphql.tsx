@@ -1388,10 +1388,13 @@ export type VenuMainInfoFragment = { __typename?: 'Venue', name?: Maybe<string>,
 
 export type VenueByKeyQueryVariables = Exact<{
   key: Scalars['String'];
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
 }>;
 
 
-export type VenueByKeyQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closed?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key?: Maybe<string>, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string> }>> }> };
+export type VenueByKeyQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closed?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key?: Maybe<string>, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string> }>> }> };
 
 export const VenuMainInfoFragmentDoc = gql`
     fragment VenuMainInfo on Venue {
@@ -1713,9 +1716,11 @@ export type BayAreaOfflineQueryHookResult = ReturnType<typeof useBayAreaOfflineQ
 export type BayAreaOfflineLazyQueryHookResult = ReturnType<typeof useBayAreaOfflineLazyQuery>;
 export type BayAreaOfflineQueryResult = Apollo.QueryResult<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>;
 export const VenueByKeyDocument = gql`
-    query VenueByKey($key: String!) {
+    query VenueByKey($key: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner") {
   allVenues(condition: {key: $key}) {
     nodes {
+      slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+      myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
       accomondation
       address
       area
@@ -1794,6 +1799,9 @@ export const VenueByKeyDocument = gql`
  * const { data, loading, error } = useVenueByKeyQuery({
  *   variables: {
  *      key: // value for 'key'
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
  *   },
  * });
  */

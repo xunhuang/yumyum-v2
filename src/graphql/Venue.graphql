@@ -1,6 +1,17 @@
-query VenueByKey($key: String!) {
+query VenueByKey(
+  $key: String!
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+) {
   allVenues(condition: { key: $key }) {
     nodes {
+      slots(date: $date, party_size: $party_size, timeOption: $timeOption)
+      myReservationUrl(
+        date: $date
+        party_size: $party_size
+        timeOption: $timeOption
+      )
       accomondation
       address
       area

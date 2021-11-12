@@ -6,6 +6,33 @@ import { UserLocation } from './CookieGeoLocation';
 
 const getDistance = require("geolib").getDistance;
 
+type VenueAvailabilityListProp = {
+  venueWithSlots?: Venue;
+};
+
+export const VenueAvailabilityList = ({
+  venueWithSlots,
+}: VenueAvailabilityListProp) => {
+  // dedup first
+  return (
+    <div>
+      {[...new Set(venueWithSlots?.slots)]?.map((timestr) => (
+        <Button
+          key={timestr}
+          type="primary"
+          size={"small"}
+          style={{
+            margin: "1px",
+          }}
+          href={venueWithSlots?.myReservationUrl!}
+        >
+          {dayjs(timestr).format("h:mm A")}
+        </Button>
+      ))}
+    </div>
+  );
+};
+
 type RestaurantListProps = {
   list?: Array<Venue | null>;
   date?: string;
@@ -94,21 +121,7 @@ export const RestaurantList = ({
                 Loading
               </Button>
             )}
-            {!showLoading &&
-              // the "Set" below is to deduplicate
-              [...new Set(item?.slots)].map((timestr) => (
-                <Button
-                  key={timestr}
-                  type="primary"
-                  size={"small"}
-                  style={{
-                    margin: "1px",
-                  }}
-                  href={item?.myReservationUrl!}
-                >
-                  {dayjs(timestr).format("h:mm A")}
-                </Button>
-              ))}
+            {!showLoading && <VenueAvailabilityList venueWithSlots={item!} />}
           </List.Item>
         )}
       />
