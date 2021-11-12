@@ -5,21 +5,19 @@ import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../Hea
 import { useIPLocation, UserLocation } from './CookieGeoLocation';
 import { RestaurantList } from './RestaurantListProps';
 
-export const FrontPageNearby = () => {
+export const NearbyVenues = () => {
   const location = useIPLocation();
   if (!location) {
     return <p>Loading location</p>;
   }
-  return <FrontPageNearLocation location={location!} />;
+  return <VenuesNearLocation location={location!} />;
 };
 
 type FrontPageNearLocationProp = {
   location: UserLocation;
 };
 
-export const FrontPageNearLocation = ({
-  location,
-}: FrontPageNearLocationProp) => {
+const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
   const delta = 0.25;
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);

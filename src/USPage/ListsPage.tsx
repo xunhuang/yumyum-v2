@@ -13,7 +13,7 @@ import {
   useBayAreaStarredWithSlotsQuery,
 } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { FrontPageNearby } from './FrontPageNearby';
+import { NearbyVenues } from './NearbyVenues';
 import { RestaurantList } from './RestaurantListProps';
 
 const { TabPane } = Tabs;
@@ -160,7 +160,7 @@ export const ListsPage = () => {
   return (
     <Tabs defaultActiveKey="1" type="card" size={"large"}>
       <TabPane tab="Nearby" key="1">
-        <FrontPageNearby />
+        <NearbyVenues />
       </TabPane>
       <TabPane tab="New 2021" key="5">
         New in 2021, coming soon
