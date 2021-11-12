@@ -17,7 +17,7 @@ import { FrontPageNearby } from './FrontPageNearby';
 import { RestaurantList } from './RestaurantListProps';
 
 const { TabPane } = Tabs;
-export const FrontPagePlatesOnly = () => {
+export const ListPlatesOnly = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -43,7 +43,7 @@ export const FrontPagePlatesOnly = () => {
     ></RestaurantList>
   );
 };
-export const FrontPageBibOnly = () => {
+export const ListBibOnly = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -69,7 +69,7 @@ export const FrontPageBibOnly = () => {
     ></RestaurantList>
   );
 };
-export const FrontPageStarredOnly = () => {
+export const ListStarsOnly = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -96,7 +96,7 @@ export const FrontPageStarredOnly = () => {
   );
 };
 
-export const FrontPageAll = () => {
+export const ListAll = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -139,7 +139,7 @@ export const FrontPageAll = () => {
   }
 };
 
-export const FrontPageOfflineVenues = () => {
+export const ListOffLineOnly = () => {
   const { data, loading } = useBayAreaOfflineQuery();
   if (loading) {
     return <p>loading</p>;
@@ -156,7 +156,7 @@ export const FrontPageOfflineVenues = () => {
   );
 };
 
-export const FrontPage = () => {
+export const ListsPage = () => {
   return (
     <Tabs defaultActiveKey="1" type="card" size={"large"}>
       <TabPane tab="Nearby" key="1">
@@ -166,19 +166,19 @@ export const FrontPage = () => {
         New in 2021, coming soon
       </TabPane>
       <TabPane tab="stars" key="2">
-        <FrontPageStarredOnly />
+        <ListStarsOnly />
       </TabPane>
       <TabPane tab="Plates" key="3">
-        <FrontPagePlatesOnly />
+        <ListPlatesOnly />
       </TabPane>
       <TabPane tab="Bib" key="4">
-        <FrontPageBibOnly />
+        <ListBibOnly />
       </TabPane>
       <TabPane tab="Offine" key="6">
-        <FrontPageOfflineVenues></FrontPageOfflineVenues>
+        <ListOffLineOnly></ListOffLineOnly>
       </TabPane>
       <TabPane tab="All" key="7">
-        <FrontPageAll />
+        <ListAll />
       </TabPane>
     </Tabs>
   );

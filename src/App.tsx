@@ -8,7 +8,7 @@ import { RecoilRoot } from 'recoil';
 
 import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
-import { FrontPage } from './USPage/FrontPage';
+import { ListsPage } from './USPage/ListsPage';
 
 interface IRoute {
   path: string;
@@ -19,7 +19,7 @@ interface IRoute {
 const routes: IRoute[] = [
   {
     path: "/",
-    component: FrontPage,
+    component: ListsPage,
     name: "Front Page",
   },
   // {

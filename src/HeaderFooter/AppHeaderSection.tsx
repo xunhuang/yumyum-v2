@@ -14,7 +14,7 @@ export const FullDivPadded = styled.div`
 `;
 const { Option } = Select;
 
-const DONATION_URL = "https://ko-fi.com/covid19direct";
+// const DONATION_URL = "https://ko-fi.com/covid19direct";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -28,20 +28,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "self-start",
   },
-  donations: {
-    background: "#00aeef",
-    color: "white",
-    borderRadius: "15px",
-    display: "block",
-    marginLeft: "16px",
-    padding: "6px 8px",
-    textAlign: "center",
-    "&:hover": {
-      // color: theme.palette.primary.light,
-      textDecoration: "none",
-      transform: "translateY(-1px)",
-    },
-  },
+  // donations: {
+  //   background: "#00aeef",
+  //   color: "white",
+  //   borderRadius: "15px",
+  //   display: "block",
+  //   marginLeft: "16px",
+  //   padding: "6px 8px",
+  //   textAlign: "center",
+  //   "&:hover": {
+  //     textDecoration: "none",
+  //     transform: "translateY(-1px)",
+  //   },
+  // },
   expander: {
     flexGrow: 1,
   },

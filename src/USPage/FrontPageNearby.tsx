@@ -20,7 +20,7 @@ type FrontPageNearLocationProp = {
 export const FrontPageNearLocation = ({
   location,
 }: FrontPageNearLocationProp) => {
-  const delta = 0.15;
+  const delta = 0.25;
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);

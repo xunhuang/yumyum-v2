@@ -20,6 +20,11 @@ function setLastUserLocation(last: UserLocation) {
     Cookies.set(LastUserSelectionCookieName, JSON.stringify(last), { expires: 1 / 24 });
 };
 
+const default_location: UserLocation = {
+    longitude: -122.2269125,
+    latitude: 37.7310408,
+}
+
 export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
     const last = getLastUserSelection();
     if (last) {
@@ -34,7 +39,7 @@ export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
             }
         })
         .catch(err => {
-            return null;
+            return default_location;
         });
     if (iplocation)
         setLastUserLocation(iplocation);
@@ -42,6 +47,8 @@ export async function fetchApproxIPLocation(): Promise<UserLocation | null> {
 }
 
 export function useIPLocation(): UserLocation | null {
+    // why not set default location here? we want to at least make one attempt with API
+    // before falling back to default.
     const [location, setLocation] = React.useState<UserLocation | null>(null);
     console.log("location....");
     useEffect(() => {
