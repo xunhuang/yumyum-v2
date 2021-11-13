@@ -206,10 +206,10 @@ export const ListsPage = () => {
   ];
 
   return (
-    <Tabs defaultActiveKey={key} type="card" size={"large"}>
+    <Tabs activeKey={key} type="card" size={"large"}>
       {panedata.map((panel) => (
         <TabPane
-          tab={<Link href={panel.slug}>{panel.text}</Link>}
+          tab={<Link href={`/list/${panel.slug}`}>{panel.text}</Link>}
           key={panel.slug}
         >
           {panel.component}
