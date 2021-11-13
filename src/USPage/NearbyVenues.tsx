@@ -6,6 +6,7 @@ import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../Hea
 import { useIPLocation, UserLocation } from './CookieGeoLocation';
 import { RestaurantList } from './RestaurantListProps';
 
+
 export const NearbyVenues = () => {
   const location = useIPLocation();
   if (!location) {

@@ -1,4 +1,5 @@
-import { Calendar } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Calendar } from 'antd';
 import moment, { Moment } from 'moment';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -78,9 +79,37 @@ export const VenueCalender = () => {
             setDate(ndate);
             return;
           }
-
-          console.log(ndate);
           setSelectedDate(ndate);
+        }}
+        validRange={[moment().subtract(1, "day"), moment().add(3, "month")]}
+        headerRender={({ value, type, onChange, onTypeChange }) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                alignItems: "flex-end",
+              }}
+            >
+              <Button
+                shape="circle"
+                icon={<LeftOutlined />}
+                size="large"
+                onClick={() => onChange(value.subtract(1, "month"))}
+              />
+              <h3>
+                {value.format("MMMM")}, {value.format("YYYY")}
+              </h3>
+              <Button
+                shape="circle"
+                icon={<RightOutlined />}
+                size="large"
+                onClick={() => onChange(value.add(1, "month"))}
+              />
+            </div>
+          );
         }}
       />
       <AvailabilityList
