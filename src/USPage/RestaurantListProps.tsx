@@ -1,4 +1,4 @@
-import { Avatar, Button, List } from 'antd';
+import { Avatar, Button, Grid, List } from 'antd';
 
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
@@ -18,6 +18,8 @@ type RestaurantListProps = {
   sortByDistanceFromUser?: boolean;
 };
 
+const { useBreakpoint } = Grid;
+
 export const RestaurantList = ({
   list,
   date,
@@ -28,7 +30,9 @@ export const RestaurantList = ({
   userLocation,
   sortByDistanceFromUser = false,
 }: RestaurantListProps) => {
+  const screens = useBreakpoint();
   var data = list;
+
   if (showAvailableOnly) {
     data = data?.filter((node) => node?.slots?.length! > 0);
   }
@@ -45,10 +49,37 @@ export const RestaurantList = ({
       return a_d - b_d;
     });
   }
+  const availlist = (
+    <RestaurantListRender
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      showLoading={showLoading}
+      list={data}
+    />
+  );
 
+  if (screens.sm || screens.md || screens.lg) {
+    return (
+      <div style={{ display: "flex" }}>
+        {availlist}
+        <VenuesMap venues={data as Array<Venue>} />
+      </div>
+    );
+  }
+
+  return availlist;
+};
+
+export const RestaurantListRender = ({
+  list,
+  date,
+  party_size,
+  timeOption,
+  showLoading = false,
+}: RestaurantListProps) => {
   return (
     <div>
-      <VenuesMap venues={data! as Array<Venue>} />
       {date && (
         <p>
           Showing results for party of {party_size} on {date} for {timeOption}
@@ -61,7 +92,7 @@ export const RestaurantList = ({
           onChange: (page) => {},
           pageSize: 20,
         }}
-        dataSource={data}
+        dataSource={list}
         renderItem={(item) => (
           <List.Item
             key={item?.name}

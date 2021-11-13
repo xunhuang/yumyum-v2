@@ -1,6 +1,5 @@
 import { Button, Tooltip } from 'antd';
 import dayjs from 'dayjs';
-import { type } from 'os';
 
 import { Venue } from '../generated/graphql';
 

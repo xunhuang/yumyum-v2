@@ -51,7 +51,7 @@ export const AppHeaderSection = () => {
 
   const [date, setDate] = useRecoilState(SelectedDateState);
   const [party_size, setPartySize] = useRecoilState(SelectedPartySize);
-  const [timeOption, setTimeOption] = useRecoilState(SelectedTimeOption);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
 
   return (
     <FullDivPadded>
