@@ -3,6 +3,7 @@ import { Avatar, Button, List } from 'antd';
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
 import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
+import { VenuesMap } from './VenuesMap';
 
 const getDistance = require("geolib").getDistance;
 
@@ -47,6 +48,7 @@ export const RestaurantList = ({
 
   return (
     <div>
+      <VenuesMap venues={data! as Array<Venue>} />
       {date && (
         <p>
           Showing results for party of {party_size} on {date} for {timeOption}

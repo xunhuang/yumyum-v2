@@ -175,7 +175,7 @@ export const ListsPage = () => {
     },
     {
       slug: "new",
-      text: "New in 2001",
+      text: "New in 2021",
       component: <p> New in 2021, coming soon </p>,
     },
     {

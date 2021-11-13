@@ -1,0 +1,53 @@
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React from 'react';
+
+import { Venue } from '../generated/graphql';
+
+const containerStyle = {
+  width: "400px",
+  height: "400px",
+};
+
+type VenuesMapProp = {
+  venues: Array<Venue>;
+};
+
+export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
+  // Iterate myPlaces to size, center, and zoom map to contain all markers
+  const fitBounds = (map: google.maps.Map) => {
+    const bounds = new window.google.maps.LatLngBounds();
+    venues.map((place) => {
+      bounds.extend({
+        lat: place.latitude!,
+        lng: place.longitude!,
+      });
+      return place.name;
+    });
+    map.fitBounds(bounds);
+  };
+
+  const loadHandler = (map: google.maps.Map) => {
+    // Fit map bounds to contain all markers
+    fitBounds(map);
+  };
+
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyBHf0MsAA7fjPVdPIdoRxGIj5AVmYZfelo">
+      <GoogleMap
+        onLoad={loadHandler}
+        mapContainerStyle={containerStyle}
+        zoom={10}
+      >
+        {venues.map((venue) => (
+          <Marker
+            key={venue.name}
+            position={{
+              lat: venue.latitude!,
+              lng: venue.longitude!,
+            }}
+          />
+        ))}
+      </GoogleMap>
+    </LoadScript>
+  );
+});
