@@ -10,7 +10,7 @@ import { AvailabilityList } from './VenueProp';
 
 export const VenueCalender = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
-  const [date] = useRecoilState(SelectedDateState);
+  const [date, setDate] = useRecoilState(SelectedDateState);
   const [selectdDate, setSelectedDate] = React.useState(date);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
@@ -71,10 +71,16 @@ export const VenueCalender = () => {
         disabledDate={onDisableDates}
         mode="month"
         dateFullCellRender={fullCellRender}
+        defaultValue={moment(date, "YYYY-MM-DD")}
         onSelect={(date) => {
-          console.log(date.format("YYYY-MM-DD"));
-          //   setDate(date.format("YYYY-MM-DD"));
-          setSelectedDate(date.format("YYYY-MM-DD"));
+          const ndate: string = date.format("YYYY-MM-DD");
+          if (ndate.slice(0, 7) !== selectdDate.slice(0, 7)) {
+            setDate(ndate);
+            return;
+          }
+
+          console.log(ndate);
+          setSelectedDate(ndate);
         }}
       />
       <AvailabilityList

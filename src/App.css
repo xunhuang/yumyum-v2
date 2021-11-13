@@ -77,6 +77,7 @@ src: url("https://guide.michelin.com/assets/web/fonts/annuel/Annuels-b8bdb9951db
 .calendar-date-not-available {
   text-decoration: line-through;
     color: grey;
+    background-color: white;
 }
 
 
