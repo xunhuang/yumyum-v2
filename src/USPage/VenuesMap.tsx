@@ -1,11 +1,41 @@
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import React from 'react';
+import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/api';
+import React, { useState } from 'react';
 
 import { Venue } from '../generated/graphql';
 
 const containerStyle = {
   minWidth: "400px",
   height: "400px",
+};
+
+type VenueMarkerProp = {
+  venue: Venue;
+};
+
+const VenueMarker = ({ venue }: VenueMarkerProp) => {
+  const [infoOpen, setInfoOpen] = useState(false);
+  return (
+    <Marker
+      key={venue.name}
+      position={{
+        lat: venue.latitude!,
+        lng: venue.longitude!,
+      }}
+      onClick={() => setInfoOpen(!infoOpen)}
+    >
+      {infoOpen && (
+        <InfoWindow
+          position={{
+            lat: venue.latitude!,
+            lng: venue.longitude!,
+          }}
+          onCloseClick={() => setInfoOpen(false)}
+        >
+          <span>{venue.name}</span>
+        </InfoWindow>
+      )}
+    </Marker>
+  );
 };
 
 type VenuesMapProp = {
@@ -39,13 +69,7 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
         zoom={10}
       >
         {venues.map((venue) => (
-          <Marker
-            key={venue.name}
-            position={{
-              lat: venue.latitude!,
-              lng: venue.longitude!,
-            }}
-          />
+          <VenueMarker venue={venue} />
         ))}
       </GoogleMap>
     </LoadScript>
