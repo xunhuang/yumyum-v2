@@ -4,7 +4,7 @@ import React from 'react';
 import { Venue } from '../generated/graphql';
 
 const containerStyle = {
-  width: "400px",
+  minWidth: "400px",
   height: "400px",
 };
 

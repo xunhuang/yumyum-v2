@@ -1,4 +1,5 @@
 import { Avatar, Button, Grid, List } from 'antd';
+import React from 'react';
 
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
@@ -59,16 +60,41 @@ export const RestaurantList = ({
     />
   );
 
-  if (screens.sm || screens.md || screens.lg) {
-    return (
+  const showMap = screens.sm || screens.md || screens.lg;
+  const [forceShowMap, setForceShooMap] = React.useState(showMap);
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+          paddingLeft: "5px",
+          paddingRight: "5px",
+        }}
+      >
+        <p>
+          Results for {party_size} on {date} for {timeOption}
+        </p>
+        {!showMap && (
+          <Button
+            type="dashed"
+            onClick={() => {
+              setForceShooMap(!forceShowMap);
+            }}
+          >
+            Map
+          </Button>
+        )}
+      </div>
+      {forceShowMap && <VenuesMap venues={data as Array<Venue>} />}
       <div style={{ display: "flex" }}>
         {availlist}
-        <VenuesMap venues={data as Array<Venue>} />
+        {showMap && <VenuesMap venues={data as Array<Venue>} />}
       </div>
-    );
-  }
-
-  return availlist;
+    </div>
+  );
 };
 
 export const RestaurantListRender = ({
@@ -80,11 +106,6 @@ export const RestaurantListRender = ({
 }: RestaurantListProps) => {
   return (
     <div>
-      {date && (
-        <p>
-          Showing results for party of {party_size} on {date} for {timeOption}
-        </p>
-      )}
       <List
         itemLayout="vertical"
         size="large"
