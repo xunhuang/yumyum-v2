@@ -1,7 +1,9 @@
 import 'antd/dist/antd.css';
 
 import { Tabs } from 'antd';
+import Link from 'antd/lib/typography/Link';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import {
@@ -144,7 +146,6 @@ export const ListOffLineOnly = () => {
   if (loading) {
     return <p>loading</p>;
   }
-
   return (
     <div>
       <p>Call or walk in. Good luck and enjoy! </p>
@@ -157,29 +158,63 @@ export const ListOffLineOnly = () => {
 };
 
 export const ListsPage = () => {
+  const { listname } = useParams<{ listname: string }>();
+
+  const key = listname ? listname : "nearby";
+
+  type paneldataType = {
+    slug: string;
+    text: string;
+    component: JSX.Element;
+  };
+  const panedata: paneldataType[] = [
+    {
+      slug: "nearby",
+      text: "Nearby",
+      component: <NearbyVenues />,
+    },
+    {
+      slug: "new",
+      text: "New in 2001",
+      component: <p> New in 2021, coming soon </p>,
+    },
+    {
+      slug: "stars",
+      text: "Stars",
+      component: <ListStarsOnly />,
+    },
+    {
+      slug: "plates",
+      text: "Plates",
+      component: <ListPlatesOnly />,
+    },
+    {
+      slug: "bib",
+      text: "Bib",
+      component: <ListBibOnly />,
+    },
+    {
+      slug: "offline",
+      text: "Offline",
+      component: <ListOffLineOnly />,
+    },
+    {
+      slug: "all",
+      text: "All",
+      component: <ListAll />,
+    },
+  ];
+
   return (
-    <Tabs defaultActiveKey="1" type="card" size={"large"}>
-      <TabPane tab="Nearby" key="1">
-        <NearbyVenues />
-      </TabPane>
-      <TabPane tab="New 2021" key="5">
-        New in 2021, coming soon
-      </TabPane>
-      <TabPane tab="stars" key="2">
-        <ListStarsOnly />
-      </TabPane>
-      <TabPane tab="Plates" key="3">
-        <ListPlatesOnly />
-      </TabPane>
-      <TabPane tab="Bib" key="4">
-        <ListBibOnly />
-      </TabPane>
-      <TabPane tab="Offine" key="6">
-        <ListOffLineOnly></ListOffLineOnly>
-      </TabPane>
-      <TabPane tab="All" key="7">
-        <ListAll />
-      </TabPane>
+    <Tabs defaultActiveKey={key} type="card" size={"large"}>
+      {panedata.map((panel) => (
+        <TabPane
+          tab={<Link href={panel.slug}>{panel.text}</Link>}
+          key={panel.slug}
+        >
+          {panel.component}
+        </TabPane>
+      ))}
     </Tabs>
   );
 };

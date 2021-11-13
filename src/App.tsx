@@ -24,6 +24,11 @@ const routes: IRoute[] = [
     name: "Venue",
   },
   {
+    path: "/list/:listname",
+    component: ListsPage,
+    name: "List",
+  },
+  {
     path: "/venue/:venue_id",
     component: VenuePage,
     name: "State",
