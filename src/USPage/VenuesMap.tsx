@@ -2,6 +2,7 @@ import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/ap
 import React, { useState } from 'react';
 
 import { Venue } from '../generated/graphql';
+import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
 
 const containerStyle = {
   minWidth: "400px",
@@ -31,7 +32,11 @@ const VenueMarker = ({ venue }: VenueMarkerProp) => {
           }}
           onCloseClick={() => setInfoOpen(false)}
         >
-          <span>{venue.name}</span>
+          <div>
+            <VenueTitle venue={venue} />
+            <VenueDescription venue={venue} />
+            <VenueAvailabilityList venue={venue} />
+          </div>
         </InfoWindow>
       )}
     </Marker>
