@@ -180,6 +180,7 @@ export type DateAvailability = {
   __typename?: 'DateAvailability';
   date?: Maybe<Scalars['String']>;
   slots?: Maybe<Array<Maybe<Scalars['String']>>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 /** A filter to be used against Float fields. All fields are combined with a logical ‘and.’ */
@@ -1408,7 +1409,7 @@ export type VenueByKeyQueryVariables = Exact<{
 }>;
 
 
-export type VenueByKeyQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closed?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key?: Maybe<string>, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string>, monthlySlots?: Maybe<Array<{ __typename?: 'DateAvailability', date?: Maybe<string>, slots?: Maybe<Array<Maybe<string>>> }>> }>> }> };
+export type VenueByKeyQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closed?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key?: Maybe<string>, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string>, monthlySlots?: Maybe<Array<{ __typename?: 'DateAvailability', date?: Maybe<string>, slots?: Maybe<Array<Maybe<string>>>, url?: Maybe<string> }>> }>> }> };
 
 export const VenuMainInfoFragmentDoc = gql`
     fragment VenuMainInfo on Venue {
@@ -1737,6 +1738,7 @@ export const VenueByKeyDocument = gql`
       monthlySlots(date: $date, party_size: $party_size, timeOption: $timeOption) {
         date
         slots
+        url
       }
       myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
       accomondation

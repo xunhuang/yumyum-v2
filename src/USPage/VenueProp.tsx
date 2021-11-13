@@ -1,17 +1,22 @@
 import { Button, Tooltip } from 'antd';
 import dayjs from 'dayjs';
+import { type } from 'os';
 
 import { Venue } from '../generated/graphql';
 
 type VenueProp = {
   venue?: Venue;
 };
+type AvailabilityListProps = {
+  url: string;
+  slots: Array<string>;
+};
 
-export const VenueAvailabilityList = ({ venue }: VenueProp) => {
+export const AvailabilityList = ({ url, slots }: AvailabilityListProps) => {
   // dedup first
   return (
     <div>
-      {[...new Set(venue?.slots)]?.map((timestr) => (
+      {[...new Set(slots)]?.map((timestr) => (
         <Button
           key={timestr}
           type="primary"
@@ -19,7 +24,7 @@ export const VenueAvailabilityList = ({ venue }: VenueProp) => {
           style={{
             margin: "1px",
           }}
-          href={venue?.myReservationUrl!}
+          href={url}
         >
           {dayjs(timestr).format("h:mm A")}
         </Button>
@@ -27,6 +32,13 @@ export const VenueAvailabilityList = ({ venue }: VenueProp) => {
     </div>
   );
 };
+
+export const VenueAvailabilityList = ({ venue }: VenueProp) => {
+  return (
+    <AvailabilityList url={venue?.myReservationUrl!} slots={venue?.slots!} />
+  );
+};
+
 
 type StarsType = {
   stars: string;

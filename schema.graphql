@@ -847,6 +847,7 @@ type Venue {
 type DateAvailability {
   date: String
   slots: [String]
+  url: String
 }
 
 """A `Venue` edge in the connection."""

@@ -25,7 +25,14 @@ const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
         resy_city_code: _query.resyCityCode,
     };
     return venue;
+}
 
+const getReservationUrl = (_query: any, args: any): string | null => {
+    const venue = getRequiredFieldsFromQuery(_query);
+    const vendor = getVendor(venue.reservation);
+    const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
+    console.log(args.date)
+    return url;
 }
 
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
@@ -35,6 +42,7 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
       type DateAvailability {
         date: String
         slots: [String]
+        url: String
       }
 
       extend type Venue {
@@ -71,19 +79,19 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                     const handles = days.map(async date => {
                         args.venue = venue;
                         args.date = date;
+                        const newargs = JSON.parse(JSON.stringify(args));
+                        console.log(date)
                         return {
                             date: date,
                             slots: await AvailablilityLoader.load(JSON.stringify(args)),
+                            url: getReservationUrl(_query, newargs),
                         }
                     });
                     return await Promise.all(handles);
                 },
 
                 myReservationUrl: (_query: any, args: any, context: any, resolveInfo: any) => {
-                    const venue = getRequiredFieldsFromQuery(_query);
-                    const vendor = getVendor(venue.reservation);
-                    const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
-                    return url;
+                    return getReservationUrl(_query, args);
                 },
             },
         },
