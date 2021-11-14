@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { setLastUserSelection } from '../USPage/CookieUserSelection';
+import { SearchInput } from '../USPage/YumSearch';
 import DatePicker from './DatePicker';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
 
@@ -70,6 +71,8 @@ export const AppHeaderSection = () => {
             YumYum
           </Button>
         </div>
+        <div className={classes.expander} />
+        <SearchInput placeholder="Search Yumyum" style={{ width: "200px" }} />
         <div className={classes.expander} />
         <DatePicker
           defaultValue={dayjs(date)}

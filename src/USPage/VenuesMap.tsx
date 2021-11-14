@@ -17,7 +17,7 @@ const VenueMarker = ({ venue }: VenueMarkerProp) => {
   const [infoOpen, setInfoOpen] = useState(false);
   return (
     <Marker
-      key={venue.name}
+      key={venue.key}
       position={{
         lat: venue.latitude!,
         lng: venue.longitude!,
@@ -74,7 +74,7 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
         zoom={10}
       >
         {venues.map((venue) => (
-          <VenueMarker venue={venue} />
+          <VenueMarker key={venue.key} venue={venue} />
         ))}
       </GoogleMap>
     </LoadScript>
