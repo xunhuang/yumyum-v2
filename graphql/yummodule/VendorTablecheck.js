@@ -30,7 +30,7 @@ class VendorTablecheck extends VendorBase {
         return await superagent.get(url)
             .query(queryparam)
             .then((res) => {
-                let total = [];
+                // console.log(res.body);
                 if (!res.body.menu_items) {
                     return [];
                 }
@@ -38,6 +38,8 @@ class VendorTablecheck extends VendorBase {
                 let combined = [];
 
                 Object.values(res.body.menu_items).map(item => {
+                    if (!item.online_time_steps)
+                        return;
                     Object.values(item.online_time_steps).map(slot => {
                         combined.push(
                             {

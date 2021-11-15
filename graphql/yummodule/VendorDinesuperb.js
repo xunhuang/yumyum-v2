@@ -24,7 +24,7 @@ async function dinesuperb_search_internal(venue, date, party_size, timeOption, e
             }
 
             let dateslots = res.body.data;
-            console.log(res.body);
+            console.log("Dinesuperb", res.body);
             if (dateslots) {
                 dateslots.forEach(function (data) {
                     data.times.forEach(function (slot) {

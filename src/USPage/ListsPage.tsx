@@ -142,7 +142,6 @@ export const ListAll = () => {
     );
   }
 
-  if (true) {
     return (
       <RestaurantList
         date={date}
@@ -151,7 +150,6 @@ export const ListAll = () => {
         list={second.data?.allVenues?.nodes}
       ></RestaurantList>
     );
-  }
 };
 
 export const ListOffLineOnly = () => {

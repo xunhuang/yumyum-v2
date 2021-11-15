@@ -60,7 +60,6 @@ class VendorResdiary extends VendorBase {
             })
             .then((res) => {
                 return res.body.Restaurants.map(item => {
-                    console.log(item);
                     return {
                         url_slug: item.MicrositeName.toLowerCase(),
                         name: item.Name,

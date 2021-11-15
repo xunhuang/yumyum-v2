@@ -79,6 +79,10 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
     fitBounds(map);
   };
 
+  if (venues === undefined) {
+    return <p>WTF, no venues</p>;
+  }
+
   return (
     <LoadScript googleMapsApiKey="AIzaSyBHf0MsAA7fjPVdPIdoRxGIj5AVmYZfelo">
       <GoogleMap

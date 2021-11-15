@@ -27,7 +27,6 @@ class VendorResengo extends VendorBase {
             .set('Content-Type', "application/json; charset=UTF-8")
             .query(queryparam)
             .then((res) => {
-                // console.log(res.text);
                 let body = JSON.parse(res.text);
                 return body;
             });
@@ -67,9 +66,7 @@ class VendorResengo extends VendorBase {
 
     async venueSearch(venue, date, party_size, timeOption) {
         let clientID = await this.getClientID(venue);
-        console.log(clientID);
         let categories = await this.getCategories(venue, clientID);
-        console.log(categories);
 
         let total = [];
         let handles = categories.map(cat => {

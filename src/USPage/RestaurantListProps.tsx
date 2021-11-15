@@ -89,7 +89,12 @@ export const RestaurantList = ({
         )}
       </div>
       {forceShowMap && <VenuesMap venues={data as Array<Venue>} />}
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         {availlist}
         {showMap && <VenuesMap venues={data as Array<Venue>} />}
       </div>

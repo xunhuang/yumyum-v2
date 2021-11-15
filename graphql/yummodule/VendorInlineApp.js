@@ -27,7 +27,7 @@ class VendorInlineApp extends VendorBase {
             .set('Content-Type', "application/json; charset=UTF-8")
             .query(queryparam)
             .then((res) => {
-                console.log(res.body);
+                // console.log(res.body);
                 return res.body;
             });
     }

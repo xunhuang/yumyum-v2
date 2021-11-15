@@ -5,12 +5,18 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { useBayAreaLazyQuery } from '../generated/graphql';
+import { useMetro } from './useMetro';
 
 const { Option } = Select;
 
 export const SearchInput = (props: { placeholder: string; style: any }) => {
+  const metro = useMetro();
   const [loaded, setLoaded] = useState(false);
-  const [loadData, { data }] = useBayAreaLazyQuery();
+  const [loadData, { data }] = useBayAreaLazyQuery({
+    variables: {
+      metro: metro,
+    },
+  });
   const history = useHistory();
 
   const onClick = () => {

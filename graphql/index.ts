@@ -12,7 +12,8 @@ const pgConfig = {
   host: process.env.PGHOST || "localhost",
   user: process.env.PGUSER || "postgres",
   database: process.env.PGDATABASE || "yumyum",
-  password: process.env.PGPASSWORD || "mysecretpassword",
+  // password: process.env.PGPASSWORD || "mysecretpassword",
+  password: process.env.PGPASSWORD || "3DdeMKqEsqyOE5jL",
 };
 
 const postgraphileOptions = {

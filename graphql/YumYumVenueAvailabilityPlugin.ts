@@ -2,13 +2,12 @@ import { myCache } from './myCache';
 import { VenueVendorInfo } from './yummodule/VendorBase';
 import { getVendor } from './yummodule/Vendors';
 
+
 const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const DataLoader = require('dataloader');
 const dayjs = require("dayjs");
 
 const slot_required_fields = ' @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","urlSlug", "longitude", "latitude"])';
-
-// dayjs('2019-01-25').daysInMonth()
 
 const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
     const venue: VenueVendorInfo = {
@@ -29,10 +28,17 @@ const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
 
 const getReservationUrl = (_query: any, args: any): string | null => {
     const venue = getRequiredFieldsFromQuery(_query);
-    const vendor = getVendor(venue.reservation);
-    const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
-    console.log(args.date)
+    try {
+        const vendor = getVendor(venue.reservation);
+        if (!vendor) {
+            return null;
+        }
+        const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
     return url;
+    } catch (err) {
+        console.error(`${venue.reservation} Error searching for ${venue.name} (${venue.key}) ${err}`);
+        return null;
+    }
 }
 
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
@@ -118,16 +124,17 @@ const AvailablilityLoader = new DataLoader(batchGetUserById, {
 
 async function singleVenueSearch(
     venue: VenueVendorInfo, date: string, party_size: number, timeOption: string
-): Promise<string[]> {
+): Promise<string[] | null> {
     const vendor = getVendor(venue.reservation);
     if (venue.reservation === "none") {
-        return [];
+        console.log(venue.name, 'has no reservation system');
+        return null;
     }
     if (!vendor) {
         console.log('XXXX missssssssssssssssssssssing ' + venue.reservation);
-        return [];
+        return null;
     }
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);
-    const return_v = result?.map(t => t.time) || [];
+    const return_v = result?.map(t => t.time) || null;
     return return_v;
 }

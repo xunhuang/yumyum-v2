@@ -29,9 +29,7 @@ export class VendorBase {
             return await this.venueSearch(venue, date, party_size, timeOption);
         } catch (err) {
             console.error(`${venue.reservation} Error searching for ${venue.name} (${venue.key}) ${err}`);
-            // console.error(err);
-            // console.log("EERRRR");
-            return []; // no error
+            return null;
         }
     }
 

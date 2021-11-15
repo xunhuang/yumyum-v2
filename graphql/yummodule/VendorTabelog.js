@@ -33,9 +33,7 @@ class VendorTabelog extends VendorBase {
     }
 
     async venueSearch(venue, date, party_size, timeOption) {
-
         let slots = await this.getSlotForDate(venue, date, party_size, timeOption);
-        console.log(slots);
         slots = Object.values(slots);
         slots = slots.map(s => {
             return {

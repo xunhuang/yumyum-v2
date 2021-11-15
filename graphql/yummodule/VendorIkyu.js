@@ -24,7 +24,6 @@ class VendorIkyu extends VendorBase {
         return await superagent.get(url)
             .query(queryparam)
             .then((res) => {
-                console.log(res.body.plans);
                 return res.body.plans;
             }, err => {
                 // eat the error
@@ -85,7 +84,6 @@ class VendorIkyu extends VendorBase {
 
         plans.map(course => {
             let slots_for_course = course.available_hours.filter(slot => slot.is_available);
-            console.log(slots_for_course);
             slots = slots.concat(slots_for_course);
         })
         slots = slots.map(s => {

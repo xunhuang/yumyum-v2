@@ -20,7 +20,6 @@ async function entitySearchExactTerm(term, longitude, latitude) {
         })
         .then((res) => {
             let myresult = JSON.parse(res.text);
-            console.log(myresult);
             let hits = myresult.response[0].suggestions;
             if (!hits) {
                 return [];
@@ -40,14 +39,12 @@ class VendorYelp extends VendorBase {
 
     async fetchVenueInfoFromURL(redirect_url) {
         const url = redirect_url;
-        console.log(url);
         return await superagent.get(url)
             .then((res) => {
                 const $ = cheerio.load(res.text);
                 let fullurl = $('link[rel="canonical"]').attr("href");
                 if (!fullurl.startsWith("http://www.yelp.com/reservations")) {
                     console.log("full url not match " + fullurl);
-
                     return null;
                 }
 

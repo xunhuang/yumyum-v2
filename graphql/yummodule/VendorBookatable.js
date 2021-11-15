@@ -139,8 +139,6 @@ class VendorBookatable extends VendorBase {
                         };
                     });
 
-                    console.log("prefilter size = " + result.length);  // first 5
-
                     result = result.filter(item => item.distance < 30);
                     return result.slice(0, 5);  // first 5
                 }
