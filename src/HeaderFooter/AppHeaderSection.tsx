@@ -2,10 +2,13 @@ import { Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Select } from 'antd';
 import dayjs from 'dayjs';
+import { useHistory } from 'react-router';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { setLastUserSelection } from '../USPage/CookieUserSelection';
+import { MetroDefiniton } from '../USPage/metro_def';
+import { MetroState, useMetro } from '../USPage/useMetro';
 import { SearchInput } from '../USPage/YumSearch';
 import DatePicker from './DatePicker';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
@@ -47,6 +50,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const MetroSelect = () => {
+  const history = useHistory();
+  const [metro, setMetro] = useRecoilState(MetroState);
+  const systemMetro = useMetro();
+  const mymetro = metro || systemMetro;
+  return (
+    <Select
+      defaultValue={mymetro}
+      style={{ width: 120 }}
+      onSelect={(value, option) => {
+        setMetro(value);
+        history.push(`/metro/${value}/list/all`);
+
+        // setPartySize(parseInt(value.toString()));
+        // setLastUserSelection({
+        //   date: date,
+        //   party_size: parseInt(value.toString()),
+        //   timeOption: timeOption,
+        // });
+      }}
+    >
+      {MetroDefiniton.map((m) => (
+        <Option key={m.key} value={m.key}>
+          {m.name}
+        </Option>
+      ))}
+    </Select>
+  );
+};
+
 export const AppHeaderSection = () => {
   const classes = useStyles();
 
@@ -71,6 +104,7 @@ export const AppHeaderSection = () => {
             YumYum
           </Button>
         </div>
+        <MetroSelect />
         <div className={classes.expander} />
         <SearchInput placeholder="Search Yumyum" style={{ width: "200px" }} />
         <div className={classes.expander} />

@@ -1334,6 +1334,7 @@ export enum VenuesOrderBy {
 }
 
 export type BayAreaAllWithSlotsQueryVariables = Exact<{
+  metro: Scalars['String'];
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
@@ -1344,6 +1345,7 @@ export type BayAreaAllWithSlotsQueryVariables = Exact<{
 export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> }>> }> };
 
 export type BayAreaStarredWithSlotsQueryVariables = Exact<{
+  metro: Scalars['String'];
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
@@ -1354,6 +1356,7 @@ export type BayAreaStarredWithSlotsQueryVariables = Exact<{
 export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> }>> }> };
 
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
+  metro: Scalars['String'];
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
@@ -1364,6 +1367,7 @@ export type BayAreaBibWithSlotsQueryVariables = Exact<{
 export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> }>> }> };
 
 export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
+  metro: Scalars['String'];
   date: Scalars['String'];
   party_size?: Maybe<Scalars['Int']>;
   timeOption?: Maybe<Scalars['String']>;
@@ -1389,12 +1393,16 @@ export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<
 
 export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> };
 
-export type BayAreaQueryVariables = Exact<{ [key: string]: never; }>;
+export type BayAreaQueryVariables = Exact<{
+  metro: Scalars['String'];
+}>;
 
 
 export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> }>> }> };
 
-export type BayAreaOfflineQueryVariables = Exact<{ [key: string]: never; }>;
+export type BayAreaOfflineQueryVariables = Exact<{
+  metro: Scalars['String'];
+}>;
 
 
 export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, key?: Maybe<string> }>> }> };
@@ -1433,10 +1441,10 @@ export const VenuAvailabilityFragmentDoc = gql`
 }
     ${VenuMainInfoFragmentDoc}`;
 export const BayAreaAllWithSlotsDocument = gql`
-    query BayAreaAllWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+    query BayAreaAllWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true"}
   ) {
     nodes {
       ...VenuAvailability
@@ -1457,6 +1465,7 @@ export const BayAreaAllWithSlotsDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaAllWithSlotsQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
  *      timeOption: // value for 'timeOption'
@@ -1476,10 +1485,10 @@ export type BayAreaAllWithSlotsQueryHookResult = ReturnType<typeof useBayAreaAll
 export type BayAreaAllWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaAllWithSlotsLazyQuery>;
 export type BayAreaAllWithSlotsQueryResult = Apollo.QueryResult<BayAreaAllWithSlotsQuery, BayAreaAllWithSlotsQueryVariables>;
 export const BayAreaStarredWithSlotsDocument = gql`
-    query BayAreaStarredWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+    query BayAreaStarredWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true"}
     filter: {stars: {in: ["1", "2", "3"]}}
   ) {
     totalCount
@@ -1502,6 +1511,7 @@ export const BayAreaStarredWithSlotsDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaStarredWithSlotsQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
  *      timeOption: // value for 'timeOption'
@@ -1521,10 +1531,10 @@ export type BayAreaStarredWithSlotsQueryHookResult = ReturnType<typeof useBayAre
 export type BayAreaStarredWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaStarredWithSlotsLazyQuery>;
 export type BayAreaStarredWithSlotsQueryResult = Apollo.QueryResult<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>;
 export const BayAreaBibWithSlotsDocument = gql`
-    query BayAreaBibWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+    query BayAreaBibWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true"}
     filter: {stars: {in: ["BIB_GOURMAND"]}}
   ) {
     totalCount
@@ -1547,6 +1557,7 @@ export const BayAreaBibWithSlotsDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaBibWithSlotsQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
  *      timeOption: // value for 'timeOption'
@@ -1566,10 +1577,10 @@ export type BayAreaBibWithSlotsQueryHookResult = ReturnType<typeof useBayAreaBib
 export type BayAreaBibWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaBibWithSlotsLazyQuery>;
 export type BayAreaBibWithSlotsQueryResult = Apollo.QueryResult<BayAreaBibWithSlotsQuery, BayAreaBibWithSlotsQueryVariables>;
 export const BayAreaPlatesWithSlotsDocument = gql`
-    query BayAreaPlatesWithSlots($date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+    query BayAreaPlatesWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: "bayarea", withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true"}
     filter: {stars: {in: ["MICHELIN_PLATE"]}}
   ) {
     totalCount
@@ -1592,6 +1603,7 @@ export const BayAreaPlatesWithSlotsDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaPlatesWithSlotsQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *      date: // value for 'date'
  *      party_size: // value for 'party_size'
  *      timeOption: // value for 'timeOption'
@@ -1659,8 +1671,8 @@ export type BayAreaNearbySlotsQueryHookResult = ReturnType<typeof useBayAreaNear
 export type BayAreaNearbySlotsLazyQueryHookResult = ReturnType<typeof useBayAreaNearbySlotsLazyQuery>;
 export type BayAreaNearbySlotsQueryResult = Apollo.QueryResult<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>;
 export const BayAreaDocument = gql`
-    query BayArea {
-  allVenues(condition: {metro: "bayarea", withOnlineReservation: "true"}) {
+    query BayArea($metro: String!) {
+  allVenues(condition: {metro: $metro, withOnlineReservation: "true"}) {
     nodes {
       ...VenuMainInfo
     }
@@ -1680,10 +1692,11 @@ export const BayAreaDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *   },
  * });
  */
-export function useBayAreaQuery(baseOptions?: Apollo.QueryHookOptions<BayAreaQuery, BayAreaQueryVariables>) {
+export function useBayAreaQuery(baseOptions: Apollo.QueryHookOptions<BayAreaQuery, BayAreaQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BayAreaQuery, BayAreaQueryVariables>(BayAreaDocument, options);
       }
@@ -1695,8 +1708,8 @@ export type BayAreaQueryHookResult = ReturnType<typeof useBayAreaQuery>;
 export type BayAreaLazyQueryHookResult = ReturnType<typeof useBayAreaLazyQuery>;
 export type BayAreaQueryResult = Apollo.QueryResult<BayAreaQuery, BayAreaQueryVariables>;
 export const BayAreaOfflineDocument = gql`
-    query BayAreaOffline {
-  allVenues(condition: {metro: "bayarea", withOnlineReservation: "false"}) {
+    query BayAreaOffline($metro: String!) {
+  allVenues(condition: {metro: $metro, withOnlineReservation: "false"}) {
     nodes {
       ...VenuMainInfo
     }
@@ -1716,10 +1729,11 @@ export const BayAreaOfflineDocument = gql`
  * @example
  * const { data, loading, error } = useBayAreaOfflineQuery({
  *   variables: {
+ *      metro: // value for 'metro'
  *   },
  * });
  */
-export function useBayAreaOfflineQuery(baseOptions?: Apollo.QueryHookOptions<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>) {
+export function useBayAreaOfflineQuery(baseOptions: Apollo.QueryHookOptions<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>(BayAreaOfflineDocument, options);
       }

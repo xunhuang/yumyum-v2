@@ -17,15 +17,18 @@ import {
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { NearbyVenues } from './NearbyVenues';
 import { RestaurantList } from './RestaurantListProps';
+import { useMetro } from './useMetro';
 
 const { TabPane } = Tabs;
 export const ListPlatesOnly = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
+  const metro = useMetro();
 
   const { data, loading } = useBayAreaPlatesWithSlotsQuery({
     variables: {
+      metro: metro,
       date: date,
       party_size: party_size,
       timeOption: timeOption,
@@ -49,9 +52,11 @@ export const ListBibOnly = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
+  const metro = useMetro();
 
   const { data, loading } = useBayAreaBibWithSlotsQuery({
     variables: {
+      metro: metro,
       date: date,
       party_size: party_size,
       timeOption: timeOption,
@@ -72,12 +77,14 @@ export const ListBibOnly = () => {
   );
 };
 export const ListStarsOnly = () => {
+  const metro = useMetro();
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
   const { data, loading } = useBayAreaStarredWithSlotsQuery({
     variables: {
+      metro: metro,
       date: date,
       party_size: party_size,
       timeOption: timeOption,
@@ -99,13 +106,19 @@ export const ListStarsOnly = () => {
 };
 
 export const ListAll = () => {
+  const metro = useMetro();
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
-  const first = useBayAreaQuery();
+  const first = useBayAreaQuery({
+    variables: {
+      metro: metro,
+    },
+  });
   const second = useBayAreaAllWithSlotsQuery({
     variables: {
+      metro: metro,
       date: date,
       party_size: party_size,
       timeOption: timeOption,
@@ -142,7 +155,12 @@ export const ListAll = () => {
 };
 
 export const ListOffLineOnly = () => {
-  const { data, loading } = useBayAreaOfflineQuery();
+  const metro = useMetro();
+  const { data, loading } = useBayAreaOfflineQuery({
+    variables: {
+      metro: metro,
+    },
+  });
   if (loading) {
     return <p>loading</p>;
   }
@@ -158,9 +176,11 @@ export const ListOffLineOnly = () => {
 };
 
 export const ListsPage = () => {
-  const { listname } = useParams<{ listname: string }>();
-
+  const { metro, listname } = useParams<{ metro: string; listname: string }>();
+  const systemmetro = useMetro();
   const key = listname ? listname : "nearby";
+
+  const myMetro = metro ? metro : systemmetro;
 
   type paneldataType = {
     slug: string;
@@ -209,7 +229,11 @@ export const ListsPage = () => {
     <Tabs activeKey={key} type="card" size={"large"}>
       {panedata.map((panel) => (
         <TabPane
-          tab={<Link href={`/list/${panel.slug}`}>{panel.text}</Link>}
+          tab={
+            <Link href={`/metro/${myMetro}/list/${panel.slug}`}>
+              {panel.text}
+            </Link>
+          }
           key={panel.slug}
         >
           {panel.component}

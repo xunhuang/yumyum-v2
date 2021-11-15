@@ -1,4 +1,5 @@
 query BayAreaAllWithSlots(
+  $metro: String!
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
@@ -6,7 +7,7 @@ query BayAreaAllWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true" }
   ) {
     nodes {
       ...VenuAvailability
@@ -15,6 +16,7 @@ query BayAreaAllWithSlots(
 }
 
 query BayAreaStarredWithSlots(
+  $metro: String!
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
@@ -22,7 +24,7 @@ query BayAreaStarredWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true" }
     filter: { stars: { in: ["1", "2", "3"] } }
   ) {
     totalCount
@@ -33,6 +35,7 @@ query BayAreaStarredWithSlots(
 }
 
 query BayAreaBibWithSlots(
+  $metro: String!
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
@@ -40,7 +43,7 @@ query BayAreaBibWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true" }
     filter: { stars: { in: ["BIB_GOURMAND"] } }
   ) {
     totalCount
@@ -51,6 +54,7 @@ query BayAreaBibWithSlots(
 }
 
 query BayAreaPlatesWithSlots(
+  $metro: String!
   $date: String!
   $party_size: Int = 2
   $timeOption: String = "dinner"
@@ -58,7 +62,7 @@ query BayAreaPlatesWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: "bayarea", withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true" }
     filter: { stars: { in: ["MICHELIN_PLATE"] } }
   ) {
     totalCount
@@ -102,16 +106,16 @@ fragment VenuAvailability on Venue {
   ...VenuMainInfo
 }
 
-query BayArea {
-  allVenues(condition: { metro: "bayarea", withOnlineReservation: "true" }) {
+query BayArea($metro: String!) {
+  allVenues(condition: { metro: $metro, withOnlineReservation: "true" }) {
     nodes {
       ...VenuMainInfo
     }
   }
 }
 
-query BayAreaOffline {
-  allVenues(condition: { metro: "bayarea", withOnlineReservation: "false" }) {
+query BayAreaOffline($metro: String!) {
+  allVenues(condition: { metro: $metro, withOnlineReservation: "false" }) {
     nodes {
       ...VenuMainInfo
     }

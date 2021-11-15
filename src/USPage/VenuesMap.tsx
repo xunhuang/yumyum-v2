@@ -15,6 +15,15 @@ type VenueMarkerProp = {
 
 const VenueMarker = ({ venue }: VenueMarkerProp) => {
   const [infoOpen, setInfoOpen] = useState(false);
+  // if (isNaN(venue.latitude!) || isNaN(venue.longitude!)) {
+  if (venue.latitude! === null || venue.longitude! === null) {
+    console.log("skip");
+    return null;
+  }
+
+  // console.log(venue.name);
+  // console.log(venue.latitude);
+  // console.log(venue.longitude);
   return (
     <Marker
       key={venue.key}
@@ -52,6 +61,10 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
   const fitBounds = (map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds();
     venues.map((place) => {
+      if (place.latitude === null || place.longitude === null) {
+        console.log(place.name + " lng/lat missing");
+        return place.name;
+      }
       bounds.extend({
         lat: place.latitude!,
         lng: place.longitude!,

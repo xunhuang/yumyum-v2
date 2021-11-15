@@ -24,7 +24,7 @@ const routes: IRoute[] = [
     name: "Venue",
   },
   {
-    path: "/list/:listname",
+    path: "/metro/:metro/list/:listname",
     component: ListsPage,
     name: "List",
   },
@@ -33,21 +33,6 @@ const routes: IRoute[] = [
     component: VenuePage,
     name: "State",
   },
-  // {
-  //   path: "/US",
-  //   component: USPage,
-  //   name: "US Page",
-  // },
-  // {
-  //   path: "/county/:county_fips_code",
-  //   component: CountyPage,
-  //   name: "State",
-  // },
-  // {
-  //   path: "/metro/:msa_id",
-  //   component: MetroPage,
-  //   name: "State",
-  // },
 ];
 
 function ErrorFallback({ error, resetErrorBoundary }: any) {

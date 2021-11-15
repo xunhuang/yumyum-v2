@@ -29,8 +29,6 @@ export const SearchInput = (props: { placeholder: string; style: any }) => {
       onClick={onClick}
       onSelect={(value, option) => {
         history.push(`/venue/${option.key}`);
-        console.log(value);
-        console.log(option.k);
       }}
     >
       {data &&

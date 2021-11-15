@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, withStyles } from '@material-ui/styles';
-import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
