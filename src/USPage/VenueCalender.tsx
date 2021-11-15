@@ -113,6 +113,7 @@ export const VenueCalender = () => {
         }}
       />
       <AvailabilityList
+        timezone={venue?.timezone!}
         slots={dateMap?.get(selectdDate)!}
         url={urlMap?.get(selectdDate)!}
       />

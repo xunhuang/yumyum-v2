@@ -1,17 +1,28 @@
 import { Button, Tooltip } from 'antd';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 import { Venue } from '../generated/graphql';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 type VenueProp = {
   venue?: Venue;
 };
 type AvailabilityListProps = {
+  timezone: string;
   url: string;
   slots: Array<string>;
 };
 
-export const AvailabilityList = ({ url, slots }: AvailabilityListProps) => {
+export const AvailabilityList = ({
+  timezone,
+  url,
+  slots,
+}: AvailabilityListProps) => {
+  console.log(timezone);
   // dedup first
   return (
     <div>
@@ -25,7 +36,7 @@ export const AvailabilityList = ({ url, slots }: AvailabilityListProps) => {
           }}
           href={url}
         >
-          {dayjs(timestr).format("h:mm A")}
+          {dayjs(timestr).tz(timezone).format("h:mm A")}
         </Button>
       ))}
     </div>
@@ -34,7 +45,11 @@ export const AvailabilityList = ({ url, slots }: AvailabilityListProps) => {
 
 export const VenueAvailabilityList = ({ venue }: VenueProp) => {
   return (
-    <AvailabilityList url={venue?.myReservationUrl!} slots={venue?.slots!} />
+    <AvailabilityList
+      timezone={venue?.timezone!}
+      url={venue?.myReservationUrl!}
+      slots={venue?.slots!}
+    />
   );
 };
 
