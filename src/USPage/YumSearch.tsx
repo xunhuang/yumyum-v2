@@ -30,12 +30,12 @@ export const SearchInput = (props: { placeholder: string; style: any }) => {
   return (
     <Select
       showSearch
-      style={{ width: 200 }}
       placeholder="Search to Select"
       onClick={onClick}
       onSelect={(value, option) => {
         history.push(`/metro/${metro}/venue/${option.key}`);
       }}
+      style={{ flexGrow: 1 }}
     >
       {data &&
         [...data?.allVenues?.nodes!]
