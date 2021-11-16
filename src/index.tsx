@@ -25,9 +25,8 @@ const init = async () => {
   const client = new ApolloClient({
     uri:
       // process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-      // "https://helloworld-capsc6nslq-uc.a.run.app/graphql",
       // "http://localhost:8080/graphql",
-      "https://t1-3khoexoznq-uc.a.run.app/graphql",
+      "https://graph-3khoexoznq-uc.a.run.app/graphql",
     cache: cache,
     connectToDevTools: true,
   });
