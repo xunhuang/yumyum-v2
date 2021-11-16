@@ -1,54 +1,3 @@
-// const MetroCommonNavList = [
-//   {
-//     label: "Nearby",
-//     url: "/nearby",
-//     iconName: "nearby",
-//     description: "Places Closet To You",
-//   },
-//   {
-//     label: "Favorites",
-//     url: "/personal/list/favorites",
-//     iconName: "favorite",
-//     type: "favorite",
-//     description: "Your Favorites",
-//   },
-//   {
-//     label: "Stars",
-//     named: true,
-//     iconName: "stars",
-//     type: "stars",
-//     navList: [
-//       { label: "Any Star", url: "/list/anystar" },
-//       { label: "1 Star", url: "/list/1star" },
-//       { label: "2 Stars", url: "/list/2star" },
-//       { label: "3 Stars", url: "/list/3star" },
-//       {
-//         label: "My Stars History",
-//         url: "/personal/list/visited",
-//         description: "My Stars (placed I have visited)",
-//       },
-//     ],
-//   },
-//   {
-//     label: "Plate",
-//     url: "/list/plate",
-//     iconName: "plate",
-//     description: "Michelin Plate: Rated by Michelin, Almost A Star",
-//   },
-//   {
-//     label: "BIB",
-//     url: "/list/bib",
-//     iconName: "bib",
-//     description: "Bib Gourmand: Quality Food At Good Value",
-//   },
-//   {
-//     label: "Offline",
-//     url: "/offline",
-//     iconName: "offline",
-//     description: "Places without online reservation, or unsupported system.",
-//   },
-// ];
-
 export const MetroDefiniton = [
   {
     key: "bayarea",
@@ -280,27 +229,27 @@ export const MetroDefiniton = [
     startList: "any",
     navList: [],
   },
-  {
-    key: "paris",
-    name: "Paris (beta)",
-    timezone: "Europe/Paris",
-    latitude: 48.862452,
-    longitude: 2.346715,
-    zoom: 8,
-    startList: "anystar",
-    navList: [],
-  },
-  {
-    key: "denmark",
-    name: "Denmark (alpha)",
-    timezone: "Europe/Copenhagen",
-    latitude: 55.681351,
-    longitude: 12.590557,
-    zoom: 8,
-    query: [["country", "==", "Denmark"]],
-    startList: "any",
-    navList: [],
-  },
+  // {
+  //   key: "paris",
+  //   name: "Paris (beta)",
+  //   timezone: "Europe/Paris",
+  //   latitude: 48.862452,
+  //   longitude: 2.346715,
+  //   zoom: 8,
+  //   startList: "anystar",
+  //   navList: [],
+  // },
+  // {
+  //   key: "denmark",
+  //   name: "Denmark (alpha)",
+  //   timezone: "Europe/Copenhagen",
+  //   latitude: 55.681351,
+  //   longitude: 12.590557,
+  //   zoom: 8,
+  //   query: [["country", "==", "Denmark"]],
+  //   startList: "any",
+  //   navList: [],
+  // },
   {
     key: "HongKong",
     name: "Hong Kong",
@@ -322,26 +271,26 @@ export const MetroDefiniton = [
     startList: "any",
     navList: [],
   },
-  {
-    key: "Thailand",
-    name: "Thailand (beta)",
-    timezone: "Asia/Bangkok",
-    latitude: 13.737901,
-    longitude: 100.522553,
-    zoom: 8,
-    startList: "anystar",
-    navList: [],
-  },
-  {
-    key: "Taipei",
-    name: "Taipei",
-    timezone: "Asia/Taipei",
-    latitude: 25.047813,
-    longitude: 121.513366,
-    zoom: 10,
-    startList: "any",
-    navList: [],
-  },
+  // {
+  //   key: "Thailand",
+  //   name: "Thailand (beta)",
+  //   timezone: "Asia/Bangkok",
+  //   latitude: 13.737901,
+  //   longitude: 100.522553,
+  //   zoom: 8,
+  //   startList: "anystar",
+  //   navList: [],
+  // },
+  // {
+  //   key: "Taipei",
+  //   name: "Taipei",
+  //   timezone: "Asia/Taipei",
+  //   latitude: 25.047813,
+  //   longitude: 121.513366,
+  //   zoom: 10,
+  //   startList: "any",
+  //   navList: [],
+  // },
   {
     key: "Singapore",
     name: "Singapore",
@@ -352,48 +301,15 @@ export const MetroDefiniton = [
     startList: "anystar",
     navList: [],
   },
-  {
-    key: "finland",
-    name: "Finland (alpha)",
-    timezone: "Europe/Helsinki",
-    latitude: 60.165936,
-    longitude: 24.942356,
-    zoom: 8,
-    query: [["country", "==", "Finland"]],
-    startList: "any",
-    navList: [],
-  },
+//   {
+//     key: "finland",
+//     name: "Finland (alpha)",
+//     timezone: "Europe/Helsinki",
+//     latitude: 60.165936,
+//     longitude: 24.942356,
+//     zoom: 8,
+//     query: [["country", "==", "Finland"]],
+//     startList: "any",
+//     navList: [],
+//  },
 ];
-
-/*
-const MetroAPI = {
-  all: function () {
-    return MetroDefiniton;
-  },
-  getMetro: function (metrokey) {
-    let map = MetroDefiniton.reduce((m, i) => {
-      m[i.key] = i;
-      return m;
-    }, {});
-    return map[metrokey];
-  },
-  getMetroLocalArea: function (metrokey, area) {
-    let metro = MetroAPI.getMetro(metrokey);
-    if (!metro) {
-      return null;
-    }
-    let list = metro.navList[0];
-    if (!list.named) {
-      return null;
-    }
-    let map = list.navList.reduce((m, i) => {
-      let urlparts = i.url.split("/");
-      let last = urlparts[urlparts.length - 1];
-      m[last] = i;
-      return m;
-    }, {});
-    return map[area];
-  },
-  MetroCommonNavList,
-};
-*/
