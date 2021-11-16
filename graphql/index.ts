@@ -9,7 +9,8 @@ const cors = require('cors');
 const app = express();
 
 const pgConfig = {
-  host: process.env.PGHOST || "localhost",
+  host: process.env.PGHOST || "/cloudsql/myrandomwatch-b4b41:us-central1:firstpostpostdb",
+  // host: process.env.PGHOST || "localhost",
   user: process.env.PGUSER || "postgres",
   database: process.env.PGDATABASE || "yumyum",
   // password: process.env.PGPASSWORD || "mysecretpassword",
