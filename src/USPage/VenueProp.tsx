@@ -2,7 +2,6 @@ import { Button, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { url } from 'inspector';
 
 import { Venue } from '../generated/graphql';
 import { useMetro } from './useMetro';
