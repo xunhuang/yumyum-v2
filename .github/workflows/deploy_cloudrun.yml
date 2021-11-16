@@ -35,7 +35,4 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |
-        gcloud run deploy t2 --source graphql --region us-central1\
-        --platform managed \
-        --allow-unauthenticated \
-        --memory 512M
+        gcloud run deploy t2 --source graphql --region us-central1 --allow-unauthenticated --memory 512M
