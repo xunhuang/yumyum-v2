@@ -31,54 +31,54 @@ export const VenuePage = () => {
   return (
     <div
       style={{
+        display: "flex",
         width: "100%",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
-      <Card
-        actions={
-          [
-            // <SettingOutlined key="setting" />,
-            // <EditOutlined key="edit" />,
-            // <EllipsisOutlined key="ellipsis" />,
-          ]
-        }
+      <div
+        style={{
+          display: "flex",
+          width: "600px",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        <Meta
-          avatar={<Avatar src={venue?.coverImage} />}
-          title={<VenueTitle venue={venue!} />}
-          description={
-            <div>
-              <VenueDescription venue={venue!} />
-              <VenueAvailabilityList venue={venue!}></VenueAvailabilityList>
-              <Carousel
-                swipeToSlide
-                draggable
-                // autoplay
-                style={{
-                  maxWidth: "500px",
-                  height: "400px",
-                  overflow: "hidden",
-                }}
-              >
-                {imageList &&
-                  imageList.map((image) => (
-                    <div className={"carousel_container"}>
-                      <img
-                        src={image}
-                        alt="imagex"
-                        style={{
-                          height: "400px",
-                          display: "inline-block",
-                        }}
-                      />
-                    </div>
-                  ))}
-              </Carousel>
-              <VenueCalender />
-            </div>
-          }
-        />
-      </Card>
+        <Card bordered={false}>
+          <Meta
+            avatar={<Avatar src={venue?.coverImage} />}
+            title={<VenueTitle venue={venue!} />}
+            description={<VenueDescription venue={venue!} />}
+          />
+        </Card>
+        <VenueAvailabilityList venue={venue!}></VenueAvailabilityList>
+        <Carousel
+          swipeToSlide
+          draggable
+          // autoplay
+          style={{
+            maxWidth: "500px",
+            height: "400px",
+            overflow: "hidden",
+          }}
+        >
+          {imageList &&
+            imageList.map((image) => (
+              <div className={"carousel_container"}>
+                <img
+                  src={image}
+                  alt="imagex"
+                  style={{
+                    height: "400px",
+                    display: "inline-block",
+                  }}
+                />
+              </div>
+            ))}
+        </Carousel>
+        <VenueCalender />
+      </div>
     </div>
   );
 };
