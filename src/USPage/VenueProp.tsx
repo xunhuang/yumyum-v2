@@ -2,6 +2,7 @@ import { Button, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import { url } from 'inspector';
 
 import { Venue } from '../generated/graphql';
 import { useMetro } from './useMetro';
@@ -51,6 +52,22 @@ export const VenueAvailabilityList = ({ venue }: VenueProp) => {
       url={venue?.myReservationUrl!}
       slots={venue?.slots!}
     />
+  );
+};
+
+export const VenueLinks = ({ venue }: VenueProp) => {
+  const maplink = `https://maps.google.com/?q=${venue?.latitude},${venue?.longitude}`;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      {venue?.url && <a href={venue?.url!}> Michelin </a>}
+      <a href={venue?.realurl!}> Official WebSite </a>
+      <a href={maplink}> Location </a>
+    </div>
   );
 };
 

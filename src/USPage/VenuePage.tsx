@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { useVenueByKeyQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { VenueCalender } from './VenueCalender';
-import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
+import { VenueAvailabilityList, VenueDescription, VenueLinks, VenueTitle } from './VenueProp';
 
 export const VenuePage = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
@@ -51,6 +51,7 @@ export const VenuePage = () => {
             title={<VenueTitle venue={venue!} />}
             description={<VenueDescription venue={venue!} />}
           />
+          <VenueLinks venue={venue!} />
         </Card>
         <VenueAvailabilityList venue={venue!}></VenueAvailabilityList>
         <Carousel
