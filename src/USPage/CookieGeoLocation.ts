@@ -50,8 +50,8 @@ export function useIPLocation(): UserLocation | null {
     // why not set default location here? we want to at least make one attempt with API
     // before falling back to default.
     const [location, setLocation] = React.useState<UserLocation | null>(null);
-    console.log("location.... ");
-    console.log(location);
+    // console.log("location.... ");
+    // console.log(location);
     useEffect(() => {
         fetchApproxIPLocation().then((userlocation) => {
             setLocation(userlocation);

@@ -1,8 +1,10 @@
 import { Avatar, Button, Grid, List } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
+import { useMetro } from './useMetro';
 import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueItems';
 import { VenuesMap } from './VenuesMap';
 
@@ -63,9 +65,6 @@ export const RestaurantList = ({
   const isSmallScreen = screens.sm || screens.md || screens.lg;
   const [showMap, setShowMap] = React.useState(true);
 
-  console.log(isSmallScreen);
-  console.log(showMap);
-
   return (
     <div>
       <div
@@ -112,6 +111,7 @@ export const RestaurantListRender = ({
   timeOption,
   showLoading = false,
 }: RestaurantListProps) => {
+  const metro = useMetro();
   return (
     <div>
       <List
@@ -131,15 +131,17 @@ export const RestaurantListRender = ({
           >
             <List.Item.Meta
               avatar={
-                <Avatar
-                  size={{
-                    xs: 45,
-                    sm: 45,
-                    md: 45,
-                  }}
-                  shape="square"
-                  src={item?.coverImage}
-                />
+                <Link to={`/metro/${metro}/venue/${item?.key}`}>
+                  <Avatar
+                    size={{
+                      xs: 45,
+                      sm: 45,
+                      md: 45,
+                    }}
+                    shape="square"
+                    src={item?.coverImage}
+                  />
+                </Link>
               }
               title={<VenueTitle venue={item!} />}
               description={<VenueDescription venue={item!} />}

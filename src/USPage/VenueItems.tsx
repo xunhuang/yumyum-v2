@@ -18,12 +18,7 @@ type AvailabilityListProps = {
   slots: Array<string>;
 };
 
-export const AvailabilityList = ({
-  timezone,
-  url,
-  slots,
-}: AvailabilityListProps) => {
-  console.log(timezone);
+export const AvailabilityList = ({ timezone, url, slots }: AvailabilityListProps) => {
   // dedup first
   return (
     <div>
