@@ -60,8 +60,11 @@ export const RestaurantList = ({
     />
   );
 
-  const showMap = screens.sm || screens.md || screens.lg;
-  const [forceShowMap, setForceShooMap] = React.useState(true);
+  const isSmallScreen = screens.sm || screens.md || screens.lg;
+  const [showMap, setShowMap] = React.useState(true);
+
+  console.log(isSmallScreen);
+  console.log(showMap);
 
   return (
     <div>
@@ -77,18 +80,18 @@ export const RestaurantList = ({
         <p>
           Results for {party_size} on {date} for {timeOption}
         </p>
-        {!showMap && (
+        {!isSmallScreen && (
           <Button
             type="dashed"
             onClick={() => {
-              setForceShooMap(!forceShowMap);
+              setShowMap(!showMap);
             }}
           >
             Map
           </Button>
         )}
       </div>
-      {forceShowMap && <VenuesMap venues={data as Array<Venue>} />}
+      {!isSmallScreen && showMap && <VenuesMap venues={data as Array<Venue>} />}
       <div
         style={{
           display: "flex",
@@ -96,7 +99,7 @@ export const RestaurantList = ({
         }}
       >
         {availlist}
-        {showMap && <VenuesMap venues={data as Array<Venue>} />}
+        {isSmallScreen && <VenuesMap venues={data as Array<Venue>} />}
       </div>
     </div>
   );
