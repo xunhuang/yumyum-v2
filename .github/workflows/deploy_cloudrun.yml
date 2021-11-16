@@ -7,10 +7,13 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
