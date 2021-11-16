@@ -29,7 +29,7 @@ const routes: IRoute[] = [
     name: "List",
   },
   {
-    path: "/venue/:venue_id",
+    path: "/metro/:metro/venue/:venue_id",
     component: VenuePage,
     name: "State",
   },

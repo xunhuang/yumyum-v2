@@ -34,7 +34,7 @@ export const SearchInput = (props: { placeholder: string; style: any }) => {
       placeholder="Search to Select"
       onClick={onClick}
       onSelect={(value, option) => {
-        history.push(`/venue/${option.key}`);
+        history.push(`/metro/${metro}/venue/${option.key}`);
       }}
     >
       {data &&

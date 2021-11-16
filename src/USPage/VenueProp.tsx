@@ -4,6 +4,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 import { Venue } from '../generated/graphql';
+import { useMetro } from './useMetro';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -53,7 +54,6 @@ export const VenueAvailabilityList = ({ venue }: VenueProp) => {
   );
 };
 
-
 type StarsType = {
   stars: string;
 };
@@ -95,8 +95,9 @@ const Stars = ({ stars }: StarsType) => {
 };
 
 export const VenueTitle = ({ venue }: VenueProp) => {
+  const metro = useMetro();
   return (
-    <a href={`/venue/${venue?.key}`}>
+    <a href={`/metro/${metro}/venue/${venue?.key}`}>
       {venue?.name} <Stars stars={venue?.stars!} />
     </a>
   );
