@@ -1,0 +1,34 @@
+name: build website and update to firebase hosting
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Setup timezone
+      uses: zcong1993/setup-timezone@master
+      with:
+        timezone: America/Los_Angeles
+    - name: DOTENV
+      env:
+        PROD_ENV: ${{ secrets.DOTENV }}
+      run: echo "${PROD_ENV}" > .env.production
+    - run: npm ci; npm install -g ts-node json2csv
+    - run: npm run build
+    - name: deploy
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: npx firebase deploy --token $FIREBASE_TOKEN --only hosting
