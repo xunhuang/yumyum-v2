@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
+import { Loading } from '../components/Loading';
 import { useBayAreaNearbySlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { useIPLocation, UserLocation } from './CookieGeoLocation';
-import { RestaurantList } from './RestaurantListProps';
-
+import { RestaurantList } from './RestaurantList';
 
 export const NearbyVenues = () => {
   const location = useIPLocation();
@@ -37,7 +37,7 @@ const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
   });
 
   if (first.loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   if (first.data?.allVenues?.totalCount! < 100) {

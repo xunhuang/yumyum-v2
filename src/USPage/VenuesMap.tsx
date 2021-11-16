@@ -2,7 +2,7 @@ import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/ap
 import React, { useState } from 'react';
 
 import { Venue } from '../generated/graphql';
-import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
+import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueItems';
 
 const containerStyle = {
   minWidth: "400px",

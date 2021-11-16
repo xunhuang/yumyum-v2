@@ -6,6 +6,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { Loading } from '../components/Loading';
 import {
   useBayAreaAllWithSlotsQuery,
   useBayAreaBibWithSlotsQuery,
@@ -16,7 +17,7 @@ import {
 } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { NearbyVenues } from './NearbyVenues';
-import { RestaurantList } from './RestaurantListProps';
+import { RestaurantList } from './RestaurantList';
 import { useMetro } from './useMetro';
 
 const { TabPane } = Tabs;
@@ -36,7 +37,7 @@ export const ListPlatesOnly = () => {
   });
 
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   return (
@@ -64,7 +65,7 @@ export const ListBibOnly = () => {
   });
 
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   return (
@@ -92,7 +93,7 @@ export const ListStarsOnly = () => {
   });
 
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   return (
@@ -126,7 +127,7 @@ export const ListAll = () => {
   });
 
   if (first.loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   if (second.loading) {
@@ -142,14 +143,14 @@ export const ListAll = () => {
     );
   }
 
-    return (
-      <RestaurantList
-        date={date}
-        party_size={party_size}
-        timeOption={timeOption}
-        list={second.data?.allVenues?.nodes}
-      ></RestaurantList>
-    );
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={second.data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
 };
 
 export const ListOffLineOnly = () => {
@@ -160,7 +161,7 @@ export const ListOffLineOnly = () => {
     },
   });
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
   return (
     <div>

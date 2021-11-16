@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Venue } from '../generated/graphql';
 import { UserLocation } from './CookieGeoLocation';
-import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueProp';
+import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueItems';
 import { VenuesMap } from './VenuesMap';
 
 const getDistance = require("geolib").getDistance;
@@ -61,7 +61,7 @@ export const RestaurantList = ({
   );
 
   const showMap = screens.sm || screens.md || screens.lg;
-  const [forceShowMap, setForceShooMap] = React.useState(showMap);
+  const [forceShowMap, setForceShooMap] = React.useState(true);
 
   return (
     <div>

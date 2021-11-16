@@ -3,10 +3,11 @@ import Meta from 'antd/lib/card/Meta';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { Loading } from '../components/Loading';
 import { useVenueByKeyQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { VenueCalender } from './VenueCalender';
-import { VenueAvailabilityList, VenueDescription, VenueLinks, VenueTitle } from './VenueProp';
+import { VenueAvailabilityList, VenueDescription, VenueLinks, VenueTitle } from './VenueItems';
 
 export const VenuePage = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
@@ -22,7 +23,7 @@ export const VenuePage = () => {
     },
   });
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
   const venue = data?.allVenues?.nodes[0];
   const imageList =

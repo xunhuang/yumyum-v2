@@ -5,9 +5,10 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { Loading } from '../components/Loading';
 import { useVenueByKeyQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { AvailabilityList } from './VenueProp';
+import { AvailabilityList } from './VenueItems';
 
 export const VenueCalender = () => {
   const { venue_id } = useParams<{ venue_id: string }>();
@@ -24,7 +25,7 @@ export const VenueCalender = () => {
     },
   });
   if (loading) {
-    return <p>loading</p>;
+    return <Loading />;
   }
 
   const venue = data?.allVenues?.nodes[0];

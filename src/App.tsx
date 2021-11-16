@@ -40,7 +40,6 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
     <div role="alert">
       <p>Oops something went wrong:</p>
       <pre>{error.message}</pre>
-      <p>Likely due to URL format change </p>
       <button onClick={resetErrorBoundary}>Try again</button>
       <button onClick={resetErrorBoundary}>
         <Link to="/">Home</Link>
