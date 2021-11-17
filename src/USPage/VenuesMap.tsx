@@ -84,7 +84,9 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
   }
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyBHf0MsAA7fjPVdPIdoRxGIj5AVmYZfelo">
+    <LoadScript
+      googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
+    >
       <GoogleMap
         onLoad={loadHandler}
         mapContainerStyle={containerStyle}
