@@ -24,8 +24,7 @@ const cache = new InMemoryCache();
 const init = async () => {
   const client = new ApolloClient({
     uri:
-      // process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-      // "http://localhost:8080/graphql",
+      process.env.REACT_APP_GRAPHQL_ENDPOINT ||
       "https://graph-3khoexoznq-uc.a.run.app/graphql",
     cache: cache,
     connectToDevTools: true,
