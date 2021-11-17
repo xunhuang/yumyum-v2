@@ -1,9 +1,16 @@
+import { RateLimiter } from 'limiter';
+
+import { TimeSlots, VenueVendorInfo } from './VendorBase';
+
 const { VendorBase } = require("./VendorBase");
 const buildUrl = require('build-url');
 const superagent = require('superagent');
 const urlparse = require('url');
 const moment = require('moment-timezone');
 
+const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
+
+/*
 async function entitySearchExactTerm(term, longitude, latitude) {
     const url = "https://api.resy.com/3/venuesearch/search";
     return await superagent.post(url)
@@ -25,6 +32,7 @@ async function entitySearchExactTerm(term, longitude, latitude) {
             return [];
         });
 }
+*/
 
 class VendorResy extends VendorBase {
 
@@ -36,7 +44,8 @@ class VendorResy extends VendorBase {
         return ["businessid", "url_slug", "resy_city_code"];
     }
 
-    async venueSearch(venue, date, party_size, timeOption) {
+    async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+        await limiter.removeTokens(1);
         const url = "https://api.resy.com/4/find";
         return await superagent.get(url)
             .query({
@@ -48,8 +57,8 @@ class VendorResy extends VendorBase {
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
             .send({})
-            .then((res) => {
-                let total = [];
+            .then((res: any) => {
+                let total: TimeSlots[] = [];
                 if (!res.body.results.venues) {
                     return [];
                 }
@@ -57,7 +66,7 @@ class VendorResy extends VendorBase {
                     return [];
                 }
                 let slots = res.body.results.venues[0].slots;
-                slots.forEach(function (slot) {
+                slots.forEach(function (slot: any) {
                     let datestr =
                         moment.tz(slot.date.start, venue.timezone).format();
                     total.push({
@@ -68,18 +77,19 @@ class VendorResy extends VendorBase {
             });
     }
 
-    getReservationUrl(venue, datestr, parties, timeOption) {
+    async getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         let baseurl = `https://resy.com/cities/${venue.resy_city_code}/${venue.url_slug}`;
 
         let reservationUrl = buildUrl(baseurl, {
             queryParams: {
-                date: datestr,
-                seats: parties
+                date: date,
+                seats: party_size,
             }
         });
         return reservationUrl;
     }
 
+    /*
     async fetchVenueInfoFromURL(url) {
         var url_parts = urlparse.parse(url, true);
         var paths = url_parts.pathname.split("/");
@@ -197,6 +207,7 @@ class VendorResy extends VendorBase {
                 return [];
             });
     }
+    */
 }
 
 exports.VendorResy = VendorResy;

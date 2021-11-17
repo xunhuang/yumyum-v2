@@ -119,7 +119,7 @@ const batchGetUserById = async (ids: string[]) => {
 };
 
 const AvailablilityLoader = new DataLoader(batchGetUserById, {
-    cacheMap: myCache,
+    cacheMap: myCache, // disable for dev
 });
 
 async function singleVenueSearch(
@@ -131,7 +131,7 @@ async function singleVenueSearch(
         return null;
     }
     if (!vendor) {
-        console.log('XXXX missssssssssssssssssssssing ' + venue.reservation);
+        console.log('XXXX miss vendor implementation' + venue.reservation);
         return null;
     }
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);

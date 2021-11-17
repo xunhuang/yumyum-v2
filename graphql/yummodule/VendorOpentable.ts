@@ -1,3 +1,5 @@
+import { RateLimiter } from 'limiter';
+
 import { TimeSlots, VenueVendorInfo } from './VendorBase';
 
 
@@ -7,6 +9,9 @@ const { VendorBase } = require("./VendorBase");
 const buildUrl = require('build-url');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+
+// 15 requests per second so we don't overwhelm opentable's server
+const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
 
 class VendorOpentable extends VendorBase {
 
@@ -19,6 +24,7 @@ class VendorOpentable extends VendorBase {
     }
 
     async venueSearchInternal(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<any> {
+
         let url = "https://www.opentable.com/restaurant/profile/" + venue.businessid + "/search";
         let datetime = (timeOption === "dinner") ? date + "T19:00:00" : date + "T12:00:00";
         let data = {
@@ -43,6 +49,9 @@ class VendorOpentable extends VendorBase {
     }
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+
+        await limiter.removeTokens(1);
+        // console.log("doing opentable search (throttled)");
 
         let resbody = await this.venueSearchInternal(venue, date, party_size, timeOption);
 
