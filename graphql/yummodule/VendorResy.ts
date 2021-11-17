@@ -77,7 +77,7 @@ class VendorResy extends VendorBase {
             });
     }
 
-    async getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         let baseurl = `https://resy.com/cities/${venue.resy_city_code}/${venue.url_slug}`;
 
         let reservationUrl = buildUrl(baseurl, {

@@ -7,7 +7,7 @@ const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const DataLoader = require('dataloader');
 const dayjs = require("dayjs");
 
-const slot_required_fields = ' @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","urlSlug", "longitude", "latitude"])';
+const slot_required_fields = ' @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","url_slug", "longitude", "latitude"])';
 
 const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
     const venue: VenueVendorInfo = {
