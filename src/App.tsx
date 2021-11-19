@@ -8,6 +8,7 @@ import { RecoilRoot } from 'recoil';
 
 import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
+import { MetroListAll } from './USPage/AdminMetro';
 import { ListsPage } from './USPage/ListsPage';
 import { VenuePage } from './USPage/VenuePage';
 
@@ -21,7 +22,7 @@ const routes: IRoute[] = [
   {
     path: "/",
     component: ListsPage,
-    name: "Venue",
+    name: "YumYum",
   },
   {
     path: "/metro/:metro/list/:listname",
@@ -31,7 +32,17 @@ const routes: IRoute[] = [
   {
     path: "/metro/:metro/venue/:venue_id",
     component: VenuePage,
-    name: "State",
+    name: "Venue",
+  },
+  {
+    path: "/admin/metro/:metro",
+    component: MetroListAll,
+    name: "Manage Metro",
+  },
+  {
+    path: "/admin/venue/:venue_id",
+    component: VenuePage,
+    name: "Manage Venue",
   },
 ];
 
