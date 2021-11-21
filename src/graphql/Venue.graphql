@@ -1,4 +1,4 @@
-query VenueByKey(
+query VenueByKeyWithSlots(
   $key: String!
   $date: String!
   $party_size: Int = 2
@@ -21,66 +21,77 @@ query VenueByKey(
         party_size: $party_size
         timeOption: $timeOption
       )
-      accomondation
-      address
-      area
-      autodetected
-      bookatableClientid
-      bookatablePartnerCode
-      bookingnotes
-      businessId
-      businessid
-      city
-      close
-      closed
-      closehours
-      connectionid
-      country
-      countryIso
-      coverImage
-      creationTime
-      cuisine
-      currency
-      devnotes
-      distinction
-      email
-      fulladdress
-      guide
-      imageList
-      key
-      latitude
-      localarea
-      localname
-      longitude
-      menuurl
-      metro
-      michelinId
-      michelineOnlineReservation
-      name
-      oldImages
-      openhours
-      otherReservation
-      phone
-      priceline
-      realurl
-      region
-      reservation
-      reservationHint
-      reservationUrl
-      resyCityCode
-      resyUrlSlug
-      rsvpSupport
-      sf
-      showvenue
-      stars
-      tags
-      timezone
-      tockUrlSlug
-      url
-      urlSlug
-      withOnlineReservation
-      workqueue
-      zip
+      ...VenueAllOtherFields
     }
   }
+}
+
+query VenueByKey($key: String!) {
+  venueByKey(key: $key) {
+    ...VenueAllOtherFields
+  }
+}
+
+fragment VenueAllOtherFields on Venue {
+  nodeId
+  accomondation
+  address
+  area
+  autodetected
+  bookatableClientid
+  bookatablePartnerCode
+  bookingnotes
+  businessId
+  businessid
+  city
+  close
+  closed
+  closehours
+  connectionid
+  country
+  countryIso
+  coverImage
+  creationTime
+  cuisine
+  currency
+  devnotes
+  distinction
+  email
+  fulladdress
+  guide
+  imageList
+  key
+  latitude
+  localarea
+  localname
+  longitude
+  menuurl
+  metro
+  michelinId
+  michelineOnlineReservation
+  name
+  oldImages
+  openhours
+  otherReservation
+  phone
+  priceline
+  realurl
+  region
+  reservation
+  reservationHint
+  reservationUrl
+  resyCityCode
+  resyUrlSlug
+  rsvpSupport
+  sf
+  showvenue
+  stars
+  tags
+  timezone
+  tockUrlSlug
+  url
+  urlSlug
+  withOnlineReservation
+  workqueue
+  zip
 }

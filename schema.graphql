@@ -72,7 +72,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `Venue`."""
-    orderBy: [VenuesOrderBy!] = [NATURAL]
+    orderBy: [VenuesOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -84,6 +84,13 @@ type Query implements Node {
     """
     filter: VenueFilter
   ): VenuesConnection
+  venueByKey(key: String!): Venue
+
+  """Reads a single `Venue` using its globally unique `ID`."""
+  venue(
+    """The globally unique `ID` to be used in selecting a single `Venue`."""
+    nodeId: ID!
+  ): Venue
 }
 
 """An object with a globally unique `ID`."""
@@ -546,7 +553,11 @@ type VenuesConnection {
   totalCount: Int!
 }
 
-type Venue {
+type Venue implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
   accomondation: String
   address: String
   area: String
@@ -573,7 +584,7 @@ type Venue {
   fulladdress: String
   guide: String
   imageList: String
-  key: String
+  key: String!
   latitude: Float
   localarea: String
   localname: String
@@ -750,6 +761,8 @@ enum VenuesOrderBy {
   WORKQUEUE_DESC
   ZIP_ASC
   ZIP_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 """
@@ -1194,6 +1207,38 @@ type Mutation {
     """
     input: CreateVenueInput!
   ): CreateVenuePayload
+
+  """Updates a single `Venue` using its globally unique id and a patch."""
+  updateVenue(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateVenueInput!
+  ): UpdateVenuePayload
+
+  """Updates a single `Venue` using a unique key and a patch."""
+  updateVenueByKey(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateVenueByKeyInput!
+  ): UpdateVenuePayload
+
+  """Deletes a single `Venue` using its globally unique id."""
+  deleteVenue(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteVenueInput!
+  ): DeleteVenuePayload
+
+  """Deletes a single `Venue` using a unique key."""
+  deleteVenueByKey(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteVenueByKeyInput!
+  ): DeleteVenuePayload
 }
 
 """The output of our create `Global11042021` mutation."""
@@ -1275,7 +1320,7 @@ type CreateVenuePayload {
   """An edge for our `Venue`. May be used by Relay 1."""
   venueEdge(
     """The method to use when ordering `Venue`."""
-    orderBy: [VenuesOrderBy!] = [NATURAL]
+    orderBy: [VenuesOrderBy!] = [PRIMARY_KEY_ASC]
   ): VenuesEdge
 }
 
@@ -1293,6 +1338,114 @@ input CreateVenueInput {
 
 """An input for mutations affecting `Venue`"""
 input VenueInput {
+  accomondation: String
+  address: String
+  area: String
+  autodetected: String
+  bookatableClientid: String
+  bookatablePartnerCode: String
+  bookingnotes: String
+  businessId: String
+  businessid: String
+  city: String
+  close: Boolean
+  closed: Boolean
+  closehours: String
+  connectionid: String
+  country: String
+  countryIso: String
+  coverImage: String
+  creationTime: String
+  cuisine: String
+  currency: String
+  devnotes: String
+  distinction: String
+  email: String
+  fulladdress: String
+  guide: String
+  imageList: String
+  key: String!
+  latitude: Float
+  localarea: String
+  localname: String
+  longitude: Float
+  menuurl: String
+  metro: String
+  michelinId: String
+  michelineOnlineReservation: Boolean
+  name: String
+  oldImages: String
+  openhours: String
+  otherReservation: String
+  phone: String
+  priceline: String
+  realurl: String
+  region: String
+  reservation: String
+  reservationHint: String
+  reservationUrl: String
+  resyCityCode: String
+  resyUrlSlug: String
+  rsvpSupport: String
+  sf: String
+  showvenue: Boolean
+  stars: String
+  tags: String
+  timezone: String
+  tockUrlSlug: String
+  url: String
+  urlSlug: String
+  withOnlineReservation: String
+  workqueue: String
+  zip: String
+}
+
+"""The output of our update `Venue` mutation."""
+type UpdateVenuePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Venue` that was updated by this mutation."""
+  venue: Venue
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Venue`. May be used by Relay 1."""
+  venueEdge(
+    """The method to use when ordering `Venue`."""
+    orderBy: [VenuesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): VenuesEdge
+}
+
+"""All input for the `updateVenue` mutation."""
+input UpdateVenueInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Venue` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Venue` being updated.
+  """
+  venuePatch: VenuePatch!
+}
+
+"""
+Represents an update to a `Venue`. Fields that are set will be updated.
+"""
+input VenuePatch {
   accomondation: String
   address: String
   area: String
@@ -1353,4 +1506,67 @@ input VenueInput {
   withOnlineReservation: String
   workqueue: String
   zip: String
+}
+
+"""All input for the `updateVenueByKey` mutation."""
+input UpdateVenueByKeyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Venue` being updated.
+  """
+  venuePatch: VenuePatch!
+  key: String!
+}
+
+"""The output of our delete `Venue` mutation."""
+type DeleteVenuePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Venue` that was deleted by this mutation."""
+  venue: Venue
+  deletedVenueId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Venue`. May be used by Relay 1."""
+  venueEdge(
+    """The method to use when ordering `Venue`."""
+    orderBy: [VenuesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): VenuesEdge
+}
+
+"""All input for the `deleteVenue` mutation."""
+input DeleteVenueInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Venue` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteVenueByKey` mutation."""
+input DeleteVenueByKeyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  key: String!
 }

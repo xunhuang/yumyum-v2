@@ -123,6 +123,7 @@ query BayAreaOffline($metro: String!) {
 }
 
 fragment VenuMainInfo on Venue {
+  nodeId
   name
   stars
   city

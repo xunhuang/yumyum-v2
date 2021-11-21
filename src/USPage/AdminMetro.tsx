@@ -1,16 +1,17 @@
 import 'antd/dist/antd.css';
 
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import React, { useState } from 'react';
-import Highlighter from 'react-highlight-words';
+import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, Venue } from '../generated/graphql';
 import { useMetro } from './useMetro';
+import { VenueEdit } from './VenueEdit';
 
 export const MetroListAll = () => {
   const metro = useMetro();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [venuekey, setVenueKey] = useState<string | null>(null);
 
   const first = useBayAreaQuery({
     variables: {
@@ -22,134 +23,204 @@ export const MetroListAll = () => {
     return <Loading />;
   }
 
+  const list = first.data?.allVenues?.nodes;
+
   return (
     <div>
-      <MyTable list={first.data?.allVenues?.nodes} />
+      <Input
+        defaultValue={searchTerm}
+        onChange={(v) => setSearchTerm(v.target.value)}
+      />
+      <EditableTable
+        list={list!}
+        metro={metro}
+        onRow={(selectedVenue) => setVenueKey(selectedVenue)}
+      />
+      {venuekey && <VenueEdit venue_id={venuekey} />}
     </div>
   );
 };
 
 type MyTableProps = {
-  list?: Array<Venue | null>;
+  list: Array<Venue | null>;
+  metro: string;
+  onRow?: (rowkey: string) => void;
 };
 
-export const MyTable = ({ list }: MyTableProps) => {
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const [inputRef, setInputRef] = useState<Input | null>(null);
-  const getColumnSearchProps = (dataIndex: string) => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters,
-    }: any) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={(node) => {
-            setInputRef(node);
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}: any) => {
+  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  // console.log(record);
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
           }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: "block" }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
-    onFilter: (value: string, record: any) =>
-      record[dataIndex]
-        ? record[dataIndex]
-            .toString()
-            .toLowerCase()
-            .includes(value.toLowerCase())
-        : "",
-    onFilterDropdownVisibleChange: (visible: boolean) => {
-      if (visible) {
-        setTimeout(() => inputRef?.select(), 100);
-      }
-    },
-    render: (text: string) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ""}
-        />
+          rules={[
+            {
+              required: true,
+              message: `Please Input ${title}!`,
+            },
+          ]}
+        >
+          {inputNode}
+        </Form.Item>
       ) : (
-        text
-      ),
-  });
+        children
+      )}
+    </td>
+  );
+};
 
-  const handleSearch = (selectedKeys: any, confirm: any, dataIndex: string) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
+const EditableTable = ({ list, onRow }: MyTableProps) => {
+  const [form] = Form.useForm();
+  const [data, setData] = useState(list);
+  const [editingKey, setEditingKey] = useState("");
+
+  useEffect(() => {
+    setData(list);
+  }, [list]);
+
+  const isEditing = (record: any) => record.key === editingKey;
+
+  const edit = (record: any) => {
+    form.setFieldsValue({
+      name: "",
+      age: "",
+      address: "",
+      ...record,
+    });
+    setEditingKey(record.key);
   };
 
-  const handleReset = (clearFilters: any) => {
-    clearFilters();
-    setSearchText("");
+  const cancel = () => {
+    setEditingKey("");
+  };
+
+  const save = async (key: any) => {
+    try {
+      const row = await form.validateFields();
+      console.log(row);
+      const newData = [...data];
+      const index = newData.findIndex((item: any) => key === item.key);
+
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row });
+        setData(newData);
+        setEditingKey("");
+      } else {
+        newData.push(row);
+        setData(newData);
+        setEditingKey("");
+      }
+    } catch (errInfo) {
+      console.log("Validate Failed:", errInfo);
+    }
   };
 
   const columns = [
     {
-      title: "Name",
+      title: "name",
       dataIndex: "name",
-      key: "name",
-      width: "30%",
-      ...getColumnSearchProps("name"),
+      editable: true,
     },
     {
-      title: "cuisine",
+      title: "Cuisine",
       dataIndex: "cuisine",
-      key: "cuisine",
-      width: "20%",
-      ...getColumnSearchProps("cuisine"),
+      editable: false,
     },
     {
       title: "City",
       dataIndex: "city",
-      key: "city",
-      ...getColumnSearchProps("city"),
-      sorter: (a: any, b: any) => a.address.length - b.address.length,
-      sortDirections: ["descend", "ascend"],
+      editable: true,
+    },
+    {
+      title: "operation",
+      dataIndex: "operation",
+      render: (_: any, record: any) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <a
+              href="javascript:;"
+              onClick={() => save(record.key)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </a>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link
+            disabled={editingKey !== ""}
+            onClick={() => edit(record)}
+          >
+            Edit
+          </Typography.Link>
+        );
+      },
     },
   ];
-  return <Table columns={columns as any} dataSource={list as any} />;
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+
+    return {
+      ...col,
+      onCell: (record: any) => ({
+        record,
+        inputType: col.dataIndex === "age" ? "number" : "text",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+  return (
+    <Form form={form} component={false}>
+      <Table
+        components={{
+          body: {
+            cell: EditableCell,
+          },
+        }}
+        bordered
+        dataSource={data as any}
+        columns={mergedColumns}
+        rowClassName="editable-row"
+        pagination={{
+          onChange: cancel,
+        }}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              console.log(record);
+              onRow && onRow(record.key);
+            }, // click row
+            // onDoubleClick: (event) => {}, // double click row
+            // onContextMenu: (event) => {}, // right button click row
+            // onMouseEnter: (event) => {}, // mouse enter row
+            // onMouseLeave: (event) => {}, // mouse leave row
+          };
+        }}
+      />
+    </Form>
+  );
 };

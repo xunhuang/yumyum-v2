@@ -10,6 +10,7 @@ import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
 import { MetroListAll } from './USPage/AdminMetro';
 import { ListsPage } from './USPage/ListsPage';
+import { VenueEditFromURL } from './USPage/VenueEdit';
 import { VenuePage } from './USPage/VenuePage';
 
 interface IRoute {
@@ -41,8 +42,8 @@ const routes: IRoute[] = [
   },
   {
     path: "/admin/venue/:venue_id",
-    component: VenuePage,
-    name: "Manage Venue",
+    component: VenueEditFromURL,
+    name: "Edit Venue",
   },
 ];
 

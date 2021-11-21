@@ -1,0 +1,12 @@
+mutation UpdateVenueInfo($key: String!, $close:Boolean!) {
+  updateVenueByKey(
+    input: {venuePatch: {
+        close: $close
+        }, key: $key}
+  ) {
+    clientMutationId
+    venue{
+      close
+    }
+  }
+}

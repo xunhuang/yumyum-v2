@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { Loading } from '../components/Loading';
-import { useVenueByKeyQuery } from '../generated/graphql';
+import { useVenueByKeyWithSlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { VenueCalender } from './VenueCalender';
 import { VenueAvailabilityList, VenueDescription, VenueLinks, VenueTitle } from './VenueItems';
@@ -14,7 +14,7 @@ export const VenuePage = () => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
-  const { data, loading } = useVenueByKeyQuery({
+  const { data, loading } = useVenueByKeyWithSlotsQuery({
     variables: {
       key: venue_id,
       date: date,
