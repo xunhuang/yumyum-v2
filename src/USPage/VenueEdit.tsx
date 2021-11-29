@@ -74,14 +74,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
       <VenueDescription venue={venue!} />
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item
-          label="Closed"
-          name="close"
-          valuePropName="checked"
-          initialValue={venue?.close}
-        >
-          <Switch />
-        </Form.Item>
-        <Form.Item
           name="reservation"
           label="Reservation System"
           initialValue={venue?.reservation!}
@@ -98,11 +90,13 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             allowClear
             defaultValue={venue?.reservation!}
           >
-            {Object.keys(VendorMap).map((k: string) => (
-              <Option value={k} key={k}>
-                {k}
-              </Option>
-            ))}
+            {Object.keys(VendorMap)
+              .concat("TBD", "none", "Call/Email")
+              .map((k: string) => (
+                <Option value={k} key={k}>
+                  {k}
+                </Option>
+              ))}
 
             {}
           </Select>
@@ -125,6 +119,14 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
               </Form.Item>
             );
           })}
+        <Form.Item
+          label="Closed"
+          name="close"
+          valuePropName="checked"
+          initialValue={venue?.close}
+        >
+          <Switch />
+        </Form.Item>
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
