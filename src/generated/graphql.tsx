@@ -1366,6 +1366,10 @@ export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
+  businessid?: Maybe<Scalars['String']>;
+  reservation?: Maybe<Scalars['String']>;
+  resyCityCode?: Maybe<Scalars['String']>;
+  urlSlug?: Maybe<Scalars['String']>;
   close: Scalars['Boolean'];
 }>;
 
@@ -1784,8 +1788,10 @@ export type BayAreaOfflineQueryHookResult = ReturnType<typeof useBayAreaOfflineQ
 export type BayAreaOfflineLazyQueryHookResult = ReturnType<typeof useBayAreaOfflineLazyQuery>;
 export type BayAreaOfflineQueryResult = Apollo.QueryResult<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>;
 export const UpdateVenueInfoDocument = gql`
-    mutation UpdateVenueInfo($key: String!, $close: Boolean!) {
-  updateVenueByKey(input: {venuePatch: {close: $close}, key: $key}) {
+    mutation UpdateVenueInfo($key: String!, $businessid: String, $reservation: String, $resyCityCode: String, $urlSlug: String, $close: Boolean!) {
+  updateVenueByKey(
+    input: {venuePatch: {businessid: $businessid, reservation: $reservation, resyCityCode: $resyCityCode, urlSlug: $urlSlug, close: $close}, key: $key}
+  ) {
     clientMutationId
     venue {
       close
@@ -1809,6 +1815,10 @@ export type UpdateVenueInfoMutationFn = Apollo.MutationFunction<UpdateVenueInfoM
  * const [updateVenueInfoMutation, { data, loading, error }] = useUpdateVenueInfoMutation({
  *   variables: {
  *      key: // value for 'key'
+ *      businessid: // value for 'businessid'
+ *      reservation: // value for 'reservation'
+ *      resyCityCode: // value for 'resyCityCode'
+ *      urlSlug: // value for 'urlSlug'
  *      close: // value for 'close'
  *   },
  * });

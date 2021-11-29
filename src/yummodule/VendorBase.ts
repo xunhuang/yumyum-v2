@@ -40,6 +40,10 @@ export class VendorBase {
         return null;
     }
 
+    requiedFieldsForReservation(): Array<string> {
+        throw new Error("requiedFieldsForReservation not implemented");
+    }
+
     /*
     async fetchVenueInfoFromURL(url) {
         return null;
@@ -115,9 +119,6 @@ export class VendorBase {
         return null;
     }
 
-    requiedFieldsForReservation() {
-        throw ("requiedFieldsForReservation not implemented");
-    }
     bankingNoteHint() {
         return null;
     }

@@ -55,11 +55,15 @@ export class VendorYelp extends VendorBase {
                     }
                     return "";
                 }).get().join(' ');
+
+                // eslint-disable-next-line no-unused-vars
                 scriptText = scriptText.trim();
 
                 let window = {};
-                eval(scriptText);
+                if (true)
+                    throw new Error("fix me, we do need the eval here");
 
+                // eval(scriptText);
                 let schema = JSON.parse(window.yr_landing_data);
                 var url_parts = urlparse.parse(redirect_url, true);
                 let paths = url_parts.pathname.split("/");

@@ -1,11 +1,21 @@
-import { Button, Form, Select, Switch } from 'antd';
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Button, Form, Input, Select, Switch } from "antd";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-import { Loading } from '../components/Loading';
-import { useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
-import { VendorMap } from "../yummodule/Vendors";
+import { Loading } from "../components/Loading";
+import {
+  useUpdateVenueInfoMutation,
+  useVenueByKeyQuery,
+} from "../generated/graphql";
+import { getVendor, VendorMap } from "../yummodule/Vendors";
 import { VenueDescription, VenueTitle } from "./VenueItems";
+
+const snakeToCamel = (str: string) =>
+  str
+    .toLowerCase()
+    .replace(/([-_][a-z])/g, (group) =>
+      group.toUpperCase().replace("-", "").replace("_", "")
+    );
 
 const { Option } = Select;
 const layout = {
@@ -40,6 +50,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
     },
   });
   const [makeChange] = useUpdateVenueInfoMutation();
+  const [reservation, setReservation] = useState<string | null>(null);
 
   if (loading) {
     return <Loading />;
@@ -47,55 +58,21 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
   const venue = data?.venueByKey;
 
   const onFinish = (values: any) => {
+    values.key = venue_id;
     console.log(values);
+
     makeChange({
-      variables: {
-        key: venue_id,
-        close: values.close,
-      },
+      variables: values,
     });
   };
+
+  const vendor = getVendor(reservation ? reservation : venue?.reservation!);
 
   return (
     <div>
       <VenueTitle venue={venue!} />
       <VenueDescription venue={venue!} />
-      {/* {JSON.stringify(venue, null, 2)} */}
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-        {/* <Form.Item
-          name="note"
-          label="Note"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          noStyle
-          shouldUpdate={(prevValues, currentValues) =>
-            prevValues.gender !== currentValues.gender
-          }
-        >
-          {({ getFieldValue }) =>
-            getFieldValue("gender") === "other" ? (
-              <Form.Item
-                name="customizeGender"
-                label="Customize Gender"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            ) : null
-          }
-        </Form.Item>
- */}
         <Form.Item
           label="Closed"
           name="close"
@@ -107,6 +84,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
         <Form.Item
           name="reservation"
           label="Reservation System"
+          initialValue={venue?.reservation!}
           rules={[
             {
               required: true,
@@ -115,7 +93,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
         >
           <Select
             placeholder="Select a option and change input text above"
-            // onChange={onGenderChange}
+            onChange={(value) => setReservation(value)}
             allowClear
             defaultValue={venue?.reservation!}
           >
@@ -124,8 +102,28 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
                 {k}
               </Option>
             ))}
+
+            {}
           </Select>
         </Form.Item>
+
+        {vendor &&
+          vendor.requiedFieldsForReservation().map((field) => {
+            return (
+              <Form.Item
+                name={snakeToCamel(field)}
+                label={snakeToCamel(field)}
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+                initialValue={(venue as any)[snakeToCamel(field)]}
+              >
+                <Input />
+              </Form.Item>
+            );
+          })}
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">

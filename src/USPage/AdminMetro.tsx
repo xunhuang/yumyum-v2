@@ -36,7 +36,7 @@ export const MetroListAll = () => {
         metro={metro}
         onRow={(selectedVenue) => setVenueKey(selectedVenue)}
       />
-      {venuekey && <VenueEdit venue_id={venuekey} />}
+      {venuekey && <VenueEdit venue_id={venuekey} key={venuekey} />}
     </div>
   );
 };
@@ -153,17 +153,16 @@ const EditableTable = ({ list, onRow }: MyTableProps) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <a
-              href="javascript:;"
+            <div
               onClick={() => save(record.key)}
               style={{
                 marginRight: 8,
               }}
             >
               Save
-            </a>
+            </div>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              Cancel
             </Popconfirm>
           </span>
         ) : (

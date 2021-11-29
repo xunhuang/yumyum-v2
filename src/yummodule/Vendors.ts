@@ -316,11 +316,12 @@ var VendorTypes1: Array<string> = [];
 VendorTypes1.push("yelp");
 VendorTypes1 = VendorTypes1.concat(Object.values(VendorKeywordMap))
 
-export const getVendor = (type: string): VendorBase => {
-    return VendorMap[type];
-}
 
 exports.VendorKeywordMap = VendorKeywordMap;
 
 export const VendorTypes = VendorTypes1.sort();
 */
+
+export const getVendor = (type: string): VendorBase => {
+    return VendorMap[type];
+}

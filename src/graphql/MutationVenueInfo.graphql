@@ -1,11 +1,25 @@
-mutation UpdateVenueInfo($key: String!, $close:Boolean!) {
+mutation UpdateVenueInfo(
+  $key: String!
+  $businessid: String
+  $reservation: String
+  $resyCityCode: String
+  $urlSlug: String
+  $close: Boolean!
+) {
   updateVenueByKey(
-    input: {venuePatch: {
+    input: {
+      venuePatch: {
+        businessid: $businessid
+        reservation: $reservation
+        resyCityCode: $resyCityCode
+        urlSlug: $urlSlug
         close: $close
-        }, key: $key}
+      }
+      key: $key
+    }
   ) {
     clientMutationId
-    venue{
+    venue {
       close
     }
   }
