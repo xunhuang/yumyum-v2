@@ -92,6 +92,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           ]}
         >
           <Select
+            showSearch
             placeholder="Select a option and change input text above"
             onChange={(value) => setReservation(value)}
             allowClear
