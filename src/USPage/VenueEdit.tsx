@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 
 import { Loading } from '../components/Loading';
 import { useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
-import { VenueDescription, VenueTitle } from './VenueItems';
+import { VendorMap } from "../yummodule/Vendors";
+import { VenueDescription, VenueTitle } from "./VenueItems";
 
 const { Option } = Select;
 const layout = {
@@ -73,26 +74,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="gender"
-          label="Gender"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            placeholder="Select a option and change input text above"
-            // onChange={onGenderChange}
-            allowClear
-            defaultValue={"male"}
-          >
-            <Option value="male">male</Option>
-            <Option value="female">female</Option>
-            <Option value="other">other</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
           noStyle
           shouldUpdate={(prevValues, currentValues) =>
             prevValues.gender !== currentValues.gender
@@ -122,6 +103,28 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           initialValue={venue?.close}
         >
           <Switch />
+        </Form.Item>
+        <Form.Item
+          name="reservation"
+          label="Reservation System"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            placeholder="Select a option and change input text above"
+            // onChange={onGenderChange}
+            allowClear
+            defaultValue={venue?.reservation!}
+          >
+            {Object.keys(VendorMap).map((k: string) => (
+              <Option value={k} key={k}>
+                {k}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item {...tailLayout}>

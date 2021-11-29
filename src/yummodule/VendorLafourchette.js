@@ -6,7 +6,8 @@ const buildUrl = require('build-url');
 const YumUtil = require("./YumUtil").YumUtil;
 const cheerio = require('cheerio');
 
-class VendorLafourchette extends VendorBase {
+export class VendorLafourchette extends VendorBase {
+
     vendorID() {
         return "lafourchette";
     }
@@ -130,5 +131,3 @@ class VendorLafourchette extends VendorBase {
 
 
 }
-
-exports.VendorLafourchette = VendorLafourchette;

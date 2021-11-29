@@ -4,7 +4,7 @@ const superagent = require('superagent');
 const moment = require('moment-timezone');
 const buildUrl = require('build-url');
 
-class VendorCovermanager extends VendorBase {
+export class VendorCovermanager extends VendorBase {
     vendorID() {
         return "covermanager";
     }
@@ -76,5 +76,3 @@ class VendorCovermanager extends VendorBase {
         return `https://www.covermanager.com/reservation/module_restaurant/blanblah/`;
     }
 }
-
-exports.VendorCovermanager = VendorCovermanager;

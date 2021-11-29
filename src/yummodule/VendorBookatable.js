@@ -3,7 +3,7 @@ const buildUrl = require('build-url');
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
-class VendorBookatable extends VendorBase {
+export class VendorBookatable extends VendorBase {
     vendorID() {
         return "bookatable";
     }
@@ -51,7 +51,6 @@ class VendorBookatable extends VendorBase {
                     }
                     );
                     return null;
-
                 });
                 return total;
             });
@@ -180,5 +179,3 @@ class VendorBookatable extends VendorBase {
             });
     }
 }
-
-exports.VendorBookatable = VendorBookatable;

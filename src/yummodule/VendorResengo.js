@@ -1,10 +1,10 @@
 const { VendorBase } = require("./VendorBase");
-
 const buildUrl = require('build-url');
+
 const superagent = require('superagent');
 const moment = require('moment-timezone');
 
-class VendorResengo extends VendorBase {
+export class VendorResengo extends VendorBase {
     vendorID() {
         return "resengo.com";
     }
@@ -109,5 +109,3 @@ class VendorResengo extends VendorBase {
         return null;
     }
 }
-
-exports.VendorResengo = VendorResengo;

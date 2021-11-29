@@ -3,7 +3,7 @@ const { VendorBase } = require("./VendorBase");
 const superagent = require('superagent');
 const moment = require('moment-timezone');
 
-class VendorInlineApp extends VendorBase {
+export class VendorInlineApp extends VendorBase {
     vendorID() {
         return "inline";
     }
@@ -76,5 +76,3 @@ class VendorInlineApp extends VendorBase {
         return null;
     }
 }
-
-exports.VendorInlineApp = VendorInlineApp;

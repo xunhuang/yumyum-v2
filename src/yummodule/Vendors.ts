@@ -61,6 +61,7 @@ export const VendorMap: tplotOptions = {
     restaurantes: new VendorRestaurantes(),
     "resengo.com": new VendorResengo(),
 }
+/*
 
 const VendorKeywordMap =
 {
@@ -322,3 +323,4 @@ export const getVendor = (type: string): VendorBase => {
 exports.VendorKeywordMap = VendorKeywordMap;
 
 export const VendorTypes = VendorTypes1.sort();
+*/
