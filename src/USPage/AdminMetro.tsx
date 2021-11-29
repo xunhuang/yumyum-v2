@@ -23,7 +23,9 @@ export const MetroListAll = () => {
     return <Loading />;
   }
 
-  const list = first.data?.allVenues?.nodes;
+  const list = first.data?.allVenues?.nodes.filter((v) =>
+    v?.name?.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  );
 
   return (
     <div>
