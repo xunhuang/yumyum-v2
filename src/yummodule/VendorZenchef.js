@@ -4,7 +4,7 @@ const superagent = require('superagent');
 const moment = require('moment-timezone');
 const buildUrl = require('build-url');
 
-class VendorZenchef extends VendorBase {
+export class VendorZenchef extends VendorBase {
     vendorID() {
         return "zenchef";
     }
@@ -90,5 +90,3 @@ class VendorZenchef extends VendorBase {
         return null;
     }
 }
-
-exports.VendorZenchef = VendorZenchef;
