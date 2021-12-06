@@ -13,6 +13,7 @@ export interface VenueVendorInfo {
     resy_city_code?: string;
     url_slug?: string;
     latitude?: string;
+    bookingnotes?: string;
     longitude?: string;
 }
 

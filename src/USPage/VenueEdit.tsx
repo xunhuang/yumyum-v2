@@ -1,14 +1,11 @@
-import { Button, Form, Input, Select, Switch } from "antd";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Button, Form, Input, Select, Switch } from 'antd';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { Loading } from "../components/Loading";
-import {
-  useUpdateVenueInfoMutation,
-  useVenueByKeyQuery,
-} from "../generated/graphql";
-import { getVendor, VendorMap } from "../yummodule/Vendors";
-import { VenueDescription, VenueTitle } from "./VenueItems";
+import { Loading } from '../components/Loading';
+import { useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
+import { getVendor, VendorMap } from '../yummodule/Vendors';
+import { VenueDescription, VenueTitle } from './VenueItems';
 
 const snakeToCamel = (str: string) =>
   str
@@ -56,6 +53,10 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
     return <Loading />;
   }
   const venue = data?.venueByKey;
+
+  if (!venue) {
+    return <Loading />;
+  }
 
   const onFinish = (values: any) => {
     values.key = venue_id;

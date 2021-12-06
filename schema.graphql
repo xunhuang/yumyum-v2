@@ -91,6 +91,7 @@ type Query implements Node {
     """The globally unique `ID` to be used in selecting a single `Venue`."""
     nodeId: ID!
   ): Venue
+  injest(url: String!): InjestResult
 }
 
 """An object with a globally unique `ID`."""
@@ -569,7 +570,6 @@ type Venue implements Node {
   businessid: String
   city: String
   close: Boolean
-  closed: Boolean
   closehours: String
   connectionid: String
   country: String
@@ -663,8 +663,6 @@ enum VenuesOrderBy {
   CITY_DESC
   CLOSE_ASC
   CLOSE_DESC
-  CLOSED_ASC
-  CLOSED_DESC
   CLOSEHOURS_ASC
   CLOSEHOURS_DESC
   CONNECTIONID_ASC
@@ -801,9 +799,6 @@ input VenueCondition {
 
   """Checks for equality with the object’s `close` field."""
   close: Boolean
-
-  """Checks for equality with the object’s `closed` field."""
-  closed: Boolean
 
   """Checks for equality with the object’s `closehours` field."""
   closehours: String
@@ -988,9 +983,6 @@ input VenueFilter {
 
   """Filter by the object’s `close` field."""
   close: BooleanFilter
-
-  """Filter by the object’s `closed` field."""
-  closed: BooleanFilter
 
   """Filter by the object’s `closehours` field."""
   closehours: StringFilter
@@ -1188,6 +1180,12 @@ input FloatFilter {
   greaterThanOrEqualTo: Float
 }
 
+type InjestResult {
+  businessId: String
+  urlSlug: String
+  resyCityCode: String
+}
+
 """
 The root mutation type which contains root level fields which mutate data.
 """
@@ -1349,7 +1347,6 @@ input VenueInput {
   businessid: String
   city: String
   close: Boolean
-  closed: Boolean
   closehours: String
   connectionid: String
   country: String
@@ -1457,7 +1454,6 @@ input VenuePatch {
   businessid: String
   city: String
   close: Boolean
-  closed: Boolean
   closehours: String
   connectionid: String
   country: String

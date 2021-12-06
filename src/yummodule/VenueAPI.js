@@ -100,7 +100,7 @@ const VenueAPI = {
 
     getVenuesByMetroQueryConstruct: (metroname, onlineOnly = true) => {
         let query = VenueAPI.getVenuesByMetroAllQueryConstruct(metroname);
-        queury = query.where("withOnlineReservation", "==", onlineOnly)
+        query = query.where("withOnlineReservation", "==", onlineOnly)
         return query;
     },
 

@@ -1,11 +1,10 @@
 import { RateLimiter } from 'limiter';
 
-import { TimeSlots, VenueVendorInfo } from './VendorBase';
+import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
 
 
 const fetch = require('node-fetch');
 
-const { VendorBase } = require("./VendorBase");
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 
@@ -72,7 +71,7 @@ export class VendorOpentable extends VendorBase {
         return total;
     }
 
-    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {
         let url = `https://www.opentable.com/restaurant/profile/${venue.businessid}/reserve`;
         let datestr = (timeOption === "dinner") ? date + "T19:00" : date + "T12:00";
         let reservationUrl = buildUrl(url, {

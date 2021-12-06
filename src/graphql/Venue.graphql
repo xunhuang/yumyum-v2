@@ -45,7 +45,6 @@ fragment VenueAllOtherFields on Venue {
   businessid
   city
   close
-  closed
   closehours
   connectionid
   country

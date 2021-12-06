@@ -26,6 +26,7 @@ export const VenuePage = () => {
     return <Loading />;
   }
   const venue = data?.allVenues?.nodes[0];
+
   const imageList =
     venue?.imageList && (JSON.parse(venue.imageList) as Array<string>);
 

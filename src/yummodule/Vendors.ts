@@ -1,32 +1,30 @@
 import { VendorBase } from './VendorBase';
-
-const { VendorOpentable } = require("./VendorOpentable");
-const { VendorResy } = require("./VendorResy");
-const { VendorTock } = require("./VendorTock");
-const { VendorBookarestaurant } = require("./VendorBookarestaurant");
-const { VendorBookatable } = require("./VendorBookatable");
-const { VendorDinesuperb } = require("./VendorDinesuperb");
-const { VendorResdiary } = require("./VendorResdiary");
-const { VendorSevenrooms } = require("./VendorSevenrooms");
-const { VendorYelp } = require("./VendorYelp");
-const { VendorTablecheck } = require("./VendorTablecheck");
-const { VendorPocketConcierge } = require("./VendorPocketConcierge");
-const { VendorToreta } = require("./VendorToreta");
-const { VendorOmakase } = require("./VendorOmakase");
-const { VendorIkyu } = require("./VendorIkyu");
-const { VendorChope } = require("./VendorChope");
-const { VendorFunNow } = require("./VendorFunNow");
-const { VendorDineout } = require("./VendorDineout");
-const { VendorTabelog } = require("./VendorTabelog");
-const { VendorEat2Eat } = require("./VendorEat2Eat");
-const { VendorQuandoo } = require("./VendorQuandoo");
-const { VendorInlineApp } = require("./VendorInlineApp");
-const { VendorEztable } = require("./VendorEztable");
-const { VendorLafourchette } = require("./VendorLafourchette");
-const { VendorZenchef } = require("./VendorZenchef");
-const { VendorCovermanager } = require("./VendorCovermanager");
-const { VendorRestaurantes } = require("./VendorRestaurantes");
-const { VendorResengo } = require("./VendorResengo");
+import { VendorBookarestaurant } from './VendorBookarestaurant';
+import { VendorBookatable } from './VendorBookatable';
+import { VendorChope } from './VendorChope';
+import { VendorCovermanager } from './VendorCovermanager';
+import { VendorDineout } from './VendorDineout';
+import { VendorDinesuperb } from './VendorDinesuperb';
+import { VendorEat2Eat } from './VendorEat2Eat';
+import { VendorEztable } from './VendorEztable';
+import { VendorFunNow } from './VendorFunNow';
+import { VendorIkyu } from './VendorIkyu';
+import { VendorInlineApp } from './VendorInlineApp';
+import { VendorLafourchette } from './VendorLafourchette';
+import { VendorOmakase } from './VendorOmakase';
+import { VendorOpentable } from './VendorOpentable';
+import { VendorPocketConcierge } from './VendorPocketConcierge';
+import { VendorQuandoo } from './VendorQuandoo';
+import { VendorResdiary } from './VendorResdiary';
+import { VendorResengo } from './VendorResengo';
+import { VendorRestaurantes } from './VendorRestaurantes';
+import { VendorResy } from './VendorResy';
+import { VendorSevenrooms } from './VendorSevenrooms';
+import { VendorTabelog } from './VendorTabelog';
+import { VendorTock } from './VendorTock';
+import { VendorToreta } from './VendorToreta';
+import { VendorYelp } from './VendorYelp';
+import { VendorZenchef } from './VendorZenchef';
 
 type tplotOptions = {
     [key: string]: VendorBase
@@ -42,7 +40,7 @@ export const VendorMap: tplotOptions = {
     resdiary: new VendorResdiary(),
     sevenrooms: new VendorSevenrooms(),
     yelp: new VendorYelp(),
-    tablecheck: new VendorTablecheck(),
+    // tablecheck: new VendorTablecheck(),
     "pocket-concierge": new VendorPocketConcierge(),
     toreta: new VendorToreta(),
     omakase: new VendorOmakase(),

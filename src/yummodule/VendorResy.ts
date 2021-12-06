@@ -1,8 +1,7 @@
 import { RateLimiter } from 'limiter';
 
-import { TimeSlots, VenueVendorInfo } from './VendorBase';
+import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
 
-const { VendorBase } = require("./VendorBase");
 const buildUrl = require('build-url');
 const superagent = require('superagent');
 const moment = require('moment-timezone');
@@ -76,7 +75,7 @@ export class VendorResy extends VendorBase {
             });
     }
 
-    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {
         let baseurl = `https://resy.com/cities/${venue.resy_city_code}/${venue.url_slug}`;
 
         let reservationUrl = buildUrl(baseurl, {

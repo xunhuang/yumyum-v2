@@ -41,6 +41,22 @@ const getReservationUrl = (_query: any, args: any): string | null => {
     }
 }
 
+const injestUrl = (_query: any, args: any): string | null => {
+    const url = args.url;
+    const reservation = "tock";
+    try {
+        const vendor = getVendor(reservation);
+        if (!vendor) {
+            return null;
+        }
+        // const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
+        return url;
+    } catch (err) {
+        console.error(`Error injesting for ${url} ${err}`);
+        return null;
+    }
+}
+
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
     const { pgSql: sql } = build;
     return {
@@ -58,6 +74,16 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
         ${slot_required_fields}
         myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String
         ${slot_required_fields}
+      }
+
+      type InjestResult {
+          businessId:String
+          urlSlug:String
+          resyCityCode:String
+      }
+
+      extend type Query {
+          injest(url:String!): InjestResult
       }
     `,
         resolvers: {
@@ -100,6 +126,17 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                     return getReservationUrl(_query, args);
                 },
             },
+            Query: {
+                injest: (_query: any, args: any, context: any, resolveInfo: any) => {
+                    console.log(args)
+                    return {
+                        businessId: "hi",
+                        urlSlug: "my_slug",
+                        resyCityCode: "sf",
+                    }
+                },
+
+            }
         },
     };
 });
