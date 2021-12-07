@@ -39,8 +39,8 @@ jobs:
     #- name: Setup tmate session
       #uses: mxschmitt/action-tmate@master
 
-    - name: link something 
-      run: cd graphql ; ln -s ../src/yummodule/ . ; cd ..
+    - name: move module over something 
+      run: cd graphql ; mv ../src/yummodule . ; cd ..
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
