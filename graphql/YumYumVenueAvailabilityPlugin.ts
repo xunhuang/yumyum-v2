@@ -1,5 +1,5 @@
 import { myCache } from './myCache';
-import { VenueVendorInfo } from './yummodule/VendorBase';
+import { VenueReservationInfo, VenueVendorInfo } from './yummodule/VendorBase';
 import { getVendor } from './yummodule/Vendors';
 
 
@@ -41,16 +41,18 @@ const getReservationUrl = (_query: any, args: any): string | null => {
     }
 }
 
-const injestUrl = (_query: any, args: any): string | null => {
-    const url = args.url;
-    const reservation = "tock";
+const getReservationInfo = async (_query: any, args: any): Promise<VenueReservationInfo | null> => {
+    const url: string = args.url;
     try {
-        const vendor = getVendor(reservation);
-        if (!vendor) {
-            return null;
+        let reservation: string;
+        if (url.includes("opentable.com")) {
+            reservation = "opentable";
+        } else if (url.includes("yelp.com")) {
+            reservation = "yelp";
         }
-        // const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
-        return url;
+
+        const vendor = getVendor(reservation!);
+        return vendor.fetchReservationInfoFromURL(url);
     } catch (err) {
         console.error(`Error injesting for ${url} ${err}`);
         return null;
@@ -76,14 +78,14 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
         ${slot_required_fields}
       }
 
-      type InjestResult {
-          businessId:String
+      type ReservationInfo {
+          businessid:String
           urlSlug:String
           resyCityCode:String
       }
 
       extend type Query {
-          injest(url:String!): InjestResult
+          reservationInfo(url:String!): ReservationInfo
       }
     `,
         resolvers: {
@@ -127,13 +129,10 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                 },
             },
             Query: {
-                injest: (_query: any, args: any, context: any, resolveInfo: any) => {
-                    console.log(args)
-                    return {
-                        businessId: "hi",
-                        urlSlug: "my_slug",
-                        resyCityCode: "sf",
-                    }
+                reservationInfo: (_query: any, args: any, context: any, resolveInfo: any) => {
+                    const ret = getReservationInfo(_query, args);
+                    console.log(ret);
+                    return ret;
                 },
 
             }
@@ -168,7 +167,7 @@ async function singleVenueSearch(
         return null;
     }
     if (!vendor) {
-        console.log('XXXX miss vendor implementation' + venue.reservation);
+        console.log('XXXX miss vendor implementation ' + venue.reservation);
         return null;
     }
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);

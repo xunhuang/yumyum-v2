@@ -1,10 +1,9 @@
+import cheerio from 'cheerio';
 import { RateLimiter } from 'limiter';
 
-import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
-
+import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const fetch = require('node-fetch');
-
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 
@@ -31,9 +30,6 @@ export class VendorOpentable extends VendorBase {
             "isRedesign": true
         };
 
-        // console.log(url);
-        // console.log(data);
-
         const w = await fetch(url, {
             method: 'post',
             body: JSON.stringify(data),
@@ -49,13 +45,7 @@ export class VendorOpentable extends VendorBase {
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
 
         await limiter.removeTokens(1);
-        // console.log("doing opentable search (throttled)");
-
         let resbody = await this.venueSearchInternal(venue, date, party_size, timeOption);
-
-        // should take advantange of this.
-        // console.log(resbody?.multiDaysAvailability?.timeslots);
-
         if (typeof (resbody.availability) == "undefined") {
             return [];
         }
@@ -83,6 +73,33 @@ export class VendorOpentable extends VendorBase {
             }
         });
         return reservationUrl;
+    }
+
+    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+        const w = await fetch(url, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        });
+        const res = await w.text();
+        const $ = cheerio.load(res);
+        let scripts = $("script").map(function (i, el) {
+            let text = cheerio(el).html();
+            if (text?.includes("window.OTDataLayer = ")) {
+                text = text.split("\n")[0];
+                let aa = text.replace("window.OTDataLayer = ", "")
+                    .replace(/window.OT.*/g, "");
+                return aa.replace(";", "");
+            }
+            return "";
+        }).get().join(' ');
+
+        console.log(scripts);
+        let appconfig = JSON.parse(scripts);
+        return {
+            businessid: appconfig[0].rid,
+        }
     }
     /*
     

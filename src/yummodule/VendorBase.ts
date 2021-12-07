@@ -17,6 +17,10 @@ export interface VenueVendorInfo {
     longitude?: string;
 }
 
+export interface VenueReservationInfo {
+    businessid?: string;
+}
+
 export class VendorBase {
 
     vendorID() {
@@ -43,6 +47,10 @@ export class VendorBase {
 
     requiedFieldsForReservation(): Array<string> {
         throw new Error("requiedFieldsForReservation not implemented");
+    }
+
+    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+        throw new Error("fetchReservationInfoFromURL() not implemented");
     }
 
     /*

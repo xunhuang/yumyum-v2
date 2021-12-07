@@ -1,4 +1,6 @@
-import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
+import cheerio from 'cheerio';
+
+import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
@@ -135,6 +137,55 @@ export class VendorYelp extends VendorBase {
             }
         });
         return reservationUrl;
+    }
+
+    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+        return await superagent.get(url)
+            .then((res: any) => {
+                const $ = cheerio.load(res.text);
+                // let fullurl = $('link[rel="canonical"]').attr("href");
+                // if (!fullurl?.startsWith("http://www.yelp.com/reservations")) {
+                //     console.log("full url not match " + fullurl);
+                //     return null;
+                // }
+
+                let scriptText = $("script").map(function (i, el) {
+                    let text = cheerio(el).html();
+                    if (text?.includes('window.yr_search_widget_data')) {
+                        return text;
+                    }
+                    return "";
+                }).get().join(' ');
+
+                // eslint-disable-next-line no-unused-vars
+                scriptText = scriptText.trim();
+
+                console.log(scriptText);
+                console.log("hi");
+                let window = {};
+                if (true)
+                    throw new Error("fix me, we do need the eval here");
+
+                /*
+            // eval(scriptText);
+            let schema = JSON.parse(window.yr_landing_data);
+            var url_parts = urlparse.parse(redirect_url, true);
+            let paths = url_parts.pathname.split("/");
+
+            return {
+                reservation: "yelp",
+                businessid: schema.businessId,
+                url_slug: paths[paths.length - 1],
+                withOnlineReservation: true,
+                latitude: schema.mapData.latitude,
+                longitude: schema.mapData.longitude
+            }
+            */
+
+            }, (err: any) => {
+                console.log(err);
+                return null;
+            });
     }
 
     // async entitySearch(venue, longitude, latitude) {

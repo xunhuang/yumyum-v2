@@ -493,6 +493,7 @@ export type Query = Node & {
    * which can only query top level fields if they are in a particular form.
    */
   query: Query;
+  reservationInfo?: Maybe<ReservationInfo>;
   /** Reads a single `Venue` using its globally unique `ID`. */
   venue?: Maybe<Venue>;
   venueByKey?: Maybe<Venue>;
@@ -532,6 +533,12 @@ export type QueryNodeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryReservationInfoArgs = {
+  url: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryVenueArgs = {
   nodeId: Scalars['ID'];
 };
@@ -540,6 +547,13 @@ export type QueryVenueArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryVenueByKeyArgs = {
   key: Scalars['String'];
+};
+
+export type ReservationInfo = {
+  __typename?: 'ReservationInfo';
+  businessid?: Maybe<Scalars['String']>;
+  resyCityCode?: Maybe<Scalars['String']>;
+  urlSlug?: Maybe<Scalars['String']>;
 };
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
@@ -1477,7 +1491,7 @@ export const BayAreaAllWithSlotsDocument = gql`
     query BayAreaAllWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: $metro, withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true", close: false}
   ) {
     nodes {
       ...VenuAvailability
@@ -1567,7 +1581,7 @@ export const BayAreaBibWithSlotsDocument = gql`
     query BayAreaBibWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(
     first: $first
-    condition: {metro: $metro, withOnlineReservation: "true"}
+    condition: {metro: $metro, withOnlineReservation: "true", close: false}
     filter: {stars: {in: ["BIB_GOURMAND"]}}
   ) {
     totalCount
@@ -1705,7 +1719,9 @@ export type BayAreaNearbySlotsLazyQueryHookResult = ReturnType<typeof useBayArea
 export type BayAreaNearbySlotsQueryResult = Apollo.QueryResult<BayAreaNearbySlotsQuery, BayAreaNearbySlotsQueryVariables>;
 export const BayAreaDocument = gql`
     query BayArea($metro: String!) {
-  allVenues(condition: {metro: $metro, withOnlineReservation: "true"}) {
+  allVenues(
+    condition: {metro: $metro, withOnlineReservation: "true", close: false}
+  ) {
     nodes {
       ...VenuMainInfo
     }

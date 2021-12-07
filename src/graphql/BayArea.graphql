@@ -7,7 +7,7 @@ query BayAreaAllWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: $metro, withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true", close: false }
   ) {
     nodes {
       ...VenuAvailability
@@ -43,7 +43,7 @@ query BayAreaBibWithSlots(
 ) {
   allVenues(
     first: $first
-    condition: { metro: $metro, withOnlineReservation: "true" }
+    condition: { metro: $metro, withOnlineReservation: "true", close: false }
     filter: { stars: { in: ["BIB_GOURMAND"] } }
   ) {
     totalCount
@@ -107,7 +107,9 @@ fragment VenuAvailability on Venue {
 }
 
 query BayArea($metro: String!) {
-  allVenues(condition: { metro: $metro, withOnlineReservation: "true" }) {
+  allVenues(
+    condition: { metro: $metro, withOnlineReservation: "true", close: false }
+  ) {
     nodes {
       ...VenuMainInfo
     }
