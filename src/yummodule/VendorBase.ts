@@ -30,11 +30,24 @@ export class VendorBase {
     async venueSearchSafe(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<Array<TimeSlots> | null> {
         try {
             console.log(`${venue.reservation} searching for ${venue.name} (${venue.key}) ${date} ${party_size} ${timeOption}`);
+            if (!this.allRequiredFieldsPresent(venue)) {
+                throw new Error(`Some required fields are missing for ${venue.name} (${venue.key})`)
+            }
             return await this.venueSearch(venue, date, party_size, timeOption);
         } catch (err) {
             console.error(`${venue.reservation} Error searching for ${venue.name} (${venue.key}) ${err}`);
             return null;
         }
+    }
+
+    allRequiredFieldsPresent(venue: VenueReservationInfo): boolean {
+        const required_fields = this.requiedFieldsForReservation;
+        for (let f in required_fields) {
+            if (!(f in venue)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     async venueSearch(venue: any, date: string, party_size: number, timeOption: string): Promise<Array<TimeSlots> | null> {

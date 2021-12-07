@@ -34,7 +34,7 @@ export class VendorYelp extends VendorBase {
     }
 
     requiedFieldsForReservation() {
-        return ["businessid", "url_slug"];
+        return ["businessid", "url_slug", "longitude", "latitude"];
     }
 
     // async fetchVenueInfoFromURL(redirect_url) {

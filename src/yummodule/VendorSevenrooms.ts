@@ -12,9 +12,6 @@ export class VendorSevenrooms extends VendorBase {
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         const url = "https://www.sevenrooms.com/api-yoa/availability/widget/range";
-        if (!venue.url_slug) {
-            throw new Error(`url_slug is missing for ${venue.name} (${venue.key})`)
-        }
         return await superagent.get(url)
             .query({
                 venue: venue.url_slug,
