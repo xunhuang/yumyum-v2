@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
