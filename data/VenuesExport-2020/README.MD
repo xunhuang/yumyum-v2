@@ -4,6 +4,11 @@ Backup
 pg_dump $CONN -c -O --no-tablespaces -t venues > venues.sql
 ```
 
+refresh cloud data from venues.sql
+```
+psql $CONN_CLOUD < venues.sql
+```
+
 Connect To the Cloud SQL instance
 
 ```
