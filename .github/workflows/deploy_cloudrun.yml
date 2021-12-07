@@ -1,9 +1,8 @@
 name: cloudrun-deploy
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-
+    branches:
+      - main
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
@@ -33,8 +32,15 @@ jobs:
         gcloud config set project ${{ secrets.GCP_PROJECT }}
         gcloud config set run/region us-central1
 
-   - name: link yummodule
-      run: cd graphql; ln -s ../src/yummodule . ; cd ..
+    #- uses: fastai/workflows/ssh@master
+      #with:
+        #ssh_key: ${{ secrets.SSH_KEY }}
+        #key_file: id_ecdsa
+    #- name: Setup tmate session
+      #uses: mxschmitt/action-tmate@master
+
+    - name: link something 
+      run: cd graphql ; ln -s ../src/yummodule/ . ; cd ..
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
