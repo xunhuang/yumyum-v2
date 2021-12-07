@@ -26,7 +26,7 @@ function doesNameMatch(name1: string, name2: string) {
 
 export function normalizeUrl(url: string) {
     if (!url.includes("http")) {
-        return "http://" + url;
+        return "https://" + url;
     }
     return url;
 }

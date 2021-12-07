@@ -4,6 +4,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 import { Venue } from '../generated/graphql';
+import { normalizeUrl } from '../yummodule/YumUtil';
 import { useMetro } from './useMetro';
 
 dayjs.extend(utc);
@@ -18,7 +19,11 @@ type AvailabilityListProps = {
   slots: Array<string>;
 };
 
-export const AvailabilityList = ({ timezone, url, slots }: AvailabilityListProps) => {
+export const AvailabilityList = ({
+  timezone,
+  url,
+  slots,
+}: AvailabilityListProps) => {
   // dedup first
   return (
     <div>
@@ -58,8 +63,8 @@ export const VenueLinks = ({ venue }: VenueProp) => {
         justifyContent: "space-between",
       }}
     >
-      {venue?.url && <a href={venue?.url!}> Michelin </a>}
-      <a href={venue?.realurl!}> Official WebSite </a>
+      {venue?.url && <a href={venue?.url!}> Michelin Guide </a>}
+      <a href={normalizeUrl(venue?.realurl!)}> WebSite </a>
       <a href={maplink}> Location </a>
     </div>
   );
