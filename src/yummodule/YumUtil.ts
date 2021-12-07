@@ -20,9 +20,9 @@
 //     return onehost === twohost;
 // }
 
-function doesNameMatch(name1: string, name2: string) {
-    return name1.toLowerCase().trim() === name2.toLowerCase().trim();
-}
+// export function doesNameMatch(name1: string, name2: string) {
+//     return name1.toLowerCase().trim() === name2.toLowerCase().trim();
+// }
 
 export function normalizeUrl(url: string) {
     if (!url.includes("http")) {

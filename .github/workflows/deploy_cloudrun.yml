@@ -33,8 +33,7 @@ jobs:
         gcloud config set run/region us-central1
 
    - name: link yummodule
-      run: |
-        cd graphql; ln -s ../src/yummodule . ; cd -
+      run: cd graphql; ln -s ../src/yummodule . ; cd ..
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy

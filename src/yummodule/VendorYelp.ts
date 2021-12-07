@@ -162,7 +162,7 @@ export class VendorYelp extends VendorBase {
 
                 console.log(scriptText);
                 console.log("hi");
-                let window = {};
+                // let window = {};
                 if (true)
                     throw new Error("fix me, we do need the eval here");
 
