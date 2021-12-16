@@ -141,6 +141,7 @@ type Global11042021 {
   street: String
   takeAway: Boolean
   url: String
+  metro: String
 }
 
 """A `Global11042021` edge in the connection."""
@@ -215,6 +216,8 @@ enum Global11042021SOrderBy {
   TAKE_AWAY_DESC
   URL_ASC
   URL_DESC
+  METRO_ASC
+  METRO_DESC
 }
 
 """
@@ -284,6 +287,9 @@ input Global11042021Condition {
 
   """Checks for equality with the object’s `url` field."""
   url: String
+
+  """Checks for equality with the object’s `metro` field."""
+  metro: String
 }
 
 """
@@ -352,6 +358,9 @@ input Global11042021Filter {
 
   """Filter by the object’s `url` field."""
   url: StringFilter
+
+  """Filter by the object’s `metro` field."""
+  metro: StringFilter
 
   """Checks for all expressions in this list."""
   and: [Global11042021Filter!]
@@ -618,6 +627,8 @@ type Venue implements Node {
   withOnlineReservation: String
   workqueue: String
   zip: String
+  vintage: String
+  streetUsps: String
   slots(date: String!, party_size: Int = 2, timeOption: String = "dinner"): [String!]
   monthlySlots(date: String!, party_size: Int = 2, timeOption: String = "dinner"): [DateAvailability!]
   myReservationUrl(date: String!, party_size: Int = 2, timeOption: String = "dinner"): String
@@ -759,6 +770,10 @@ enum VenuesOrderBy {
   WORKQUEUE_DESC
   ZIP_ASC
   ZIP_DESC
+  VINTAGE_ASC
+  VINTAGE_DESC
+  STREET_USPS_ASC
+  STREET_USPS_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -945,6 +960,12 @@ input VenueCondition {
 
   """Checks for equality with the object’s `zip` field."""
   zip: String
+
+  """Checks for equality with the object’s `vintage` field."""
+  vintage: String
+
+  """Checks for equality with the object’s `streetUsps` field."""
+  streetUsps: String
 }
 
 """
@@ -1128,6 +1149,12 @@ input VenueFilter {
   """Filter by the object’s `zip` field."""
   zip: StringFilter
 
+  """Filter by the object’s `vintage` field."""
+  vintage: StringFilter
+
+  """Filter by the object’s `streetUsps` field."""
+  streetUsps: StringFilter
+
   """Checks for all expressions in this list."""
   and: [VenueFilter!]
 
@@ -1297,6 +1324,7 @@ input Global11042021Input {
   street: String
   takeAway: Boolean
   url: String
+  metro: String
 }
 
 """The output of our create `Venue` mutation."""
@@ -1395,6 +1423,8 @@ input VenueInput {
   withOnlineReservation: String
   workqueue: String
   zip: String
+  vintage: String
+  streetUsps: String
 }
 
 """The output of our update `Venue` mutation."""
@@ -1502,6 +1532,8 @@ input VenuePatch {
   withOnlineReservation: String
   workqueue: String
   zip: String
+  vintage: String
+  streetUsps: String
 }
 
 """All input for the `updateVenueByKey` mutation."""
