@@ -1,7 +1,7 @@
 Backup 
 
 ```
-pg_dump $CONN -c -O --no-tablespaces -t venues > venues.sql
+pg_dump $CONN -c -O --no-tablespaces -n public > venues.sql
 ```
 
 refresh cloud data from venues.sql

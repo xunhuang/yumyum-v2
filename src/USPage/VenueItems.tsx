@@ -64,7 +64,7 @@ export const VenueLinks = ({ venue }: VenueProp) => {
       }}
     >
       {venue?.url && <a href={venue?.url!}> Michelin Guide </a>}
-      <a href={normalizeUrl(venue?.realurl!)}> WebSite </a>
+      {venue?.realurl && <a href={normalizeUrl(venue?.realurl!)}> WebSite </a>}
       <a href={maplink}> Location </a>
     </div>
   );

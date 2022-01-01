@@ -8,6 +8,15 @@ const moment = require('moment-timezone');
 
 const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
 
+/* Resy API:
+
+Look up venue information given venue id. Useful for getting the venue id from Michelin Website
+then finding Resy City code and url slug.
+
+curl 'https://api.resy.com/3/venue?id=5785' \
+  -H 'authorization: ResyAPI api_key="PXnGpHdkz0Y38qg3QdMkRw2GkgBcMEXL"'
+*/
+
 /*
 async function entitySearchExactTerm(term, longitude, latitude) {
     const url = "https://api.resy.com/3/venuesearch/search";

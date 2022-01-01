@@ -108,7 +108,7 @@ fragment VenuAvailability on Venue {
 
 query BayArea($metro: String!) {
   allVenues(
-    condition: { metro: $metro, withOnlineReservation: "true", close: false }
+    condition: { metro: $metro,  close: false }
   ) {
     nodes {
       ...VenuMainInfo
