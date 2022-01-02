@@ -1,9 +1,11 @@
+import Link from '@material-ui/core/Link';
 import { Button, Form, Input, Select, Switch } from 'antd';
+import buildUrl from 'build-url';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Loading } from '../components/Loading';
-import { useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
+import { useLookupReservationInfoLazyQuery, useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
 import { getVendor, VendorMap } from '../yummodule/Vendors';
 import { VenueDescription, VenueTitle } from './VenueItems';
 
@@ -46,12 +48,15 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
       key: venue_id,
     },
   });
+
+  const [LookupReservation, result] = useLookupReservationInfoLazyQuery();
   const [makeChange] = useUpdateVenueInfoMutation();
   const [reservation, setReservation] = useState<string | null>(null);
 
   if (loading) {
     return <Loading />;
   }
+
   const venue = data?.venueByKey;
 
   if (!venue) {
@@ -61,7 +66,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
   const onFinish = (values: any) => {
     values.key = venue_id;
     console.log(values);
-
     makeChange({
       variables: values,
     });
@@ -72,6 +76,16 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
   return (
     <div>
       <VenueTitle venue={venue!} />
+      <Link
+        href={buildUrl("http://www.google.com", {
+          queryParams: {
+            q: `${venue.name} ${venue.city} reservation`,
+          },
+        })}
+        target={"none"}
+      >
+        {venue.name}
+      </Link>
       <VenueDescription venue={venue!} />
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item
@@ -128,6 +142,27 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
         >
           <Switch />
         </Form.Item>
+        <Form.Item
+          name={"reservationUrl"}
+          label={"Reservation URL"}
+          rules={[
+            {
+              required: false,
+            },
+          ]}
+        >
+          <Input
+            onChange={(e) => {
+              console.log(e.target.value);
+              LookupReservation({
+                variables: { url: e.target.value },
+              });
+            }}
+          />
+        </Form.Item>
+        {result.data && <div>{result.data.reservationInfo?.businessid}</div>}
+        {result.data && <div>{result.data.reservationInfo?.resyCityCode}</div>}
+        {result.data && <div>{result.data.reservationInfo?.urlSlug}</div>}
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
@@ -135,7 +170,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           </Button>
         </Form.Item>
       </Form>
-      );
     </div>
   );
 };

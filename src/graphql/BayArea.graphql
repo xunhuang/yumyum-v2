@@ -124,6 +124,14 @@ query BayAreaOffline($metro: String!) {
   }
 }
 
+query MetroTBD($metro: String!) {
+  allVenues(condition: { metro: $metro, reservation: "TBD" }) {
+    nodes {
+      ...VenuMainInfo
+    }
+  }
+}
+
 fragment VenuMainInfo on Venue {
   nodeId
   name

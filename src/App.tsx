@@ -9,6 +9,7 @@ import { RecoilRoot } from 'recoil';
 import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
 import { MetroListAll } from './USPage/AdminMetro';
+import { MetroListTBD } from './USPage/AdminTBDMetro';
 import { ListsPage } from './USPage/ListsPage';
 import { VenueEditFromURL } from './USPage/VenueEdit';
 import { VenuePage } from './USPage/VenuePage';
@@ -39,6 +40,11 @@ const routes: IRoute[] = [
     path: "/admin/metro/:metro",
     component: MetroListAll,
     name: "Manage Metro",
+  },
+  {
+    path: "/admin/tbd/metro/:metro",
+    component: MetroListTBD,
+    name: "Metro TBD",
   },
   {
     path: "/admin/venue/:venue_id",

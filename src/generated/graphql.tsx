@@ -1579,7 +1579,21 @@ export type BayAreaOfflineQueryVariables = Exact<{
 
 export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
 
+export type MetroTbdQueryVariables = Exact<{
+  metro: Scalars['String'];
+}>;
+
+
+export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+
 export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string };
+
+export type LookupReservationInfoQueryVariables = Exact<{
+  url: Scalars['String'];
+}>;
+
+
+export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: Maybe<{ __typename?: 'ReservationInfo', businessid?: Maybe<string>, urlSlug?: Maybe<string>, resyCityCode?: Maybe<string> }> };
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -2003,6 +2017,80 @@ export function useBayAreaOfflineLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type BayAreaOfflineQueryHookResult = ReturnType<typeof useBayAreaOfflineQuery>;
 export type BayAreaOfflineLazyQueryHookResult = ReturnType<typeof useBayAreaOfflineLazyQuery>;
 export type BayAreaOfflineQueryResult = Apollo.QueryResult<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>;
+export const MetroTbdDocument = gql`
+    query MetroTBD($metro: String!) {
+  allVenues(condition: {metro: $metro, reservation: "TBD"}) {
+    nodes {
+      ...VenuMainInfo
+    }
+  }
+}
+    ${VenuMainInfoFragmentDoc}`;
+
+/**
+ * __useMetroTbdQuery__
+ *
+ * To run a query within a React component, call `useMetroTbdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMetroTbdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMetroTbdQuery({
+ *   variables: {
+ *      metro: // value for 'metro'
+ *   },
+ * });
+ */
+export function useMetroTbdQuery(baseOptions: Apollo.QueryHookOptions<MetroTbdQuery, MetroTbdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MetroTbdQuery, MetroTbdQueryVariables>(MetroTbdDocument, options);
+      }
+export function useMetroTbdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MetroTbdQuery, MetroTbdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MetroTbdQuery, MetroTbdQueryVariables>(MetroTbdDocument, options);
+        }
+export type MetroTbdQueryHookResult = ReturnType<typeof useMetroTbdQuery>;
+export type MetroTbdLazyQueryHookResult = ReturnType<typeof useMetroTbdLazyQuery>;
+export type MetroTbdQueryResult = Apollo.QueryResult<MetroTbdQuery, MetroTbdQueryVariables>;
+export const LookupReservationInfoDocument = gql`
+    query LookupReservationInfo($url: String!) {
+  reservationInfo(url: $url) {
+    businessid
+    urlSlug
+    resyCityCode
+  }
+}
+    `;
+
+/**
+ * __useLookupReservationInfoQuery__
+ *
+ * To run a query within a React component, call `useLookupReservationInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLookupReservationInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLookupReservationInfoQuery({
+ *   variables: {
+ *      url: // value for 'url'
+ *   },
+ * });
+ */
+export function useLookupReservationInfoQuery(baseOptions: Apollo.QueryHookOptions<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>(LookupReservationInfoDocument, options);
+      }
+export function useLookupReservationInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>(LookupReservationInfoDocument, options);
+        }
+export type LookupReservationInfoQueryHookResult = ReturnType<typeof useLookupReservationInfoQuery>;
+export type LookupReservationInfoLazyQueryHookResult = ReturnType<typeof useLookupReservationInfoLazyQuery>;
+export type LookupReservationInfoQueryResult = Apollo.QueryResult<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>;
 export const UpdateVenueInfoDocument = gql`
     mutation UpdateVenueInfo($key: String!, $businessid: String, $reservation: String, $resyCityCode: String, $urlSlug: String, $close: Boolean!) {
   updateVenueByKey(

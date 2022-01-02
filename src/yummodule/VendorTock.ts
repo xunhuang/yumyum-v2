@@ -1,9 +1,11 @@
-import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
+import cheerio from 'cheerio';
+
+import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
-const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+const fetch = require('node-fetch');
 
 export class VendorTock extends VendorBase {
     vendorID() {
@@ -76,10 +78,10 @@ export class VendorTock extends VendorBase {
             .send({})
             .then((res: any) => {
                 const $ = cheerio.load(res.text);
-                let meta = JSON.parse($("#json-ld-content").html());
+                let meta = JSON.parse($("#json-ld-content").html()!);
                 let scripts = $("script").map(function (i: any, el: any) {
                     let text = cheerio(el).html();
-                    if (text.includes("REDUX")) {
+                    if (text?.includes("REDUX")) {
                         return text.replace("window.$REDUX_STATE = ", "");
                     }
                     return "";
@@ -138,5 +140,33 @@ export class VendorTock extends VendorBase {
                 console.log("Error for tock: " + err + " " + url);
                 return null;
             });
+    }
+
+    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+        const w = await fetch(url, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        });
+        const res = await w.text();
+        const $ = cheerio.load(res);
+        let scripts = $("script").map(function (i: any, el: any) {
+            let text = cheerio(el).html();
+            if (text?.includes("window.$REDUX_STATE = ")) {
+                return text.replace("window.$REDUX_STATE = ", "");
+            }
+            return "";
+        }).get().join(' ');
+
+        console.log("--- scripts ");
+        console.log(scripts);
+        let appconfig = JSON.parse(scripts);
+        console.log(appconfig.app.activeAuth);
+
+        return {
+            businessid: appconfig.app.activeAuth.businessId,
+            urlSlug: appconfig.app.config.business.domainName,
+        }
     }
 };

@@ -49,10 +49,18 @@ const getReservationInfo = async (_query: any, args: any): Promise<VenueReservat
             reservation = "opentable";
         } else if (url.includes("yelp.com")) {
             reservation = "yelp";
+        } else if (url.includes("resy.com")) {
+            reservation = "resy";
+        } else if (url.includes("exploretock.com")) {
+            reservation = "tock";
         }
 
         const vendor = getVendor(reservation!);
-        return vendor.fetchReservationInfoFromURL(url);
+        const info = await vendor.fetchReservationInfoFromURL(url);
+        console.log(info);
+        return info;
+
+
     } catch (err) {
         console.error(`Error injesting for ${url} ${err}`);
         return null;

@@ -1,10 +1,11 @@
 import { RateLimiter } from 'limiter';
 
-import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
+import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
 const moment = require('moment-timezone');
+const urlparse = require('url');
 
 const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
 
@@ -215,4 +216,29 @@ export class VendorResy extends VendorBase {
             });
     }
     */
+    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+        var url_parts = urlparse.parse(url, true);
+        var paths = url_parts.pathname.split("/");
+        let citycode = paths[2];
+        let url_slug = paths[3];
+
+        const venueurl = "https://api.resy.com/3/venue";
+
+        const data = await superagent.get(venueurl)
+            .query({
+                location: citycode,
+                url_slug: url_slug,
+            })
+            .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
+            .send({})
+            .then((res: any) => {
+                return res.body;
+            });
+        return {
+            businessid: data.id.resy,
+            urlSlug: url_slug,
+            resyCityCode: citycode,
+
+        }
+    }
 }
