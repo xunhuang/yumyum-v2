@@ -1,5 +1,5 @@
 import Link from '@material-ui/core/Link';
-import { Button, Form, Input, Select, Switch } from 'antd';
+import { Button, Form, Input, notification, Select, Switch } from 'antd';
 import buildUrl from 'build-url';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -58,16 +58,22 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
       }
     },
   });
-  const [makeChange] = useUpdateVenueInfoMutation();
-  const [reservation, setReservation] = useState<string | null>(null);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   const venue = data?.venueByKey;
 
-  if (!venue) {
+  const [makeChange] = useUpdateVenueInfoMutation({
+    onCompleted: (data) => {
+      const args = {
+        message: "Information saved",
+        description: `${venue?.name} reservation info saved`,
+        duration: 3,
+      };
+      notification.open(args);
+    },
+  });
+  const [reservation, setReservation] = useState<string | null>(null);
+
+  if (loading || !venue) {
     return <Loading />;
   }
 
@@ -100,18 +106,22 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   return (
     <div>
-      <Link
-        href={buildUrl("http://www.google.com", {
-          queryParams: {
-            q: `${venue.name} ${venue.city} reservation`,
-          },
-        })}
-        target={"none"}
-      >
-        {venue.name}
-      </Link>
-      <VenueDescription venue={venue!} />
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
+        <Form.Item {...tailLayout}>
+          <h2>
+            <Link
+              href={buildUrl("http://www.google.com", {
+                queryParams: {
+                  q: `${venue.name} ${venue.city} reservation`,
+                },
+              })}
+              target={"none"}
+            >
+              {venue.name}
+            </Link>
+          </h2>
+          <VenueDescription venue={venue!} />
+        </Form.Item>
         <Form.Item
           name="reservation"
           label="Reservation System"
@@ -191,6 +201,25 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
               });
             }}
           />
+          {result.data?.reservationInfo === undefined && (
+            <div>
+              Examples:
+              <ul>
+                <li>
+                  https://resy.com/cities/sf/mourad?date=2022-01-03&seats=5
+                </li>
+                <li>
+                  https://www.yelp.com/reservations/top-hatters-kitchen-and-bar-san-leandro
+                </li>
+                <li>
+                  https://www.exploretock.com/theshotasf/experience/282076/omakase-bar?cameFrom=search_modal&date=2022-01-27&showExclusives=true&size=3&time=20%3A00
+                </li>
+                <li>
+                  https://www.opentable.com/r/alderwood-santa-cruz?ref=18490
+                </li>
+              </ul>
+            </div>
+          )}
         </Form.Item>
         <Form.Item {...tailLayout}>
           <pre>{JSON.stringify(result.data?.reservationInfo, null, 2)}</pre>

@@ -1,5 +1,7 @@
 import 'antd/dist/antd.css';
 
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import React, { useState } from 'react';
 
 import { Loading } from '../components/Loading';
@@ -27,24 +29,28 @@ export const MetroListTBD = () => {
 
   return (
     <div>
-      <div>
-        <span
-          onClick={() => {
-            setCurrentIndex((currentIndex - 1) % total!);
-          }}
-        >
-          Left
-        </span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "baseline",
+        }}
+      >
+        <Button
+          shape="circle"
+          icon={<LeftOutlined />}
+          size="large"
+          onClick={() => setCurrentIndex((currentIndex - 1) % total!)}
+        />
         <span>
           Item # {currentIndex + 1} of total {total}
         </span>
-        <span
-          onClick={() => {
-            setCurrentIndex((currentIndex + 1) % total!);
-          }}
-        >
-          Right
-        </span>
+        <Button
+          shape="circle"
+          icon={<RightOutlined />}
+          size="large"
+          onClick={() => setCurrentIndex((currentIndex + 1) % total!)}
+        />
       </div>
       {venuekey && <VenueEdit venue_id={venuekey} key={venuekey} />}
     </div>
