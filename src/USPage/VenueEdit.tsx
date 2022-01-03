@@ -49,7 +49,15 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
     },
   });
 
-  const [LookupReservation, result] = useLookupReservationInfoLazyQuery();
+  const [LookupReservation, result] = useLookupReservationInfoLazyQuery({
+    onCompleted: (data: any) => {
+      // console.log(data.reservationInfo);
+      if (data.reservationInfo) {
+        form.setFieldsValue(data.reservationInfo);
+        setReservation(data.reservationInfo.reservation);
+      }
+    },
+  });
   const [makeChange] = useUpdateVenueInfoMutation();
   const [reservation, setReservation] = useState<string | null>(null);
 
@@ -184,17 +192,9 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             }}
           />
         </Form.Item>
-        {result.data && <div>{result.data.reservationInfo?.reservation}</div>}
-        {result.data && <div>{result.data.reservationInfo?.businessid}</div>}
-        {result.data && <div>{result.data.reservationInfo?.urlSlug}</div>}
-        {result.data && <div>{result.data.reservationInfo?.resyCityCode}</div>}
-        {result.data && (
-          <div>Longitude: {result.data.reservationInfo?.longitude}</div>
-        )}
-        {result.data && (
-          <div>Latitdue: {result.data.reservationInfo?.latitude}</div>
-        )}
-
+        <Form.Item {...tailLayout}>
+          <pre>{JSON.stringify(result.data?.reservationInfo, null, 2)}</pre>
+        </Form.Item>
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
             Submit
