@@ -73,6 +73,23 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const vendor = getVendor(reservation ? reservation : venue?.reservation!);
 
+  function prefillbutton(res: string) {
+    return (
+      <Button
+        type="link"
+        htmlType="button"
+        onClick={() => {
+          form.setFieldsValue({
+            reservation: res,
+          });
+          setReservation(res);
+        }}
+      >
+        {res}
+      </Button>
+    );
+  }
+
   return (
     <div>
       <Link
@@ -114,6 +131,14 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
             {}
           </Select>
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          {prefillbutton("opentable")}
+          {prefillbutton("tock")}
+          {prefillbutton("resy")}
+          {prefillbutton("yelp")}
+          {prefillbutton("none")}
+          {prefillbutton("Call/Email")}
         </Form.Item>
 
         {vendor &&
