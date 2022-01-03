@@ -122,7 +122,8 @@ export const VenueTitle = ({ venue }: VenueProp) => {
 export const VenueDescription = ({ venue }: VenueProp) => {
   return (
     <div>
-      {venue?.cuisine}, {venue?.city}, {venue?.priceline}
+      {venue?.cuisine?.split(",").join(", ")}, {venue?.city}
+      {venue?.priceline && <> , {venue?.priceline}</>}
     </div>
   );
 };
