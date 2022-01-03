@@ -29,6 +29,7 @@ export const VenuePage = () => {
 
   const imageList =
     venue?.imageList && (JSON.parse(venue.imageList) as Array<string>);
+  console.log(imageList);
 
   return (
     <div
@@ -62,13 +63,14 @@ export const VenuePage = () => {
           // autoplay
           style={{
             maxWidth: "500px",
+            minWidth: "300px",
             height: "400px",
             overflow: "hidden",
           }}
         >
           {imageList &&
             imageList.map((image) => (
-              <div className={"carousel_container"}>
+              <div className={"carousel_container"} key={image}>
                 <img
                   src={image}
                   alt="imagex"
