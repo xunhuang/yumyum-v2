@@ -1,0 +1,10 @@
+query LookupReservationInfo($url: String!) {
+  reservationInfo(url: $url) {
+    businessid
+    urlSlug
+    resyCityCode
+    latitude
+    longitude
+    reservation
+  }
+}
