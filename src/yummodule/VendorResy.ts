@@ -235,6 +235,7 @@ export class VendorResy extends VendorBase {
                 return res.body;
             });
         return {
+            reservation: this.vendorID(),
             businessid: data.id.resy,
             urlSlug: url_slug,
             resyCityCode: citycode,

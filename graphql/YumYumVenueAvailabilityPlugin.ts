@@ -87,9 +87,12 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
       }
 
       type ReservationInfo {
+          reservation:String
           businessid:String
           urlSlug:String
           resyCityCode:String
+          longitude:Float
+          latitude:Float
       }
 
       extend type Query {

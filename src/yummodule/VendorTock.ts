@@ -159,12 +159,9 @@ export class VendorTock extends VendorBase {
             return "";
         }).get().join(' ');
 
-        console.log("--- scripts ");
-        console.log(scripts);
         let appconfig = JSON.parse(scripts);
-        console.log(appconfig.app.activeAuth);
-
         return {
+            reservation: this.vendorID(),
             businessid: appconfig.app.activeAuth.businessId,
             urlSlug: appconfig.app.config.business.domainName,
         }

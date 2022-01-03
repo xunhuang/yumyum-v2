@@ -95,9 +95,9 @@ export class VendorOpentable extends VendorBase {
             return "";
         }).get().join(' ');
 
-        console.log(scripts);
         let appconfig = JSON.parse(scripts);
         return {
+            reservation: this.vendorID(),
             businessid: appconfig[0].rid,
         }
     }

@@ -5,6 +5,7 @@ import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './
 const buildUrl = require('build-url');
 const superagent = require('superagent');
 const moment = require('moment-timezone');
+const urlparse = require('url');
 
 // async function entitySearchExactTerm(term, longitude, latitude) {
 //     const url = "https://www.yelp.com/search_suggest/v2/prefetch";
@@ -140,52 +141,33 @@ export class VendorYelp extends VendorBase {
     }
 
     async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
-        return await superagent.get(url)
-            .then((res: any) => {
-                const $ = cheerio.load(res.text);
-                // let fullurl = $('link[rel="canonical"]').attr("href");
-                // if (!fullurl?.startsWith("http://www.yelp.com/reservations")) {
-                //     console.log("full url not match " + fullurl);
-                //     return null;
-                // }
+        const res = await superagent.get(url);
 
-                let scriptText = $("script").map(function (i, el) {
-                    let text = cheerio(el).html();
-                    if (text?.includes('window.yr_search_widget_data')) {
-                        return text;
-                    }
-                    return "";
-                }).get().join(' ');
+        var url_parts = urlparse.parse(url, true);
+        var path_parts = url_parts.pathname.split("/");
+        const url_slug = path_parts[path_parts.length - 1];
 
-                // eslint-disable-next-line no-unused-vars
-                scriptText = scriptText.trim();
-
-                console.log(scriptText);
-                console.log("hi");
-                // let window = {};
-                if (true)
-                    throw new Error("fix me, we do need the eval here");
-
-                /*
-            // eval(scriptText);
-            let schema = JSON.parse(window.yr_landing_data);
-            var url_parts = urlparse.parse(redirect_url, true);
-            let paths = url_parts.pathname.split("/");
-
-            return {
-                reservation: "yelp",
-                businessid: schema.businessId,
-                url_slug: paths[paths.length - 1],
-                withOnlineReservation: true,
-                latitude: schema.mapData.latitude,
-                longitude: schema.mapData.longitude
+        const $ = cheerio.load(res.text);
+        let scriptText = $("script").map(function (i, el) {
+            let text = cheerio(el).html();
+            if (text?.includes('window.yr_search_widget_data')) {
+                text = text?.replace(/\n/g, '')!;
+                return text.replace(/.*window.yr_landing_data = "/, "")
+                    .replace(/";/g, "")
+                    .replace(/\\"/g, '"');
             }
-            */
+            return "";
+        }).get().join(' ');
+        scriptText = scriptText.trim();
+        const config = JSON.parse(scriptText);
+        return {
+            reservation: this.vendorID(),
+            businessid: config.businessId,
+            urlSlug: url_slug,
+            latitude: config.mapData.latitude,
+            longitude: config.mapData.longitude
+        }
 
-            }, (err: any) => {
-                console.log(err);
-                return null;
-            });
     }
 
     // async entitySearch(venue, longitude, latitude) {

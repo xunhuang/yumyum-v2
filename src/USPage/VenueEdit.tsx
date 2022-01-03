@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../components/Loading';
 import { useLookupReservationInfoLazyQuery, useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
 import { getVendor, VendorMap } from '../yummodule/Vendors';
-import { VenueDescription, VenueTitle } from './VenueItems';
+import { VenueDescription } from './VenueItems';
 
 const snakeToCamel = (str: string) =>
   str
@@ -75,7 +75,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   return (
     <div>
-      <VenueTitle venue={venue!} />
       <Link
         href={buildUrl("http://www.google.com", {
           queryParams: {
@@ -160,9 +159,16 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             }}
           />
         </Form.Item>
+        {result.data && <div>{result.data.reservationInfo?.reservation}</div>}
         {result.data && <div>{result.data.reservationInfo?.businessid}</div>}
-        {result.data && <div>{result.data.reservationInfo?.resyCityCode}</div>}
         {result.data && <div>{result.data.reservationInfo?.urlSlug}</div>}
+        {result.data && <div>{result.data.reservationInfo?.resyCityCode}</div>}
+        {result.data && (
+          <div>Longitude: {result.data.reservationInfo?.longitude}</div>
+        )}
+        {result.data && (
+          <div>Latitdue: {result.data.reservationInfo?.latitude}</div>
+        )}
 
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">

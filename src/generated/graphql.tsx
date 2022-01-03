@@ -699,6 +699,9 @@ export type QueryVenueByKeyArgs = {
 export type ReservationInfo = {
   __typename?: 'ReservationInfo';
   businessid?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  reservation?: Maybe<Scalars['String']>;
   resyCityCode?: Maybe<Scalars['String']>;
   urlSlug?: Maybe<Scalars['String']>;
 };
@@ -1593,7 +1596,7 @@ export type LookupReservationInfoQueryVariables = Exact<{
 }>;
 
 
-export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: Maybe<{ __typename?: 'ReservationInfo', businessid?: Maybe<string>, urlSlug?: Maybe<string>, resyCityCode?: Maybe<string> }> };
+export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: Maybe<{ __typename?: 'ReservationInfo', businessid?: Maybe<string>, urlSlug?: Maybe<string>, resyCityCode?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, reservation?: Maybe<string> }> };
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -2060,6 +2063,9 @@ export const LookupReservationInfoDocument = gql`
     businessid
     urlSlug
     resyCityCode
+    latitude
+    longitude
+    reservation
   }
 }
     `;

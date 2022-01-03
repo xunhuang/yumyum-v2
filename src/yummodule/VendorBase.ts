@@ -18,9 +18,12 @@ export interface VenueVendorInfo {
 }
 
 export interface VenueReservationInfo {
+    reservation?: string;
     businessid?: string;
     urlSlug?: string;
     resyCityCode?: string;
+    latitude?: string;
+    longitude?: string;
 }
 
 export class VendorBase {
