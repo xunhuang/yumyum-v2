@@ -1530,6 +1530,17 @@ export type BayAreaStarredWithSlotsQueryVariables = Exact<{
 
 export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
 
+export type BayArea2021WithSlotsQueryVariables = Exact<{
+  metro: Scalars['String'];
+  date: Scalars['String'];
+  party_size?: Maybe<Scalars['Int']>;
+  timeOption?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
@@ -1806,6 +1817,52 @@ export function useBayAreaStarredWithSlotsLazyQuery(baseOptions?: Apollo.LazyQue
 export type BayAreaStarredWithSlotsQueryHookResult = ReturnType<typeof useBayAreaStarredWithSlotsQuery>;
 export type BayAreaStarredWithSlotsLazyQueryHookResult = ReturnType<typeof useBayAreaStarredWithSlotsLazyQuery>;
 export type BayAreaStarredWithSlotsQueryResult = Apollo.QueryResult<BayAreaStarredWithSlotsQuery, BayAreaStarredWithSlotsQueryVariables>;
+export const BayArea2021WithSlotsDocument = gql`
+    query BayArea2021WithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
+  allVenues(
+    first: $first
+    condition: {metro: $metro, withOnlineReservation: "true"}
+    filter: {vintage: {in: ["2021"]}}
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+    ${VenuAvailabilityFragmentDoc}`;
+
+/**
+ * __useBayArea2021WithSlotsQuery__
+ *
+ * To run a query within a React component, call `useBayArea2021WithSlotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBayArea2021WithSlotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBayArea2021WithSlotsQuery({
+ *   variables: {
+ *      metro: // value for 'metro'
+ *      date: // value for 'date'
+ *      party_size: // value for 'party_size'
+ *      timeOption: // value for 'timeOption'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useBayArea2021WithSlotsQuery(baseOptions: Apollo.QueryHookOptions<BayArea2021WithSlotsQuery, BayArea2021WithSlotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BayArea2021WithSlotsQuery, BayArea2021WithSlotsQueryVariables>(BayArea2021WithSlotsDocument, options);
+      }
+export function useBayArea2021WithSlotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BayArea2021WithSlotsQuery, BayArea2021WithSlotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BayArea2021WithSlotsQuery, BayArea2021WithSlotsQueryVariables>(BayArea2021WithSlotsDocument, options);
+        }
+export type BayArea2021WithSlotsQueryHookResult = ReturnType<typeof useBayArea2021WithSlotsQuery>;
+export type BayArea2021WithSlotsLazyQueryHookResult = ReturnType<typeof useBayArea2021WithSlotsLazyQuery>;
+export type BayArea2021WithSlotsQueryResult = Apollo.QueryResult<BayArea2021WithSlotsQuery, BayArea2021WithSlotsQueryVariables>;
 export const BayAreaBibWithSlotsDocument = gql`
     query BayAreaBibWithSlots($metro: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner", $first: Int = 1000) {
   allVenues(

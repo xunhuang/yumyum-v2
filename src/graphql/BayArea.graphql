@@ -34,6 +34,25 @@ query BayAreaStarredWithSlots(
   }
 }
 
+query BayArea2021WithSlots(
+  $metro: String!
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 1000
+) {
+  allVenues(
+    first: $first
+    condition: { metro: $metro, withOnlineReservation: "true" }
+    filter: { vintage: { in: ["2021"] } }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+
 query BayAreaBibWithSlots(
   $metro: String!
   $date: String!

@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 
 import { Loading } from '../components/Loading';
 import {
+  useBayArea2021WithSlotsQuery,
   useBayAreaAllWithSlotsQuery,
   useBayAreaBibWithSlotsQuery,
   useBayAreaOfflineQuery,
@@ -77,6 +78,46 @@ export const ListBibOnly = () => {
     ></RestaurantList>
   );
 };
+export const List2021Only = () => {
+  const metro = useMetro();
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
+
+  const { data, loading } = useBayArea2021WithSlotsQuery({
+    variables: {
+      metro: metro,
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
+
+  if (metro !== "bayarea") {
+    return (
+      <div>
+        We need help curating restaurant list for {metro}. We have the list of
+        2020/2021 Michelin restaurant data, but need help mapping them to the
+        appropatie reservation system. It takes about 1-2 hour of work per
+        metro. Please comment below if you are interested in helping.
+      </div>
+    );
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
+};
+
 export const ListStarsOnly = () => {
   const metro = useMetro();
   const [date] = useRecoilState(SelectedDateState);
@@ -195,7 +236,7 @@ export const ListsPage = () => {
     {
       slug: "new",
       text: "New in 2021",
-      component: <p> New in 2021, coming soon </p>,
+      component: <List2021Only />,
     },
     {
       slug: "stars",

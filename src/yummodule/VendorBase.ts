@@ -15,6 +15,7 @@ export interface VenueVendorInfo {
     latitude?: string;
     bookingnotes?: string;
     longitude?: string;
+    close?: boolean;
 }
 
 export interface VenueReservationInfo {

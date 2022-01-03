@@ -7,11 +7,12 @@ const { makeExtendSchemaPlugin, gql } = require("graphile-utils");
 const DataLoader = require('dataloader');
 const dayjs = require("dayjs");
 
-const slot_required_fields = ' @requires(columns: ["key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","url_slug", "longitude", "latitude"])';
+const slot_required_fields = ' @requires(columns: ["close", "key", "timezone", "reservation", "name", "businessid", "businessgroupid", "resy_city_code","url_slug", "longitude", "latitude"])';
 
 const getRequiredFieldsFromQuery = (_query: any): VenueVendorInfo => {
     const venue: VenueVendorInfo = {
         // these  came from the @requires above
+        close: _query.close,
         reservation: _query.reservation,
         name: _query.name,
         key: _query.key,
@@ -173,12 +174,19 @@ async function singleVenueSearch(
     venue: VenueVendorInfo, date: string, party_size: number, timeOption: string
 ): Promise<string[] | null> {
     const vendor = getVendor(venue.reservation);
-    if (venue.reservation === "none") {
+
+    if (venue.close === true) {
+        console.log(venue.name, 'is closed');
+        return null;
+    }
+
+    if (venue.reservation === "none" || venue.reservation === "Call/Email"
+    ) {
         console.log(venue.name, 'has no reservation system');
         return null;
     }
     if (!vendor) {
-        console.log('XXXX miss vendor implementation ' + venue.reservation);
+        console.log(venue.name, 'Missing vendor implementation ', venue.reservation);
         return null;
     }
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);
