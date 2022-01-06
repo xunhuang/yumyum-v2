@@ -51,7 +51,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const [LookupReservation, result] = useLookupReservationInfoLazyQuery({
     onCompleted: (data: any) => {
-      // console.log(data.reservationInfo);
       if (data.reservationInfo) {
         form.setFieldsValue(data.reservationInfo);
         setReservation(data.reservationInfo.reservation);
@@ -157,6 +156,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           {prefillbutton("yelp")}
           {prefillbutton("none")}
           {prefillbutton("Call/Email")}
+          {prefillbutton("TBD")}
         </Form.Item>
 
         {vendor &&
@@ -222,12 +222,12 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           )}
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <pre>{JSON.stringify(result.data?.reservationInfo, null, 2)}</pre>
-        </Form.Item>
-        <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <pre>{JSON.stringify(result.data?.reservationInfo, null, 2)}</pre>
         </Form.Item>
       </Form>
     </div>
