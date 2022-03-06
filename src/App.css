@@ -43,7 +43,8 @@
 }
 @font-face {
 font-family: "michelinIcon";
-src: url("https://guide.michelin.com/assets/web/fonts/annuel/Annuels-f9aa99019cb3d27806d129e37c3d657f.woff") format('woff');
+/* src: url("https://guide.michelin.com/assets/web/fonts/annuel/Annuels-f9aa99019cb3d27806d129e37c3d657f.woff") format('woff'); */
+src: url("./fonts/Annuels-f9aa99019cb3d27806d129e37c3d657f.woff") format('woff');
 }
 .site-calendar-demo-card {
   width: 300px;
