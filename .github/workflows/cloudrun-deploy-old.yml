@@ -36,11 +36,12 @@ jobs:
       #with:
         #ssh_key: ${{ secrets.SSH_KEY }}
         #key_file: id_ecdsa
-    #- name: Setup tmate session
-      #uses: mxschmitt/action-tmate@master
 
     - name: move module over something 
       run: cd graphql ; mv ../src/yummodule . ; cd ..
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@master
       
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
