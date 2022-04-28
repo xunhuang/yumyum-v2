@@ -1,0 +1,48 @@
+name: cloudrun-deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+        export_default_credentials: true
+    
+    # Configure Docker with Credentials
+    - name: Configure Docker
+      run: |
+        gcloud auth configure-docker
+      
+    # Build the Docker image
+    - name: Build & Publish
+      run: |
+        gcloud config set project ${{ secrets.GCP_PROJECT }}
+        gcloud config set run/region us-central1
+
+    #- uses: fastai/workflows/ssh@master
+      #with:
+        #ssh_key: ${{ secrets.SSH_KEY }}
+        #key_file: id_ecdsa
+    #- name: Setup tmate session
+      #uses: mxschmitt/action-tmate@master
+
+    - name: move module over something 
+      run: cd graphql ; mv ../src/yummodule . ; cd ..
+      
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |
+        gcloud run deploy graph --source graphql --region us-central1 --allow-unauthenticated --memory 512M
