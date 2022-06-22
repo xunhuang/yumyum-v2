@@ -21,6 +21,7 @@ export class VendorOpentable extends VendorBase {
     }
 
     async venueSearchInternal(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<any> {
+        // inspired by https://www.vintnersresort.com/dining/john-ash-co/
 
         let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
         let datetime = (timeOption === "dinner") ? date + "T19:00:00" : date + "T12:00:00";
@@ -40,7 +41,6 @@ export class VendorOpentable extends VendorBase {
             }
         });
 
-        console.log(w);
         const json = await w.json();
         return json;
     }
