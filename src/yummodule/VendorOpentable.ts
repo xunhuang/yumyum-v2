@@ -22,12 +22,13 @@ export class VendorOpentable extends VendorBase {
 
     async venueSearchInternal(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<any> {
 
-        let url = "https://www.opentable.com/restaurant/profile/" + venue.businessid + "/search";
+        let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
         let datetime = (timeOption === "dinner") ? date + "T19:00:00" : date + "T12:00:00";
         let data = {
-            "covers": party_size,
+            "rid": venue.businessid,
+            "partySize": party_size,
             "dateTime": datetime,
-            "isRedesign": true
+            "enableFutureAvailability": false
         };
 
         const w = await fetch(url, {
@@ -35,9 +36,11 @@ export class VendorOpentable extends VendorBase {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
+                "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvdGNmcCI6IjQ0MTM2ZmEzNTViMzY3OGExMTQ2YWQxNmY3ZTg2NDllOTRmYjRmYzIxZmU3N2U4MzEwYzA2MGY2MWNhYWZmOGEiLCJpYXQiOjE2NTU4Nzk1NzMsImV4cCI6MTY1NTg5MDM3M30.RlkrodPw-46Az6_Hv8gE2AHQglbewCvMGmKEW6es550",
             }
         });
 
+        console.log(w);
         const json = await w.json();
         return json;
     }
@@ -49,7 +52,7 @@ export class VendorOpentable extends VendorBase {
         if (typeof (resbody.availability) == "undefined") {
             return [];
         }
-        let slots = resbody.availability.times;
+        let slots = resbody.availability[date].timeSlots;
         let total: TimeSlots[] = [];
         slots.forEach(function (slot: any) {
             let datestr =
