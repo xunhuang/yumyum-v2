@@ -27,6 +27,7 @@ export class VendorTock extends VendorBase {
             .set('accept-language', 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7')
             .set('content-type', 'application/json')
             .set('accept', 'application/json')
+            .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
             .send({})
             .then((res: any) => {
                 let total: any = [];

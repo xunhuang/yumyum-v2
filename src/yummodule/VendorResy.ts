@@ -55,6 +55,7 @@ export class VendorResy extends VendorBase {
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         await limiter.removeTokens(1);
         const url = "https://api.resy.com/4/find";
+
         return await superagent.get(url)
             .query({
                 day: date,
@@ -64,6 +65,7 @@ export class VendorResy extends VendorBase {
                 venue_id: venue.businessid,
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
+            .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
             .send({})
             .then((res: any) => {
                 let total: TimeSlots[] = [];
