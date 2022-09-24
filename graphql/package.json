@@ -9,9 +9,6 @@
     "dev": "nodemon --config nodemon.json ./index.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk ./index.ts"
   },
-  "engines": {
-    "node": "^18"
-  },
   "author": "Google LLC",
   "license": "Apache-2.0",
   "dependencies": {
