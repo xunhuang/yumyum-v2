@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.10",
     "deepcopy": "^2.1.0",
     "fetch-jsonp": "^1.2.1",
+    "graphql-codegen": "^0.4.0",
     "limiter": "^2.1.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
@@ -52,7 +53,7 @@
     "db_cloud": "npx postgraphile -c postgres://postgres:3DdeMKqEsqyOE5jL@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
     "db_2": "npx postgraphile -c postgres://grqssupe:wVuhYC8zcz31f1PR36tqsuKBoK7GTJFX@kashin.db.elephantsql.com/grqssupe  --watch --enhance-graphiql --dynamic-json   --export-schema-graphql schema.graphql -o",
     "db": "npx postgraphile --append-plugins postgraphile-plugin-connection-filter -c postgres://postgres:mysecretpassword@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "npx graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": [
@@ -75,7 +76,7 @@
   "devDependencies": {
     "@emotion/styled": "^11.3.0",
     "@google-cloud/bigquery": "^5.9.0",
-    "@graphql-codegen/cli": "^2.2.0",
+    "@graphql-codegen/cli": "^2.13.8",
     "@graphql-codegen/typescript": "^2.2.2",
     "@graphql-codegen/typescript-operations": "^2.1.4",
     "@graphql-codegen/typescript-react-apollo": "^3.1.4",

@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -1518,7 +1517,7 @@ export type BayAreaAllWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaStarredWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1529,7 +1528,7 @@ export type BayAreaStarredWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayArea2021WithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1540,7 +1539,7 @@ export type BayArea2021WithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1551,7 +1550,7 @@ export type BayAreaBibWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1562,7 +1561,7 @@ export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaNearbySlotsQueryVariables = Exact<{
   date: Scalars['String'];
@@ -1576,32 +1575,32 @@ export type BayAreaNearbySlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
-export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string };
+export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
 export type BayAreaQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaOfflineQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type MetroTbdQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string }>> }> };
+export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
-export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, key: string };
+export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
 export type LookupReservationInfoQueryVariables = Exact<{
   url: Scalars['String'];
@@ -1654,6 +1653,7 @@ export const VenuMainInfoFragmentDoc = gql`
   latitude
   longitude
   timezone
+  reservation
   key
 }
     `;

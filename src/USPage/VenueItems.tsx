@@ -123,7 +123,7 @@ export const VenueDescription = ({ venue }: VenueProp) => {
   return (
     <div>
       {venue?.cuisine?.split(",").join(", ")}, {venue?.city}
-      {venue?.priceline && <> , {venue?.priceline}</>}
+      {venue?.priceline && <> , {venue?.priceline}</>}, {venue?.reservation}
     </div>
   );
 };

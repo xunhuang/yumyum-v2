@@ -19,3 +19,9 @@ export PGPASSWORD=3DdeM*****  # look it up
 npm start 
 
 then visit  http://localhost:8080/graphiql
+
+
+install code gen
+----------------
+npm i -D @graphql-codegen/cli
+npm start generate

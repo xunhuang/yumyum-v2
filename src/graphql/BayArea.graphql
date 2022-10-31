@@ -163,5 +163,6 @@ fragment VenuMainInfo on Venue {
   latitude
   longitude
   timezone
+  reservation
   key
 }
