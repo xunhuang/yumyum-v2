@@ -104,4 +104,29 @@ export class VendorOpentable extends VendorBase {
             businessid: appconfig[0].rid,
         }
     }
+
+    static async fetchAuthToken(): Promise<string> {
+        // https://www.opentable.com/restref/client?rid=1477&restref=1477&partysize=2&datetime=2022-10-31T19%3A00&lang=en-US&r3uid=TJkBfg-7J&ot_campaign=JA+Landing+Page&ot_source=Restaurant+website&color=1&modal=true' 
+        let url = "https://www.opentable.com/restref/client?rid=1477&restref=1477&partysize=2&datetime=2022-10-31T19%3A00&lang=en-US&r3uid=TJkBfg-7J&ot_campaign=JA+Landing+Page&ot_source=Restaurant+website&color=1&modal=true";
+        let data = {
+            "rid": "1477",
+            "restref": "1477",
+            "partysize": "2",
+            "dateTime": "2022-10-31T19:00:00",
+        };
+        const w = await fetch(url + new URLSearchParams(data).toString());
+
+        const res = await w.text();
+        const $ = cheerio.load(res);
+
+        let scripts = $("#client-initial-state");
+        let json = cheerio(scripts).html();
+        let config = JSON.parse(json!);
+        console.log(config["authToken"]);
+        // console.log(res)
+        // let scripts = $("script[id=client-initial-state]").map(function (i, el) {
+        //     console.log(cheerio(el).html());
+        // }).get().join('');
+        return "";
+    }
 }
