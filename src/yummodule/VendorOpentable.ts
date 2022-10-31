@@ -37,7 +37,7 @@ export class VendorOpentable extends VendorBase {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
-                "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvdGNmcCI6IjQ0MTM2ZmEzNTViMzY3OGExMTQ2YWQxNmY3ZTg2NDllOTRmYjRmYzIxZmU3N2U4MzEwYzA2MGY2MWNhYWZmOGEiLCJpYXQiOjE2NjQwMzk4MTMsImV4cCI6MTY2NDA1MDYxM30.Kfi_UbwyPsgj-IDewUObsOSItLBLTNDfCqpIHUlDjPU",
+                "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvdGNmcCI6IjQ0MTM2ZmEzNTViMzY3OGExMTQ2YWQxNmY3ZTg2NDllOTRmYjRmYzIxZmU3N2U4MzEwYzA2MGY2MWNhYWZmOGEiLCJpYXQiOjE2NjcxOTIyMTgsImV4cCI6MTY2NzIwMzAxOH0.ILAMGOSAvWAQUdx0w_6sc8ohlbyWwLPq-ITx2cNdblo",
             }
         });
 
