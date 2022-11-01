@@ -13,10 +13,14 @@ async function testme() {
     // let slots = await vendor.venueSearch(venue, date, party_size, timeOption);
     // console.log(slots);
 
-    await VendorOpentable.fetchAuthToken();
+    let token = await VendorOpentable.fetchAuthToken();
+    console.log(token);
+
+    token = await VendorOpentable.fetchAuthToken();
+    console.log(token);
 
 }
 
 testme().then(() => {
-    console.log("done");
+    // console.log("done");
 });

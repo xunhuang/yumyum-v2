@@ -28,6 +28,8 @@
     "moment-timezone": "^0.5.34",
     "moving-average": "^1.0.1",
     "moving-averages": "^4.0.6",
+    "node-ts-cache": "^4.4.0",
+    "node-ts-cache-storage-memory": "^4.4.0",
     "postgraphile": "^4.12.5",
     "querystring": "^0.2.1",
     "react": "^17.0.2",

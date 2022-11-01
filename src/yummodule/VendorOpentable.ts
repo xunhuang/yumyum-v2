@@ -1,11 +1,14 @@
 import cheerio from 'cheerio';
 import { RateLimiter } from 'limiter';
+import { Cache, CacheContainer } from 'node-ts-cache';
+import { MemoryStorage } from 'node-ts-cache-storage-memory';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const fetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
+const userCache = new CacheContainer(new MemoryStorage())
 
 // 15 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
@@ -21,9 +24,8 @@ export class VendorOpentable extends VendorBase {
     }
 
     async venueSearchInternal(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<any> {
-        // inspired by https://www.vintnersresort.com/dining/john-ash-co/
-        // the authorization token needs to be updated from time to time. 
 
+        let token = await VendorOpentable.fetchAuthToken();
         let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
         let datetime = (timeOption === "dinner") ? date + "T19:00:00" : date + "T12:00:00";
         let data = {
@@ -37,7 +39,7 @@ export class VendorOpentable extends VendorBase {
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
-                "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvdGNmcCI6IjQ0MTM2ZmEzNTViMzY3OGExMTQ2YWQxNmY3ZTg2NDllOTRmYjRmYzIxZmU3N2U4MzEwYzA2MGY2MWNhYWZmOGEiLCJpYXQiOjE2NjcxOTIyMTgsImV4cCI6MTY2NzIwMzAxOH0.ILAMGOSAvWAQUdx0w_6sc8ohlbyWwLPq-ITx2cNdblo",
+                "authorization": `Bearer ${token}`,
             }
         });
 
@@ -46,7 +48,6 @@ export class VendorOpentable extends VendorBase {
     }
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
-
         await limiter.removeTokens(1);
         let resbody = await this.venueSearchInternal(venue, date, party_size, timeOption);
         if (typeof (resbody.availability) == "undefined") {
@@ -105,14 +106,16 @@ export class VendorOpentable extends VendorBase {
         }
     }
 
+    @Cache(userCache, { ttl: 60 * 60 })
     static async fetchAuthToken(): Promise<string> {
+        // Inspired by https://www.vintnersresort.com/dining/john-ash-co/
         // https://www.opentable.com/restref/client?rid=1477&restref=1477&partysize=2&datetime=2022-10-31T19%3A00&lang=en-US&r3uid=TJkBfg-7J&ot_campaign=JA+Landing+Page&ot_source=Restaurant+website&color=1&modal=true' 
         let url = "https://www.opentable.com/restref/client?rid=1477&restref=1477&partysize=2&datetime=2022-10-31T19%3A00&lang=en-US&r3uid=TJkBfg-7J&ot_campaign=JA+Landing+Page&ot_source=Restaurant+website&color=1&modal=true";
         let data = {
             "rid": "1477",
             "restref": "1477",
             "partysize": "2",
-            "dateTime": "2022-10-31T19:00:00",
+            "datetime": "2023-10-31T19:00:00",
         };
         const w = await fetch(url + new URLSearchParams(data).toString());
 
@@ -122,11 +125,7 @@ export class VendorOpentable extends VendorBase {
         let scripts = $("#client-initial-state");
         let json = cheerio(scripts).html();
         let config = JSON.parse(json!);
-        console.log(config["authToken"]);
-        // console.log(res)
-        // let scripts = $("script[id=client-initial-state]").map(function (i, el) {
-        //     console.log(cheerio(el).html());
-        // }).get().join('');
-        return "";
+        let token = config["authToken"];
+        return token;
     }
 }
