@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+      "experimentalDecorators": true,
+      "experimentalDecorators": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -12,6 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+        "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
