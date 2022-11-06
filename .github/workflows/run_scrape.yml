@@ -22,8 +22,8 @@ jobs:
         export_default_credentials: true
 
     - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - id: 'create-file'
       run: echo 'hello' > ${{steps.date.outputs.date }}.txt
