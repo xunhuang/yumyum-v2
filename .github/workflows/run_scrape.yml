@@ -17,10 +17,9 @@ jobs:
         service_account_email: ${{ secrets.GCP_EMAIL }}
         service_account_key: ${{ secrets.GCP_CREDENTIALS }}
         export_default_credentials: true
-    
+
     - id: 'create-file'
-       run: |
-           echo 'hello' > abc.txt
+      run: echo 'hello' > abc.txt
 
     - id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
