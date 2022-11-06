@@ -1,7 +1,9 @@
-name: run-scrape
+name: Run Michelin Scraping
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * * *"
 
 jobs:
   setup-build-publish-deploy:
@@ -39,10 +41,10 @@ jobs:
       run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
 
     - name: 'compressing into gz file'
-      run: cd data/11-05-2022; gzip ${{steps.date.outputs.date }}.json
+      run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
 
     - id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
         path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
-        destination: 'yumyum-v2_cloudbuild'
+        destination: 'yumyum-v2_cloudbuild/yumyum_import'
