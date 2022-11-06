@@ -21,37 +21,15 @@ jobs:
         service_account_key: ${{ secrets.GCP_CREDENTIALS }}
         export_default_credentials: true
 
+    - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
     - id: 'create-file'
-      run: echo 'hello' > abc.txt
+      run: echo 'hello' > ${{steps.date.outputs.date }}.txt
 
     - id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
-        path: 'abc.txt'
+        path: ${{ steps.date.outputs.date }}.txt
         destination: 'yumyum-v2_cloudbuild'
-    # Configure Docker with Credentials
-    # - name: Configure Docker
-      # run: |
-        # gcloud auth configure-docker
-      
-    # Build the Docker image
-    # - name: Build & Publish
-      # run: |
-        # gcloud config set project ${{ secrets.GCP_PROJECT }}
-        # gcloud config set run/region us-central1
-
-    #- uses: fastai/workflows/ssh@master
-      #with:
-        #ssh_key: ${{ secrets.SSH_KEY }}
-        #key_file: id_ecdsa
-
-    - name: move module over something 
-      run: cd graphql ; mv ../src/yummodule . ; cd ..
-
-    # - name: Setup tmate session
-      # uses: mxschmitt/action-tmate@master
-      
-    # Deploy the Docker image to the GKE cluster
-    - name: Deploy
-      run: |
-        gcloud run deploy graph --source graphql --region us-central1 --allow-unauthenticated --memory 512M
