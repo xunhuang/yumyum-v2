@@ -1,4 +1,4 @@
-name: run-scape
+name: run-scrape
 
 on:
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
         path: 'abc.txt'
-        destination: 'new-bucket-name'
+        destination: 'gs://yumyum-v2_cloudbuild'
     # Configure Docker with Credentials
     # - name: Configure Docker
       # run: |
