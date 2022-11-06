@@ -1,5 +1,8 @@
 name: run-scape
 
+on:
+  workflow_dispatch:
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
