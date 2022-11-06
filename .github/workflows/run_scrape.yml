@@ -21,15 +21,28 @@ jobs:
         service_account_key: ${{ secrets.GCP_CREDENTIALS }}
         export_default_credentials: true
 
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: cd data/11-05-2022; npm ci; npm install 
+
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    - id: 'create-file'
+    - name: 'test-create-file'
       run: echo 'hello' > ${{steps.date.outputs.date }}.txt
+
+    - name: 'create-json-file'
+      run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
+
+    - name: 'compressing into gz file'
+      run: cd data/11-05-2022; gzip ${{steps.date.outputs.date }}.json
 
     - id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
-        path: ${{ steps.date.outputs.date }}.txt
+        path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
         destination: 'yumyum-v2_cloudbuild'
