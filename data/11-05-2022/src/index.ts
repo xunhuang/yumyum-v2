@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fetch_new = require('node-fetch');
 // # this link was derived from inspective traffic on 
 // # https://guide.michelin.com/en/restaurants
 // # by going pressing "next" 
@@ -22,9 +23,8 @@
 // --compressed
 
 async function download(pageNumber = 0, hitsPerPage: number = 1000): Promise<any> {
-  const fetch = require('node-fetch');
   const url = 'https://8nvhrd7onv-dsn.algolia.net/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript%20(3.35.1)%3B%20Browser%20(lite)%3B%20instantsearch.js%20(4.24.1)%3B%20JS%20Helper%20(3.4.5)&x-algolia-application-id=8NVHRD7ONV&x-algolia-api-key=71b3cff102a474b924dfcb9897cc6fa8';
-  const w = await fetch(url, {
+  const w = await fetch_new(url, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',

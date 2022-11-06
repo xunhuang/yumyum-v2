@@ -22,7 +22,7 @@
     "clear": "^0.1.0",
     "commander": "^9.4.1",
     "figlet": "^1.5.2",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^2.6.7",
     "path": "^0.12.7"
   },
   "devDependencies": {
