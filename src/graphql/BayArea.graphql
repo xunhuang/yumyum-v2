@@ -163,7 +163,7 @@ fragment VenuMainInfo on Venue {
   latitude
   longitude
   timezone
-  urlSlug
+  michelinslug
   reservation
   key
 }

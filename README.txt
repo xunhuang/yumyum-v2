@@ -26,6 +26,8 @@ install code gen
 npm i -D @graphql-codegen/cli
 npm start generate
 
+If the above fails, likely due to schema changes.
+We need to run the server locally first to update the schema file.
 
 server side graphql
 -------------------

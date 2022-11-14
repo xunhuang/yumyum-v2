@@ -52,7 +52,7 @@
     "deploy": "npx firebase deploy",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "db_cloud": "npx postgraphile -c postgres://postgres:3DdeMKqEsqyOE5jL@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
+    "db_cloud": "npx postgraphile -c postgres://postgres:3DdeMKqEsqyOE5jL@35.239.215.xxx:5432/yumyum --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
     "db_2": "npx postgraphile -c postgres://grqssupe:wVuhYC8zcz31f1PR36tqsuKBoK7GTJFX@kashin.db.elephantsql.com/grqssupe  --watch --enhance-graphiql --dynamic-json   --export-schema-graphql schema.graphql -o",
     "db": "npx postgraphile --append-plugins postgraphile-plugin-connection-filter -c postgres://postgres:mysecretpassword@localhost:5432 --watch --enhance-graphiql --allow-explain --dynamic-json   --export-schema-graphql schema.graphql -o ",
     "generate": "npx graphql-codegen --config codegen.yml"

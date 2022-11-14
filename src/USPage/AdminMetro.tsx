@@ -37,9 +37,9 @@ export const MetroListAll = () => {
         if (entry.slug === node.urlSlug) {
           return true;
         }
-        // if (entry.slug === node.urlSlug) {
-        //   return true;
-        // }
+        if (entry.slug === node.michelinslug) {
+          return true;
+        }
         return false;
       }
     );
