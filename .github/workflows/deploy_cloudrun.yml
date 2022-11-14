@@ -38,7 +38,7 @@ jobs:
         #key_file: id_ecdsa
 
     - name: move module over something 
-      run: cd graphql ; mv ../src/yummodule . ; cd ..
+      run: cd graphql ; rm -rf ./yummodule ; mv ../src/yummodule . ; cd ..
 
     # - name: Setup tmate session
       # uses: mxschmitt/action-tmate@master
