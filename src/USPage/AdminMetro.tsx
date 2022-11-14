@@ -8,6 +8,9 @@ import { useBayAreaQuery, Venue } from '../generated/graphql';
 import { useMetro } from './useMetro';
 import { VenueEdit } from './VenueEdit';
 
+// import {default } as bayarea  from '../data/BayArea.json';
+const bayarea = require("../data/BayArea.json");
+
 export const MetroListAll = () => {
   const metro = useMetro();
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,6 +25,29 @@ export const MetroListAll = () => {
   if (first.loading) {
     return <Loading />;
   }
+
+  const entrynodes = first.data?.allVenues?.nodes || [];
+
+  bayarea.map((entry: any) => {
+    const found = entrynodes.find(
+      (node: Venue | any, index: number, thisobject: any) => {
+        if (node.name === entry.name) {
+          return true;
+        }
+        if (entry.slug === node.urlSlug) {
+          return true;
+        }
+        // if (entry.slug === node.urlSlug) {
+        //   return true;
+        // }
+        return false;
+      }
+    );
+    if (!found) {
+      console.log(entry.name, ": not found ", entry.slug);
+    }
+    return found;
+  });
 
   const list = first.data?.allVenues?.nodes.filter((v) =>
     v?.name?.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())

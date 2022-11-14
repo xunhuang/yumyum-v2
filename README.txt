@@ -25,3 +25,9 @@ install code gen
 ----------------
 npm i -D @graphql-codegen/cli
 npm start generate
+
+
+server side graphql
+-------------------
+
+https://graph-3khoexoznq-uc.a.run.app/graphiql

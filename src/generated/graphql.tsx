@@ -42,39 +42,6 @@ export type BooleanFilter = {
   notIn?: Maybe<Array<Scalars['Boolean']>>;
 };
 
-/** All input for the create `Global11042021` mutation. */
-export type CreateGlobal11042021Input = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Global11042021` to be created by this mutation. */
-  global11042021: Global11042021Input;
-};
-
-/** The output of our create `Global11042021` mutation. */
-export type CreateGlobal11042021Payload = {
-  __typename?: 'CreateGlobal11042021Payload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Global11042021` that was created by this mutation. */
-  global11042021?: Maybe<Global11042021>;
-  /** An edge for our `Global11042021`. May be used by Relay 1. */
-  global11042021Edge?: Maybe<Global11042021SEdge>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
-
-/** The output of our create `Global11042021` mutation. */
-export type CreateGlobal11042021PayloadGlobal11042021EdgeArgs = {
-  orderBy?: Maybe<Array<Global11042021SOrderBy>>;
-};
-
 /** All input for the create `Venue` mutation. */
 export type CreateVenueInput = {
   /**
@@ -113,50 +80,6 @@ export type DateAvailability = {
   date?: Maybe<Scalars['String']>;
   slots?: Maybe<Array<Maybe<Scalars['String']>>>;
   url?: Maybe<Scalars['String']>;
-};
-
-/** All input for the `deleteGlobal11042021ByKey` mutation. */
-export type DeleteGlobal11042021ByKeyInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  key: Scalars['String'];
-};
-
-/** All input for the `deleteGlobal11042021` mutation. */
-export type DeleteGlobal11042021Input = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Global11042021` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The output of our delete `Global11042021` mutation. */
-export type DeleteGlobal11042021Payload = {
-  __typename?: 'DeleteGlobal11042021Payload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  deletedGlobal11042021Id?: Maybe<Scalars['ID']>;
-  /** The `Global11042021` that was deleted by this mutation. */
-  global11042021?: Maybe<Global11042021>;
-  /** An edge for our `Global11042021`. May be used by Relay 1. */
-  global11042021Edge?: Maybe<Global11042021SEdge>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
-
-/** The output of our delete `Global11042021` mutation. */
-export type DeleteGlobal11042021PayloadGlobal11042021EdgeArgs = {
-  orderBy?: Maybe<Array<Global11042021SOrderBy>>;
 };
 
 /** All input for the `deleteVenueByKey` mutation. */
@@ -229,301 +152,15 @@ export type FloatFilter = {
   notIn?: Maybe<Array<Scalars['Float']>>;
 };
 
-export type Global11042021 = Node & {
-  __typename?: 'Global11042021';
-  area?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  cuisines?: Maybe<Scalars['String']>;
-  imageList?: Maybe<Scalars['String']>;
-  key: Scalars['String'];
-  latitude?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['String']>;
-  mainImage?: Maybe<Scalars['String']>;
-  metro?: Maybe<Scalars['String']>;
-  michelinAward?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  newforsure?: Maybe<Scalars['Boolean']>;
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  objectId?: Maybe<Scalars['String']>;
-  onlineBooking: Scalars['Boolean'];
-  otherUrls?: Maybe<Scalars['String']>;
-  postcode?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  siteName?: Maybe<Scalars['String']>;
-  siteSlug?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
-  takeAway?: Maybe<Scalars['Boolean']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-/**
- * A condition to be used against `Global11042021` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type Global11042021Condition = {
-  /** Checks for equality with the object’s `area` field. */
-  area?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `city` field. */
-  city?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `country` field. */
-  country?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cuisines` field. */
-  cuisines?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `imageList` field. */
-  imageList?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `key` field. */
-  key?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `latitude` field. */
-  latitude?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `longitude` field. */
-  longitude?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `mainImage` field. */
-  mainImage?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `metro` field. */
-  metro?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `michelinAward` field. */
-  michelinAward?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `name` field. */
-  name?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `newforsure` field. */
-  newforsure?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `objectId` field. */
-  objectId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `onlineBooking` field. */
-  onlineBooking?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `otherUrls` field. */
-  otherUrls?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `postcode` field. */
-  postcode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `region` field. */
-  region?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `siteName` field. */
-  siteName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `siteSlug` field. */
-  siteSlug?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `slug` field. */
-  slug?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `street` field. */
-  street?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `takeAway` field. */
-  takeAway?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `url` field. */
-  url?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `Global11042021` object types. All fields are combined with a logical ‘and.’ */
-export type Global11042021Filter = {
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<Global11042021Filter>>;
-  /** Filter by the object’s `area` field. */
-  area?: Maybe<StringFilter>;
-  /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
-  /** Filter by the object’s `country` field. */
-  country?: Maybe<StringFilter>;
-  /** Filter by the object’s `cuisines` field. */
-  cuisines?: Maybe<StringFilter>;
-  /** Filter by the object’s `imageList` field. */
-  imageList?: Maybe<StringFilter>;
-  /** Filter by the object’s `key` field. */
-  key?: Maybe<StringFilter>;
-  /** Filter by the object’s `latitude` field. */
-  latitude?: Maybe<StringFilter>;
-  /** Filter by the object’s `longitude` field. */
-  longitude?: Maybe<StringFilter>;
-  /** Filter by the object’s `mainImage` field. */
-  mainImage?: Maybe<StringFilter>;
-  /** Filter by the object’s `metro` field. */
-  metro?: Maybe<StringFilter>;
-  /** Filter by the object’s `michelinAward` field. */
-  michelinAward?: Maybe<StringFilter>;
-  /** Filter by the object’s `name` field. */
-  name?: Maybe<StringFilter>;
-  /** Filter by the object’s `newforsure` field. */
-  newforsure?: Maybe<BooleanFilter>;
-  /** Negates the expression. */
-  not?: Maybe<Global11042021Filter>;
-  /** Filter by the object’s `objectId` field. */
-  objectId?: Maybe<StringFilter>;
-  /** Filter by the object’s `onlineBooking` field. */
-  onlineBooking?: Maybe<BooleanFilter>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<Global11042021Filter>>;
-  /** Filter by the object’s `otherUrls` field. */
-  otherUrls?: Maybe<StringFilter>;
-  /** Filter by the object’s `postcode` field. */
-  postcode?: Maybe<StringFilter>;
-  /** Filter by the object’s `region` field. */
-  region?: Maybe<StringFilter>;
-  /** Filter by the object’s `siteName` field. */
-  siteName?: Maybe<StringFilter>;
-  /** Filter by the object’s `siteSlug` field. */
-  siteSlug?: Maybe<StringFilter>;
-  /** Filter by the object’s `slug` field. */
-  slug?: Maybe<StringFilter>;
-  /** Filter by the object’s `street` field. */
-  street?: Maybe<StringFilter>;
-  /** Filter by the object’s `takeAway` field. */
-  takeAway?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `url` field. */
-  url?: Maybe<StringFilter>;
-};
-
-/** An input for mutations affecting `Global11042021` */
-export type Global11042021Input = {
-  area?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  cuisines?: Maybe<Scalars['String']>;
-  imageList?: Maybe<Scalars['String']>;
-  key?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['String']>;
-  mainImage?: Maybe<Scalars['String']>;
-  metro?: Maybe<Scalars['String']>;
-  michelinAward?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  newforsure?: Maybe<Scalars['Boolean']>;
-  objectId?: Maybe<Scalars['String']>;
-  onlineBooking: Scalars['Boolean'];
-  otherUrls?: Maybe<Scalars['String']>;
-  postcode?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  siteName?: Maybe<Scalars['String']>;
-  siteSlug?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
-  takeAway?: Maybe<Scalars['Boolean']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-/** Represents an update to a `Global11042021`. Fields that are set will be updated. */
-export type Global11042021Patch = {
-  area?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  cuisines?: Maybe<Scalars['String']>;
-  imageList?: Maybe<Scalars['String']>;
-  key?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['String']>;
-  mainImage?: Maybe<Scalars['String']>;
-  metro?: Maybe<Scalars['String']>;
-  michelinAward?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  newforsure?: Maybe<Scalars['Boolean']>;
-  objectId?: Maybe<Scalars['String']>;
-  onlineBooking?: Maybe<Scalars['Boolean']>;
-  otherUrls?: Maybe<Scalars['String']>;
-  postcode?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  siteName?: Maybe<Scalars['String']>;
-  siteSlug?: Maybe<Scalars['String']>;
-  slug?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
-  takeAway?: Maybe<Scalars['Boolean']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `Global11042021` values. */
-export type Global11042021SConnection = {
-  __typename?: 'Global11042021SConnection';
-  /** A list of edges which contains the `Global11042021` and cursor to aid in pagination. */
-  edges: Array<Global11042021SEdge>;
-  /** A list of `Global11042021` objects. */
-  nodes: Array<Maybe<Global11042021>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Global11042021` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Global11042021` edge in the connection. */
-export type Global11042021SEdge = {
-  __typename?: 'Global11042021SEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Global11042021` at the end of the edge. */
-  node?: Maybe<Global11042021>;
-};
-
-/** Methods to use when ordering `Global11042021`. */
-export enum Global11042021SOrderBy {
-  AreaAsc = 'AREA_ASC',
-  AreaDesc = 'AREA_DESC',
-  CityAsc = 'CITY_ASC',
-  CityDesc = 'CITY_DESC',
-  CountryAsc = 'COUNTRY_ASC',
-  CountryDesc = 'COUNTRY_DESC',
-  CuisinesAsc = 'CUISINES_ASC',
-  CuisinesDesc = 'CUISINES_DESC',
-  ImageListAsc = 'IMAGE_LIST_ASC',
-  ImageListDesc = 'IMAGE_LIST_DESC',
-  KeyAsc = 'KEY_ASC',
-  KeyDesc = 'KEY_DESC',
-  LatitudeAsc = 'LATITUDE_ASC',
-  LatitudeDesc = 'LATITUDE_DESC',
-  LongitudeAsc = 'LONGITUDE_ASC',
-  LongitudeDesc = 'LONGITUDE_DESC',
-  MainImageAsc = 'MAIN_IMAGE_ASC',
-  MainImageDesc = 'MAIN_IMAGE_DESC',
-  MetroAsc = 'METRO_ASC',
-  MetroDesc = 'METRO_DESC',
-  MichelinAwardAsc = 'MICHELIN_AWARD_ASC',
-  MichelinAwardDesc = 'MICHELIN_AWARD_DESC',
-  NameAsc = 'NAME_ASC',
-  NameDesc = 'NAME_DESC',
-  Natural = 'NATURAL',
-  NewforsureAsc = 'NEWFORSURE_ASC',
-  NewforsureDesc = 'NEWFORSURE_DESC',
-  ObjectIdAsc = 'OBJECT_ID_ASC',
-  ObjectIdDesc = 'OBJECT_ID_DESC',
-  OnlineBookingAsc = 'ONLINE_BOOKING_ASC',
-  OnlineBookingDesc = 'ONLINE_BOOKING_DESC',
-  OtherUrlsAsc = 'OTHER_URLS_ASC',
-  OtherUrlsDesc = 'OTHER_URLS_DESC',
-  PostcodeAsc = 'POSTCODE_ASC',
-  PostcodeDesc = 'POSTCODE_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  RegionAsc = 'REGION_ASC',
-  RegionDesc = 'REGION_DESC',
-  SiteNameAsc = 'SITE_NAME_ASC',
-  SiteNameDesc = 'SITE_NAME_DESC',
-  SiteSlugAsc = 'SITE_SLUG_ASC',
-  SiteSlugDesc = 'SITE_SLUG_DESC',
-  SlugAsc = 'SLUG_ASC',
-  SlugDesc = 'SLUG_DESC',
-  StreetAsc = 'STREET_ASC',
-  StreetDesc = 'STREET_DESC',
-  TakeAwayAsc = 'TAKE_AWAY_ASC',
-  TakeAwayDesc = 'TAKE_AWAY_DESC',
-  UrlAsc = 'URL_ASC',
-  UrlDesc = 'URL_DESC'
-}
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Creates a single `Global11042021`. */
-  createGlobal11042021?: Maybe<CreateGlobal11042021Payload>;
   /** Creates a single `Venue`. */
   createVenue?: Maybe<CreateVenuePayload>;
-  /** Deletes a single `Global11042021` using its globally unique id. */
-  deleteGlobal11042021?: Maybe<DeleteGlobal11042021Payload>;
-  /** Deletes a single `Global11042021` using a unique key. */
-  deleteGlobal11042021ByKey?: Maybe<DeleteGlobal11042021Payload>;
   /** Deletes a single `Venue` using its globally unique id. */
   deleteVenue?: Maybe<DeleteVenuePayload>;
   /** Deletes a single `Venue` using a unique key. */
   deleteVenueByKey?: Maybe<DeleteVenuePayload>;
-  /** Updates a single `Global11042021` using its globally unique id and a patch. */
-  updateGlobal11042021?: Maybe<UpdateGlobal11042021Payload>;
-  /** Updates a single `Global11042021` using a unique key and a patch. */
-  updateGlobal11042021ByKey?: Maybe<UpdateGlobal11042021Payload>;
   /** Updates a single `Venue` using its globally unique id and a patch. */
   updateVenue?: Maybe<UpdateVenuePayload>;
   /** Updates a single `Venue` using a unique key and a patch. */
@@ -532,26 +169,8 @@ export type Mutation = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateGlobal11042021Args = {
-  input: CreateGlobal11042021Input;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateVenueArgs = {
   input: CreateVenueInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteGlobal11042021Args = {
-  input: DeleteGlobal11042021Input;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteGlobal11042021ByKeyArgs = {
-  input: DeleteGlobal11042021ByKeyInput;
 };
 
 
@@ -564,18 +183,6 @@ export type MutationDeleteVenueArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteVenueByKeyArgs = {
   input: DeleteVenueByKeyInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateGlobal11042021Args = {
-  input: UpdateGlobal11042021Input;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateGlobal11042021ByKeyArgs = {
-  input: UpdateGlobal11042021ByKeyInput;
 };
 
 
@@ -612,13 +219,8 @@ export type PageInfo = {
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
   __typename?: 'Query';
-  /** Reads and enables pagination through a set of `Global11042021`. */
-  allGlobal11042021S?: Maybe<Global11042021SConnection>;
   /** Reads and enables pagination through a set of `Venue`. */
   allVenues?: Maybe<VenuesConnection>;
-  /** Reads a single `Global11042021` using its globally unique `ID`. */
-  global11042021?: Maybe<Global11042021>;
-  global11042021ByKey?: Maybe<Global11042021>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -636,19 +238,6 @@ export type Query = Node & {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllGlobal11042021SArgs = {
-  after?: Maybe<Scalars['Cursor']>;
-  before?: Maybe<Scalars['Cursor']>;
-  condition?: Maybe<Global11042021Condition>;
-  filter?: Maybe<Global11042021Filter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Array<Global11042021SOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAllVenuesArgs = {
   after?: Maybe<Scalars['Cursor']>;
   before?: Maybe<Scalars['Cursor']>;
@@ -658,18 +247,6 @@ export type QueryAllVenuesArgs = {
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Array<VenuesOrderBy>>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryGlobal11042021Args = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryGlobal11042021ByKeyArgs = {
-  key: Scalars['String'];
 };
 
 
@@ -782,53 +359,6 @@ export type StringFilter = {
   startsWith?: Maybe<Scalars['String']>;
   /** Starts with the specified string (case-insensitive). */
   startsWithInsensitive?: Maybe<Scalars['String']>;
-};
-
-/** All input for the `updateGlobal11042021ByKey` mutation. */
-export type UpdateGlobal11042021ByKeyInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Global11042021` being updated. */
-  global11042021Patch: Global11042021Patch;
-  key: Scalars['String'];
-};
-
-/** All input for the `updateGlobal11042021` mutation. */
-export type UpdateGlobal11042021Input = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Global11042021` being updated. */
-  global11042021Patch: Global11042021Patch;
-  /** The globally unique `ID` which will identify a single `Global11042021` to be updated. */
-  nodeId: Scalars['ID'];
-};
-
-/** The output of our update `Global11042021` mutation. */
-export type UpdateGlobal11042021Payload = {
-  __typename?: 'UpdateGlobal11042021Payload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Global11042021` that was updated by this mutation. */
-  global11042021?: Maybe<Global11042021>;
-  /** An edge for our `Global11042021`. May be used by Relay 1. */
-  global11042021Edge?: Maybe<Global11042021SEdge>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
-
-/** The output of our update `Global11042021` mutation. */
-export type UpdateGlobal11042021PayloadGlobal11042021EdgeArgs = {
-  orderBy?: Maybe<Array<Global11042021SOrderBy>>;
 };
 
 /** All input for the `updateVenueByKey` mutation. */
@@ -1517,7 +1047,7 @@ export type BayAreaAllWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaStarredWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1528,7 +1058,7 @@ export type BayAreaStarredWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayArea2021WithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1539,7 +1069,7 @@ export type BayArea2021WithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1550,7 +1080,7 @@ export type BayAreaBibWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1561,7 +1091,7 @@ export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaNearbySlotsQueryVariables = Exact<{
   date: Scalars['String'];
@@ -1575,32 +1105,32 @@ export type BayAreaNearbySlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
-export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string };
+export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
 export type BayAreaQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type BayAreaOfflineQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
 export type MetroTbdQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
+export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string }>> }> };
 
-export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, reservation?: Maybe<string>, key: string };
+export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, urlSlug?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
 export type LookupReservationInfoQueryVariables = Exact<{
   url: Scalars['String'];
@@ -1653,6 +1183,7 @@ export const VenuMainInfoFragmentDoc = gql`
   latitude
   longitude
   timezone
+  urlSlug
   reservation
   key
 }
