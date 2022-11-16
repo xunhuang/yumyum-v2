@@ -148,6 +148,7 @@ export class VendorTock extends VendorBase {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
+                'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
             }
         });
         const res = await w.text();

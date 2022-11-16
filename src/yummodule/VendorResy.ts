@@ -99,125 +99,6 @@ export class VendorResy extends VendorBase {
         return reservationUrl;
     }
 
-    /*
-    async fetchVenueInfoFromURL(url) {
-        var url_parts = urlparse.parse(url, true);
-        var paths = url_parts.pathname.split("/");
-        let citycode = paths[2];
-        let url_slug = paths[3];
-
-        const venueurl = "https://api.resy.com/3/venue";
-
-        return await superagent.get(venueurl)
-            .query({
-                location: citycode,
-                url_slug: url_slug,
-            })
-            .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
-            .send({})
-            .then((res) => {
-                let meta = res.body;
-                let venue = {};
-                venue.businessid = meta.id.resy;
-                venue.name = meta.name;
-                venue.realurl = meta.contact.url;
-
-                venue.longitude = meta.location.longitude;
-                venue.latitude = meta.location.latitude;
-                venue.city = meta.location.locality;
-                venue.region = meta.location.region;
-                venue.country = meta.location.country;
-                venue.address = meta.location.address_1;
-                venue.zip = meta.location.postal_code;
-
-                venue.cuisine = meta.type;
-                venue.imageList = meta.images;
-                venue.coverImage = meta.images[0];
-                // venue.openhours = meta.openingHours;// 
-                venue.phone = meta.contact.phone_number;
-                venue.priceline = "resy " + meta.price_range_id;
-
-                venue.distinction = "YUMYUM";
-                venue.guide = "YUMYUM";
-                venue.stars = "YUMYUM";
-                venue.close = false;
-                venue.reservation = "resy";
-                venue.withOnlineReservation = true;
-
-                venue.url_slug = url_slug;
-                venue.resy_city_code = citycode;
-
-                venue.localarea = "TBD";
-                return venue;
-            }, err => {
-                // eat the error
-                console.log("Error for resy: " + err + " " + venueurl);
-                return null;
-            });
-    }
-
-    async entitySearchForMany(term, longitude, latitude) {
-        let hits = await entitySearchExactTerm(term, longitude, latitude);
-        if (hits.length === 0) {
-            let fuzzyterm = term.replace(/\W/g, ' ');  // remove non-alpha numeric strings.  not sure if it's a good thing for european countries
-            hits = await entitySearchExactTerm(fuzzyterm, longitude, latitude);
-        }
-
-        let results = hits.map(hit => {
-            const citycode = hit.location.code;
-            const url_slug = hit.url_slug;
-            return {
-                name: hit.name,
-                url_slug: url_slug,
-                resy_city_code: citycode,
-                businessid: hit.objectID,
-                reservation: "resy",
-                city: hit.location.name,
-                url: `https://resy.com/cities/${citycode}/${url_slug}`,
-            }
-        });
-
-        return results;
-    }
-
-    async vendor_entity_search(term, longitude, latitude) {
-
-        const url = "https://api.resy.com/3/venuesearch/search";
-        return await superagent.post(url)
-            .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
-            .send({
-                geo: {
-                    longitude: longitude,
-                    latitude: latitude,
-                },
-                query: term,
-                types: ["venue", "cuisine"],
-            })
-            .then((res) => {
-                let myresult = JSON.parse(res.text);
-                let hits = myresult.search.hits;
-                return hits.map(hit => {
-                    const citycode = hit.location.code;
-                    const url_slug = hit.url_slug;
-                    return {
-                        name: hit.name,
-                        url_slug: url_slug,
-                        resy_city_code: citycode,
-                        businessid: hit.objectID,
-                        reservation: "resy",
-                        city: hit.location.name,
-                        latitude: hit._geoloc.lat,
-                        longitude: hit._geoloc.lng,
-                        url: `https://resy.com/cities/${citycode}/${url_slug}`,
-                    }
-
-                });
-            }, err => {
-                console.log(err);
-                return [];
-            });
-    }
-    */
     async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
         var url_parts = urlparse.parse(url, true);
         var paths = url_parts.pathname.split("/");
@@ -232,6 +113,7 @@ export class VendorResy extends VendorBase {
                 url_slug: url_slug,
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
+            .set('user-agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
             .send({})
             .then((res: any) => {
                 return res.body;
