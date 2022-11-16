@@ -107,6 +107,8 @@ export class VendorResy extends VendorBase {
 
         const venueurl = "https://api.resy.com/3/venue";
 
+        console.log(citycode, url_slug);
+
         const data = await superagent.get(venueurl)
             .query({
                 location: citycode,

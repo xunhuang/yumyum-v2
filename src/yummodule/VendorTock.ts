@@ -6,6 +6,7 @@ const buildUrl = require('build-url');
 const superagent = require('superagent');
 const moment = require('moment-timezone');
 const fetch = require('node-fetch');
+const urlparse = require('url');
 
 export class VendorTock extends VendorBase {
     vendorID() {
@@ -144,6 +145,11 @@ export class VendorTock extends VendorBase {
     }
 
     async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
+
+        var url_parts = urlparse.parse(url, true);
+        var paths = url_parts.pathname.split("/");
+        let url_slug = paths[1];
+
         const w = await fetch(url, {
             method: 'get',
             headers: {
@@ -156,16 +162,24 @@ export class VendorTock extends VendorBase {
         let scripts = $("script").map(function (i: any, el: any) {
             let text = cheerio(el).html();
             if (text?.includes("window.$REDUX_STATE = ")) {
-                return text.replace("window.$REDUX_STATE = ", "");
+                const texts = text.split("\n");
+                return texts.map(t => {
+                    if (t.includes("window.$REDUX_STATE = ")) {
+                        return t.replace("window.$REDUX_STATE = ", "").replace(/,"activePartnerRole.*/g, "}}");
+
+                    }
+                    return "";
+                }).join("");
             }
             return "";
         }).get().join(' ');
 
+        // console.log("scripts: " + scripts);
         let appconfig = JSON.parse(scripts);
         return {
             reservation: this.vendorID(),
             businessid: appconfig.app.activeAuth.businessId,
-            urlSlug: appconfig.app.config.business.domainName,
+            urlSlug: url_slug,
         }
     }
 };
