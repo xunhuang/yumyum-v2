@@ -1141,6 +1141,15 @@ export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typena
 
 export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
+export type CreateVenueMutationVariables = Exact<{
+  key: Scalars['String'];
+  vintage: Scalars['String'];
+  close: Scalars['Boolean'];
+}>;
+
+
+export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: Maybe<{ __typename?: 'CreateVenuePayload', venue?: Maybe<{ __typename?: 'Venue', key: string }> }> };
+
 export type LookupReservationInfoQueryVariables = Exact<{
   url: Scalars['String'];
 }>;
@@ -1655,6 +1664,43 @@ export function useMetroTbdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MetroTbdQueryHookResult = ReturnType<typeof useMetroTbdQuery>;
 export type MetroTbdLazyQueryHookResult = ReturnType<typeof useMetroTbdLazyQuery>;
 export type MetroTbdQueryResult = Apollo.QueryResult<MetroTbdQuery, MetroTbdQueryVariables>;
+export const CreateVenueDocument = gql`
+    mutation CreateVenue($key: String!, $vintage: String!, $close: Boolean!) {
+  createVenue(input: {venue: {key: $key, vintage: $vintage, close: $close}}) {
+    venue {
+      key
+    }
+  }
+}
+    `;
+export type CreateVenueMutationFn = Apollo.MutationFunction<CreateVenueMutation, CreateVenueMutationVariables>;
+
+/**
+ * __useCreateVenueMutation__
+ *
+ * To run a mutation, you first call `useCreateVenueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVenueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVenueMutation, { data, loading, error }] = useCreateVenueMutation({
+ *   variables: {
+ *      key: // value for 'key'
+ *      vintage: // value for 'vintage'
+ *      close: // value for 'close'
+ *   },
+ * });
+ */
+export function useCreateVenueMutation(baseOptions?: Apollo.MutationHookOptions<CreateVenueMutation, CreateVenueMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVenueMutation, CreateVenueMutationVariables>(CreateVenueDocument, options);
+      }
+export type CreateVenueMutationHookResult = ReturnType<typeof useCreateVenueMutation>;
+export type CreateVenueMutationResult = Apollo.MutationResult<CreateVenueMutation>;
+export type CreateVenueMutationOptions = Apollo.BaseMutationOptions<CreateVenueMutation, CreateVenueMutationVariables>;
 export const LookupReservationInfoDocument = gql`
     query LookupReservationInfo($url: String!) {
   reservationInfo(url: $url) {

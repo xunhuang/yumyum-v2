@@ -1,0 +1,19 @@
+mutation CreateVenue($key: String!, $vintage: String!, $close: Boolean!) {
+  createVenue(
+    input: {
+      venue: {
+        key: $key
+        vintage: $vintage
+        close: $close
+        # name: $name
+        # cuisine: $cuisine
+        # city: $city
+        # michelinslug: $michelinslug
+      }
+    }
+  ) {
+    venue {
+      key
+    }
+  }
+}
