@@ -1142,9 +1142,27 @@ export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typena
 export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, reservation?: Maybe<string>, key: string };
 
 export type CreateVenueMutationVariables = Exact<{
+  name: Scalars['String'];
   key: Scalars['String'];
   vintage: Scalars['String'];
   close: Scalars['Boolean'];
+  metro: Scalars['String'];
+  michelinslug: Scalars['String'];
+  address: Scalars['String'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  coverImage: Scalars['String'];
+  cuisine: Scalars['String'];
+  imageList: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  michelineOnlineReservation: Scalars['Boolean'];
+  region: Scalars['String'];
+  reservation: Scalars['String'];
+  stars: Scalars['String'];
+  timezone: Scalars['String'];
+  url: Scalars['String'];
+  zip: Scalars['String'];
 }>;
 
 
@@ -1665,8 +1683,10 @@ export type MetroTbdQueryHookResult = ReturnType<typeof useMetroTbdQuery>;
 export type MetroTbdLazyQueryHookResult = ReturnType<typeof useMetroTbdLazyQuery>;
 export type MetroTbdQueryResult = Apollo.QueryResult<MetroTbdQuery, MetroTbdQueryVariables>;
 export const CreateVenueDocument = gql`
-    mutation CreateVenue($key: String!, $vintage: String!, $close: Boolean!) {
-  createVenue(input: {venue: {key: $key, vintage: $vintage, close: $close}}) {
+    mutation CreateVenue($name: String!, $key: String!, $vintage: String!, $close: Boolean!, $metro: String!, $michelinslug: String!, $address: String!, $city: String!, $country: String!, $coverImage: String!, $cuisine: String!, $imageList: String!, $latitude: Float!, $longitude: Float!, $michelineOnlineReservation: Boolean!, $region: String!, $reservation: String!, $stars: String!, $timezone: String!, $url: String!, $zip: String!) {
+  createVenue(
+    input: {venue: {key: $key, vintage: $vintage, close: $close, name: $name, metro: $metro, michelinslug: $michelinslug, address: $address, city: $city, country: $country, coverImage: $coverImage, cuisine: $cuisine, imageList: $imageList, latitude: $latitude, longitude: $longitude, michelineOnlineReservation: $michelineOnlineReservation, region: $region, reservation: $reservation, stars: $stars, timezone: $timezone, url: $url, zip: $zip}}
+  ) {
     venue {
       key
     }
@@ -1688,9 +1708,27 @@ export type CreateVenueMutationFn = Apollo.MutationFunction<CreateVenueMutation,
  * @example
  * const [createVenueMutation, { data, loading, error }] = useCreateVenueMutation({
  *   variables: {
+ *      name: // value for 'name'
  *      key: // value for 'key'
  *      vintage: // value for 'vintage'
  *      close: // value for 'close'
+ *      metro: // value for 'metro'
+ *      michelinslug: // value for 'michelinslug'
+ *      address: // value for 'address'
+ *      city: // value for 'city'
+ *      country: // value for 'country'
+ *      coverImage: // value for 'coverImage'
+ *      cuisine: // value for 'cuisine'
+ *      imageList: // value for 'imageList'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *      michelineOnlineReservation: // value for 'michelineOnlineReservation'
+ *      region: // value for 'region'
+ *      reservation: // value for 'reservation'
+ *      stars: // value for 'stars'
+ *      timezone: // value for 'timezone'
+ *      url: // value for 'url'
+ *      zip: // value for 'zip'
  *   },
  * });
  */

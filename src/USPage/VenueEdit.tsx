@@ -2,7 +2,7 @@ import Link from '@material-ui/core/Link';
 import { Button, Form, Input, notification, Select, Switch } from 'antd';
 import buildUrl from 'build-url';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link as ReactLink, useParams } from 'react-router-dom';
 
 import { Loading } from '../components/Loading';
 import { useLookupReservationInfoLazyQuery, useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
@@ -43,6 +43,7 @@ export const VenueEditFromURL = () => {
 
 export const VenueEdit = ({ venue_id }: VenueEditProps) => {
   const [form] = Form.useForm();
+  const { metro } = useParams<{ metro: string }>();
   const { data, loading } = useVenueByKeyQuery({
     variables: {
       key: venue_id,
@@ -220,6 +221,12 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
               </ul>
             </div>
           )}
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          Test Link:
+          <ReactLink to={`/metro/${metro}/venue/${venue?.key}`}>
+            {venue.name}
+          </ReactLink>
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button type="primary" htmlType="submit">

@@ -1,14 +1,52 @@
-mutation CreateVenue($key: String!, $vintage: String!, $close: Boolean!) {
+mutation CreateVenue(
+  $name: String!
+  $key: String!
+  $vintage: String!
+  $close: Boolean!
+  $metro: String!
+  $michelinslug: String!
+  $address: String!
+  $city: String!
+  $country: String!
+  $coverImage: String!
+  $cuisine: String!
+  $imageList: String!
+  $latitude: Float!
+  $longitude: Float!
+  $michelineOnlineReservation: Boolean!
+  $region: String!
+  $reservation: String!
+  $stars: String!
+  $timezone: String!
+  $url: String!
+  $zip: String!
+) {
   createVenue(
     input: {
       venue: {
         key: $key
         vintage: $vintage
         close: $close
-        # name: $name
-        # cuisine: $cuisine
-        # city: $city
-        # michelinslug: $michelinslug
+        name: $name
+        metro: $metro
+        michelinslug: $michelinslug
+        address: $address
+        city: $city
+        country: $country
+        coverImage: $coverImage
+        cuisine: $cuisine
+        imageList: $imageList
+        latitude: $latitude
+        longitude: $longitude
+        michelineOnlineReservation: $michelineOnlineReservation
+        region: $region
+        reservation: $reservation
+        stars: $stars
+        timezone: $timezone
+        url: $url
+        zip: $zip
+        #phone
+        #realurl
       }
     }
   ) {
