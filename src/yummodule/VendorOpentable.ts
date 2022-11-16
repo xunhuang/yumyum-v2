@@ -88,21 +88,28 @@ export class VendorOpentable extends VendorBase {
         });
         const res = await w.text();
         const $ = cheerio.load(res);
+
         let scripts = $("script").map(function (i, el) {
             let text = cheerio(el).html();
-            if (text?.includes("window.OTDataLayer = ")) {
-                text = text.split("\n")[0];
-                let aa = text.replace("window.OTDataLayer = ", "")
-                    .replace(/window.OT.*/g, "");
-                return aa.replace(";", "");
+            if (text?.includes("window.__INITIAL_STATE__=")) {
+                let texts = text.split("\n");
+                return texts.map(function (t) {
+                    if (t.includes("window.__INITIAL_STATE__=")) {
+                        const a = t.replace("window.__INITIAL_STATE__=", "").replace(/;$/g, "");
+                        // console.log(a);
+                        return a;
+                    }
+                    return "";
+                }).join("");
             }
             return "";
         }).get().join(' ');
 
-        let appconfig = JSON.parse(scripts);
+        const clean = scripts.replace(/;$/g, '');
+        let appconfig = JSON.parse(clean);
         return {
             reservation: this.vendorID(),
-            businessid: appconfig[0].rid,
+            businessid: appconfig.restaurantProfile.restaurant.restaurantId,
         }
     }
 
