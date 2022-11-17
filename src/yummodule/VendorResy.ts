@@ -66,7 +66,7 @@ export class VendorResy extends VendorBase {
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
             .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
-            .send({})
+            // .send({})
             .then((res: any) => {
                 let total: TimeSlots[] = [];
                 if (!res.body.results.venues) {
@@ -111,12 +111,12 @@ export class VendorResy extends VendorBase {
 
         const data = await superagent.get(venueurl)
             .query({
-                location: citycode,
                 url_slug: url_slug,
+                location: citycode,
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
-            .set('user-agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-            .send({})
+            .set('User-Agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+            // .send({})
             .then((res: any) => {
                 return res.body;
             });

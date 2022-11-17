@@ -64,6 +64,7 @@ const getReservationInfo = async (_query: any, args: any): Promise<VenueReservat
 
     } catch (err) {
         console.error(`Error injesting for ${url} ${err}`);
+        console.error(err);
         return null;
     }
 }
