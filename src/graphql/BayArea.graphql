@@ -44,7 +44,7 @@ query BayArea2021WithSlots(
   allVenues(
     first: $first
     condition: { metro: $metro, withOnlineReservation: "true" }
-    filter: { vintage: { in: ["2021"] } }
+    filter: { vintage: { in: ["2022", "2021"] } }
   ) {
     totalCount
     nodes {
@@ -126,9 +126,7 @@ fragment VenuAvailability on Venue {
 }
 
 query BayArea($metro: String!) {
-  allVenues(
-    condition: { metro: $metro,  close: false }
-  ) {
+  allVenues(condition: { metro: $metro, close: false }) {
     nodes {
       ...VenuMainInfo
     }
@@ -166,4 +164,5 @@ fragment VenuMainInfo on Venue {
   michelinslug
   reservation
   key
+  vintage
 }
