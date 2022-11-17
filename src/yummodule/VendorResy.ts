@@ -7,7 +7,7 @@ const superagent = require('superagent');
 const moment = require('moment-timezone');
 const urlparse = require('url');
 
-const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
+const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
 /* Resy API:
 

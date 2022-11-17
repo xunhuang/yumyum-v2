@@ -11,7 +11,7 @@ const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
 
 // 15 requests per second so we don't overwhelm opentable's server
-const limiter = new RateLimiter({ tokensPerInterval: 15, interval: 1000 }); // 1 request per second;
+const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
 export class VendorOpentable extends VendorBase {
 
