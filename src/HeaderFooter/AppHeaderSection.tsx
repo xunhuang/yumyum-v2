@@ -11,6 +11,7 @@ import { setLastUserSelection } from '../USPage/CookieUserSelection';
 import { MetroDefiniton } from '../USPage/metro_def';
 import { MetroState, useMetro } from '../USPage/useMetro';
 import { SearchInput } from '../USPage/YumSearch';
+import { YProfileCircle } from '../YProfileCircle';
 import DatePicker from './DatePicker';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
 
@@ -123,11 +124,13 @@ export const AppHeaderSection = () => {
           <SearchInput placeholder="Search Yumyum" style={{ flexGrow: 1 }} />
           {date_picker}
           {party_picker}
+          <YProfileCircle />
         </Toolbar>
       )}
       {!wideScreen && (
         <Fragment>
           <Toolbar className={classes.appBar}>
+            <YProfileCircle />
             {logo}
             <SearchInput
               placeholder="Search Yumyum"

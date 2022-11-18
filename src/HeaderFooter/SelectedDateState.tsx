@@ -4,7 +4,6 @@ import { atom } from 'recoil';
 import { getLastUserSelection } from '../USPage/CookieUserSelection';
 
 const cookieState = getLastUserSelection();
-console.log(cookieState);
 
 export const SelectedDateState = atom({
   key: "selectedDate",
