@@ -33,8 +33,6 @@ const useMetroOriginalJson = (metro: string) => {
 export const AdminNewVenueImport = () => {
   const metro = useMetroFromPath();
   const listFromJsonFile = useMetroOriginalJson(metro);
-
-  const [searchTerm, setSearchTerm] = useState("");
   const [createVenue] = useCreateVenueMutation({
     onCompleted: (data) => {
       console.log("Created venue", data);

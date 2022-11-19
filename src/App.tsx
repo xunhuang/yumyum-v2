@@ -48,7 +48,7 @@ const routes: IRoute[] = [
     name: "Manage Metro",
   },
   {
-    path: "/admin/tbd/metro/:metro",
+    path: "/metro/:metro/tbd",
     component: MetroListTBD,
     name: "Metro TBD",
   },

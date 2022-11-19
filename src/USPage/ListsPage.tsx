@@ -17,6 +17,7 @@ import {
   useBayAreaStarredWithSlotsQuery,
 } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
+import { useProfile } from '../YProfileCircle';
 import { NearbyVenues } from './NearbyVenues';
 import { RestaurantList } from './RestaurantList';
 import { useMetro } from './useMetro';
@@ -218,6 +219,7 @@ export const ListOffLineOnly = () => {
 export const ListsPage = () => {
   const { metro, listname } = useParams<{ metro: string; listname: string }>();
   const systemmetro = useMetro();
+  const [profile] = useProfile();
   const key = listname ? listname : "nearby";
 
   const myMetro = metro ? metro : systemmetro;
@@ -227,7 +229,8 @@ export const ListsPage = () => {
     text: string;
     component: JSX.Element;
   };
-  const panedata: paneldataType[] = [
+
+  let panedata: paneldataType[] = [
     {
       slug: "nearby",
       text: "Nearby",
@@ -265,6 +268,13 @@ export const ListsPage = () => {
     },
   ];
 
+  if (profile?.email === "xhuang@gmail.com") {
+    panedata.push({
+      slug: "admin",
+      text: "Admin",
+      component: MetroAdminPage(metro),
+    });
+  }
   return (
     <Tabs activeKey={key} type="card" size={"large"}>
       {panedata.map((panel) => (
@@ -283,4 +293,30 @@ export const ListsPage = () => {
   );
 };
 
+function MetroAdminPage(metro: string): JSX.Element {
+  return (
+    <div>
+      <h4>Admin Admin page for {metro}</h4>
+      <div>
+        <li>
+          <Link href={`/metro/${metro}/import`}>Import from Michelin JSON</Link>
+        </li>
+        <li>
+          <Link href={`/metro/${metro}/admin`}>Admin metro's full list</Link>
+        </li>
+        <li>
+          <Link href={`/metro/${metro}/tbd`}>
+            Admin metro's TBD list (new places without reservation setting)
+          </Link>
+        </li>
+        <li>
+          <Link href={`/metro/${metro}/setnewinfo`}>
+            Tool to re-populate Michelin data (new rating, pictures etc)
+          </Link>
+        </li>
+        <li>hello</li>
+      </div>
+    </div>
+  );
+}
 
