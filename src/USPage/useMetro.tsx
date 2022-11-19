@@ -50,3 +50,17 @@ export const useMetro = () => {
   setMetro(iplocation);
   return iplocation;
 };
+
+export const useMetroFromPath = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const [metro, setMetro] = useRecoilState(MetroState);
+
+  if (path && path.startsWith("/metro/")) {
+    var parts = path.split("/");
+    const newmetro = parts[2];
+    setMetro(newmetro);
+    return newmetro;
+  }
+  return metro;
+};

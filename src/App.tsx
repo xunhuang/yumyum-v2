@@ -43,7 +43,7 @@ const routes: IRoute[] = [
     name: "Manage Metro",
   },
   {
-    path: "/admin/import/:metro",
+    path: "/metro/:metro/import",
     component: AdminNewVenueImport,
     name: "Manage Metro",
   },

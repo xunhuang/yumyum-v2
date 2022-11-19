@@ -1,19 +1,39 @@
 import 'antd/dist/antd.css';
 
 import { Button, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
 import { MetroAPI } from '../yummodule/MetroAPI';
-import { useMetro } from './useMetro';
+import { useMetroFromPath } from './useMetro';
 
-
-const bayarea = require("../data/BayArea.json");
 const Nanoid = require("nanoid");
 
+const useMetroOriginalJson = (metro: string) => {
+  const [data, setData] = useState([]);
+  const filepath = `/data/${metro}.json`;
+  useEffect(() => {
+    fetch(filepath, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        setData(myJson);
+      });
+  }, [filepath]);
+  return data;
+};
+
 export const AdminNewVenueImport = () => {
-  const metro = useMetro();
+  const metro = useMetroFromPath();
+  const bayarea = useMetroOriginalJson(metro);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [createVenue] = useCreateVenueMutation({
     onCompleted: (data) => {
@@ -31,6 +51,10 @@ export const AdminNewVenueImport = () => {
     return <Loading />;
   }
 
+  if (bayarea.length === 0) {
+    return <div>Probably wilson hasn't uploaded it</div>;
+  }
+
   const entrynodes = first.data?.allVenues?.nodes || [];
   const newOnly = bayarea.filter((entry: any) => {
     const found = entrynodes.find(
@@ -46,8 +70,6 @@ export const AdminNewVenueImport = () => {
     );
     return !found;
   });
-
-  console.log(bayarea[0]);
 
   return (
     <div>
