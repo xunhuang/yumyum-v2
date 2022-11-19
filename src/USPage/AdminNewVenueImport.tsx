@@ -1,6 +1,6 @@
 import 'antd/dist/antd.css';
 
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { Loading } from '../components/Loading';
@@ -32,7 +32,7 @@ const useMetroOriginalJson = (metro: string) => {
 
 export const AdminNewVenueImport = () => {
   const metro = useMetroFromPath();
-  const bayarea = useMetroOriginalJson(metro);
+  const listFromJsonFile = useMetroOriginalJson(metro);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [createVenue] = useCreateVenueMutation({
@@ -51,18 +51,27 @@ export const AdminNewVenueImport = () => {
     return <Loading />;
   }
 
-  if (bayarea.length === 0) {
+  if (listFromJsonFile.length === 0) {
     return <div>Probably wilson hasn't uploaded it</div>;
   }
 
   const entrynodes = first.data?.allVenues?.nodes || [];
-  const newOnly = bayarea.filter((entry: any) => {
+  const newOnly = listFromJsonFile.filter((entry: any) => {
     const found = entrynodes.find(
       (node: Venue | any, index: number, thisobject: any) => {
         if (node.name === entry.name) {
           return true;
         }
         if (entry.slug === node.michelinslug) {
+          return true;
+        }
+
+        if (entry._highlightResult.street.value === node.address) {
+          console.log(
+            "Found by address",
+            entry._highlightResult.street.value,
+            node.address
+          );
           return true;
         }
         return false;
@@ -110,10 +119,7 @@ export const AdminNewVenueImport = () => {
       >
         Import!
       </Button>
-      <Input
-        defaultValue={searchTerm}
-        onChange={(v) => setSearchTerm(v.target.value)}
-      />
+      <div>Total: {newOnly?.length}</div>
       <ListTable list={newOnly!} metro={metro} />
     </div>
   );

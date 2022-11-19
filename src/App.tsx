@@ -38,7 +38,7 @@ const routes: IRoute[] = [
     name: "Venue",
   },
   {
-    path: "/admin/metro/:metro",
+    path: "/metro/:metro/admin",
     component: MetroListAll,
     name: "Manage Metro",
   },

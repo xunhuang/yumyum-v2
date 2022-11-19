@@ -162,6 +162,7 @@ fragment VenuMainInfo on Venue {
   longitude
   timezone
   michelinslug
+  address
   reservation
   key
   vintage
