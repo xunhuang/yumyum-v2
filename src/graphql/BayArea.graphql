@@ -25,7 +25,9 @@ query BayAreaStarredWithSlots(
   allVenues(
     first: $first
     condition: { metro: $metro, withOnlineReservation: "true" }
-    filter: { stars: { in: ["1", "2", "3"] } }
+    filter: {
+      stars: { in: ["1", "2", "3", "ONE_STAR", "TWO_STARS", "THREE_STARS"] }
+    }
   ) {
     totalCount
     nodes {

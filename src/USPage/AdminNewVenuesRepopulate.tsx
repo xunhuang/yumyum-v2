@@ -3,29 +3,28 @@ import 'antd/dist/antd.css';
 import { Button } from 'antd';
 
 import { Loading } from '../components/Loading';
-import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
-import { MetroAPI } from '../yummodule/MetroAPI';
+import { useBayAreaQuery, useRepopulateVenueInfoMutation, Venue } from '../generated/graphql';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
 
-const Nanoid = require("nanoid");
+// const Nanoid = require("nanoid");
 
 export const AdminNewVenuesRepopulate = () => {
   const metro = useMetroFromPath();
   const listFromJsonFile = useMetroOriginalJson(metro);
-  const [createVenue] = useCreateVenueMutation({
+  const [updateVenue] = useRepopulateVenueInfoMutation({
     onCompleted: (data) => {
-      console.log("Created venue", data);
+      console.log("Venue data repopulated", data);
     },
   });
 
-  const first = useBayAreaQuery({
+  const dbData = useBayAreaQuery({
     variables: {
       metro: metro,
     },
   });
 
-  if (first.loading) {
+  if (dbData.loading) {
     return <Loading />;
   }
 
@@ -33,29 +32,53 @@ export const AdminNewVenuesRepopulate = () => {
     return <div>Probably wilson hasn't uploaded it</div>;
   }
 
-  const entrynodes = first.data?.allVenues?.nodes || [];
-  const newOnly = listFromJsonFile.filter((entry: any) => {
-    const found = entrynodes.find(
-      (node: Venue | any, index: number, thisobject: any) => {
-        if (node.name === entry.name) {
-          return true;
-        }
-        if (entry.slug === node.michelinslug) {
-          return true;
-        }
+  const jsonEntrySameWasDbEntry = (
+    jsonentry: any,
+    dbentry: Venue | any
+  ): boolean => {
+    if (jsonentry.slug === dbentry.michelinslug) {
+      return true;
+    }
+    if (dbentry.name === jsonentry.name) {
+      return true;
+    }
+    if (jsonentry._highlightResult.street.value === dbentry.address) {
+      return true;
+    }
+    if (jsonentry.objectID === dbentry.michelinobjectid) {
+      return true;
+    }
+    return false;
+  };
 
-        if (entry._highlightResult.street.value === node.address) {
-          console.log(
-            "Found by address",
-            entry._highlightResult.street.value,
-            node.address
-          );
-          return true;
-        }
-        return false;
+  const dbentries = dbData.data?.allVenues?.nodes || [];
+  const newOnly = listFromJsonFile.map((jsonentry: any) => {
+    const venue = dbentries.find(
+      (dbentry: Venue | any, index: number, thisobject: any) => {
+        return jsonEntrySameWasDbEntry(jsonentry, dbentry);
       }
     );
-    return !found;
+    if (!venue) {
+      console.log("Not found", jsonentry);
+      return null;
+    }
+
+    // if (venue.name !== jsonentry.name) {
+    //   console.log(venue.name, " ", jsonentry.name);
+    // }
+
+    if (venue.stars !== jsonentry.michelin_award) {
+      console.log("Stars", venue.stars, " ", jsonentry.michelin_award);
+    }
+
+    // if (venue.michelinslug !== jsonentry.slug) {
+    //   console.log(venue.michelinslug, " ", jsonentry.slug);
+    // }
+
+    console.log(venue.coverImage, " ", jsonentry.main_image?.url);
+
+    // console.log("Found", venue.name);
+    return null;
   });
 
   return (
@@ -64,38 +87,42 @@ export const AdminNewVenuesRepopulate = () => {
         type="link"
         htmlType="button"
         onClick={() => {
-          newOnly.map((item: any) => {
+          const newOnly = listFromJsonFile.map((jsonentry: any) => {
+            const venue = dbentries.find(
+              (dbentry: Venue | any, index: number, thisobject: any) => {
+                return jsonEntrySameWasDbEntry(jsonentry, dbentry);
+              }
+            );
+            if (!venue) {
+              console.log("Not found", jsonentry);
+              return null;
+            }
             const v = {
-              key: Nanoid.nanoid(),
-              vintage: "2022",
-              close: false,
-              name: item.name,
+              key: venue.key,
+              name: jsonentry.name,
               metro: metro,
-              michelinslug: item.slug,
-              address: item._highlightResult.street.value,
-              city: item.city.name,
-              country: item.country.name,
-              coverImage: item.main_image.url,
-              cuisine: item.cuisines.map((c: any) => c.label).join(", "),
-              imageList: JSON.stringify(item.images.map((i: any) => i.url)),
-              latitude: item._geoloc.lat,
-              longitude: item._geoloc.lng,
-              michelineOnlineReservation: item.online_booking === 1,
-              region: item.region.name,
-              reservation: "TBD",
-              stars: item.michelin_award || "Guide",
-              timezone: MetroAPI.getMetro(metro).timezone,
-              url: item.slug,
-              zip: item.slug,
+              michelinslug: jsonentry.slug,
+              michelinobjectid: jsonentry.objectID,
+              coverImage: jsonentry.main_image?.url
+                ? jsonentry.main_image?.url
+                : venue.coverImage,
+              cuisine: jsonentry.cuisines.map((c: any) => c.label).join(", "),
+              // imageList: JSON.stringify(
+              //   jsonentry.images?.map((i: any) => i.url) || []
+              // ),
+              latitude: jsonentry._geoloc.lat,
+              longitude: jsonentry._geoloc.lng,
+              stars: jsonentry.michelin_award || "MICHELIN_PLATE",
+              url: jsonentry.slug,
             };
-            createVenue({
+            updateVenue({
               variables: v,
             });
             return true;
           });
         }}
       >
-        Import!
+        Repopulate!
       </Button>
       <div>Total: {newOnly?.length}</div>
       <ListTable list={newOnly!} metro={metro} />

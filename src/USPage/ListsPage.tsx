@@ -310,11 +310,10 @@ function MetroAdminPage(metro: string): JSX.Element {
           </Link>
         </li>
         <li>
-          <Link href={`/metro/${metro}/setnewinfo`}>
+          <Link href={`/metro/${metro}/repopulate`}>
             Tool to re-populate Michelin data (new rating, pictures etc)
           </Link>
         </li>
-        <li>hello</li>
       </ol>
     </div>
   );

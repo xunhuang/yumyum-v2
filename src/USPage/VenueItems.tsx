@@ -79,6 +79,10 @@ const Stars = ({ stars }: StarsType) => {
     "1": "m",
     "2": "n",
     "3": "o",
+    ONE_STAR: "m",
+    TWO_STARS: "n",
+    THREE_STARS: "o",
+    Guide: "‹",
     MICHELIN_PLATE: "‹",
     BIB_GOURMAND: "=",
   };

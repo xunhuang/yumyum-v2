@@ -444,6 +444,7 @@ export type Venue = Node & {
   metro?: Maybe<Scalars['String']>;
   michelinId?: Maybe<Scalars['String']>;
   michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  michelinobjectid?: Maybe<Scalars['String']>;
   michelinslug?: Maybe<Scalars['String']>;
   monthlySlots?: Maybe<Array<DateAvailability>>;
   myReservationUrl?: Maybe<Scalars['String']>;
@@ -570,6 +571,8 @@ export type VenueCondition = {
   michelinId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `michelineOnlineReservation` field. */
   michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `michelinobjectid` field. */
+  michelinobjectid?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `michelinslug` field. */
   michelinslug?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `name` field. */
@@ -700,6 +703,8 @@ export type VenueFilter = {
   michelinId?: Maybe<StringFilter>;
   /** Filter by the object’s `michelineOnlineReservation` field. */
   michelineOnlineReservation?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `michelinobjectid` field. */
+  michelinobjectid?: Maybe<StringFilter>;
   /** Filter by the object’s `michelinslug` field. */
   michelinslug?: Maybe<StringFilter>;
   /** Filter by the object’s `name` field. */
@@ -798,6 +803,7 @@ export type VenueInput = {
   metro?: Maybe<Scalars['String']>;
   michelinId?: Maybe<Scalars['String']>;
   michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  michelinobjectid?: Maybe<Scalars['String']>;
   michelinslug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   oldImages?: Maybe<Scalars['String']>;
@@ -864,6 +870,7 @@ export type VenuePatch = {
   metro?: Maybe<Scalars['String']>;
   michelinId?: Maybe<Scalars['String']>;
   michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  michelinobjectid?: Maybe<Scalars['String']>;
   michelinslug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   oldImages?: Maybe<Scalars['String']>;
@@ -984,6 +991,8 @@ export enum VenuesOrderBy {
   MetroDesc = 'METRO_DESC',
   MichelineOnlineReservationAsc = 'MICHELINE_ONLINE_RESERVATION_ASC',
   MichelineOnlineReservationDesc = 'MICHELINE_ONLINE_RESERVATION_DESC',
+  MichelinobjectidAsc = 'MICHELINOBJECTID_ASC',
+  MichelinobjectidDesc = 'MICHELINOBJECTID_DESC',
   MichelinslugAsc = 'MICHELINSLUG_ASC',
   MichelinslugDesc = 'MICHELINSLUG_DESC',
   MichelinIdAsc = 'MICHELIN_ID_ASC',
@@ -1148,6 +1157,7 @@ export type CreateVenueMutationVariables = Exact<{
   close: Scalars['Boolean'];
   metro: Scalars['String'];
   michelinslug: Scalars['String'];
+  michelinobjectid: Scalars['String'];
   address: Scalars['String'];
   city: Scalars['String'];
   country: Scalars['String'];
@@ -1174,6 +1184,22 @@ export type LookupReservationInfoQueryVariables = Exact<{
 
 
 export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: Maybe<{ __typename?: 'ReservationInfo', businessid?: Maybe<string>, urlSlug?: Maybe<string>, resyCityCode?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, reservation?: Maybe<string> }> };
+
+export type RepopulateVenueInfoMutationVariables = Exact<{
+  key: Scalars['String'];
+  name: Scalars['String'];
+  michelinslug: Scalars['String'];
+  michelinobjectid: Scalars['String'];
+  coverImage: Scalars['String'];
+  cuisine: Scalars['String'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  stars: Scalars['String'];
+  url: Scalars['String'];
+}>;
+
+
+export type RepopulateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: Maybe<{ __typename?: 'UpdateVenuePayload', clientMutationId?: Maybe<string>, venue?: Maybe<{ __typename?: 'Venue', key: string, name?: Maybe<string>, michelinslug?: Maybe<string>, michelinobjectid?: Maybe<string>, coverImage?: Maybe<string>, cuisine?: Maybe<string>, imageList?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, stars?: Maybe<string>, url?: Maybe<string> }> }> };
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -1346,7 +1372,7 @@ export const BayAreaStarredWithSlotsDocument = gql`
   allVenues(
     first: $first
     condition: {metro: $metro, withOnlineReservation: "true"}
-    filter: {stars: {in: ["1", "2", "3"]}}
+    filter: {stars: {in: ["1", "2", "3", "ONE_STAR", "TWO_STARS", "THREE_STARS"]}}
   ) {
     totalCount
     nodes {
@@ -1685,9 +1711,9 @@ export type MetroTbdQueryHookResult = ReturnType<typeof useMetroTbdQuery>;
 export type MetroTbdLazyQueryHookResult = ReturnType<typeof useMetroTbdLazyQuery>;
 export type MetroTbdQueryResult = Apollo.QueryResult<MetroTbdQuery, MetroTbdQueryVariables>;
 export const CreateVenueDocument = gql`
-    mutation CreateVenue($name: String!, $key: String!, $vintage: String!, $close: Boolean!, $metro: String!, $michelinslug: String!, $address: String!, $city: String!, $country: String!, $coverImage: String!, $cuisine: String!, $imageList: String!, $latitude: Float!, $longitude: Float!, $michelineOnlineReservation: Boolean!, $region: String!, $reservation: String!, $stars: String!, $timezone: String!, $url: String!, $zip: String!) {
+    mutation CreateVenue($name: String!, $key: String!, $vintage: String!, $close: Boolean!, $metro: String!, $michelinslug: String!, $michelinobjectid: String!, $address: String!, $city: String!, $country: String!, $coverImage: String!, $cuisine: String!, $imageList: String!, $latitude: Float!, $longitude: Float!, $michelineOnlineReservation: Boolean!, $region: String!, $reservation: String!, $stars: String!, $timezone: String!, $url: String!, $zip: String!) {
   createVenue(
-    input: {venue: {key: $key, vintage: $vintage, close: $close, name: $name, metro: $metro, michelinslug: $michelinslug, address: $address, city: $city, country: $country, coverImage: $coverImage, cuisine: $cuisine, imageList: $imageList, latitude: $latitude, longitude: $longitude, michelineOnlineReservation: $michelineOnlineReservation, region: $region, reservation: $reservation, stars: $stars, timezone: $timezone, url: $url, zip: $zip}}
+    input: {venue: {key: $key, vintage: $vintage, close: $close, name: $name, metro: $metro, michelinslug: $michelinslug, michelinobjectid: $michelinobjectid, address: $address, city: $city, country: $country, coverImage: $coverImage, cuisine: $cuisine, imageList: $imageList, latitude: $latitude, longitude: $longitude, michelineOnlineReservation: $michelineOnlineReservation, region: $region, reservation: $reservation, stars: $stars, timezone: $timezone, url: $url, zip: $zip}}
   ) {
     venue {
       key
@@ -1716,6 +1742,7 @@ export type CreateVenueMutationFn = Apollo.MutationFunction<CreateVenueMutation,
  *      close: // value for 'close'
  *      metro: // value for 'metro'
  *      michelinslug: // value for 'michelinslug'
+ *      michelinobjectid: // value for 'michelinobjectid'
  *      address: // value for 'address'
  *      city: // value for 'city'
  *      country: // value for 'country'
@@ -1781,6 +1808,63 @@ export function useLookupReservationInfoLazyQuery(baseOptions?: Apollo.LazyQuery
 export type LookupReservationInfoQueryHookResult = ReturnType<typeof useLookupReservationInfoQuery>;
 export type LookupReservationInfoLazyQueryHookResult = ReturnType<typeof useLookupReservationInfoLazyQuery>;
 export type LookupReservationInfoQueryResult = Apollo.QueryResult<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>;
+export const RepopulateVenueInfoDocument = gql`
+    mutation RepopulateVenueInfo($key: String!, $name: String!, $michelinslug: String!, $michelinobjectid: String!, $coverImage: String!, $cuisine: String!, $latitude: Float!, $longitude: Float!, $stars: String!, $url: String!) {
+  updateVenueByKey(
+    input: {venuePatch: {michelinslug: $michelinslug, michelinobjectid: $michelinobjectid, name: $name, coverImage: $coverImage, cuisine: $cuisine, latitude: $latitude, longitude: $longitude, stars: $stars, url: $url}, key: $key}
+  ) {
+    clientMutationId
+    venue {
+      key
+      name
+      michelinslug
+      michelinobjectid
+      coverImage
+      cuisine
+      imageList
+      latitude
+      longitude
+      stars
+      url
+    }
+  }
+}
+    `;
+export type RepopulateVenueInfoMutationFn = Apollo.MutationFunction<RepopulateVenueInfoMutation, RepopulateVenueInfoMutationVariables>;
+
+/**
+ * __useRepopulateVenueInfoMutation__
+ *
+ * To run a mutation, you first call `useRepopulateVenueInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRepopulateVenueInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [repopulateVenueInfoMutation, { data, loading, error }] = useRepopulateVenueInfoMutation({
+ *   variables: {
+ *      key: // value for 'key'
+ *      name: // value for 'name'
+ *      michelinslug: // value for 'michelinslug'
+ *      michelinobjectid: // value for 'michelinobjectid'
+ *      coverImage: // value for 'coverImage'
+ *      cuisine: // value for 'cuisine'
+ *      latitude: // value for 'latitude'
+ *      longitude: // value for 'longitude'
+ *      stars: // value for 'stars'
+ *      url: // value for 'url'
+ *   },
+ * });
+ */
+export function useRepopulateVenueInfoMutation(baseOptions?: Apollo.MutationHookOptions<RepopulateVenueInfoMutation, RepopulateVenueInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RepopulateVenueInfoMutation, RepopulateVenueInfoMutationVariables>(RepopulateVenueInfoDocument, options);
+      }
+export type RepopulateVenueInfoMutationHookResult = ReturnType<typeof useRepopulateVenueInfoMutation>;
+export type RepopulateVenueInfoMutationResult = Apollo.MutationResult<RepopulateVenueInfoMutation>;
+export type RepopulateVenueInfoMutationOptions = Apollo.BaseMutationOptions<RepopulateVenueInfoMutation, RepopulateVenueInfoMutationVariables>;
 export const UpdateVenueInfoDocument = gql`
     mutation UpdateVenueInfo($key: String!, $businessid: String, $reservation: String, $resyCityCode: String, $urlSlug: String, $close: Boolean!) {
   updateVenueByKey(

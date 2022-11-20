@@ -5,6 +5,7 @@ mutation CreateVenue(
   $close: Boolean!
   $metro: String!
   $michelinslug: String!
+  $michelinobjectid: String!
   $address: String!
   $city: String!
   $country: String!
@@ -30,6 +31,7 @@ mutation CreateVenue(
         name: $name
         metro: $metro
         michelinslug: $michelinslug
+        michelinobjectid: $michelinobjectid
         address: $address
         city: $city
         country: $country
