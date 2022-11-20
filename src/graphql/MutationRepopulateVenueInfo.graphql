@@ -1,0 +1,46 @@
+mutation RepopulateVenueInfo(
+  $key: String!
+  $name: String!
+  $michelinslug: String!
+  $michelinobjectid: String!
+  $coverImage: String!
+  $cuisine: String!
+  # $imageList: String!
+  $latitude: Float!
+  $longitude: Float!
+  $stars: String!
+  $url: String!
+) {
+  updateVenueByKey(
+    input: {
+      venuePatch: {
+        michelinslug: $michelinslug
+        michelinobjectid: $michelinobjectid
+        name: $name
+        coverImage: $coverImage
+        cuisine: $cuisine
+        # imageList: $imageList
+        latitude: $latitude
+        longitude: $longitude
+        stars: $stars
+        url: $url
+      }
+      key: $key
+    }
+  ) {
+    clientMutationId
+    venue {
+      key
+      name
+      michelinslug
+      michelinobjectid
+      coverImage
+      cuisine
+      imageList
+      latitude
+      longitude
+      stars
+      url
+    }
+  }
+}
