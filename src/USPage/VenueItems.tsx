@@ -119,7 +119,7 @@ export const VenueTitle = ({ venue }: VenueProp) => {
   return (
     <a href={`/metro/${metro}/venue/${venue?.key}`}>
       {venue?.name} <Stars stars={venue?.stars!} />
-      {venue?.vintage && <span> {venue?.vintage} </span>}
+      {venue?.vintage && <span>{venue?.vintage}</span>}
     </a>
   );
 };

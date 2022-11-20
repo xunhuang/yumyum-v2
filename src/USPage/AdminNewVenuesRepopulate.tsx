@@ -78,6 +78,12 @@ export const AdminNewVenuesRepopulate = () => {
       } else {
         console.log(venue.name);
       }
+
+
+      let imageList = JSON.stringify(
+        jsonentry.images?.map((i: any) => i.url) || []
+      );
+
       const v = {
         key: venue.key,
         name: jsonentry.name,
@@ -86,9 +92,7 @@ export const AdminNewVenuesRepopulate = () => {
         michelinobjectid: jsonentry.objectID,
         coverImage: coverImage,
         cuisine: jsonentry.cuisines.map((c: any) => c.label).join(", "),
-        // imageList: JSON.stringify(
-        //   jsonentry.images?.map((i: any) => i.url) || []
-        // ),
+        imageList: imageList,
         latitude: jsonentry._geoloc.lat,
         longitude: jsonentry._geoloc.lng,
         stars: jsonentry.michelin_award || "MICHELIN_PLATE",
