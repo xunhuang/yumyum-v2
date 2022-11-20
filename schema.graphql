@@ -152,6 +152,7 @@ type Venue implements Node {
   vintage: String
   streetUsps: String
   michelinslug: String
+  michelinobjectid: String
   slots(date: String!, party_size: Int = 2, timeOption: String = "dinner"): [String!]
   monthlySlots(date: String!, party_size: Int = 2, timeOption: String = "dinner"): [DateAvailability!]
   myReservationUrl(date: String!, party_size: Int = 2, timeOption: String = "dinner"): String
@@ -317,6 +318,8 @@ enum VenuesOrderBy {
   STREET_USPS_DESC
   MICHELINSLUG_ASC
   MICHELINSLUG_DESC
+  MICHELINOBJECTID_ASC
+  MICHELINOBJECTID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -512,6 +515,9 @@ input VenueCondition {
 
   """Checks for equality with the object’s `michelinslug` field."""
   michelinslug: String
+
+  """Checks for equality with the object’s `michelinobjectid` field."""
+  michelinobjectid: String
 }
 
 """
@@ -703,6 +709,9 @@ input VenueFilter {
 
   """Filter by the object’s `michelinslug` field."""
   michelinslug: StringFilter
+
+  """Filter by the object’s `michelinobjectid` field."""
+  michelinobjectid: StringFilter
 
   """Checks for all expressions in this list."""
   and: [VenueFilter!]
@@ -1083,6 +1092,7 @@ input VenueInput {
   vintage: String
   streetUsps: String
   michelinslug: String
+  michelinobjectid: String
 }
 
 """The output of our update `Venue` mutation."""
@@ -1193,6 +1203,7 @@ input VenuePatch {
   vintage: String
   streetUsps: String
   michelinslug: String
+  michelinobjectid: String
 }
 
 """All input for the `updateVenueByKey` mutation."""
