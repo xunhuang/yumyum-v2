@@ -87,7 +87,7 @@ export const AdminNewVenuesRepopulate = () => {
         type="link"
         htmlType="button"
         onClick={() => {
-          const newOnly = listFromJsonFile.map((jsonentry: any) => {
+          listFromJsonFile.map((jsonentry: any) => {
             const venue = dbentries.find(
               (dbentry: Venue | any, index: number, thisobject: any) => {
                 return jsonEntrySameWasDbEntry(jsonentry, dbentry);
