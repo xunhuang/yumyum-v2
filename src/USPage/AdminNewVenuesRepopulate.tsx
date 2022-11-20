@@ -14,7 +14,7 @@ export const AdminNewVenuesRepopulate = () => {
   const listFromJsonFile = useMetroOriginalJson(metro);
   const [updateVenue] = useRepopulateVenueInfoMutation({
     onCompleted: (data) => {
-      console.log("Venue data repopulated", data);
+      // console.log("Venue data repopulated", data);
     },
   });
 
@@ -52,80 +52,61 @@ export const AdminNewVenuesRepopulate = () => {
   };
 
   const dbentries = dbData.data?.allVenues?.nodes || [];
-  const newOnly = listFromJsonFile.map((jsonentry: any) => {
-    const venue = dbentries.find(
-      (dbentry: Venue | any, index: number, thisobject: any) => {
-        return jsonEntrySameWasDbEntry(jsonentry, dbentry);
+
+  async function updateAll() {
+    for (const a of listFromJsonFile) {
+      const jsonentry: any = a;
+      // console.log(jsonentry);
+      const venue = dbentries.find(
+        (dbentry: Venue | any, index: number, thisobject: any) => {
+          return jsonEntrySameWasDbEntry(jsonentry, dbentry);
+        }
+      );
+
+      if (!venue) {
+        console.log("Not found", jsonentry);
+        continue;
       }
-    );
-    if (!venue) {
-      console.log("Not found", jsonentry);
-      return null;
+
+      let coverImage = jsonentry.main_image?.url;
+      if (!coverImage) {
+        coverImage = venue.coverImage;
+      }
+      if (!coverImage) {
+        console.log("No cover image", venue.name);
+        continue;
+      } else {
+        console.log(venue.name);
+      }
+      const v = {
+        key: venue.key,
+        name: jsonentry.name,
+        metro: metro,
+        michelinslug: jsonentry.slug,
+        michelinobjectid: jsonentry.objectID,
+        coverImage: coverImage,
+        cuisine: jsonentry.cuisines.map((c: any) => c.label).join(", "),
+        // imageList: JSON.stringify(
+        //   jsonentry.images?.map((i: any) => i.url) || []
+        // ),
+        latitude: jsonentry._geoloc.lat,
+        longitude: jsonentry._geoloc.lng,
+        stars: jsonentry.michelin_award || "MICHELIN_PLATE",
+        url: jsonentry.slug,
+      };
+      await updateVenue({
+        variables: v,
+      });
     }
-
-    // if (venue.name !== jsonentry.name) {
-    //   console.log(venue.name, " ", jsonentry.name);
-    // }
-
-    if (venue.stars !== jsonentry.michelin_award) {
-      console.log("Stars", venue.stars, " ", jsonentry.michelin_award);
-    }
-
-    // if (venue.michelinslug !== jsonentry.slug) {
-    //   console.log(venue.michelinslug, " ", jsonentry.slug);
-    // }
-
-    console.log(venue.coverImage, " ", jsonentry.main_image?.url);
-
-    // console.log("Found", venue.name);
-    return null;
-  });
+  }
 
   return (
     <div>
-      <Button
-        type="link"
-        htmlType="button"
-        onClick={() => {
-          listFromJsonFile.map((jsonentry: any) => {
-            const venue = dbentries.find(
-              (dbentry: Venue | any, index: number, thisobject: any) => {
-                return jsonEntrySameWasDbEntry(jsonentry, dbentry);
-              }
-            );
-            if (!venue) {
-              console.log("Not found", jsonentry);
-              return null;
-            }
-            const v = {
-              key: venue.key,
-              name: jsonentry.name,
-              metro: metro,
-              michelinslug: jsonentry.slug,
-              michelinobjectid: jsonentry.objectID,
-              coverImage: jsonentry.main_image?.url
-                ? jsonentry.main_image?.url
-                : venue.coverImage,
-              cuisine: jsonentry.cuisines.map((c: any) => c.label).join(", "),
-              // imageList: JSON.stringify(
-              //   jsonentry.images?.map((i: any) => i.url) || []
-              // ),
-              latitude: jsonentry._geoloc.lat,
-              longitude: jsonentry._geoloc.lng,
-              stars: jsonentry.michelin_award || "MICHELIN_PLATE",
-              url: jsonentry.slug,
-            };
-            updateVenue({
-              variables: v,
-            });
-            return true;
-          });
-        }}
-      >
+      <Button type="link" htmlType="button" onClick={updateAll}>
         Repopulate!
       </Button>
-      <div>Total: {newOnly?.length}</div>
-      <ListTable list={newOnly!} metro={metro} />
+      <div>Total: {listFromJsonFile?.length}</div>
+      <ListTable list={listFromJsonFile!} metro={metro} />
     </div>
   );
 };
