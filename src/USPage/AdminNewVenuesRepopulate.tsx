@@ -10,7 +10,7 @@ import { useMetroOriginalJson } from './useMetroOriginalJson';
 
 const Nanoid = require("nanoid");
 
-export const AdminNewVenueImport = () => {
+export const AdminNewVenuesRepopulate = () => {
   const metro = useMetroFromPath();
   const listFromJsonFile = useMetroOriginalJson(metro);
   const [createVenue] = useCreateVenueMutation({
@@ -110,12 +110,10 @@ type MyTableProps = {
 
 const ListTable = (props: MyTableProps) => {
   return (
-    <ul>
+    <div>
       {props.list.map((v) => (
-        <li key={v?.name}>
-          {v?.name}, {v?.michelin_award},{v?.city.name}
-        </li>
+        <div key={v?.name}>{v?.name}</div>
       ))}
-    </ul>
+    </div>
   );
 };

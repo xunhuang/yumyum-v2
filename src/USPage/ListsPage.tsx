@@ -296,8 +296,8 @@ export const ListsPage = () => {
 function MetroAdminPage(metro: string): JSX.Element {
   return (
     <div>
-      <h4>Admin Admin page for {metro}</h4>
-      <div>
+      <h4>Admin page for {metro}</h4>
+      <ol>
         <li>
           <Link href={`/metro/${metro}/import`}>Import from Michelin JSON</Link>
         </li>
@@ -315,7 +315,7 @@ function MetroAdminPage(metro: string): JSX.Element {
           </Link>
         </li>
         <li>hello</li>
-      </div>
+      </ol>
     </div>
   );
 }

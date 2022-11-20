@@ -10,6 +10,7 @@ import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
 import { FullDiv } from './styles/HomeStyles';
 import { MetroListAll } from './USPage/AdminMetro';
 import { AdminNewVenueImport } from './USPage/AdminNewVenueImport';
+import { AdminNewVenuesRepopulate } from './USPage/AdminNewVenuesRepopulate';
 import { MetroListTBD } from './USPage/AdminTBDMetro';
 import { ListsPage } from './USPage/ListsPage';
 import { VenueEditFromURL } from './USPage/VenueEdit';
@@ -45,7 +46,12 @@ const routes: IRoute[] = [
   {
     path: "/metro/:metro/import",
     component: AdminNewVenueImport,
-    name: "Manage Metro",
+    name: "Metro Data Import",
+  },
+  {
+    path: "/metro/:metro/repopulate",
+    component: AdminNewVenuesRepopulate,
+    name: "Metro Repopulate Data",
   },
   {
     path: "/metro/:metro/tbd",
