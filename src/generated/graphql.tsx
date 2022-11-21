@@ -1208,6 +1208,7 @@ export type UpdateVenueInfoMutationVariables = Exact<{
   resyCityCode?: Maybe<Scalars['String']>;
   urlSlug?: Maybe<Scalars['String']>;
   close: Scalars['Boolean'];
+  withOnlineReservation: Scalars['String'];
 }>;
 
 
@@ -1866,9 +1867,9 @@ export type RepopulateVenueInfoMutationHookResult = ReturnType<typeof useRepopul
 export type RepopulateVenueInfoMutationResult = Apollo.MutationResult<RepopulateVenueInfoMutation>;
 export type RepopulateVenueInfoMutationOptions = Apollo.BaseMutationOptions<RepopulateVenueInfoMutation, RepopulateVenueInfoMutationVariables>;
 export const UpdateVenueInfoDocument = gql`
-    mutation UpdateVenueInfo($key: String!, $businessid: String, $reservation: String, $resyCityCode: String, $urlSlug: String, $close: Boolean!) {
+    mutation UpdateVenueInfo($key: String!, $businessid: String, $reservation: String, $resyCityCode: String, $urlSlug: String, $close: Boolean!, $withOnlineReservation: String!) {
   updateVenueByKey(
-    input: {venuePatch: {businessid: $businessid, reservation: $reservation, resyCityCode: $resyCityCode, urlSlug: $urlSlug, close: $close}, key: $key}
+    input: {venuePatch: {businessid: $businessid, reservation: $reservation, resyCityCode: $resyCityCode, urlSlug: $urlSlug, close: $close, withOnlineReservation: $withOnlineReservation}, key: $key}
   ) {
     clientMutationId
     venue {
@@ -1898,6 +1899,7 @@ export type UpdateVenueInfoMutationFn = Apollo.MutationFunction<UpdateVenueInfoM
  *      resyCityCode: // value for 'resyCityCode'
  *      urlSlug: // value for 'urlSlug'
  *      close: // value for 'close'
+ *      withOnlineReservation: // value for 'withOnlineReservation'
  *   },
  * });
  */

@@ -5,6 +5,7 @@ mutation UpdateVenueInfo(
   $resyCityCode: String
   $urlSlug: String
   $close: Boolean!
+  $withOnlineReservation: String!
 ) {
   updateVenueByKey(
     input: {
@@ -14,6 +15,7 @@ mutation UpdateVenueInfo(
         resyCityCode: $resyCityCode
         urlSlug: $urlSlug
         close: $close
+        withOnlineReservation: $withOnlineReservation
       }
       key: $key
     }

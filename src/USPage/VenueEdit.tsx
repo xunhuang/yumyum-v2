@@ -53,6 +53,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
   const [LookupReservation, result] = useLookupReservationInfoLazyQuery({
     onCompleted: (data: any) => {
       if (data.reservationInfo) {
+        data.reservationInfo.withOnlineReservation = true;
         form.setFieldsValue(data.reservationInfo);
         setReservation(data.reservationInfo.reservation);
       }
@@ -79,6 +80,9 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const onFinish = (values: any) => {
     values.key = venue_id;
+    values.withOnlineReservation = values.withOnlineReservation
+      ? "true"
+      : "false";
     console.log(values);
     makeChange({
       variables: values,
@@ -87,7 +91,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const vendor = getVendor(reservation ? reservation : venue?.reservation!);
 
-  function prefillbutton(res: string) {
+  function prefillbutton(res: string, withOnlineReservation: boolean) {
     return (
       <Button
         type="link"
@@ -95,6 +99,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
         onClick={() => {
           form.setFieldsValue({
             reservation: res,
+            withOnlineReservation: withOnlineReservation,
           });
           setReservation(res);
         }}
@@ -151,13 +156,13 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           </Select>
         </Form.Item>
         <Form.Item {...tailLayout}>
-          {prefillbutton("opentable")}
-          {prefillbutton("tock")}
-          {prefillbutton("resy")}
-          {prefillbutton("yelp")}
-          {prefillbutton("none")}
-          {prefillbutton("Call/Email")}
-          {prefillbutton("TBD")}
+          {prefillbutton("opentable", true)}
+          {prefillbutton("tock", true)}
+          {prefillbutton("resy", true)}
+          {prefillbutton("yelp", true)}
+          {prefillbutton("none", false)}
+          {prefillbutton("Call/Email", false)}
+          {prefillbutton("TBD", false)}
         </Form.Item>
 
         {vendor &&
@@ -182,6 +187,14 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           name="close"
           valuePropName="checked"
           initialValue={venue?.close}
+        >
+          <Switch />
+        </Form.Item>
+        <Form.Item
+          label="Online Reservation"
+          name="withOnlineReservation"
+          valuePropName="checked"
+          initialValue={venue?.withOnlineReservation === "true"}
         >
           <Switch />
         </Form.Item>
