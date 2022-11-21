@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
 import { MetroAPI } from '../yummodule/MetroAPI';
+import { JsonEntrySameWasDbEntry } from './JsonEntrySameWasDbEntry';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
 
@@ -34,25 +35,10 @@ export const AdminNewVenueImport = () => {
   }
 
   const entrynodes = first.data?.allVenues?.nodes || [];
-  const newOnly = listFromJsonFile.filter((entry: any) => {
+  const newOnly = listFromJsonFile.filter((jsonentry: any) => {
     const found = entrynodes.find(
-      (node: Venue | any, index: number, thisobject: any) => {
-        if (node.name === entry.name) {
-          return true;
-        }
-        if (entry.slug === node.michelinslug) {
-          return true;
-        }
-
-        if (entry._highlightResult.street.value === node.address) {
-          console.log(
-            "Found by address",
-            entry._highlightResult.street.value,
-            node.address
-          );
-          return true;
-        }
-        return false;
+      (dbentry: Venue | any, index: number, thisobject: any) => {
+        return JsonEntrySameWasDbEntry(jsonentry, dbentry);
       }
     );
     return !found;

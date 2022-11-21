@@ -4,10 +4,9 @@ import { Button } from 'antd';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useRepopulateVenueInfoMutation, Venue } from '../generated/graphql';
+import { JsonEntrySameWasDbEntry } from './JsonEntrySameWasDbEntry';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
-
-// const Nanoid = require("nanoid");
 
 export const AdminNewVenuesRepopulate = () => {
   const metro = useMetroFromPath();
@@ -32,25 +31,6 @@ export const AdminNewVenuesRepopulate = () => {
     return <div>Probably wilson hasn't uploaded it</div>;
   }
 
-  const jsonEntrySameWasDbEntry = (
-    jsonentry: any,
-    dbentry: Venue | any
-  ): boolean => {
-    if (jsonentry.slug === dbentry.michelinslug) {
-      return true;
-    }
-    if (dbentry.name === jsonentry.name) {
-      return true;
-    }
-    if (jsonentry._highlightResult.street.value === dbentry.address) {
-      return true;
-    }
-    if (jsonentry.objectID === dbentry.michelinobjectid) {
-      return true;
-    }
-    return false;
-  };
-
   const dbentries = dbData.data?.allVenues?.nodes || [];
 
   async function updateAll() {
@@ -59,7 +39,7 @@ export const AdminNewVenuesRepopulate = () => {
       // console.log(jsonentry);
       const venue = dbentries.find(
         (dbentry: Venue | any, index: number, thisobject: any) => {
-          return jsonEntrySameWasDbEntry(jsonentry, dbentry);
+          return JsonEntrySameWasDbEntry(jsonentry, dbentry);
         }
       );
 
@@ -78,7 +58,6 @@ export const AdminNewVenuesRepopulate = () => {
       } else {
         console.log(venue.name);
       }
-
 
       let imageList = JSON.stringify(
         jsonentry.images?.map((i: any) => i.url) || []
