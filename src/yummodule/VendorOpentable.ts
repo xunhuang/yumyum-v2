@@ -1,3 +1,4 @@
+/* eslint typescript-eslint/no-unused-vars: 0 */  // --> OFF
 import cheerio from 'cheerio';
 import { RateLimiter } from 'limiter';
 import { Cache, CacheContainer } from 'node-ts-cache';
