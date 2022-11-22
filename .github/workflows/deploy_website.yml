@@ -29,7 +29,7 @@ jobs:
     - run: npm ci; npm install -g ts-node json2csv
     - name: Build
       env: 
-        SKIP_PREFLIGHT_CHECK:true
+        SKIP_PREFLIGHT_CHECK: true
       run: npm run build
     - name: deploy
       env:
