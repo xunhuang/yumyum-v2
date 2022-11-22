@@ -15,11 +15,9 @@ export const useProfile = () => {
 
 export const YProfileCircle = () => {
   const [profile, setProfile] = useRecoilState<any>(LoginUserProfileState);
-
   const clientId =
     "217254739278-lvhkh4717oabh6f7s8d79hdv3k619n8c.apps.googleusercontent.com";
 
-  // const [profile, setProfile] = useState<any>(null);
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
