@@ -27,7 +27,10 @@ jobs:
         PROD_ENV: ${{ secrets.DOTENV }}
       run: echo "${PROD_ENV}" > .env.production
     - run: npm ci; npm install -g ts-node json2csv
-    - run: npm run build
+    - name: Build
+      env: 
+        SKIP_PREFLIGHT_CHECK:true
+      run: npm run build
     - name: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

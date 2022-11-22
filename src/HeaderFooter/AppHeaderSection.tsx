@@ -42,7 +42,7 @@ const MetroSelect = () => {
       defaultValue={mymetro}
       style={{ width: 120 }}
       bordered={false}
-      onSelect={(value, option) => {
+      onSelect={(value: any, option: any) => {
         setMetro(value);
         history.push(`/metro/${value}/list/all`);
       }}
@@ -97,7 +97,7 @@ export const AppHeaderSection = () => {
     <Select
       defaultValue={party_size}
       style={{ width: 120 }}
-      onSelect={(value, option) => {
+      onSelect={(value: any, option: any) => {
         setPartySize(parseInt(value.toString()));
         setLastUserSelection({
           date: date,
