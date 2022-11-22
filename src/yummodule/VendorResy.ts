@@ -6,6 +6,7 @@ const buildUrl = require('build-url');
 const superagent = require('superagent');
 const moment = require('moment-timezone');
 const urlparse = require('url');
+const getDistance = require("geolib").getDistance;
 
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
@@ -124,7 +125,23 @@ export class VendorResy extends VendorBase {
                 console.log(err);
                 return [];
             });
+
+        if (candidates.length == 0) {
+            return null;
+        }
+
         const best = candidates[0];
+
+        // distance in meters
+        const distance = getDistance(
+            { latitude: latitude, longitude: longitude },
+            { latitude: best._geoloc.lat, longitude: best._geoloc.lng }
+        );
+
+        console.log(distance);
+        if (distance > 150) {
+            return null;
+        }
 
         const result = {
             name: best.name,
