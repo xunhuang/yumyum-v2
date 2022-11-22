@@ -1,4 +1,3 @@
-/* eslint typescript-eslint/no-unused-vars: 0 */  // --> OFF
 import cheerio from 'cheerio';
 import { RateLimiter } from 'limiter';
 import { Cache, CacheContainer } from 'node-ts-cache';
@@ -11,7 +10,7 @@ const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
 
-// 15 requests per second so we don't overwhelm opentable's server
+// 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
 export class VendorOpentable extends VendorBase {
