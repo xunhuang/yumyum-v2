@@ -1,5 +1,4 @@
 import { RateLimiter } from 'limiter';
-import { constSelector } from 'recoil';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
