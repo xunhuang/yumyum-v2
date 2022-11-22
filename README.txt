@@ -33,3 +33,13 @@ server side graphql
 -------------------
 
 https://graph-3khoexoznq-uc.a.run.app/graphiql
+
+
+Run Unit Tests
+npm test
+
+Run one specific unit test 
+
+npm test tests/integration/abc/resy.test.ts
+
+

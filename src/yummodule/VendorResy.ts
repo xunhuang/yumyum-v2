@@ -134,7 +134,6 @@ export class VendorResy extends VendorBase {
             urlSlug: best.url_slug,
             resyCityCode: best.location.code,
         };
-        console.log(result)
         return result;
     }
 }
