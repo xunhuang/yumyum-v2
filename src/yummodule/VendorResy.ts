@@ -1,4 +1,5 @@
 import { RateLimiter } from 'limiter';
+import { constSelector } from 'recoil';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
@@ -18,29 +19,6 @@ curl 'https://api.resy.com/3/venue?id=5785' \
   -H 'authorization: ResyAPI api_key="PXnGpHdkz0Y38qg3QdMkRw2GkgBcMEXL"'
 */
 
-/*
-async function entitySearchExactTerm(term, longitude, latitude) {
-    const url = "https://api.resy.com/3/venuesearch/search";
-    return await superagent.post(url)
-        .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
-        .send({
-            geo: {
-                longitude: longitude,
-                latitude: latitude,
-            },
-            query: term,
-            types: ["venue", "cuisine"],
-        })
-        .then((res) => {
-            let myresult = JSON.parse(res.text);
-            let hits = myresult.search.hits;
-            return hits;
-        }, err => {
-            console.log(err);
-            return [];
-        });
-}
-*/
 
 export class VendorResy extends VendorBase {
 
@@ -66,7 +44,6 @@ export class VendorResy extends VendorBase {
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
             .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
-            // .send({})
             .then((res: any) => {
                 let total: TimeSlots[] = [];
                 if (!res.body.results.venues) {
@@ -116,7 +93,6 @@ export class VendorResy extends VendorBase {
             })
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
             .set('User-Agent', "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-            // .send({})
             .then((res: any) => {
                 return res.body;
             });
@@ -127,5 +103,38 @@ export class VendorResy extends VendorBase {
             resyCityCode: citycode,
 
         }
+    }
+
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
+        const url = "https://api.resy.com/3/venuesearch/search";
+        const candidates = await superagent.post(url)
+            .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
+            .send({
+                geo: {
+                    longitude: longitude,
+                    latitude: latitude,
+                },
+                query: term,
+                types: ["venue", "cuisine"],
+            })
+            .then((res: any) => {
+                let myresult = JSON.parse(res.text);
+                let hits = myresult.search.hits;
+                return hits;
+            }, (err: any) => {
+                console.log(err);
+                return [];
+            });
+        const best = candidates[0];
+
+        const result = {
+            name: best.name,
+            reservation: this.vendorID(),
+            businessid: best.id.resy,
+            urlSlug: best.url_slug,
+            resyCityCode: best.location.code,
+        };
+        console.log(result)
+        return result;
     }
 }
