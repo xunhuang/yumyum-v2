@@ -30,6 +30,7 @@
     "moment-timezone": "^0.5.33",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.6",
+    "node-libcurl": "^3.0.0",
     "node-ts-cache": "^4.4.0",
     "node-ts-cache-storage-memory": "^4.4.0",
     "npm": "^8.1.3",
