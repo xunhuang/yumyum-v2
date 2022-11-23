@@ -138,7 +138,7 @@ export class VendorResy extends VendorBase {
             { latitude: best._geoloc.lat, longitude: best._geoloc.lng }
         );
 
-        console.log(distance);
+        // console.log(distance);
         if (distance > 150) {
             return null;
         }
