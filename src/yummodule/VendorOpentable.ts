@@ -5,7 +5,7 @@ import { MemoryStorage } from 'node-ts-cache-storage-memory';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
-// const fetch = require('node-fetch');
+const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
@@ -51,7 +51,7 @@ export class VendorOpentable extends VendorBase {
             "dateTime": datetime,
             "enableFutureAvailability": false
         };
-        const w = await fetch(url, {
+        const w = await nodefetch(url, {
             method: 'post',
             body: JSON.stringify(data),
             headers: {
@@ -97,7 +97,7 @@ export class VendorOpentable extends VendorBase {
     }
 
     async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
-        const w = await fetch(url, {
+        const w = await nodefetch(url, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
@@ -141,7 +141,7 @@ export class VendorOpentable extends VendorBase {
             "partysize": "2",
             "datetime": "2023-10-31T19:00:00",
         };
-        const w = await fetch(url + new URLSearchParams(data).toString());
+        const w = await nodefetch(url + new URLSearchParams(data).toString());
 
         const res = await w.text();
         const $ = cheerio.load(res);
@@ -163,6 +163,7 @@ export class VendorOpentable extends VendorBase {
     //  --compressed
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
+        // note that this is not the same as the nodefetch API
         const result = await fetch("https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete", {
             "headers": {
                 // don't uncomment this.... it will fail 
