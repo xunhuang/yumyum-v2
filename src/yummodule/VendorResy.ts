@@ -126,7 +126,7 @@ export class VendorResy extends VendorBase {
                 return [];
             });
 
-        if (candidates.length == 0) {
+        if (candidates.length === 0) {
             return null;
         }
 

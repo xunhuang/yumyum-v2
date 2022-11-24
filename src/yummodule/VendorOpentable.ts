@@ -9,27 +9,26 @@ const fetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
-const { curly } = require('node-libcurl');
-const zlib = require("zlib");
-const util = require('util');
-const unzip = util.promisify(zlib.unzip);
-const getDistance = require("geolib").getDistance;
+// const { curly } = require('node-libcurl');
+// const zlib = require("zlib");
+// const util = require('util');
+// const unzip = util.promisify(zlib.unzip);
+// const getDistance = require("geolib").getDistance;
 
 // 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
-const curlyResponseBodyParser = async (data: any, headers: any) => {
-    try {
-        const buffer = await unzip(data);
-        const jsonstring = buffer.toString('utf8');
-        return JSON.parse(jsonstring);
-    } catch (error) {
-        throw new Error(
-            `curly failed to parse application/json content as JSON `
-        )
-    }
-};
-
+// const curlyResponseBodyParser = async (data: any, headers: any) => {
+//     try {
+//         const buffer = await unzip(data);
+//         const jsonstring = buffer.toString('utf8');
+//         return JSON.parse(jsonstring);
+//     } catch (error) {
+//         throw new Error(
+//             `curly failed to parse application/json content as JSON `
+//         )
+//     }
+// };
 
 export class VendorOpentable extends VendorBase {
 
@@ -165,7 +164,8 @@ export class VendorOpentable extends VendorBase {
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
         // why use curly instead of fetch/superagent? because I can't get it to work with fetch/superagent for 
-        // some strange reason. No time to debug. 
+        // some strange reason. No time to debug.
+        /*
         const url = "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete";
         const { data } = await curly.post(url, {
             postFields: JSON.stringify(
@@ -231,6 +231,7 @@ export class VendorOpentable extends VendorBase {
             businessid: best.id,
         };
         return result;
+    */ 
     }
 
 }

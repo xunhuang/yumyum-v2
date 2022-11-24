@@ -31,7 +31,6 @@
     "moving-average": "^1.0.1",
     "moving-averages": "^4.0.6",
     "nanoid": "^4.0.0",
-    "node-libcurl": "^3.0.0",
     "node-ts-cache": "^4.4.0",
     "node-ts-cache-storage-memory": "^4.4.0",
     "postgraphile": "^4.12.5",
