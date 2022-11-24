@@ -5,7 +5,7 @@ import { MemoryStorage } from 'node-ts-cache-storage-memory';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
@@ -13,7 +13,7 @@ const userCache = new CacheContainer(new MemoryStorage())
 // const zlib = require("zlib");
 // const util = require('util');
 // const unzip = util.promisify(zlib.unzip);
-// const getDistance = require("geolib").getDistance;
+const getDistance = require("geolib").getDistance;
 
 // 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
@@ -163,12 +163,14 @@ export class VendorOpentable extends VendorBase {
     //  --compressed
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
-        // why use curly instead of fetch/superagent? because I can't get it to work with fetch/superagent for 
-        // some strange reason. No time to debug.
-        /*
-        const url = "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete";
-        const { data } = await curly.post(url, {
-            postFields: JSON.stringify(
+        const result = await fetch("https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete", {
+            "headers": {
+                // don't uncomment this.... it will fail 
+                // 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
+                "content-type": "application/json",
+                "x-csrf-token": "eda2a880-4591-44e3-b7e0-9f7f03079bd3",
+            },
+            "body": JSON.stringify(
                 {
                     operationName: "Autocomplete",
                     variables: {
@@ -185,6 +187,17 @@ export class VendorOpentable extends VendorBase {
                     }
                 }
             ),
+            "method": "POST",
+        });
+
+        const response = (await result.json()).data.autocomplete.autocompleteResults;
+
+        // why use curly instead of fetch/superagent? because I can't get it to work with fetch/superagent for 
+        // some strange reason. No time to debug.
+        /*
+        const url = "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete";
+        const { data } = await curly.post(url, {
+            postFields: 
             httpHeader: [
                 'Content-Type: application/json',
                 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
@@ -195,6 +208,7 @@ export class VendorOpentable extends VendorBase {
         })
 
         const response = (await data).data.autocomplete.autocompleteResults;
+        */
 
         if (response.length === 0) {
             return null;
@@ -225,13 +239,12 @@ export class VendorOpentable extends VendorBase {
         if (distance > 150) {
             return null;
         }
-        const result = {
+        const ret = {
             name: best.name,
             reservation: this.vendorID(),
             businessid: best.id,
         };
-        return result;
-    */ 
+        return ret;
     }
 
 }
