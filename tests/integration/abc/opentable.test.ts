@@ -2,6 +2,8 @@ import { describe } from '@jest/globals';
 
 import { VendorOpentable } from '../../../src/yummodule/VendorOpentable';
 
+const nyc = require("./nyc-tbd.json");
+
 var opentable = new VendorOpentable();
 describe('Opentable System Test', () => {
   beforeAll(async () => {
@@ -33,6 +35,15 @@ describe('Opentable System Test', () => {
       const search_result = await opentable.entitySearchExactTerm("tam", -74.008865, 40.719215);
       expect(search_result.businessid).toEqual("41389");
     })
+
+    it('list of entity (like fail because 5 second limit)', async () => {
+      for (const entity of nyc) {
+        const search_result = await opentable.entitySearchExactTerm(entity.name, entity.longitude, entity.latitude);
+        if (search_result) {
+          console.log(entity.name, search_result)
+        }
+      }
+    }, 100000)
 
   })
 })

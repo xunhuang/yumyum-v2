@@ -36,12 +36,15 @@ describe('Resy System Test', () => {
             const search_result = await resy.entitySearchExactTerm("au", -122.1156105, 37.3801255);
             expect(search_result.urlSlug).toEqual("aurum");
         })
+
         it('list of entity (like fail because 5 second limit)', async () => {
             for (const entity of nyc) {
                 const search_result = await resy.entitySearchExactTerm(entity.name, entity.longitude, entity.latitude);
-                console.log(entity.name, search_result)
+                if (search_result) {
+                    console.log(entity.name, search_result)
+                }
             }
-        })
+        }, 100000)
     })
 })
 

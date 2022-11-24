@@ -218,11 +218,11 @@ export class VendorOpentable extends VendorBase {
         // sort results by distance
         const sorted = response.sort((a: any, b: any) => {
             let a_d = getDistance(
-                { latitude: a?.latitude, longitude: a?.longitude },
+                { latitude: a?.latitude || 0, longitude: a?.longitude || 0 },
                 { latitude: latitude, longitude: longitude }
             );
             let b_d = getDistance(
-                { latitude: b?.latitude, longitude: b?.longitude },
+                { latitude: b?.latitude || 0, longitude: b?.longitude || 0 },
                 { latitude: latitude, longitude: longitude }
             );
             return a_d - b_d;
