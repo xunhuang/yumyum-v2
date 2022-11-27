@@ -34,17 +34,26 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    - name: 'test-create-file'
-      run: echo 'hello' > ${{steps.date.outputs.date }}.txt
-
     - name: 'create-json-file'
       run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
 
     - name: 'compressing into gz file'
       run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
 
+    - name: 'create tock listing json file'
+      run: cd data/11-05-2022; npx ts-node src/tock.ts >>  tock-${{steps.date.outputs.date }}.json
+
+    - name: 'compressing tock listing into gz file'
+      run: cd data/11-05-2022; gzip tock-${{steps.date.outputs.date}}.json
+
     - id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
         path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
         destination: 'yumyum-v2_cloudbuild/yumyum_import'
+
+    - id: 'upload-folder-tock'
+      uses: 'google-github-actions/upload-cloud-storage@v0'
+      with:
+        path: data/11-05-2022/tock-${{ steps.date.outputs.date }}.json.gz
+        destination: 'yumyum-v2_cloudbuild/tock_import'
