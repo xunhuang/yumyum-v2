@@ -9,26 +9,10 @@ const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const userCache = new CacheContainer(new MemoryStorage())
-// const { curly } = require('node-libcurl');
-// const zlib = require("zlib");
-// const util = require('util');
-// const unzip = util.promisify(zlib.unzip);
 const getDistance = require("geolib").getDistance;
 
 // 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
-
-// const curlyResponseBodyParser = async (data: any, headers: any) => {
-//     try {
-//         const buffer = await unzip(data);
-//         const jsonstring = buffer.toString('utf8');
-//         return JSON.parse(jsonstring);
-//     } catch (error) {
-//         throw new Error(
-//             `curly failed to parse application/json content as JSON `
-//         )
-//     }
-// };
 
 export class VendorOpentable extends VendorBase {
 
@@ -163,7 +147,7 @@ export class VendorOpentable extends VendorBase {
     //  --compressed
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
-        // note that this is not the same as the nodefetch API
+        // note that this is the built-in version and not the same as the node-fetch API
         const result = await fetch("https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete", {
             "headers": {
                 // don't uncomment this.... it will fail 
@@ -192,24 +176,6 @@ export class VendorOpentable extends VendorBase {
         });
 
         const response = (await result.json()).data.autocomplete.autocompleteResults;
-
-        // why use curly instead of fetch/superagent? because I can't get it to work with fetch/superagent for 
-        // some strange reason. No time to debug.
-        /*
-        const url = "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete";
-        const { data } = await curly.post(url, {
-            postFields: 
-            httpHeader: [
-                'Content-Type: application/json',
-                'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
-                'Accept-Encoding: gzip,deflate',
-                'x-csrf-token: eda2a880-4591-44e3-b7e0-9f7f03079bd3'
-            ],
-            curlyResponseBodyParser: curlyResponseBodyParser,
-        })
-
-        const response = (await data).data.autocomplete.autocompleteResults;
-        */
 
         if (response.length === 0) {
             return null;
@@ -247,5 +213,4 @@ export class VendorOpentable extends VendorBase {
         };
         return ret;
     }
-
 }

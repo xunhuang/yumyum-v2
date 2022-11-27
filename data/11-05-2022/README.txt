@@ -13,4 +13,8 @@ npx ts-node src/index.ts > today.json
 Download Tock Data
 ------------------
 
-npx ts-node src/tock.ts > tock.json 
+# full data
+npx ts-node src/tock.ts > tock_all.json 
+
+# trimmed data 
+cat tock_all.json |jq '[.[] | { name, slug:.domainName, businessid: .id, address:.location.address, latitude: .location.lat, longitude:.location.lng }] '  > ../../public/data/tock-trimmed.json
