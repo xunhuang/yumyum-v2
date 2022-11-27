@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.2",
+    "cheerio": "^1.0.0-rc.12",
     "clear": "^0.1.0",
     "commander": "^9.4.1",
     "figlet": "^1.5.2",
