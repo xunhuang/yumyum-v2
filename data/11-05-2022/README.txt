@@ -9,3 +9,8 @@ npx ts-node src/index.ts > today.json
 #cat today.json |jq '  [ .[]  | select ( .country .slug == "us")|  select ( .region .slug == "new-york-state") ] ' > ../../public/data/nyc.json
 
 
+
+Download Tock Data
+------------------
+
+npx ts-node src/tock.ts > tock.json 
