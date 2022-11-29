@@ -1,4 +1,4 @@
-import { TockSearchRequest, Request_RequestType } from '../generated/proto/TockRequests'
+import { TockSearchRequest, TockSearchRequest_Request_RequestType, TockSearchResponse } from '../generated/proto/TockRequests'
 
 function doubleToByteArray(number: number) {
   var buffer = new ArrayBuffer(8);         // JS numbers are 8 bytes long, or 64 bits
@@ -22,7 +22,7 @@ export function newTockSearchRequest(term: string, longitude: number, latitude: 
       // longitude: parseInt("0x" + doubleToFloat64(-122.4194155)),
       // latitude: parseInt("0x" + doubleToFloat64(37.7749295)),
       requestType: {
-        requestType: Request_RequestType.THISWORKS
+        requestType: TockSearchRequest_Request_RequestType.THISWORKS
       }
     }
   };
@@ -37,3 +37,6 @@ export function serializeMsgToProto(request: TockSearchRequest): Uint8Array {
 // export function deserializeProtoToMsg(serializedMessage: Uint8Array): TockSearchRequest {
 //   return TockSearchRequest.decode(serializedMessage)
 // }
+export function deserializeTockSearchResponseProtoToMsg(serializedMessage: Uint8Array): TockSearchResponse {
+  return TockSearchResponse.decode(serializedMessage)
+}

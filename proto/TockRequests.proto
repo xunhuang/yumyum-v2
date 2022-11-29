@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package tutorial;
+
+
+message TockSearchRequest {
+
+message Request {
+  string name = 1;
+
+  enum RequestType {
+    NOTWORK = 0;
+    THISWORKS = 20;
+  }
+
+  message RequestField {
+    RequestType requestType = 1;
+  }
+
+  RequestField requestType = 3;
+
+  fixed64 latitude = 4;
+  fixed64 longitude = 5;
+}
+  Request request = 60332;
+}
+
+message TockSearchResponse {
+  message ResponseRow {
+    optional string slug = 2;
+    optional string name = 3;
+    optional string city = 4;
+    optional string state = 5;
+    optional string country = 6;
+    optional string unknown_field = 7;
+  }
+
+  message Response3 {
+    repeated ResponseRow searchResults  = 1;
+  }
+
+  message Response2 {
+    Response3 r3 = 60333;
+  }
+
+  message Response1 {
+    Response2 r2 = 1;
+  }
+
+  Response1 r1 = 1;
+}

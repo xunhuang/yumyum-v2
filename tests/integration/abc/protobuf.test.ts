@@ -1,4 +1,4 @@
-import { newTockSearchRequest, serializeMsgToProto } from '../../../src/yummodule/tockRequestMsg'
+import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from '../../../src/yummodule/tockRequestMsg'
 
 const fetch = require('node-fetch');
 
@@ -42,13 +42,19 @@ describe('serialize and deserialize protobuf message', () => {
             "method": "POST"
         });
 
+
+        const buffer = await yo.arrayBuffer();
+
+        const response = deserializeTockSearchResponseProtoToMsg(new Uint8Array(buffer));
+
         function buf2hex(buffer: any) { // buffer is an ArrayBuffer
             return [...new Uint8Array(buffer)]
                 .map(x => x.toString(16).padStart(2, '0'))
                 .join('');
         }
 
-        const buffer = await yo.arrayBuffer();
-        console.log(buf2hex(buffer));
+        // const buffer = await yo.arrayBuffer();
+        // console.log(buf2hex(buffer));
+        console.log(JSON.stringify(response, null, 2));
     })
 })
