@@ -43,3 +43,6 @@ Run one specific unit test
 npm test tests/integration/abc/resy.test.ts
 
 
+TOCK protocol buff proto generation 
+-----------------------------------
+./compileProtos.sh 
