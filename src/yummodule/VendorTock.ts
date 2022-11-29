@@ -1,5 +1,6 @@
 import cheerio from 'cheerio';
 
+import { uspsLookupStreet } from './uspsLookupStreet';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 
 const buildUrl = require('build-url');
@@ -7,6 +8,26 @@ const superagent = require('superagent');
 const moment = require('moment-timezone');
 const fetch = require('node-fetch');
 const urlparse = require('url');
+const getDistance = require("geolib").getDistance;
+const tock = require('../../public/data/tock-trimmed.json');
+
+function venueNameMatched(a: string, b: string): boolean {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+    return a === b;
+}
+
+async function addressMatch(street_a: string, street_b: string, city: string, state: string): Promise<boolean> {
+    street_a = street_a.toLowerCase();
+    street_b = street_b.toLowerCase();
+    if (street_a === street_b) {
+        return true;
+    }
+
+    const usps_street_a = await uspsLookupStreet(street_a, city, state);
+    const usps_street_b = await uspsLookupStreet(street_b, city, state);
+    return usps_street_a === usps_street_b;
+}
 
 export class VendorTock extends VendorBase {
     vendorID() {
@@ -181,5 +202,55 @@ export class VendorTock extends VendorBase {
             businessid: appconfig.app.activeAuth.businessId,
             urlSlug: url_slug,
         }
+    }
+
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+
+        if (longitude == null) {
+            return null;
+        }
+
+        // sort results by distance
+        const sorted = tock.sort((a: any, b: any) => {
+            let a_d = getDistance(
+                { latitude: a?.latitude || 0, longitude: a?.longitude || 0 },
+                { latitude: latitude, longitude: longitude }
+            );
+            let b_d = getDistance(
+                { latitude: b?.latitude || 0, longitude: b?.longitude || 0 },
+                { latitude: latitude, longitude: longitude }
+            );
+            return a_d - b_d;
+        });
+
+        const makeResult = (candidate: any) => {
+            return {
+                name: candidate.name,
+                reservation: this.vendorID(),
+                businessid: candidate.businessid,
+                address: candidate.address,
+                urlSlug: candidate.slug,
+            };
+        }
+
+        for (const best of sorted.slice(0, 10)) {
+            // distance in meters
+            console.log("testing : " + best.name + " " + best.slug);
+            const distance = getDistance(
+                { latitude: latitude, longitude: longitude },
+                { latitude: best.latitude, longitude: best.longitude }
+            );
+            // if (distance > 150) {
+            //     return null;
+            // }
+
+            if (venueNameMatched(term, best.name)) {
+                return makeResult(best);
+            }
+            if (await addressMatch(extra.address, best.address, extra.city, extra.region)) {
+                return makeResult(best);
+            }
+        }
+        return null;
     }
 };
