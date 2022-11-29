@@ -2,12 +2,12 @@ import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializ
 
 const fetch = require('node-fetch');
 
-describe('serialize and deserialize protobuf message', () => {
+describe('Tock search API with protobuf', () => {
 
     async function abc(): Promise<void> {
     }
 
-    it('should serialize to a protobuf and then deserialize to the same AddressBook message', async () => {
+    it('looking up French Laundary should find matching slug tfl', async () => {
         const request = newTockSearchRequest("French Laundary", -122.4194155, 37.7749295);
         const proto = serializeMsgToProto(request);
 
@@ -42,19 +42,19 @@ describe('serialize and deserialize protobuf message', () => {
             "method": "POST"
         });
 
-
         const buffer = await yo.arrayBuffer();
-
         const response = deserializeTockSearchResponseProtoToMsg(new Uint8Array(buffer));
 
-        function buf2hex(buffer: any) { // buffer is an ArrayBuffer
-            return [...new Uint8Array(buffer)]
-                .map(x => x.toString(16).padStart(2, '0'))
-                .join('');
-        }
-
+        // debug tools
+        // function buf2hex(buffer: any) { // buffer is an ArrayBuffer
+        //     return [...new Uint8Array(buffer)]
+        //         .map(x => x.toString(16).padStart(2, '0'))
+        //         .join('');
+        // }
         // const buffer = await yo.arrayBuffer();
         // console.log(buf2hex(buffer));
-        console.log(JSON.stringify(response, null, 2));
+        // console.log(JSON.stringify(response, null, 2));
+
+        expect(response?.r1!.r2!.r3!.searchResults[0].slug).toEqual("tfl");
     })
 })
