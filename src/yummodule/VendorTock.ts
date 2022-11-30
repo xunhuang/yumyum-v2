@@ -17,14 +17,21 @@ function venueNameMatched(a: string, b: string): boolean {
 }
 
 async function addressMatch(street_a: string, street_b: string, city: string, state: string): Promise<boolean> {
-    street_a = street_a.toLowerCase();
-    street_b = street_b.toLowerCase();
-    if (street_a === street_b) {
+    const a = street_a.toLowerCase();
+    const b = street_b.toLowerCase();
+    if (a === b) {
         return true;
     }
 
-    const usps_street_a = await uspsLookupStreet(street_a, city, state);
-    const usps_street_b = await uspsLookupStreet(street_b, city, state);
+    const usps_street_b = await uspsLookupStreet(b, city, state);
+    if (!usps_street_b) {
+        return false;
+    }
+
+    const usps_street_a = await uspsLookupStreet(a, city, state);
+    if (!usps_street_a) {
+        return false;
+    }
     return usps_street_a === usps_street_b;
 }
 
@@ -205,6 +212,7 @@ export class VendorTock extends VendorBase {
         if (tocksystem != null) {
             return tocksystem;
         }
+        return tocksystem;
         return await this.entitySearchViaScrapedData(term, longitude, latitude, extra);
     }
 
@@ -275,12 +283,19 @@ export class VendorTock extends VendorBase {
             const business = appconfig.app.config.business;
             const name = business.name;
             const address = business.address;
+            const city = business.city;
+            const state = business.state;
 
             if (venueNameMatched(term, name)) {
+                console.log("name matched ----------------------------, term: ", term, "name: ", name);
                 return makeResult(business);
             }
-            if (await addressMatch(extra.address, address, extra.city, extra.region)) {
-                return makeResult(business);
+            const country = business.country;
+            if (country === "US") {
+                if (await addressMatch(extra.address, address, city, state)) {
+                    console.log("address matched ----------------------------, address: ", address, "extra.address: ", extra.address);
+                    return makeResult(business);
+                }
             }
         }
         return null;

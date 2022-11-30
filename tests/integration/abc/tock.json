@@ -1,0 +1,58 @@
+[
+        {
+          "name": "Angler SF",
+          "latitude": 37.793167,
+          "longitude": -122.39213,
+          "address": "132 The Embarcadero",
+          "businessid": "5996",
+          "streetUsps": "132 THE EMBARCADERO",
+          "urlSlug": "angler",
+          "city": "San Francisco",
+          "region": "California"
+        },
+        {
+          "name": "The Shota",
+          "latitude": 37.7915182,
+          "longitude": -122.4009242,
+          "address": "115 Sansome St.",
+          "businessid": "13420",
+          "streetUsps": null,
+          "urlSlug": "theshotasf",
+          "city": "San Francisco",
+          "region": "California"
+        },
+        {
+          "name": "Yuji",
+          "latitude": 37.7856487,
+          "longitude": -122.4299838,
+          "address": "1700 Post St., Unit K",
+          "businessid": "28641",
+          "streetUsps": null,
+          "urlSlug": "yuji",
+          "city": "San Francisco",
+          "region": "California"
+        },
+        {
+          "name": "Omakase",
+          "latitude": 37.77077,
+          "longitude": -122.40298,
+          "address": "665 Townsend St.",
+          "businessid": "6736",
+          "streetUsps": "665 TOWNSEND ST",
+          "urlSlug": "omakasesf",
+          "city": "San Francisco",
+          "region": "California"
+        },
+       
+        {
+          "name": "Ssal",
+          "latitude": 37.7972584,
+          "longitude": -122.4219651,
+          "address": "2226 Polk St.",
+          "businessid": "19093",
+          "streetUsps": null,
+          "urlSlug": "ssal",
+          "city": "San Francisco",
+          "region": "California"
+        }
+      ]

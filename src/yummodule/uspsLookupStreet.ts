@@ -13,6 +13,11 @@ export async function uspsLookupStreet(street1: string, city: string, state: str
       city: city,
       state: state,
     }, function (err: any, address: any) {
+
+      if (!address?.street1) {
+        console.log("uspsLookupStreet: no address found for " + street1 + ", " + city + ", " + state);
+      }
+
       resolve(address?.street1);
     });
 
