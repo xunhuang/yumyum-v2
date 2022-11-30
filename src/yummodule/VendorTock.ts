@@ -8,7 +8,7 @@ const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const superagent = require('superagent');
 const getDistance = require("geolib").getDistance;
-const tock = require('../../public/data/tock-trimmed.json');
+const tock = require('./tock-trimmed.json');
 
 function venueNameMatched(a: string, b: string): boolean {
     a = a.toLowerCase();
