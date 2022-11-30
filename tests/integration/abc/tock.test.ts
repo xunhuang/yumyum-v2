@@ -47,19 +47,16 @@ describe('Tock System Test', () => {
       //   // }
       // }
 
-      for (const entity of bayarea) {
+      for (const entity of bayarea.slice(0, 1)) {
+      // for (const entity of bayarea) {
         const search_result = await tock.entitySearchExactTerm(
-          entity.name, entity.longitude, entity.latitude);
-        // if (search_result) {
-        if (entity.name === search_result?.name) {
-          console.log("name matched", entity.name);
-        } else if (entity.address === search_result?.address) {
-          console.log("address matched", entity.name);
+          entity.name, entity.longitude, entity.latitude, entity);
+        if (search_result) {
+          console.log(entity.name, search_result);
         } else {
-          console.log("Name NOT matched", entity.name, ", ", search_result?.name);
-          console.log("Address NOT matched", entity.address, ", ", search_result?.address);
+          console.log(entity.name, "not found **************************************");
+
         }
-        // }
       }
     }, 100000)
 

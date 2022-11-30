@@ -1,5 +1,16 @@
 [
         {
+          "name": "Angler SF",
+          "latitude": 37.793167,
+          "longitude": -122.39213,
+          "address": "132 The Embarcadero",
+          "businessid": "5996",
+          "streetUsps": "132 THE EMBARCADERO",
+          "urlSlug": "angler",
+          "city": "San Francisco",
+          "region": "California"
+        },
+        {
           "name": "The Shota",
           "latitude": 37.7915182,
           "longitude": -122.4009242,
@@ -62,17 +73,6 @@
           "businessid": "24068",
           "streetUsps": null,
           "urlSlug": "lefantastique",
-          "city": "San Francisco",
-          "region": "California"
-        },
-        {
-          "name": "Angler SF",
-          "latitude": 37.793167,
-          "longitude": -122.39213,
-          "address": "132 The Embarcadero",
-          "businessid": "5996",
-          "streetUsps": "132 THE EMBARCADERO",
-          "urlSlug": "angler",
           "city": "San Francisco",
           "region": "California"
         },
