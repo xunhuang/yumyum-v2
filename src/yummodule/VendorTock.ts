@@ -174,7 +174,7 @@ export class VendorTock extends VendorBase {
             return {
                 name: candidate.name,
                 reservation: this.vendorID(),
-                businessid: candidate.businessid,
+                businessid: candidate.businessid.toString(),
                 address: candidate.address,
                 urlSlug: candidate.slug,
             };
@@ -182,14 +182,13 @@ export class VendorTock extends VendorBase {
 
         for (const best of sorted.slice(0, 10)) {
             // distance in meters
-            console.log("testing : " + best.name + " " + best.slug);
             const distance = getDistance(
                 { latitude: latitude, longitude: longitude },
                 { latitude: best.latitude, longitude: best.longitude }
             );
-            // if (distance > 150) {
-            //     return null;
-            // }
+            if (distance > 150) {
+                return null;
+            }
 
             if (venueNameMatched(term, best.name)) {
                 return makeResult(best);
@@ -258,7 +257,7 @@ export class VendorTock extends VendorBase {
             return {
                 name: candidate.name,
                 reservation: this.vendorID(),
-                businessid: candidate.businessid,
+                businessid: candidate.id.toString(),
                 address: candidate.address,
                 urlSlug: candidate.domainName,
             };
