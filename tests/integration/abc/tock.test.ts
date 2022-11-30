@@ -47,8 +47,8 @@ describe('Tock System Test', () => {
       //   // }
       // }
 
-      for (const entity of bayarea.slice(0, 1)) {
-      // for (const entity of bayarea) {
+      // for (const entity of bayarea.slice(0, 1)) {
+      for (const entity of bayarea) {
         const search_result = await tock.entitySearchExactTerm(
           entity.name, entity.longitude, entity.latitude, entity);
         if (search_result) {

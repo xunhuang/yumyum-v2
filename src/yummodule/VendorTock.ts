@@ -151,8 +151,7 @@ export class VendorTock extends VendorBase {
         }
     }
 
-    /*
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+    async entitySearchViaScrapedData(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
 
         if (longitude == null) {
             return null;
@@ -201,9 +200,16 @@ export class VendorTock extends VendorBase {
         }
         return null;
     }
-    */
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+        const tocksystem = await this.entitySearchViaTockSearchSystem(term, longitude, latitude, extra);
+        if (tocksystem != null) {
+            return tocksystem;
+        }
+        return await this.entitySearchViaScrapedData(term, longitude, latitude, extra);
+    }
+
+    async entitySearchViaTockSearchSystem(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
         // const request = newTockSearchRequest("French Laundary", -122.4194155, 37.7749295);
         const request = newTockSearchRequest(term, longitude, latitude);
         const proto = serializeMsgToProto(request);
@@ -257,8 +263,6 @@ export class VendorTock extends VendorBase {
                 urlSlug: candidate.domainName,
             };
         }
-
-        console.log(searchResults);
 
         for (const entry of searchResults) {
             const slug = entry.slug;
