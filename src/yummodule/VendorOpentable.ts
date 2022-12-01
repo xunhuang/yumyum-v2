@@ -205,7 +205,6 @@ export class VendorOpentable extends VendorBase {
 
         for (const entry of sorted.slice(0, 10)) {
             // distance in meters
-            console.log(entry);
             const distance = getDistance(
                 { latitude: latitude, longitude: longitude },
                 { latitude: entry.latitude, longitude: entry.longitude }

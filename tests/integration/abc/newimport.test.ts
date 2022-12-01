@@ -1,11 +1,11 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
-import { describe, expect } from '@jest/globals';
+import { describe } from '@jest/globals';
 
+import { BayAreaDocument, BayAreaQuery, Venue } from '../../../src/generated/graphql';
 import { JsonEntrySameWasDbEntry } from '../../../src/yummodule/JsonEntrySameWasDbEntry';
-import { BayAreaDocument, BayAreaQuery, LookupReservationInfoDocument, LookupReservationInfoQuery, Venue } from '../../../src/generated/graphql';
-import { VendorTock } from '../../../src/yummodule/VendorTock';
 import { VendorOpentable } from '../../../src/yummodule/VendorOpentable';
 import { VendorResy } from '../../../src/yummodule/VendorResy';
+import { VendorTock } from '../../../src/yummodule/VendorTock';
 
 var tock = new VendorTock();
 var opentable = new VendorOpentable();
@@ -44,7 +44,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
             });
 
             const searchAll = async (venue: any) => {
-                const opentable_search_result = await opentable.entitySearchExactTerm(venue.name, venue.longitude, venue.latitude);
+                const opentable_search_result = await opentable.entitySearchExactTerm(venue.name, venue.longitude, venue.latitude, venue);
                 if (opentable_search_result) {
                     return opentable_search_result;
                 }
