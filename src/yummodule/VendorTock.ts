@@ -119,6 +119,7 @@ export class VendorTock extends VendorBase {
                 const toeval = text.replace("window.$REDUX_STATE", "appconfig");
                 eval(toeval);
             }
+            return null;
         });
         return appconfig;
     }

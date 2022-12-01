@@ -1,5 +1,6 @@
 import Link from '@material-ui/core/Link';
 import { Button, Form, Input, notification, Select, Switch } from 'antd';
+import { NotificationPlacement } from 'antd/lib/notification';
 import buildUrl from 'build-url';
 import React, { useState } from 'react';
 import { Link as ReactLink, useParams } from 'react-router-dom';
@@ -64,10 +65,12 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const [makeChange] = useUpdateVenueInfoMutation({
     onCompleted: (data) => {
+      const a: NotificationPlacement = "topLeft";
       const args = {
         message: "Information saved",
         description: `${venue?.name} reservation info saved`,
         duration: 3,
+        placement: a,
       };
       notification.open(args);
     },
@@ -126,6 +129,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             </Link>
           </h2>
           <VenueDescription venue={venue!} />
+          <div>{venue.address}, {venue.city}, {venue.region}</div>
         </Form.Item>
         <Form.Item
           name="reservation"
@@ -152,7 +156,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
                 </Option>
               ))}
 
-            {}
+            { }
           </Select>
         </Form.Item>
         <Form.Item {...tailLayout}>
