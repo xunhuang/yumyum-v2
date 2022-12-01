@@ -159,22 +159,23 @@ export class VendorResy extends VendorBase {
 
         for (const entry of candidates.slice(0, 10)) {
             // distance in meters
-            // const distance = getDistance(
-            //     { latitude: latitude, longitude: longitude },
-            //     { latitude: entry._geoloc.lat, longitude: entry._geoloc.lng }
-            // );
+            const distance = getDistance(
+                { latitude: latitude, longitude: longitude },
+                { latitude: entry._geoloc.lat, longitude: entry._geoloc.lng }
+            );
 
-            // // if (distance > 150) {
-            // //     return null;
-            // // }
+            if (distance > 5000) {
+                continue;
+            }
 
-            console.log(entry.name);
             if (venueNameMatched(term, entry.name)) {
                 return makeResult(entry);
             }
 
             const location = await this._APIVenueLookup(entry.url_slug, entry.location.id);
             if (await addressMatch(location.address_1, extra.address, extra.city, extra.state)) {
+
+                // console.log("address matched", location.address_1, "-", extra.address);
                 return makeResult(entry);
             }
         }

@@ -7,15 +7,21 @@ const usps = new USPS({
 });
 export async function uspsLookupStreet(street1: string, city: string, state: string): Promise<any> {
   return new Promise((resolve, reject) => {
+
+    let fixedState = state;
+    if (fixedState === 'New York State') {
+      fixedState = 'NY';
+    }
+
     usps.verify({
       street1: street1,
       // street2: 'Apt 2',
       city: city,
-      state: state,
+      state: fixedState,
     }, function (err: any, address: any) {
 
       // if (!address?.street1) {
-        // console.log("uspsLookupStreet: no address found for " + street1 + ", " + city + ", " + state);
+      //   console.log("uspsLookupStreet: no address found for " + street1 + ", " + city + ", " + fixedState);
       // }
 
       resolve(address?.street1);

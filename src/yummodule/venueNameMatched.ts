@@ -14,5 +14,9 @@ export async function addressMatch(street_a: string, street_b: string, city: str
 
     const usps_street_a = await uspsLookupStreet(street_a, city, state);
     const usps_street_b = await uspsLookupStreet(street_b, city, state);
+
+    if (!usps_street_a || !usps_street_b) {
+        return false;
+    }
     return usps_street_a === usps_street_b;
 }
