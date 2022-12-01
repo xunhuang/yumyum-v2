@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
 import { MetroAPI } from '../yummodule/MetroAPI';
-import { JsonEntrySameWasDbEntry } from './JsonEntrySameWasDbEntry';
+import { JsonEntrySameWasDbEntry } from '../yummodule/JsonEntrySameWasDbEntry';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
 

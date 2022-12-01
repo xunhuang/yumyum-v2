@@ -4,7 +4,7 @@ import { Button } from 'antd';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useRepopulateVenueInfoMutation, Venue } from '../generated/graphql';
-import { JsonEntrySameWasDbEntry } from './JsonEntrySameWasDbEntry';
+import { JsonEntrySameWasDbEntry } from '../yummodule/JsonEntrySameWasDbEntry';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
 

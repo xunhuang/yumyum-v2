@@ -44,6 +44,5 @@ describe('Tock System Test', () => {
         expect(search_result.urlSlug).toEqual(entity.urlSlug);
       }
     }, 100000)
-
   })
 })

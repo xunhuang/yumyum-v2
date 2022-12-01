@@ -1,6 +1,7 @@
 import { RateLimiter } from 'limiter';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { addressMatch, venueNameMatched } from './venueNameMatched';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
@@ -105,7 +106,20 @@ export class VendorResy extends VendorBase {
         }
     }
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
+    async _APIVenueLookup(slug: string, location: string): Promise<any> {
+        const venueurl = "https://api.resy.com/3/venue";
+        const data = await superagent.get(venueurl)
+            .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
+            .query({
+                url_slug: slug,
+                location: location,
+            }).then((res: any) => {
+                return JSON.parse(res.text);
+            });
+        return data?.location;
+    }
+
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
         const url = "https://api.resy.com/3/venuesearch/search";
         const candidates = await superagent.post(url)
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
@@ -130,26 +144,41 @@ export class VendorResy extends VendorBase {
             return null;
         }
 
-        const best = candidates[0];
+        const makeResult = (best: any) => {
 
-        // distance in meters
-        const distance = getDistance(
-            { latitude: latitude, longitude: longitude },
-            { latitude: best._geoloc.lat, longitude: best._geoloc.lng }
-        );
-
-        // console.log(distance);
-        if (distance > 150) {
-            return null;
+            const result = {
+                name: best.name,
+                reservation: this.vendorID(),
+                businessid: best.id.resy,
+                urlSlug: best.url_slug,
+                resyCityCode: best.location.code,
+            };
+            return result;
         }
 
-        const result = {
-            name: best.name,
-            reservation: this.vendorID(),
-            businessid: best.id.resy,
-            urlSlug: best.url_slug,
-            resyCityCode: best.location.code,
-        };
-        return result;
+        for (const entry of candidates.slice(0, 10)) {
+            // distance in meters
+            // const distance = getDistance(
+            //     { latitude: latitude, longitude: longitude },
+            //     { latitude: entry._geoloc.lat, longitude: entry._geoloc.lng }
+            // );
+
+            // // if (distance > 150) {
+            // //     return null;
+            // // }
+
+            console.log(entry.name);
+            if (venueNameMatched(term, entry.name)) {
+                return makeResult(entry);
+            }
+
+            if (extra) {
+                const location = await this._APIVenueLookup(entry.url_slug, entry.location.id);
+                if (await addressMatch(location.address_1, extra.address, extra.city, extra.region)) {
+                    return makeResult(entry);
+                }
+            }
+        }
+        return null;
     }
 }

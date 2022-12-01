@@ -1,32 +1,14 @@
 import cheerio from 'cheerio';
 
 import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from './tockRequestMsg';
-import { uspsLookupStreet } from './uspsLookupStreet';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { venueNameMatched, addressMatch } from './venueNameMatched';
 
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const superagent = require('superagent');
 const getDistance = require("geolib").getDistance;
 const tock = require('./tock-trimmed.json');
-
-function venueNameMatched(a: string, b: string): boolean {
-    a = a.toLowerCase();
-    b = b.toLowerCase();
-    return a === b;
-}
-
-async function addressMatch(street_a: string, street_b: string, city: string, state: string): Promise<boolean> {
-    street_a = street_a.toLowerCase();
-    street_b = street_b.toLowerCase();
-    if (street_a === street_b) {
-        return true;
-    }
-
-    const usps_street_a = await uspsLookupStreet(street_a, city, state);
-    const usps_street_b = await uspsLookupStreet(street_b, city, state);
-    return usps_street_a === usps_street_b;
-}
 
 export class VendorTock extends VendorBase {
     vendorID() {

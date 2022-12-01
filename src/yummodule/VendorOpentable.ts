@@ -4,6 +4,7 @@ import { Cache, CacheContainer } from 'node-ts-cache';
 import { MemoryStorage } from 'node-ts-cache-storage-memory';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { addressMatch, venueNameMatched } from './venueNameMatched';
 
 const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
@@ -146,7 +147,7 @@ export class VendorOpentable extends VendorBase {
     //  --data - raw '{"operationName":"Autocomplete","variables":{"term":"tamarind","latitude":37.7688,"longitude":-122.262,"useNewVersion":true},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3cabca79abcb0db395d3cbebb4d47d41f3ddd69442eba3a57f76b943cceb8cf4"}}}' \
     //  --compressed
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
         // note that this is the built-in version and not the same as the node-fetch API
         const result = await fetch("https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete", {
             "headers": {
@@ -194,23 +195,65 @@ export class VendorOpentable extends VendorBase {
             return a_d - b_d;
         });
 
-        const best = sorted[0];
-        if (!best) { return null; }
-
-        // distance in meters
-        const distance = getDistance(
-            { latitude: latitude, longitude: longitude },
-            { latitude: best.latitude, longitude: best.longitude }
-        );
-
-        if (distance > 150) {
-            return null;
+        const makeResult = (candidate: any) => {
+            return {
+                name: candidate.name,
+                reservation: this.vendorID(),
+                businessid: candidate.id,
+            };
         }
-        const ret = {
-            name: best.name,
-            reservation: this.vendorID(),
-            businessid: best.id,
-        };
-        return ret;
+
+        for (const entry of sorted.slice(0, 10)) {
+            // distance in meters
+            console.log(entry);
+            const distance = getDistance(
+                { latitude: latitude, longitude: longitude },
+                { latitude: entry.latitude, longitude: entry.longitude }
+            );
+
+            if (distance > 350) {
+                continue;
+            }
+
+            if (venueNameMatched(term, entry.name)) {
+                return makeResult(entry);
+            }
+            const location = await this._APIVenueLookup(entry.id);
+            // console.log(entry);
+            if (await addressMatch(location.address, extra.address, location.city, location.state)) {
+                return makeResult(entry);
+            }
+        }
+        return null;
+
+    }
+
+    async _APIfetchAppConfig(url: string): Promise<any | null> {
+        const w = await nodefetch(url, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            }
+        });
+        const res = await w.text();
+        const $ = cheerio.load(res);
+
+        let scripts = $("#client-initial-state").html();
+        let appconfig = JSON.parse(scripts!);
+        return appconfig;
+    }
+
+    async _APIVenueLookup(businessid: string): Promise<any> {
+        let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
+        const appconfig = await this._APIfetchAppConfig(url);
+        if (appconfig) {
+            return {
+                address: appconfig?.restaurant?.address?.line1,
+                city: appconfig?.restaurant?.address?.city,
+                state: appconfig?.restaurant?.address?.state,
+            }
+
+        }
+        return null;
     }
 }
