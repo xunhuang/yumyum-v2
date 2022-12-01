@@ -6,6 +6,7 @@ import { JsonEntrySameWasDbEntry } from '../../../src/yummodule/JsonEntrySameWas
 import { VendorOpentable } from '../../../src/yummodule/VendorOpentable';
 import { VendorResy } from '../../../src/yummodule/VendorResy';
 import { VendorTock } from '../../../src/yummodule/VendorTock';
+import { VenueSearchInput } from '../../../src/yummodule/VenueSearchInput';
 
 var tock = new VendorTock();
 var opentable = new VendorOpentable();
@@ -62,7 +63,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
             }
 
             for (const jsonentry of newOnly.slice(0, 10)) {
-                const venue = {
+                const venue: VenueSearchInput = {
                     longitude: jsonentry._geoloc.lng,
                     latitude: jsonentry._geoloc.lat,
                     name: jsonentry.name,

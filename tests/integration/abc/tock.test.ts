@@ -33,7 +33,7 @@ describe('Tock System Test', () => {
     //   }
     // }, 100000)
 
-    it('a small set that should find exact match)', async () => {
+    it('A small set that should find exact match, using dual systems)', async () => {
       for (const entity of smallset) {
         const search_result = await tock.entitySearchExactTerm(
           entity.name, entity.longitude, entity.latitude, entity);

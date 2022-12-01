@@ -5,6 +5,7 @@ import { MemoryStorage } from 'node-ts-cache-storage-memory';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
+import { VenueSearchInput } from './VenueSearchInput';
 
 const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
@@ -147,7 +148,7 @@ export class VendorOpentable extends VendorBase {
     //  --data - raw '{"operationName":"Autocomplete","variables":{"term":"tamarind","latitude":37.7688,"longitude":-122.262,"useNewVersion":true},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3cabca79abcb0db395d3cbebb4d47d41f3ddd69442eba3a57f76b943cceb8cf4"}}}' \
     //  --compressed
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
         // note that this is the built-in version and not the same as the node-fetch API
         const result = await fetch("https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete", {
             "headers": {

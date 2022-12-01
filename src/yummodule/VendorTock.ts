@@ -3,6 +3,7 @@ import cheerio from 'cheerio';
 import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from './tockRequestMsg';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
+import { VenueSearchInput } from './VenueSearchInput';
 
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
@@ -133,7 +134,7 @@ export class VendorTock extends VendorBase {
         }
     }
 
-    async entitySearchViaScrapedData(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+    async entitySearchViaScrapedData(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
 
         if (longitude == null) {
             return null;
@@ -175,7 +176,7 @@ export class VendorTock extends VendorBase {
             if (venueNameMatched(term, best.name)) {
                 return makeResult(best);
             }
-            if (await addressMatch(extra.address, best.address, extra.city, extra.region)) {
+            if (await addressMatch(extra.address, best.address, extra.city, extra.state)) {
                 return makeResult(best);
             }
         }
@@ -261,13 +262,13 @@ export class VendorTock extends VendorBase {
             const state = business.state;
 
             if (venueNameMatched(term, name)) {
-                console.log("name matched ----------------------------, term: ", term, "name: ", name);
+                // console.log("name matched ----------------------------, term: ", term, "name: ", name);
                 return makeResult(business);
             }
             const country = business.country;
             if (country === "US") {
                 if (await addressMatch(extra.address, address, city, state)) {
-                    console.log("address matched ----------------------------, address: ", address, "extra.address: ", extra.address);
+                    // console.log("address matched ----------------------------, address: ", address, "extra.address: ", extra.address);
                     return makeResult(business);
                 }
             }

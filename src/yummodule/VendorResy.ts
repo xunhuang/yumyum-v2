@@ -2,6 +2,7 @@ import { RateLimiter } from 'limiter';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
+import { VenueSearchInput } from './VenueSearchInput';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
@@ -119,7 +120,7 @@ export class VendorResy extends VendorBase {
         return data?.location;
     }
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
         const url = "https://api.resy.com/3/venuesearch/search";
         const candidates = await superagent.post(url)
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')
@@ -174,7 +175,7 @@ export class VendorResy extends VendorBase {
 
             if (extra) {
                 const location = await this._APIVenueLookup(entry.url_slug, entry.location.id);
-                if (await addressMatch(location.address_1, extra.address, extra.city, extra.region)) {
+                if (await addressMatch(location.address_1, extra.address, extra.city, extra.state)) {
                     return makeResult(entry);
                 }
             }
