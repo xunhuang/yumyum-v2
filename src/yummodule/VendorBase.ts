@@ -1,3 +1,4 @@
+import { VenueSearchInput } from "./VenueSearchInput";
 
 export interface TimeSlots {
     time: string;
@@ -72,95 +73,8 @@ export class VendorBase {
         throw new Error("fetchReservationInfoFromURL() not implemented");
     }
 
-    /*
-    async fetchVenueInfoFromURL(url) {
-        return null;
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
+        throw new Error("entitySearchExactTerm() not implemented");
     }
-
-    assemble_good_search_result(item) {
-        let ret = {
-            reservation: this.vendorID(),
-            withOnlineReservation: true,
-        }
-
-        let fields = this.requiedFieldsForReservation();
-        fields.map(f => {
-            if (!item[f]) {
-                throw (`result doesn't have  required field "${f}" `);
-            }
-            ret[f] = item[f];
-        });
-        return ret;
-    }
-
-    async entitySearch(venue, longitude, latitude, venueurl) {
-        let term = venue.name;
-        let results = await this.vendor_entity_search(term, longitude, latitude);
-        if (results) {
-            console.log(results);
-            for (var index = 0; index < results.length; index++) {
-                let item = results[index];
-                if (item) {
-                    if (item.latitude && item.longitude && longitude && latitude) {
-                        let matched = YumUtil.gpsMatch(
-                            { latitude: latitude, longitude: longitude },
-                            { latitude: item.latitude, longitude: item.longitude }
-                        )
-                        if (matched) {
-                            return this.assemble_good_search_result(item);
-                        }
-                    }
-                }
-            }
-
-            for (var index = 0; index < 5 && index < results.length; index++) {
-                let item = results[index];
-                if (item) {
-                    let info = await this.fetchVenueInfoFromSearchItem(item);
-                    if (info) {
-                        Object.assign(item, info);// merge new info into item if any
-                        if (info.latitude && info.longitude) {
-                            let matched = YumUtil.gpsMatch(
-                                { latitude: latitude, longitude: longitude },
-                                { latitude: info.latitude, longitude: info.longitude }
-                            )
-                            if (matched) {
-                                return this.assemble_good_search_result(item);
-                            }
-                        }
-                        if (venue.realurl) {
-                            if (info.realurl) {
-                                if (YumUtil.doesTwoUrlsMatch(info.realurl, venue.realurl)) {
-                                    return this.assemble_good_search_result(item);
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    async fetchVenueInfoFromSearchItem(item) {
-        return null;
-    }
-
-    bankingNoteHint() {
-        return null;
-    }
-
-    getReservationUrl(venue, date, parties, timeOption, slot) {
-        return null;
-    }
-
-    getReservationUrlAction(venue, date, parties, timeOption, slot) {
-        return {
-            method: "get",
-            url: this.getReservationUrl(venue, date, parties, timeOption, slot),
-        }
-    }
-    */
 };
 

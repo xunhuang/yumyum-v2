@@ -173,11 +173,9 @@ export class VendorResy extends VendorBase {
                 return makeResult(entry);
             }
 
-            if (extra) {
-                const location = await this._APIVenueLookup(entry.url_slug, entry.location.id);
-                if (await addressMatch(location.address_1, extra.address, extra.city, extra.state)) {
-                    return makeResult(entry);
-                }
+            const location = await this._APIVenueLookup(entry.url_slug, entry.location.id);
+            if (await addressMatch(location.address_1, extra.address, extra.city, extra.state)) {
+                return makeResult(entry);
             }
         }
         return null;

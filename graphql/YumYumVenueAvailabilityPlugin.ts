@@ -35,7 +35,7 @@ const getReservationUrl = (_query: any, args: any): string | null => {
             return null;
         }
         const url = vendor?.getReservationUrl(venue, args.date, args.party_size, args.timeOption);
-    return url;
+        return url;
     } catch (err) {
         console.error(`${venue.reservation} Error searching for ${venue.name} (${venue.key}) ${err}`);
         return null;
@@ -70,7 +70,6 @@ const getReservationInfo = async (_query: any, args: any): Promise<VenueReservat
 }
 
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
-    const { pgSql: sql } = build;
     return {
         typeDefs: gql`
       type DateAvailability {

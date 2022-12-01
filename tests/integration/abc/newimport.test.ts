@@ -3,14 +3,7 @@ import { describe } from '@jest/globals';
 
 import { BayAreaDocument, BayAreaQuery, Venue } from '../../../src/generated/graphql';
 import { JsonEntrySameWasDbEntry } from '../../../src/yummodule/JsonEntrySameWasDbEntry';
-import { VendorOpentable } from '../../../src/yummodule/VendorOpentable';
-import { VendorResy } from '../../../src/yummodule/VendorResy';
-import { VendorTock } from '../../../src/yummodule/VendorTock';
-import { VenueSearchInput } from '../../../src/yummodule/VenueSearchInput';
-
-var tock = new VendorTock();
-var opentable = new VendorOpentable();
-var resy = new VendorResy();
+import { VenueEntitySearchAll, VenueSearchInput } from '../../../src/yummodule/VenueSearchInput';
 
 var client: ApolloClient<NormalizedCacheObject>;
 
@@ -44,24 +37,6 @@ describe('Testing calling GraphQL from apollo generated client', () => {
                 return !found;
             });
 
-            const searchAll = async (venue: any) => {
-                const opentable_search_result = await opentable.entitySearchExactTerm(venue.name, venue.longitude, venue.latitude, venue);
-                if (opentable_search_result) {
-                    return opentable_search_result;
-                }
-
-                const resy_search_result = await resy.entitySearchExactTerm(venue.name, venue.longitude, venue.latitude, venue);
-                if (resy_search_result) {
-                    return resy_search_result;
-                }
-
-                const tock_search_result = await tock.entitySearchExactTerm(venue.name, venue.longitude, venue.latitude, venue);
-                if (tock_search_result) {
-                    return tock_search_result;
-                }
-                return null;
-            }
-
             for (const jsonentry of newOnly.slice(0, 10)) {
                 const venue: VenueSearchInput = {
                     longitude: jsonentry._geoloc.lng,
@@ -72,7 +47,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
                     address: jsonentry._highlightResult.street.value,
                 }
 
-                const search_result = await searchAll(venue);
+                const search_result = await VenueEntitySearchAll(venue);
 
                 if (search_result) {
                     console.log("found: ", jsonentry.name, search_result)
@@ -80,8 +55,6 @@ describe('Testing calling GraphQL from apollo generated client', () => {
                     console.log("not found: ", jsonentry.name)
                 }
             }
-
-
         }, 100000)
     })
 })
