@@ -183,7 +183,7 @@ export class VendorTock extends VendorBase {
         return null;
     }
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<VenueReservationInfo | null> {
         const tocksystem = await this.entitySearchViaTockSearchSystem(term, longitude, latitude, extra);
         if (tocksystem != null) {
             return tocksystem;

@@ -73,7 +73,7 @@ export class VendorBase {
         throw new Error("fetchReservationInfoFromURL() not implemented");
     }
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<VenueReservationInfo | null> {
         throw new Error("entitySearchExactTerm() not implemented");
     }
 };
