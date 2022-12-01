@@ -187,7 +187,6 @@ export class VendorTock extends VendorBase {
         if (tocksystem != null) {
             return tocksystem;
         }
-        return tocksystem;
         return await this.entitySearchViaScrapedData(term, longitude, latitude, extra);
     }
 
