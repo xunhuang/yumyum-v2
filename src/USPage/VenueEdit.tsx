@@ -53,12 +53,11 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
 
   const [LookupReservation, result] = useLookupReservationInfoLazyQuery({
     onCompleted: (data: any) => {
-      if (data.reservationInfo) {
-        data.reservationInfo.withOnlineReservation = true;
-        form.setFieldsValue(data.reservationInfo);
-        setReservation(data.reservationInfo.reservation);
-      }
-    },
+      var reservationInfo = { ...data.reservationInfo };
+      reservationInfo.withOnlineReservation = true;
+      form.setFieldsValue(reservationInfo);
+      setReservation(reservationInfo.reservation);
+    }
   });
 
   const venue = data?.venueByKey;
