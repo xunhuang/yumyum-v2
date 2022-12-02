@@ -38,8 +38,8 @@ describe('Tock System Test', () => {
         const search_result = await tock.entitySearchExactTerm(
           entity.name, entity.longitude, entity.latitude, entity);
         expect(search_result).not.toBeNull();
-        expect(search_result.businessid).toEqual(entity.businessid);
-        expect(search_result.urlSlug).toEqual(entity.urlSlug);
+        expect(search_result?.businessid).toEqual(entity.businessid);
+        expect(search_result?.urlSlug).toEqual(entity.urlSlug);
       }
     }, 100000)
 

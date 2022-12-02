@@ -32,7 +32,7 @@ describe('Opentable System Test', () => {
         "Tamarind", -74.008865, 40.719215,
         TamarindData
       );
-      expect(search_result.businessid).toEqual("41389");
+      expect(search_result?.businessid).toEqual("41389");
     });
 
     it('should not find an entity with complete garbage', async () => {
@@ -43,12 +43,12 @@ describe('Opentable System Test', () => {
 
     it('should find an entity with fuzzzy match', async () => {
       const search_result = await opentable.entitySearchExactTerm("Tam", -74.008865, 40.719215, TamarindData);
-      expect(search_result.businessid).toEqual("41389");
+      expect(search_result?.businessid).toEqual("41389");
     })
 
     it('should find an entity with fuzzzy match, case not match', async () => {
       const search_result = await opentable.entitySearchExactTerm("tam", -74.008865, 40.719215, TamarindData);
-      expect(search_result.businessid).toEqual("41389");
+      expect(search_result?.businessid).toEqual("41389");
     })
     /*
     // should resurect this test when we have data for street.
