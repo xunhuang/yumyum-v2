@@ -1,6 +1,6 @@
 import { describe } from '@jest/globals';
 
-import { VendorTock } from '../../../src/yummodule/VendorTock';
+import { VendorTock } from '../src/yummodule/VendorTock';
 
 // const nyc = require("./nyc-tbd.json");
 // const bayarea = require("./bayarea.tock.json");

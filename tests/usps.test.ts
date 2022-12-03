@@ -1,9 +1,7 @@
 import { describe } from '@jest/globals';
 
-import { uspsLookupStreet } from '../../../src/yummodule/uspsLookupStreet';
-import { VendorTock } from '../../../src/yummodule/VendorTock';
-
-const nyc = require("./nyc-tbd.json");
+import { uspsLookupStreet } from '../src/yummodule/uspsLookupStreet';
+import { VendorTock } from '../src/yummodule/VendorTock';
 
 const bayarea = require("./bayarea.tock.json");
 
@@ -21,22 +19,6 @@ describe('USPS System Test', () => {
       let address = await uspsLookupStreet("1735 Polk St.", "San Francisco", "CA");
       expect(address).toEqual("1735 POLK ST");
     });
-
-    // it('should not find an entity with complete garbage', async () => {
-    //   const search_result = await opentable.entitySearchExactTerm("adadadfsfsdf2weweweAurum", -122.1156105, 37.3801255);
-    //   expect(search_result).toBeNull()
-    // })
-
-
-    // it('should find an entity with fuzzzy match', async () => {
-    //   const search_result = await opentable.entitySearchExactTerm("Tam", -74.008865, 40.719215);
-    //   expect(search_result.businessid).toEqual("41389");
-    // })
-
-    // it('should find an entity with fuzzzy match, case not match', async () => {
-    //   const search_result = await opentable.entitySearchExactTerm("tam", -74.008865, 40.719215);
-    //   expect(search_result.businessid).toEqual("41389");
-    // })
 
     it('list of entity (like fail because 5 second limit)', async () => {
       for (const entity of bayarea.slice(0, 2)) {

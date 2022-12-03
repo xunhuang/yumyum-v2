@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe, expect } from '@jest/globals';
 
-import { LookupReservationInfoDocument, LookupReservationInfoQuery } from '../../../src/generated/graphql';
+import { LookupReservationInfoDocument, LookupReservationInfoQuery } from '../src/generated/graphql';
 
 var client: ApolloClient<NormalizedCacheObject>;
 

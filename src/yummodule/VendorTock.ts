@@ -117,6 +117,7 @@ export class VendorTock extends VendorBase {
             let text = cheerio(el).html();
             if (text?.includes("window.$REDUX_STATE = ")) {
                 const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+                 // eslint-disable-next-line
                 eval(toeval);
             }
             return null;

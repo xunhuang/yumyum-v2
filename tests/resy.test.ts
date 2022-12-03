@@ -1,7 +1,7 @@
 import { describe, expect } from '@jest/globals';
 
-import { VendorResy } from '../../../src/yummodule/VendorResy';
-import { VenueSearchInput } from '../../../src/yummodule/VenueSearchInput';
+import { VendorResy } from '../src/yummodule/VendorResy';
+import { VenueSearchInput } from '../src/yummodule/VenueSearchInput';
 
 const nyc = require("./nyc-tbd.json");
 

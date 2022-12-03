@@ -10,6 +10,7 @@ import { VenueSearchInput } from './VenueSearchInput';
 const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
+// eslint-disable-next-line
 const userCache = new CacheContainer(new MemoryStorage())
 const getDistance = require("geolib").getDistance;
 

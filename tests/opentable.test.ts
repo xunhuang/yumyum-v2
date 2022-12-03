@@ -1,13 +1,10 @@
 import { describe } from '@jest/globals';
 
-import { VendorOpentable } from '../../../src/yummodule/VendorOpentable';
-import { VenueSearchInput } from '../../../src/yummodule/VenueSearchInput';
-
-const nyc = require("./nyc-tbd.json");
+import { VendorOpentable } from '../src/yummodule/VendorOpentable';
+import { VenueSearchInput } from '../src/yummodule/VenueSearchInput';
 
 var opentable = new VendorOpentable();
 describe('Opentable System Test', () => {
-
 
   const TamarindData: VenueSearchInput = {
     "name": "Tamarind",

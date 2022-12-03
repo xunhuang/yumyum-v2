@@ -1,11 +1,12 @@
-import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from '../../../src/yummodule/tockRequestMsg'
+import {
+    deserializeTockSearchResponseProtoToMsg,
+    newTockSearchRequest,
+    serializeMsgToProto,
+} from '../src/yummodule/tockRequestMsg';
 
 const fetch = require('node-fetch');
 
 describe('Tock search API with protobuf', () => {
-
-    async function abc(): Promise<void> {
-    }
 
     it('looking up French Laundary should find matching slug tfl', async () => {
         const request = newTockSearchRequest("French Laundary", -122.4194155, 37.7749295);
