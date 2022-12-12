@@ -30,7 +30,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
         query: UsaReservationTbdDocument
       });
       console.log("result: ", result.data.allVenues?.totalCount);
-      const tests = result.data.allVenues?.nodes?.slice(0, 1);
+      const tests = result.data.allVenues?.nodes?.slice(0, 10000);
       for (const test of tests || []) {
         const venue: VenueSearchInput = {
           longitude: test?.longitude!,
@@ -54,11 +54,13 @@ describe('Testing calling GraphQL from apollo generated client', () => {
           console.log(b);
           // throw ("stop");
 
+          // if (false) {
           const updateresult = await client.mutate<UpdateVenueInfoMutation>({
             mutation: UpdateVenueInfoDocument,
             variables: b,
           });
           console.log(updateresult);
+          // }
 
         } else {
           console.log("not found: ", test?.name)
@@ -66,6 +68,6 @@ describe('Testing calling GraphQL from apollo generated client', () => {
       }
 
       expect(result.data.allVenues?.totalCount).toBeGreaterThan(0);
-    }, 100000)
+    }, 1000000000)
   })
 })

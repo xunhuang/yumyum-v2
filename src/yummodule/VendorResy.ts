@@ -150,7 +150,7 @@ export class VendorResy extends VendorBase {
             const result = {
                 name: best.name,
                 reservation: this.vendorID(),
-                businessid: best.id.resy,
+                businessid: `${best.id.resy}`,
                 urlSlug: best.url_slug,
                 resyCityCode: best.location.code,
             };
