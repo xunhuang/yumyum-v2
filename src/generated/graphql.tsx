@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -19,27 +20,27 @@ export type Scalars = {
 /** A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’ */
 export type BooleanFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Boolean']>;
+  distinctFrom?: InputMaybe<Scalars['Boolean']>;
   /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Boolean']>;
+  equalTo?: InputMaybe<Scalars['Boolean']>;
   /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Boolean']>;
+  greaterThan?: InputMaybe<Scalars['Boolean']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Boolean']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Boolean']>;
   /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Boolean']>>;
+  in?: InputMaybe<Array<Scalars['Boolean']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
+  isNull?: InputMaybe<Scalars['Boolean']>;
   /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Boolean']>;
+  lessThan?: InputMaybe<Scalars['Boolean']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Boolean']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Boolean']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Boolean']>;
+  notDistinctFrom?: InputMaybe<Scalars['Boolean']>;
   /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Boolean']>;
+  notEqualTo?: InputMaybe<Scalars['Boolean']>;
   /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Boolean']>>;
+  notIn?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
 /** All input for the create `Venue` mutation. */
@@ -48,7 +49,7 @@ export type CreateVenueInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The `Venue` to be created by this mutation. */
   venue: VenueInput;
 };
@@ -72,7 +73,7 @@ export type CreateVenuePayload = {
 
 /** The output of our create `Venue` mutation. */
 export type CreateVenuePayloadVenueEdgeArgs = {
-  orderBy?: Maybe<Array<VenuesOrderBy>>;
+  orderBy?: InputMaybe<Array<VenuesOrderBy>>;
 };
 
 export type DateAvailability = {
@@ -88,7 +89,7 @@ export type DeleteVenueByKeyInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   key: Scalars['String'];
 };
 
@@ -98,7 +99,7 @@ export type DeleteVenueInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The globally unique `ID` which will identify a single `Venue` to be deleted. */
   nodeId: Scalars['ID'];
 };
@@ -123,33 +124,33 @@ export type DeleteVenuePayload = {
 
 /** The output of our delete `Venue` mutation. */
 export type DeleteVenuePayloadVenueEdgeArgs = {
-  orderBy?: Maybe<Array<VenuesOrderBy>>;
+  orderBy?: InputMaybe<Array<VenuesOrderBy>>;
 };
 
 /** A filter to be used against Float fields. All fields are combined with a logical ‘and.’ */
 export type FloatFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Float']>;
+  distinctFrom?: InputMaybe<Scalars['Float']>;
   /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Float']>;
+  equalTo?: InputMaybe<Scalars['Float']>;
   /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Float']>;
+  greaterThan?: InputMaybe<Scalars['Float']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Float']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Float']>;
   /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Float']>>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
+  isNull?: InputMaybe<Scalars['Boolean']>;
   /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Float']>;
+  lessThan?: InputMaybe<Scalars['Float']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Float']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['Float']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Float']>;
+  notDistinctFrom?: InputMaybe<Scalars['Float']>;
   /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Float']>;
+  notEqualTo?: InputMaybe<Scalars['Float']>;
   /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Float']>>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -239,14 +240,14 @@ export type Query = Node & {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAllVenuesArgs = {
-  after?: Maybe<Scalars['Cursor']>;
-  before?: Maybe<Scalars['Cursor']>;
-  condition?: Maybe<VenueCondition>;
-  filter?: Maybe<VenueFilter>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Array<VenuesOrderBy>>;
+  after?: InputMaybe<Scalars['Cursor']>;
+  before?: InputMaybe<Scalars['Cursor']>;
+  condition?: InputMaybe<VenueCondition>;
+  filter?: InputMaybe<VenueFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<VenuesOrderBy>>;
 };
 
 
@@ -286,79 +287,79 @@ export type ReservationInfo = {
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
 export type StringFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['String']>;
+  distinctFrom?: InputMaybe<Scalars['String']>;
   /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  distinctFromInsensitive?: Maybe<Scalars['String']>;
+  distinctFromInsensitive?: InputMaybe<Scalars['String']>;
   /** Ends with the specified string (case-sensitive). */
-  endsWith?: Maybe<Scalars['String']>;
+  endsWith?: InputMaybe<Scalars['String']>;
   /** Ends with the specified string (case-insensitive). */
-  endsWithInsensitive?: Maybe<Scalars['String']>;
+  endsWithInsensitive?: InputMaybe<Scalars['String']>;
   /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['String']>;
+  equalTo?: InputMaybe<Scalars['String']>;
   /** Equal to the specified value (case-insensitive). */
-  equalToInsensitive?: Maybe<Scalars['String']>;
+  equalToInsensitive?: InputMaybe<Scalars['String']>;
   /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['String']>;
+  greaterThan?: InputMaybe<Scalars['String']>;
   /** Greater than the specified value (case-insensitive). */
-  greaterThanInsensitive?: Maybe<Scalars['String']>;
+  greaterThanInsensitive?: InputMaybe<Scalars['String']>;
   /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
+  greaterThanOrEqualTo?: InputMaybe<Scalars['String']>;
   /** Greater than or equal to the specified value (case-insensitive). */
-  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+  greaterThanOrEqualToInsensitive?: InputMaybe<Scalars['String']>;
   /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['String']>>;
+  in?: InputMaybe<Array<Scalars['String']>>;
   /** Included in the specified list (case-insensitive). */
-  inInsensitive?: Maybe<Array<Scalars['String']>>;
+  inInsensitive?: InputMaybe<Array<Scalars['String']>>;
   /** Contains the specified string (case-sensitive). */
-  includes?: Maybe<Scalars['String']>;
+  includes?: InputMaybe<Scalars['String']>;
   /** Contains the specified string (case-insensitive). */
-  includesInsensitive?: Maybe<Scalars['String']>;
+  includesInsensitive?: InputMaybe<Scalars['String']>;
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
+  isNull?: InputMaybe<Scalars['Boolean']>;
   /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['String']>;
+  lessThan?: InputMaybe<Scalars['String']>;
   /** Less than the specified value (case-insensitive). */
-  lessThanInsensitive?: Maybe<Scalars['String']>;
+  lessThanInsensitive?: InputMaybe<Scalars['String']>;
   /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['String']>;
+  lessThanOrEqualTo?: InputMaybe<Scalars['String']>;
   /** Less than or equal to the specified value (case-insensitive). */
-  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+  lessThanOrEqualToInsensitive?: InputMaybe<Scalars['String']>;
   /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  like?: Maybe<Scalars['String']>;
+  like?: InputMaybe<Scalars['String']>;
   /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  likeInsensitive?: Maybe<Scalars['String']>;
+  likeInsensitive?: InputMaybe<Scalars['String']>;
   /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['String']>;
+  notDistinctFrom?: InputMaybe<Scalars['String']>;
   /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
+  notDistinctFromInsensitive?: InputMaybe<Scalars['String']>;
   /** Does not end with the specified string (case-sensitive). */
-  notEndsWith?: Maybe<Scalars['String']>;
+  notEndsWith?: InputMaybe<Scalars['String']>;
   /** Does not end with the specified string (case-insensitive). */
-  notEndsWithInsensitive?: Maybe<Scalars['String']>;
+  notEndsWithInsensitive?: InputMaybe<Scalars['String']>;
   /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['String']>;
+  notEqualTo?: InputMaybe<Scalars['String']>;
   /** Not equal to the specified value (case-insensitive). */
-  notEqualToInsensitive?: Maybe<Scalars['String']>;
+  notEqualToInsensitive?: InputMaybe<Scalars['String']>;
   /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['String']>>;
+  notIn?: InputMaybe<Array<Scalars['String']>>;
   /** Not included in the specified list (case-insensitive). */
-  notInInsensitive?: Maybe<Array<Scalars['String']>>;
+  notInInsensitive?: InputMaybe<Array<Scalars['String']>>;
   /** Does not contain the specified string (case-sensitive). */
-  notIncludes?: Maybe<Scalars['String']>;
+  notIncludes?: InputMaybe<Scalars['String']>;
   /** Does not contain the specified string (case-insensitive). */
-  notIncludesInsensitive?: Maybe<Scalars['String']>;
+  notIncludesInsensitive?: InputMaybe<Scalars['String']>;
   /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLike?: Maybe<Scalars['String']>;
+  notLike?: InputMaybe<Scalars['String']>;
   /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLikeInsensitive?: Maybe<Scalars['String']>;
+  notLikeInsensitive?: InputMaybe<Scalars['String']>;
   /** Does not start with the specified string (case-sensitive). */
-  notStartsWith?: Maybe<Scalars['String']>;
+  notStartsWith?: InputMaybe<Scalars['String']>;
   /** Does not start with the specified string (case-insensitive). */
-  notStartsWithInsensitive?: Maybe<Scalars['String']>;
+  notStartsWithInsensitive?: InputMaybe<Scalars['String']>;
   /** Starts with the specified string (case-sensitive). */
-  startsWith?: Maybe<Scalars['String']>;
+  startsWith?: InputMaybe<Scalars['String']>;
   /** Starts with the specified string (case-insensitive). */
-  startsWithInsensitive?: Maybe<Scalars['String']>;
+  startsWithInsensitive?: InputMaybe<Scalars['String']>;
 };
 
 /** All input for the `updateVenueByKey` mutation. */
@@ -367,7 +368,7 @@ export type UpdateVenueByKeyInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   key: Scalars['String'];
   /** An object where the defined keys will be set on the `Venue` being updated. */
   venuePatch: VenuePatch;
@@ -379,7 +380,7 @@ export type UpdateVenueInput = {
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
-  clientMutationId?: Maybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
   /** The globally unique `ID` which will identify a single `Venue` to be updated. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `Venue` being updated. */
@@ -405,7 +406,7 @@ export type UpdateVenuePayload = {
 
 /** The output of our update `Venue` mutation. */
 export type UpdateVenuePayloadVenueEdgeArgs = {
-  orderBy?: Maybe<Array<VenuesOrderBy>>;
+  orderBy?: InputMaybe<Array<VenuesOrderBy>>;
 };
 
 export type Venue = Node & {
@@ -483,422 +484,422 @@ export type Venue = Node & {
 
 export type VenueMonthlySlotsArgs = {
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
 };
 
 
 export type VenueMyReservationUrlArgs = {
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
 };
 
 
 export type VenueSlotsArgs = {
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
 };
 
 /** A condition to be used against `Venue` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type VenueCondition = {
   /** Checks for equality with the object’s `accomondation` field. */
-  accomondation?: Maybe<Scalars['String']>;
+  accomondation?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `address` field. */
-  address?: Maybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `area` field. */
-  area?: Maybe<Scalars['String']>;
+  area?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `autodetected` field. */
-  autodetected?: Maybe<Scalars['String']>;
+  autodetected?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `bookatableClientid` field. */
-  bookatableClientid?: Maybe<Scalars['String']>;
+  bookatableClientid?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `bookatablePartnerCode` field. */
-  bookatablePartnerCode?: Maybe<Scalars['String']>;
+  bookatablePartnerCode?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `bookingnotes` field. */
-  bookingnotes?: Maybe<Scalars['String']>;
+  bookingnotes?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `businessId` field. */
-  businessId?: Maybe<Scalars['String']>;
+  businessId?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `businessid` field. */
-  businessid?: Maybe<Scalars['String']>;
+  businessid?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `city` field. */
-  city?: Maybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `close` field. */
-  close?: Maybe<Scalars['Boolean']>;
+  close?: InputMaybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `closehours` field. */
-  closehours?: Maybe<Scalars['String']>;
+  closehours?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `connectionid` field. */
-  connectionid?: Maybe<Scalars['String']>;
+  connectionid?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `country` field. */
-  country?: Maybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `countryIso` field. */
-  countryIso?: Maybe<Scalars['String']>;
+  countryIso?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `coverImage` field. */
-  coverImage?: Maybe<Scalars['String']>;
+  coverImage?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `creationTime` field. */
-  creationTime?: Maybe<Scalars['String']>;
+  creationTime?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `cuisine` field. */
-  cuisine?: Maybe<Scalars['String']>;
+  cuisine?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `currency` field. */
-  currency?: Maybe<Scalars['String']>;
+  currency?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `devnotes` field. */
-  devnotes?: Maybe<Scalars['String']>;
+  devnotes?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `distinction` field. */
-  distinction?: Maybe<Scalars['String']>;
+  distinction?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `email` field. */
-  email?: Maybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `fulladdress` field. */
-  fulladdress?: Maybe<Scalars['String']>;
+  fulladdress?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `guide` field. */
-  guide?: Maybe<Scalars['String']>;
+  guide?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `imageList` field. */
-  imageList?: Maybe<Scalars['String']>;
+  imageList?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `key` field. */
-  key?: Maybe<Scalars['String']>;
+  key?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `latitude` field. */
-  latitude?: Maybe<Scalars['Float']>;
+  latitude?: InputMaybe<Scalars['Float']>;
   /** Checks for equality with the object’s `localarea` field. */
-  localarea?: Maybe<Scalars['String']>;
+  localarea?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `localname` field. */
-  localname?: Maybe<Scalars['String']>;
+  localname?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `longitude` field. */
-  longitude?: Maybe<Scalars['Float']>;
+  longitude?: InputMaybe<Scalars['Float']>;
   /** Checks for equality with the object’s `menuurl` field. */
-  menuurl?: Maybe<Scalars['String']>;
+  menuurl?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `metro` field. */
-  metro?: Maybe<Scalars['String']>;
+  metro?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `michelinId` field. */
-  michelinId?: Maybe<Scalars['String']>;
+  michelinId?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `michelineOnlineReservation` field. */
-  michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
+  michelineOnlineReservation?: InputMaybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `michelinobjectid` field. */
-  michelinobjectid?: Maybe<Scalars['String']>;
+  michelinobjectid?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `michelinslug` field. */
-  michelinslug?: Maybe<Scalars['String']>;
+  michelinslug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `name` field. */
-  name?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `oldImages` field. */
-  oldImages?: Maybe<Scalars['String']>;
+  oldImages?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `openhours` field. */
-  openhours?: Maybe<Scalars['String']>;
+  openhours?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `otherReservation` field. */
-  otherReservation?: Maybe<Scalars['String']>;
+  otherReservation?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `phone` field. */
-  phone?: Maybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `priceline` field. */
-  priceline?: Maybe<Scalars['String']>;
+  priceline?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `realurl` field. */
-  realurl?: Maybe<Scalars['String']>;
+  realurl?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `region` field. */
-  region?: Maybe<Scalars['String']>;
+  region?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `reservation` field. */
-  reservation?: Maybe<Scalars['String']>;
+  reservation?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `reservationHint` field. */
-  reservationHint?: Maybe<Scalars['String']>;
+  reservationHint?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `reservationUrl` field. */
-  reservationUrl?: Maybe<Scalars['String']>;
+  reservationUrl?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `resyCityCode` field. */
-  resyCityCode?: Maybe<Scalars['String']>;
+  resyCityCode?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `resyUrlSlug` field. */
-  resyUrlSlug?: Maybe<Scalars['String']>;
+  resyUrlSlug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `rsvpSupport` field. */
-  rsvpSupport?: Maybe<Scalars['String']>;
+  rsvpSupport?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `sf` field. */
-  sf?: Maybe<Scalars['String']>;
+  sf?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `showvenue` field. */
-  showvenue?: Maybe<Scalars['Boolean']>;
+  showvenue?: InputMaybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `stars` field. */
-  stars?: Maybe<Scalars['String']>;
+  stars?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `streetUsps` field. */
-  streetUsps?: Maybe<Scalars['String']>;
+  streetUsps?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `tags` field. */
-  tags?: Maybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `timezone` field. */
-  timezone?: Maybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `tockUrlSlug` field. */
-  tockUrlSlug?: Maybe<Scalars['String']>;
+  tockUrlSlug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `url` field. */
-  url?: Maybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `urlSlug` field. */
-  urlSlug?: Maybe<Scalars['String']>;
+  urlSlug?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `vintage` field. */
-  vintage?: Maybe<Scalars['String']>;
+  vintage?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `withOnlineReservation` field. */
-  withOnlineReservation?: Maybe<Scalars['String']>;
+  withOnlineReservation?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `workqueue` field. */
-  workqueue?: Maybe<Scalars['String']>;
+  workqueue?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `zip` field. */
-  zip?: Maybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['String']>;
 };
 
 /** A filter to be used against `Venue` object types. All fields are combined with a logical ‘and.’ */
 export type VenueFilter = {
   /** Filter by the object’s `accomondation` field. */
-  accomondation?: Maybe<StringFilter>;
+  accomondation?: InputMaybe<StringFilter>;
   /** Filter by the object’s `address` field. */
-  address?: Maybe<StringFilter>;
+  address?: InputMaybe<StringFilter>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<VenueFilter>>;
+  and?: InputMaybe<Array<VenueFilter>>;
   /** Filter by the object’s `area` field. */
-  area?: Maybe<StringFilter>;
+  area?: InputMaybe<StringFilter>;
   /** Filter by the object’s `autodetected` field. */
-  autodetected?: Maybe<StringFilter>;
+  autodetected?: InputMaybe<StringFilter>;
   /** Filter by the object’s `bookatableClientid` field. */
-  bookatableClientid?: Maybe<StringFilter>;
+  bookatableClientid?: InputMaybe<StringFilter>;
   /** Filter by the object’s `bookatablePartnerCode` field. */
-  bookatablePartnerCode?: Maybe<StringFilter>;
+  bookatablePartnerCode?: InputMaybe<StringFilter>;
   /** Filter by the object’s `bookingnotes` field. */
-  bookingnotes?: Maybe<StringFilter>;
+  bookingnotes?: InputMaybe<StringFilter>;
   /** Filter by the object’s `businessId` field. */
-  businessId?: Maybe<StringFilter>;
+  businessId?: InputMaybe<StringFilter>;
   /** Filter by the object’s `businessid` field. */
-  businessid?: Maybe<StringFilter>;
+  businessid?: InputMaybe<StringFilter>;
   /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
+  city?: InputMaybe<StringFilter>;
   /** Filter by the object’s `close` field. */
-  close?: Maybe<BooleanFilter>;
+  close?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `closehours` field. */
-  closehours?: Maybe<StringFilter>;
+  closehours?: InputMaybe<StringFilter>;
   /** Filter by the object’s `connectionid` field. */
-  connectionid?: Maybe<StringFilter>;
+  connectionid?: InputMaybe<StringFilter>;
   /** Filter by the object’s `country` field. */
-  country?: Maybe<StringFilter>;
+  country?: InputMaybe<StringFilter>;
   /** Filter by the object’s `countryIso` field. */
-  countryIso?: Maybe<StringFilter>;
+  countryIso?: InputMaybe<StringFilter>;
   /** Filter by the object’s `coverImage` field. */
-  coverImage?: Maybe<StringFilter>;
+  coverImage?: InputMaybe<StringFilter>;
   /** Filter by the object’s `creationTime` field. */
-  creationTime?: Maybe<StringFilter>;
+  creationTime?: InputMaybe<StringFilter>;
   /** Filter by the object’s `cuisine` field. */
-  cuisine?: Maybe<StringFilter>;
+  cuisine?: InputMaybe<StringFilter>;
   /** Filter by the object’s `currency` field. */
-  currency?: Maybe<StringFilter>;
+  currency?: InputMaybe<StringFilter>;
   /** Filter by the object’s `devnotes` field. */
-  devnotes?: Maybe<StringFilter>;
+  devnotes?: InputMaybe<StringFilter>;
   /** Filter by the object’s `distinction` field. */
-  distinction?: Maybe<StringFilter>;
+  distinction?: InputMaybe<StringFilter>;
   /** Filter by the object’s `email` field. */
-  email?: Maybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
   /** Filter by the object’s `fulladdress` field. */
-  fulladdress?: Maybe<StringFilter>;
+  fulladdress?: InputMaybe<StringFilter>;
   /** Filter by the object’s `guide` field. */
-  guide?: Maybe<StringFilter>;
+  guide?: InputMaybe<StringFilter>;
   /** Filter by the object’s `imageList` field. */
-  imageList?: Maybe<StringFilter>;
+  imageList?: InputMaybe<StringFilter>;
   /** Filter by the object’s `key` field. */
-  key?: Maybe<StringFilter>;
+  key?: InputMaybe<StringFilter>;
   /** Filter by the object’s `latitude` field. */
-  latitude?: Maybe<FloatFilter>;
+  latitude?: InputMaybe<FloatFilter>;
   /** Filter by the object’s `localarea` field. */
-  localarea?: Maybe<StringFilter>;
+  localarea?: InputMaybe<StringFilter>;
   /** Filter by the object’s `localname` field. */
-  localname?: Maybe<StringFilter>;
+  localname?: InputMaybe<StringFilter>;
   /** Filter by the object’s `longitude` field. */
-  longitude?: Maybe<FloatFilter>;
+  longitude?: InputMaybe<FloatFilter>;
   /** Filter by the object’s `menuurl` field. */
-  menuurl?: Maybe<StringFilter>;
+  menuurl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `metro` field. */
-  metro?: Maybe<StringFilter>;
+  metro?: InputMaybe<StringFilter>;
   /** Filter by the object’s `michelinId` field. */
-  michelinId?: Maybe<StringFilter>;
+  michelinId?: InputMaybe<StringFilter>;
   /** Filter by the object’s `michelineOnlineReservation` field. */
-  michelineOnlineReservation?: Maybe<BooleanFilter>;
+  michelineOnlineReservation?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `michelinobjectid` field. */
-  michelinobjectid?: Maybe<StringFilter>;
+  michelinobjectid?: InputMaybe<StringFilter>;
   /** Filter by the object’s `michelinslug` field. */
-  michelinslug?: Maybe<StringFilter>;
+  michelinslug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `name` field. */
-  name?: Maybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   /** Negates the expression. */
-  not?: Maybe<VenueFilter>;
+  not?: InputMaybe<VenueFilter>;
   /** Filter by the object’s `oldImages` field. */
-  oldImages?: Maybe<StringFilter>;
+  oldImages?: InputMaybe<StringFilter>;
   /** Filter by the object’s `openhours` field. */
-  openhours?: Maybe<StringFilter>;
+  openhours?: InputMaybe<StringFilter>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<VenueFilter>>;
+  or?: InputMaybe<Array<VenueFilter>>;
   /** Filter by the object’s `otherReservation` field. */
-  otherReservation?: Maybe<StringFilter>;
+  otherReservation?: InputMaybe<StringFilter>;
   /** Filter by the object’s `phone` field. */
-  phone?: Maybe<StringFilter>;
+  phone?: InputMaybe<StringFilter>;
   /** Filter by the object’s `priceline` field. */
-  priceline?: Maybe<StringFilter>;
+  priceline?: InputMaybe<StringFilter>;
   /** Filter by the object’s `realurl` field. */
-  realurl?: Maybe<StringFilter>;
+  realurl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `region` field. */
-  region?: Maybe<StringFilter>;
+  region?: InputMaybe<StringFilter>;
   /** Filter by the object’s `reservation` field. */
-  reservation?: Maybe<StringFilter>;
+  reservation?: InputMaybe<StringFilter>;
   /** Filter by the object’s `reservationHint` field. */
-  reservationHint?: Maybe<StringFilter>;
+  reservationHint?: InputMaybe<StringFilter>;
   /** Filter by the object’s `reservationUrl` field. */
-  reservationUrl?: Maybe<StringFilter>;
+  reservationUrl?: InputMaybe<StringFilter>;
   /** Filter by the object’s `resyCityCode` field. */
-  resyCityCode?: Maybe<StringFilter>;
+  resyCityCode?: InputMaybe<StringFilter>;
   /** Filter by the object’s `resyUrlSlug` field. */
-  resyUrlSlug?: Maybe<StringFilter>;
+  resyUrlSlug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `rsvpSupport` field. */
-  rsvpSupport?: Maybe<StringFilter>;
+  rsvpSupport?: InputMaybe<StringFilter>;
   /** Filter by the object’s `sf` field. */
-  sf?: Maybe<StringFilter>;
+  sf?: InputMaybe<StringFilter>;
   /** Filter by the object’s `showvenue` field. */
-  showvenue?: Maybe<BooleanFilter>;
+  showvenue?: InputMaybe<BooleanFilter>;
   /** Filter by the object’s `stars` field. */
-  stars?: Maybe<StringFilter>;
+  stars?: InputMaybe<StringFilter>;
   /** Filter by the object’s `streetUsps` field. */
-  streetUsps?: Maybe<StringFilter>;
+  streetUsps?: InputMaybe<StringFilter>;
   /** Filter by the object’s `tags` field. */
-  tags?: Maybe<StringFilter>;
+  tags?: InputMaybe<StringFilter>;
   /** Filter by the object’s `timezone` field. */
-  timezone?: Maybe<StringFilter>;
+  timezone?: InputMaybe<StringFilter>;
   /** Filter by the object’s `tockUrlSlug` field. */
-  tockUrlSlug?: Maybe<StringFilter>;
+  tockUrlSlug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `url` field. */
-  url?: Maybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
   /** Filter by the object’s `urlSlug` field. */
-  urlSlug?: Maybe<StringFilter>;
+  urlSlug?: InputMaybe<StringFilter>;
   /** Filter by the object’s `vintage` field. */
-  vintage?: Maybe<StringFilter>;
+  vintage?: InputMaybe<StringFilter>;
   /** Filter by the object’s `withOnlineReservation` field. */
-  withOnlineReservation?: Maybe<StringFilter>;
+  withOnlineReservation?: InputMaybe<StringFilter>;
   /** Filter by the object’s `workqueue` field. */
-  workqueue?: Maybe<StringFilter>;
+  workqueue?: InputMaybe<StringFilter>;
   /** Filter by the object’s `zip` field. */
-  zip?: Maybe<StringFilter>;
+  zip?: InputMaybe<StringFilter>;
 };
 
 /** An input for mutations affecting `Venue` */
 export type VenueInput = {
-  accomondation?: Maybe<Scalars['String']>;
-  address?: Maybe<Scalars['String']>;
-  area?: Maybe<Scalars['String']>;
-  autodetected?: Maybe<Scalars['String']>;
-  bookatableClientid?: Maybe<Scalars['String']>;
-  bookatablePartnerCode?: Maybe<Scalars['String']>;
-  bookingnotes?: Maybe<Scalars['String']>;
-  businessId?: Maybe<Scalars['String']>;
-  businessid?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  close?: Maybe<Scalars['Boolean']>;
-  closehours?: Maybe<Scalars['String']>;
-  connectionid?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  countryIso?: Maybe<Scalars['String']>;
-  coverImage?: Maybe<Scalars['String']>;
-  creationTime?: Maybe<Scalars['String']>;
-  cuisine?: Maybe<Scalars['String']>;
-  currency?: Maybe<Scalars['String']>;
-  devnotes?: Maybe<Scalars['String']>;
-  distinction?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  fulladdress?: Maybe<Scalars['String']>;
-  guide?: Maybe<Scalars['String']>;
-  imageList?: Maybe<Scalars['String']>;
+  accomondation?: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  area?: InputMaybe<Scalars['String']>;
+  autodetected?: InputMaybe<Scalars['String']>;
+  bookatableClientid?: InputMaybe<Scalars['String']>;
+  bookatablePartnerCode?: InputMaybe<Scalars['String']>;
+  bookingnotes?: InputMaybe<Scalars['String']>;
+  businessId?: InputMaybe<Scalars['String']>;
+  businessid?: InputMaybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['Boolean']>;
+  closehours?: InputMaybe<Scalars['String']>;
+  connectionid?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  countryIso?: InputMaybe<Scalars['String']>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  creationTime?: InputMaybe<Scalars['String']>;
+  cuisine?: InputMaybe<Scalars['String']>;
+  currency?: InputMaybe<Scalars['String']>;
+  devnotes?: InputMaybe<Scalars['String']>;
+  distinction?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  fulladdress?: InputMaybe<Scalars['String']>;
+  guide?: InputMaybe<Scalars['String']>;
+  imageList?: InputMaybe<Scalars['String']>;
   key: Scalars['String'];
-  latitude?: Maybe<Scalars['Float']>;
-  localarea?: Maybe<Scalars['String']>;
-  localname?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
-  menuurl?: Maybe<Scalars['String']>;
-  metro?: Maybe<Scalars['String']>;
-  michelinId?: Maybe<Scalars['String']>;
-  michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
-  michelinobjectid?: Maybe<Scalars['String']>;
-  michelinslug?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  oldImages?: Maybe<Scalars['String']>;
-  openhours?: Maybe<Scalars['String']>;
-  otherReservation?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  priceline?: Maybe<Scalars['String']>;
-  realurl?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  reservation?: Maybe<Scalars['String']>;
-  reservationHint?: Maybe<Scalars['String']>;
-  reservationUrl?: Maybe<Scalars['String']>;
-  resyCityCode?: Maybe<Scalars['String']>;
-  resyUrlSlug?: Maybe<Scalars['String']>;
-  rsvpSupport?: Maybe<Scalars['String']>;
-  sf?: Maybe<Scalars['String']>;
-  showvenue?: Maybe<Scalars['Boolean']>;
-  stars?: Maybe<Scalars['String']>;
-  streetUsps?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-  tockUrlSlug?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  urlSlug?: Maybe<Scalars['String']>;
-  vintage?: Maybe<Scalars['String']>;
-  withOnlineReservation?: Maybe<Scalars['String']>;
-  workqueue?: Maybe<Scalars['String']>;
-  zip?: Maybe<Scalars['String']>;
+  latitude?: InputMaybe<Scalars['Float']>;
+  localarea?: InputMaybe<Scalars['String']>;
+  localname?: InputMaybe<Scalars['String']>;
+  longitude?: InputMaybe<Scalars['Float']>;
+  menuurl?: InputMaybe<Scalars['String']>;
+  metro?: InputMaybe<Scalars['String']>;
+  michelinId?: InputMaybe<Scalars['String']>;
+  michelineOnlineReservation?: InputMaybe<Scalars['Boolean']>;
+  michelinobjectid?: InputMaybe<Scalars['String']>;
+  michelinslug?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  oldImages?: InputMaybe<Scalars['String']>;
+  openhours?: InputMaybe<Scalars['String']>;
+  otherReservation?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  priceline?: InputMaybe<Scalars['String']>;
+  realurl?: InputMaybe<Scalars['String']>;
+  region?: InputMaybe<Scalars['String']>;
+  reservation?: InputMaybe<Scalars['String']>;
+  reservationHint?: InputMaybe<Scalars['String']>;
+  reservationUrl?: InputMaybe<Scalars['String']>;
+  resyCityCode?: InputMaybe<Scalars['String']>;
+  resyUrlSlug?: InputMaybe<Scalars['String']>;
+  rsvpSupport?: InputMaybe<Scalars['String']>;
+  sf?: InputMaybe<Scalars['String']>;
+  showvenue?: InputMaybe<Scalars['Boolean']>;
+  stars?: InputMaybe<Scalars['String']>;
+  streetUsps?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
+  tockUrlSlug?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  urlSlug?: InputMaybe<Scalars['String']>;
+  vintage?: InputMaybe<Scalars['String']>;
+  withOnlineReservation?: InputMaybe<Scalars['String']>;
+  workqueue?: InputMaybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['String']>;
 };
 
 /** Represents an update to a `Venue`. Fields that are set will be updated. */
 export type VenuePatch = {
-  accomondation?: Maybe<Scalars['String']>;
-  address?: Maybe<Scalars['String']>;
-  area?: Maybe<Scalars['String']>;
-  autodetected?: Maybe<Scalars['String']>;
-  bookatableClientid?: Maybe<Scalars['String']>;
-  bookatablePartnerCode?: Maybe<Scalars['String']>;
-  bookingnotes?: Maybe<Scalars['String']>;
-  businessId?: Maybe<Scalars['String']>;
-  businessid?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  close?: Maybe<Scalars['Boolean']>;
-  closehours?: Maybe<Scalars['String']>;
-  connectionid?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  countryIso?: Maybe<Scalars['String']>;
-  coverImage?: Maybe<Scalars['String']>;
-  creationTime?: Maybe<Scalars['String']>;
-  cuisine?: Maybe<Scalars['String']>;
-  currency?: Maybe<Scalars['String']>;
-  devnotes?: Maybe<Scalars['String']>;
-  distinction?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  fulladdress?: Maybe<Scalars['String']>;
-  guide?: Maybe<Scalars['String']>;
-  imageList?: Maybe<Scalars['String']>;
-  key?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['Float']>;
-  localarea?: Maybe<Scalars['String']>;
-  localname?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
-  menuurl?: Maybe<Scalars['String']>;
-  metro?: Maybe<Scalars['String']>;
-  michelinId?: Maybe<Scalars['String']>;
-  michelineOnlineReservation?: Maybe<Scalars['Boolean']>;
-  michelinobjectid?: Maybe<Scalars['String']>;
-  michelinslug?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  oldImages?: Maybe<Scalars['String']>;
-  openhours?: Maybe<Scalars['String']>;
-  otherReservation?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  priceline?: Maybe<Scalars['String']>;
-  realurl?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  reservation?: Maybe<Scalars['String']>;
-  reservationHint?: Maybe<Scalars['String']>;
-  reservationUrl?: Maybe<Scalars['String']>;
-  resyCityCode?: Maybe<Scalars['String']>;
-  resyUrlSlug?: Maybe<Scalars['String']>;
-  rsvpSupport?: Maybe<Scalars['String']>;
-  sf?: Maybe<Scalars['String']>;
-  showvenue?: Maybe<Scalars['Boolean']>;
-  stars?: Maybe<Scalars['String']>;
-  streetUsps?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  timezone?: Maybe<Scalars['String']>;
-  tockUrlSlug?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  urlSlug?: Maybe<Scalars['String']>;
-  vintage?: Maybe<Scalars['String']>;
-  withOnlineReservation?: Maybe<Scalars['String']>;
-  workqueue?: Maybe<Scalars['String']>;
-  zip?: Maybe<Scalars['String']>;
+  accomondation?: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  area?: InputMaybe<Scalars['String']>;
+  autodetected?: InputMaybe<Scalars['String']>;
+  bookatableClientid?: InputMaybe<Scalars['String']>;
+  bookatablePartnerCode?: InputMaybe<Scalars['String']>;
+  bookingnotes?: InputMaybe<Scalars['String']>;
+  businessId?: InputMaybe<Scalars['String']>;
+  businessid?: InputMaybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['Boolean']>;
+  closehours?: InputMaybe<Scalars['String']>;
+  connectionid?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  countryIso?: InputMaybe<Scalars['String']>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  creationTime?: InputMaybe<Scalars['String']>;
+  cuisine?: InputMaybe<Scalars['String']>;
+  currency?: InputMaybe<Scalars['String']>;
+  devnotes?: InputMaybe<Scalars['String']>;
+  distinction?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  fulladdress?: InputMaybe<Scalars['String']>;
+  guide?: InputMaybe<Scalars['String']>;
+  imageList?: InputMaybe<Scalars['String']>;
+  key?: InputMaybe<Scalars['String']>;
+  latitude?: InputMaybe<Scalars['Float']>;
+  localarea?: InputMaybe<Scalars['String']>;
+  localname?: InputMaybe<Scalars['String']>;
+  longitude?: InputMaybe<Scalars['Float']>;
+  menuurl?: InputMaybe<Scalars['String']>;
+  metro?: InputMaybe<Scalars['String']>;
+  michelinId?: InputMaybe<Scalars['String']>;
+  michelineOnlineReservation?: InputMaybe<Scalars['Boolean']>;
+  michelinobjectid?: InputMaybe<Scalars['String']>;
+  michelinslug?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  oldImages?: InputMaybe<Scalars['String']>;
+  openhours?: InputMaybe<Scalars['String']>;
+  otherReservation?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  priceline?: InputMaybe<Scalars['String']>;
+  realurl?: InputMaybe<Scalars['String']>;
+  region?: InputMaybe<Scalars['String']>;
+  reservation?: InputMaybe<Scalars['String']>;
+  reservationHint?: InputMaybe<Scalars['String']>;
+  reservationUrl?: InputMaybe<Scalars['String']>;
+  resyCityCode?: InputMaybe<Scalars['String']>;
+  resyUrlSlug?: InputMaybe<Scalars['String']>;
+  rsvpSupport?: InputMaybe<Scalars['String']>;
+  sf?: InputMaybe<Scalars['String']>;
+  showvenue?: InputMaybe<Scalars['Boolean']>;
+  stars?: InputMaybe<Scalars['String']>;
+  streetUsps?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
+  tockUrlSlug?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  urlSlug?: InputMaybe<Scalars['String']>;
+  vintage?: InputMaybe<Scalars['String']>;
+  withOnlineReservation?: InputMaybe<Scalars['String']>;
+  workqueue?: InputMaybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['String']>;
 };
 
 /** A connection to a list of `Venue` values. */
@@ -1059,63 +1060,63 @@ export enum VenuesOrderBy {
 export type BayAreaAllWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayAreaStarredWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayArea2021WithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayAreaNearbySlotsQueryVariables = Exact<{
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
   maxLongitude: Scalars['Float'];
   minLongitude: Scalars['Float'];
   maxLatitude: Scalars['Float'];
@@ -1123,32 +1124,32 @@ export type BayAreaNearbySlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', totalCount: number, nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
-export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> };
+export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null };
 
 export type BayAreaQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type BayAreaOfflineQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
 export type MetroTbdQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type MetroTbdQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> }>> }> };
+export type MetroTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
 
-export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: Maybe<string>, stars?: Maybe<string>, city?: Maybe<string>, cuisine?: Maybe<string>, priceline?: Maybe<string>, withOnlineReservation?: Maybe<string>, coverImage?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, timezone?: Maybe<string>, michelinslug?: Maybe<string>, address?: Maybe<string>, reservation?: Maybe<string>, key: string, vintage?: Maybe<string> };
+export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null };
 
 export type CreateVenueMutationVariables = Exact<{
   name: Scalars['String'];
@@ -1176,14 +1177,14 @@ export type CreateVenueMutationVariables = Exact<{
 }>;
 
 
-export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: Maybe<{ __typename?: 'CreateVenuePayload', venue?: Maybe<{ __typename?: 'Venue', key: string }> }> };
+export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: { __typename?: 'CreateVenuePayload', venue?: { __typename?: 'Venue', key: string } | null } | null };
 
 export type LookupReservationInfoQueryVariables = Exact<{
   url: Scalars['String'];
 }>;
 
 
-export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: Maybe<{ __typename?: 'ReservationInfo', businessid?: Maybe<string>, urlSlug?: Maybe<string>, resyCityCode?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, reservation?: Maybe<string> }> };
+export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: { __typename?: 'ReservationInfo', businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null, latitude?: number | null, longitude?: number | null, reservation?: string | null } | null };
 
 export type RepopulateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -1199,39 +1200,44 @@ export type RepopulateVenueInfoMutationVariables = Exact<{
 }>;
 
 
-export type RepopulateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: Maybe<{ __typename?: 'UpdateVenuePayload', clientMutationId?: Maybe<string>, venue?: Maybe<{ __typename?: 'Venue', key: string, name?: Maybe<string>, michelinslug?: Maybe<string>, michelinobjectid?: Maybe<string>, coverImage?: Maybe<string>, cuisine?: Maybe<string>, imageList?: Maybe<string>, latitude?: Maybe<number>, longitude?: Maybe<number>, stars?: Maybe<string>, url?: Maybe<string> }> }> };
+export type RepopulateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: { __typename?: 'UpdateVenuePayload', clientMutationId?: string | null, venue?: { __typename?: 'Venue', key: string, name?: string | null, michelinslug?: string | null, michelinobjectid?: string | null, coverImage?: string | null, cuisine?: string | null, imageList?: string | null, latitude?: number | null, longitude?: number | null, stars?: string | null, url?: string | null } | null } | null };
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
-  businessid?: Maybe<Scalars['String']>;
-  reservation?: Maybe<Scalars['String']>;
-  resyCityCode?: Maybe<Scalars['String']>;
-  urlSlug?: Maybe<Scalars['String']>;
+  businessid?: InputMaybe<Scalars['String']>;
+  reservation?: InputMaybe<Scalars['String']>;
+  resyCityCode?: InputMaybe<Scalars['String']>;
+  urlSlug?: InputMaybe<Scalars['String']>;
   close: Scalars['Boolean'];
   withOnlineReservation: Scalars['String'];
 }>;
 
 
-export type UpdateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: Maybe<{ __typename?: 'UpdateVenuePayload', clientMutationId?: Maybe<string>, venue?: Maybe<{ __typename?: 'Venue', close?: Maybe<boolean> }> }> };
+export type UpdateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: { __typename?: 'UpdateVenuePayload', clientMutationId?: string | null, venue?: { __typename?: 'Venue', close?: boolean | null } | null } | null };
+
+export type UsaReservationTbdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsaReservationTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', name?: string | null, region?: string | null, city?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, metro?: string | null, key: string } | null> } | null };
 
 export type VenueByKeyWithSlotsQueryVariables = Exact<{
   key: Scalars['String'];
   date: Scalars['String'];
-  party_size?: Maybe<Scalars['Int']>;
-  timeOption?: Maybe<Scalars['String']>;
+  party_size?: InputMaybe<Scalars['Int']>;
+  timeOption?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type VenueByKeyWithSlotsQuery = { __typename?: 'Query', allVenues?: Maybe<{ __typename?: 'VenuesConnection', nodes: Array<Maybe<{ __typename?: 'Venue', slots?: Maybe<Array<string>>, myReservationUrl?: Maybe<string>, nodeId: string, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key: string, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string>, monthlySlots?: Maybe<Array<{ __typename?: 'DateAvailability', date?: Maybe<string>, slots?: Maybe<Array<Maybe<string>>>, url?: Maybe<string> }>> }>> }> };
+export type VenueByKeyWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null, monthlySlots?: Array<{ __typename?: 'DateAvailability', date?: string | null, slots?: Array<string | null> | null, url?: string | null }> | null } | null> } | null };
 
 export type VenueByKeyQueryVariables = Exact<{
   key: Scalars['String'];
 }>;
 
 
-export type VenueByKeyQuery = { __typename?: 'Query', venueByKey?: Maybe<{ __typename?: 'Venue', nodeId: string, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key: string, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string> }> };
+export type VenueByKeyQuery = { __typename?: 'Query', venueByKey?: { __typename?: 'Venue', nodeId: string, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null } | null };
 
-export type VenueAllOtherFieldsFragment = { __typename?: 'Venue', nodeId: string, accomondation?: Maybe<string>, address?: Maybe<string>, area?: Maybe<string>, autodetected?: Maybe<string>, bookatableClientid?: Maybe<string>, bookatablePartnerCode?: Maybe<string>, bookingnotes?: Maybe<string>, businessId?: Maybe<string>, businessid?: Maybe<string>, city?: Maybe<string>, close?: Maybe<boolean>, closehours?: Maybe<string>, connectionid?: Maybe<string>, country?: Maybe<string>, countryIso?: Maybe<string>, coverImage?: Maybe<string>, creationTime?: Maybe<string>, cuisine?: Maybe<string>, currency?: Maybe<string>, devnotes?: Maybe<string>, distinction?: Maybe<string>, email?: Maybe<string>, fulladdress?: Maybe<string>, guide?: Maybe<string>, imageList?: Maybe<string>, key: string, latitude?: Maybe<number>, localarea?: Maybe<string>, localname?: Maybe<string>, longitude?: Maybe<number>, menuurl?: Maybe<string>, metro?: Maybe<string>, michelinId?: Maybe<string>, michelineOnlineReservation?: Maybe<boolean>, name?: Maybe<string>, oldImages?: Maybe<string>, openhours?: Maybe<string>, otherReservation?: Maybe<string>, phone?: Maybe<string>, priceline?: Maybe<string>, realurl?: Maybe<string>, region?: Maybe<string>, reservation?: Maybe<string>, reservationHint?: Maybe<string>, reservationUrl?: Maybe<string>, resyCityCode?: Maybe<string>, resyUrlSlug?: Maybe<string>, rsvpSupport?: Maybe<string>, sf?: Maybe<string>, showvenue?: Maybe<boolean>, stars?: Maybe<string>, tags?: Maybe<string>, timezone?: Maybe<string>, tockUrlSlug?: Maybe<string>, url?: Maybe<string>, urlSlug?: Maybe<string>, withOnlineReservation?: Maybe<string>, workqueue?: Maybe<string>, zip?: Maybe<string> };
+export type VenueAllOtherFieldsFragment = { __typename?: 'Venue', nodeId: string, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null };
 
 export const VenuMainInfoFragmentDoc = gql`
     fragment VenuMainInfo on Venue {
@@ -1910,6 +1916,50 @@ export function useUpdateVenueInfoMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateVenueInfoMutationHookResult = ReturnType<typeof useUpdateVenueInfoMutation>;
 export type UpdateVenueInfoMutationResult = Apollo.MutationResult<UpdateVenueInfoMutation>;
 export type UpdateVenueInfoMutationOptions = Apollo.BaseMutationOptions<UpdateVenueInfoMutation, UpdateVenueInfoMutationVariables>;
+export const UsaReservationTbdDocument = gql`
+    query USAReservationTBD {
+  allVenues(condition: {close: false, reservation: "TBD", country: "USA"}) {
+    totalCount
+    nodes {
+      name
+      region
+      city
+      longitude
+      latitude
+      address
+      metro
+      key
+    }
+  }
+}
+    `;
+
+/**
+ * __useUsaReservationTbdQuery__
+ *
+ * To run a query within a React component, call `useUsaReservationTbdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsaReservationTbdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsaReservationTbdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsaReservationTbdQuery(baseOptions?: Apollo.QueryHookOptions<UsaReservationTbdQuery, UsaReservationTbdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsaReservationTbdQuery, UsaReservationTbdQueryVariables>(UsaReservationTbdDocument, options);
+      }
+export function useUsaReservationTbdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsaReservationTbdQuery, UsaReservationTbdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsaReservationTbdQuery, UsaReservationTbdQueryVariables>(UsaReservationTbdDocument, options);
+        }
+export type UsaReservationTbdQueryHookResult = ReturnType<typeof useUsaReservationTbdQuery>;
+export type UsaReservationTbdLazyQueryHookResult = ReturnType<typeof useUsaReservationTbdLazyQuery>;
+export type UsaReservationTbdQueryResult = Apollo.QueryResult<UsaReservationTbdQuery, UsaReservationTbdQueryVariables>;
 export const VenueByKeyWithSlotsDocument = gql`
     query VenueByKeyWithSlots($key: String!, $date: String!, $party_size: Int = 2, $timeOption: String = "dinner") {
   allVenues(condition: {key: $key}) {
