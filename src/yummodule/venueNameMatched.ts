@@ -6,6 +6,11 @@ export function venueNameMatched(a: string, b: string): boolean {
     return a === b;
 }
 export async function addressMatch(street_a: string, street_b: string, city: string, state: string): Promise<boolean> {
+
+    if (!street_a || !street_b) {
+        return false;
+    }
+
     street_a = street_a.toLowerCase();
     street_b = street_b.toLowerCase();
     if (street_a === street_b) {
