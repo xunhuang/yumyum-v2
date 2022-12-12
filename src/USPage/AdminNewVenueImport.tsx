@@ -4,10 +4,11 @@ import { Button } from 'antd';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
-import { MetroAPI } from '../yummodule/MetroAPI';
 import { JsonEntrySameWasDbEntry } from '../yummodule/JsonEntrySameWasDbEntry';
+import { MetroAPI } from '../yummodule/MetroAPI';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
+
 
 const Nanoid = require("nanoid");
 
@@ -49,8 +50,8 @@ export const AdminNewVenueImport = () => {
       <Button
         type="link"
         htmlType="button"
-        onClick={() => {
-          newOnly.map((item: any) => {
+        onClick={async () => {
+          for (var item of newOnly) {
             const v = {
               key: Nanoid.nanoid(),
               vintage: "2022",
@@ -62,9 +63,11 @@ export const AdminNewVenueImport = () => {
               address: item._highlightResult.street.value,
               city: item.city.name,
               country: item.country.name,
-              coverImage: item.main_image.url,
+              coverImage: item.main_image?.url || "",
               cuisine: item.cuisines.map((c: any) => c.label).join(", "),
-              imageList: JSON.stringify(item.images.map((i: any) => i.url)),
+              imageList: JSON.stringify(
+                item.images?.map((i: any) => i.url) || []
+              ),
               latitude: item._geoloc.lat,
               longitude: item._geoloc.lng,
               michelineOnlineReservation: item.online_booking === 1,
@@ -75,11 +78,41 @@ export const AdminNewVenueImport = () => {
               url: item.slug,
               zip: item.slug,
             };
-            createVenue({
+            await createVenue({
               variables: v,
             });
-            return true;
-          });
+            console.log("Created venue", v.name);
+          }
+          // newOnly.map((item: any) => {
+          //   const v = {
+          //     key: Nanoid.nanoid(),
+          //     vintage: "2022",
+          //     close: false,
+          //     name: item.name,
+          //     metro: metro,
+          //     michelinslug: item.slug,
+          //     michelinobjectid: item.objectID,
+          //     address: item._highlightResult.street.value,
+          //     city: item.city.name,
+          //     country: item.country.name,
+          //     coverImage: item.main_image.url,
+          //     cuisine: item.cuisines.map((c: any) => c.label).join(", "),
+          //     imageList: JSON.stringify(item.images.map((i: any) => i.url)),
+          //     latitude: item._geoloc.lat,
+          //     longitude: item._geoloc.lng,
+          //     michelineOnlineReservation: item.online_booking === 1,
+          //     region: item.region.name,
+          //     reservation: "TBD",
+          //     stars: item.michelin_award || "MICHELIN_PLATE",
+          //     timezone: MetroAPI.getMetro(metro).timezone,
+          //     url: item.slug,
+          //     zip: item.slug,
+          //   };
+          //   createVenue({
+          //     variables: v,
+          //   });
+          //   return true;
+          // });
         }}
       >
         Import!
@@ -100,7 +133,7 @@ const ListTable = (props: MyTableProps) => {
     <ul>
       {props.list.map((v) => (
         <li key={v?.name}>
-          {v?.name}, {v?.michelin_award},{v?.city.name}
+          {v?.name}, {v?.michelin_award || "Plate"},{v?.city.name}
         </li>
       ))}
     </ul>
