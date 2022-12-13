@@ -1,4 +1,4 @@
-import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from '@react-google-maps/api';
 import React, { useState } from 'react';
 
 import { Venue } from '../generated/graphql';
@@ -57,6 +57,11 @@ type VenuesMapProp = {
 };
 
 export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY!,
+  });
+
   // Iterate myPlaces to size, center, and zoom map to contain all markers
   const fitBounds = (map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds();
@@ -83,19 +88,17 @@ export const VenuesMap = React.memo(({ venues }: VenuesMapProp) => {
     return <p>WTF, no venues</p>;
   }
 
-  return (
-    <LoadScript
-      googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY || ""}
+  return isLoaded ? (
+    <GoogleMap
+      onLoad={loadHandler}
+      mapContainerStyle={containerStyle}
+      zoom={10}
     >
-      <GoogleMap
-        onLoad={loadHandler}
-        mapContainerStyle={containerStyle}
-        zoom={10}
-      >
-        {venues.map((venue) => (
-          <VenueMarker key={venue.key} venue={venue} />
-        ))}
-      </GoogleMap>
-    </LoadScript>
+      {venues.map((venue) => (
+        <VenueMarker key={venue.key} venue={venue} />
+      ))}
+    </GoogleMap>
+  ) : (
+    <>loading</>
   );
 });
