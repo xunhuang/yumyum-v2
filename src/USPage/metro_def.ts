@@ -45,40 +45,40 @@ export const MetroDefiniton = [
       },
     ],
   },
-  {
-    key: "london",
-    name: "London",
-    latitude: 51.5073859,
-    longitude: -0.1277987,
-    zoom: 11,
-    timezone: "Europe/London",
-    startList: "anystar",
-    navList: [
-      {
-        label: "London Areas",
-        iconName: "areas",
-        navList: [
-          { url: "/list/soho?lat=51.5137003&lng=-0.137082", label: "Soho" },
-          {
-            url: "/list/CoventGarden?lat=51.5110973&lng=-0.12677",
-            label: "Covent Garden",
-          },
-          {
-            url: "/list/Mayfair?lat=51.510435&lng=-0.148056",
-            label: "Mayfair",
-          },
-          {
-            url: "/list/Chelsea?lat=51.488010&lng=-0.169268",
-            label: "Chelsea",
-          },
-          {
-            url: "/list/CityOfLondon?lat=51.513782&lng=-0.089875",
-            label: "City of London",
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   key: "london",
+  //   name: "London",
+  //   latitude: 51.5073859,
+  //   longitude: -0.1277987,
+  //   zoom: 11,
+  //   timezone: "Europe/London",
+  //   startList: "anystar",
+  //   navList: [
+  //     {
+  //       label: "London Areas",
+  //       iconName: "areas",
+  //       navList: [
+  //         { url: "/list/soho?lat=51.5137003&lng=-0.137082", label: "Soho" },
+  //         {
+  //           url: "/list/CoventGarden?lat=51.5110973&lng=-0.12677",
+  //           label: "Covent Garden",
+  //         },
+  //         {
+  //           url: "/list/Mayfair?lat=51.510435&lng=-0.148056",
+  //           label: "Mayfair",
+  //         },
+  //         {
+  //           url: "/list/Chelsea?lat=51.488010&lng=-0.169268",
+  //           label: "Chelsea",
+  //         },
+  //         {
+  //           url: "/list/CityOfLondon?lat=51.513782&lng=-0.089875",
+  //           label: "City of London",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     key: "chicago",
     name: "Chicago",
@@ -179,6 +179,7 @@ export const MetroDefiniton = [
     startList: "any",
     navList: [],
   },
+  /*
   {
     key: "tokyo",
     name: "Tokyo, Japan",
@@ -229,6 +230,7 @@ export const MetroDefiniton = [
     startList: "any",
     navList: [],
   },
+  */
   // {
   //   key: "paris",
   //   name: "Paris (beta)",
@@ -250,6 +252,7 @@ export const MetroDefiniton = [
   //   startList: "any",
   //   navList: [],
   // },
+  /*
   {
     key: "HongKong",
     name: "Hong Kong",
@@ -271,6 +274,7 @@ export const MetroDefiniton = [
     startList: "any",
     navList: [],
   },
+  */
   // {
   //   key: "Thailand",
   //   name: "Thailand (beta)",
@@ -291,16 +295,16 @@ export const MetroDefiniton = [
   //   startList: "any",
   //   navList: [],
   // },
-  {
-    key: "Singapore",
-    name: "Singapore",
-    timezone: "Asia/Singapore",
-    latitude: 1.345573,
-    longitude: 103.843555,
-    zoom: 11,
-    startList: "anystar",
-    navList: [],
-  },
+  // {
+  //   key: "Singapore",
+  //   name: "Singapore",
+  //   timezone: "Asia/Singapore",
+  //   latitude: 1.345573,
+  //   longitude: 103.843555,
+  //   zoom: 11,
+  //   startList: "anystar",
+  //   navList: [],
+  // },
 //   {
 //     key: "finland",
 //     name: "Finland (alpha)",

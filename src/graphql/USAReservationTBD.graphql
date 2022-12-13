@@ -1,0 +1,15 @@
+query USAReservationTBD {
+  allVenues(condition: { close: false, reservation: "TBD", country: "USA" }) {
+    totalCount
+    nodes {
+      name
+      region
+      city
+      longitude
+      latitude
+      address
+      metro
+      key
+    }
+  }
+}
