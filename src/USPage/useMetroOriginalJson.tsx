@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useMetroOriginalJson = (metro: string) => {
+export const useMetroOriginalJson = (metro: string): any[] => {
   const [data, setData] = useState([]);
   const filepath = `/data/${metro}.json`;
   useEffect(() => {

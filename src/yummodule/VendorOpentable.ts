@@ -221,7 +221,7 @@ export class VendorOpentable extends VendorBase {
             }
             const location = await this._APIVenueLookup(entry.id);
             // console.log(entry);
-            if (await addressMatch(location.address, extra.address, location.city, location.state)) {
+            if (location && await addressMatch(location.address, extra.address, location.city, location.state)) {
                 return makeResult(entry);
             }
         }
