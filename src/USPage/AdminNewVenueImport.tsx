@@ -45,6 +45,7 @@ export const AdminNewVenueImport = () => {
     return !found;
   });
 
+
   return (
     <div>
       <Button
@@ -83,36 +84,6 @@ export const AdminNewVenueImport = () => {
             });
             console.log("Created venue", v.name);
           }
-          // newOnly.map((item: any) => {
-          //   const v = {
-          //     key: Nanoid.nanoid(),
-          //     vintage: "2022",
-          //     close: false,
-          //     name: item.name,
-          //     metro: metro,
-          //     michelinslug: item.slug,
-          //     michelinobjectid: item.objectID,
-          //     address: item._highlightResult.street.value,
-          //     city: item.city.name,
-          //     country: item.country.name,
-          //     coverImage: item.main_image.url,
-          //     cuisine: item.cuisines.map((c: any) => c.label).join(", "),
-          //     imageList: JSON.stringify(item.images.map((i: any) => i.url)),
-          //     latitude: item._geoloc.lat,
-          //     longitude: item._geoloc.lng,
-          //     michelineOnlineReservation: item.online_booking === 1,
-          //     region: item.region.name,
-          //     reservation: "TBD",
-          //     stars: item.michelin_award || "MICHELIN_PLATE",
-          //     timezone: MetroAPI.getMetro(metro).timezone,
-          //     url: item.slug,
-          //     zip: item.slug,
-          //   };
-          //   createVenue({
-          //     variables: v,
-          //   });
-          //   return true;
-          // });
         }}
       >
         Import!
