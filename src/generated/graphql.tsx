@@ -1186,6 +1186,14 @@ export type LookupReservationInfoQueryVariables = Exact<{
 
 export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: { __typename?: 'ReservationInfo', businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null, latitude?: number | null, longitude?: number | null, reservation?: string | null } | null };
 
+export type MetroReservationQueryVariables = Exact<{
+  metro: Scalars['String'];
+  reservation: Scalars['String'];
+}>;
+
+
+export type MetroReservationQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', key: string, name?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, city?: string | null, region?: string | null, businessid?: string | null } | null> } | null };
+
 export type RepopulateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
   name: Scalars['String'];
@@ -1815,6 +1823,52 @@ export function useLookupReservationInfoLazyQuery(baseOptions?: Apollo.LazyQuery
 export type LookupReservationInfoQueryHookResult = ReturnType<typeof useLookupReservationInfoQuery>;
 export type LookupReservationInfoLazyQueryHookResult = ReturnType<typeof useLookupReservationInfoLazyQuery>;
 export type LookupReservationInfoQueryResult = Apollo.QueryResult<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>;
+export const MetroReservationDocument = gql`
+    query MetroReservation($metro: String!, $reservation: String!) {
+  allVenues(condition: {close: false, reservation: $reservation, metro: $metro}) {
+    totalCount
+    nodes {
+      key
+      name
+      longitude
+      latitude
+      address
+      city
+      region
+      businessid
+    }
+  }
+}
+    `;
+
+/**
+ * __useMetroReservationQuery__
+ *
+ * To run a query within a React component, call `useMetroReservationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMetroReservationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMetroReservationQuery({
+ *   variables: {
+ *      metro: // value for 'metro'
+ *      reservation: // value for 'reservation'
+ *   },
+ * });
+ */
+export function useMetroReservationQuery(baseOptions: Apollo.QueryHookOptions<MetroReservationQuery, MetroReservationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MetroReservationQuery, MetroReservationQueryVariables>(MetroReservationDocument, options);
+      }
+export function useMetroReservationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MetroReservationQuery, MetroReservationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MetroReservationQuery, MetroReservationQueryVariables>(MetroReservationDocument, options);
+        }
+export type MetroReservationQueryHookResult = ReturnType<typeof useMetroReservationQuery>;
+export type MetroReservationLazyQueryHookResult = ReturnType<typeof useMetroReservationLazyQuery>;
+export type MetroReservationQueryResult = Apollo.QueryResult<MetroReservationQuery, MetroReservationQueryVariables>;
 export const RepopulateVenueInfoDocument = gql`
     mutation RepopulateVenueInfo($key: String!, $name: String!, $michelinslug: String!, $michelinobjectid: String!, $coverImage: String!, $cuisine: String!, $latitude: Float!, $longitude: Float!, $stars: String!, $url: String!) {
   updateVenueByKey(

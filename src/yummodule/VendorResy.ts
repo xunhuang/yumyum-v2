@@ -121,6 +121,12 @@ export class VendorResy extends VendorBase {
     }
 
     async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
+
+        if (!longitude || !latitude) {
+            console.log(`Resy search API requires long/lat, none provided ${term}`);
+            return null;
+        }
+
         const url = "https://api.resy.com/3/venuesearch/search";
         const candidates = await superagent.post(url)
             .set('Authorization', 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"')

@@ -23,6 +23,23 @@ describe('Opentable System Test', () => {
     // await dbTeardown()
   })
 
+  // describe('Debug problemmatic entry', () => {
+  //   it('should find an entity with exact match', async () => {
+    // maybe it's easier to debug with a venue key and fetch the venue data from the database.
+  //     const search_result = await opentable.entitySearchExactTerm(
+  //       "La Costanera", -122.51421, 37.54614,
+  //     "name": "Tamarind",
+  //   "latitude": 40.719215,
+  //   "longitude": -74.008865,
+  //   "address": "99 Hudson St.",
+  //   "city": "New York",
+  //   "state": "NY"
+  //   );
+  //     console.log(search_result)
+  //     // expect(search_result?.businessid).toEqual("41389");
+  //   });
+  // });
+
   describe('Search entity by name and long/lat', () => {
     it('should find an entity with exact match', async () => {
       const search_result = await opentable.entitySearchExactTerm(

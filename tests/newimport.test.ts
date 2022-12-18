@@ -3,7 +3,7 @@ import { describe } from '@jest/globals';
 
 import { BayAreaDocument, BayAreaQuery, Venue } from '../src/generated/graphql';
 import { JsonEntrySameWasDbEntry } from '../src/yummodule/JsonEntrySameWasDbEntry';
-import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { VenueEntitySearchBest, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
 
 var client: ApolloClient<NormalizedCacheObject>;
 
@@ -47,7 +47,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
                     address: jsonentry._highlightResult.street.value,
                 }
 
-                const search_result = await VenueEntitySearchAll(venue);
+                const search_result = await VenueEntitySearchBest(venue);
 
                 if (search_result) {
                     console.log("found: ", jsonentry.name, search_result)

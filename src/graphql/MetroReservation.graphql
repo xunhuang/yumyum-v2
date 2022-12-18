@@ -1,0 +1,17 @@
+query MetroReservation($metro: String!, $reservation: String!) {
+  allVenues(
+    condition: { close: false, reservation: $reservation, metro: $metro }
+  ) {
+    totalCount
+    nodes {
+      key
+      name
+      longitude
+      latitude
+      address
+      city
+      region
+      businessid
+    }
+  }
+}

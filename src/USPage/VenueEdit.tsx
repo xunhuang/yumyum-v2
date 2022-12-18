@@ -128,7 +128,12 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             </Link>
           </h2>
           <VenueDescription venue={venue!} />
-          <div>{venue.address}, {venue.city}, {venue.region}</div>
+          <div>
+            {venue.address}, {venue.city}, {venue.region}
+          </div>
+          <div>
+            {venue.longitude}, {venue.latitude}{" "}
+          </div>
         </Form.Item>
         <Form.Item
           name="reservation"
@@ -155,7 +160,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
                 </Option>
               ))}
 
-            { }
+            {}
           </Select>
         </Form.Item>
         <Form.Item {...tailLayout}>
