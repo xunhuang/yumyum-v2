@@ -1,4 +1,4 @@
-import { VenueSearchInput } from "./VenueSearchInput";
+import { VenueSearchInput } from './VenueSearchInput';
 
 export interface TimeSlots {
     time: string;

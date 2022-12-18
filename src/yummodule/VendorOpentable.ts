@@ -178,7 +178,13 @@ export class VendorOpentable extends VendorBase {
             "method": "POST",
         });
 
-        const response = (await result.json()).data.autocomplete.autocompleteResults;
+        var response: any;
+        try {
+            response = (await result.json()).data.autocomplete.autocompleteResults;
+        } catch (e) {
+            console.log("Opentable: error parsing response from search API", e);
+            return null;
+        }
 
         if (response.length === 0) {
             return null;

@@ -29,6 +29,7 @@ describe('Resolving reservation system for TBDs', () => {
         },
       });
       console.log("result: ", result.data.allVenues?.totalCount);
+      // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Noosh"));
       const tests = result.data.allVenues?.nodes?.slice(0, 10000);
       for (const test of tests || []) {
         const venue: VenueSearchInput = {
