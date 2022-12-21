@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { setLastUserSelection } from '../USPage/CookieUserSelection';
-import { MetroDefiniton } from '../USPage/metro_def';
+import { MetroDefiniton } from '../yummodule/metro_def';
 import { MetroState, useMetro } from '../USPage/useMetro';
 import { SearchInput } from '../USPage/YumSearch';
 import { YProfileCircle } from '../YProfileCircle';

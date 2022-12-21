@@ -2,7 +2,7 @@ import { useLocation } from 'react-router';
 import { atom, useRecoilState } from 'recoil';
 
 import { useIPLocation } from './CookieGeoLocation';
-import { MetroDefiniton } from './metro_def';
+import { MetroDefiniton } from '../yummodule/metro_def';
 
 const getDistance = require("geolib").getDistance;
 
