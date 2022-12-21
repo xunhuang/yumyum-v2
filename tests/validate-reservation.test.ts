@@ -31,10 +31,11 @@ describe('Resolving reservation system for TBDs', () => {
         },
       });
       console.log("result: ", result.data.allVenues?.totalCount);
-      // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Noosh"));
+      // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Burmatown"));
       const tests = result.data.allVenues?.nodes?.slice(0, 100000);
       const date = dayjs().add(7, 'day').format('YYYY-MM-DD');
 
+      const vendorString = "opentable";
 
       for (const test of tests || []) {
         const venue: VenueSearchInput = {
@@ -45,46 +46,45 @@ describe('Resolving reservation system for TBDs', () => {
           state: test?.region!,
           address: test?.address!,
           key: test?.key!,
-          reservation: "opentable",
+          reservation: vendorString,
         }
 
-        const vendor = getVendor("opentable");
+        const vendor = getVendor(vendorString);
 
         const a: any = test;
 
-        const res = await vendor.venueSearchSafe(a, date, 2, "dinner")
+        const res = await vendor.venueSearchSafe(a, date, 2, "dinner", true)
         if (!res) {
-          console.log(`${test?.name}: searching for reservation failed...`);
+          // console.log(`${test?.name}: searching for reservation failed...`);
           const search_result = await VenueEntitySearchAll(venue);
           console.log(search_result);
 
-        if (!search_result) {
-          console.log(`${test?.name}: resevation system not found`);
-        } else if (!search_result.opentable) {
-          console.log(`${test?.name}: resevation system is no longer opentable `);
-          console.log(search_result);
-        } else if (search_result.opentable.businessid !== test?.businessid) {
-          console.log(`${test?.name}: resevation system is opentable businessid changed ${test?.businessid} -> ${search_result.opentable.businessid} `);
-        } else {
-          console.log(`${test?.name}: not sure what failed`);
-        }
+          if (!search_result) {
+            console.log(`${test?.name}: resevation system search threw exception`);
+          } else if (!search_result.opentable) {
+            console.log(`${test?.name}: resevation system is no longer opentable `);
+          } else if (search_result.opentable.businessid !== test?.businessid) {
+            console.log(`${test?.name}: resevation system is opentable businessid changed ${test?.businessid} -> ${search_result.opentable.businessid} `);
+          } else {
+            console.log(`${test?.name}: not sure what failed`);
+          }
 
-        // if (search_result && search_result.reservation) {
-        //   console.log("found: ", test?.name, search_result)
-        //   const b = JSON.parse(JSON.stringify(search_result));
-        //   b.key = test?.key!;
-        //   b.close = false;
-        //   b.withOnlineReservation = "true";
+          // if (search_result && search_result.reservation) {
+          //   console.log("found: ", test?.name, search_result)
+          //   const b = JSON.parse(JSON.stringify(search_result));
+          //   b.key = test?.key!;
+          //   b.close = false;
+          //   b.withOnlineReservation = "true";
 
-        //   const updateresult = await client.mutate<UpdateVenueInfoMutation>({
-        //     mutation: UpdateVenueInfoDocument,
-        //     variables: b,
-        //   });
-        //   console.log(updateresult);
+          //   const updateresult = await client.mutate<UpdateVenueInfoMutation>({
+          //     mutation: UpdateVenueInfoDocument,
+          //     variables: b,
+          //   });
+          //   console.log(updateresult);
 
-        // } else {
-        //   console.log("not found: ", test?.name)
-        // }
+          // } else {
+          //   console.log("not found: ", test?.name)
+          // }
         }
 
       }

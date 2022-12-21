@@ -6,6 +6,7 @@ import { MemoryStorage } from 'node-ts-cache-storage-memory';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
 import { VenueSearchInput } from './VenueSearchInput';
+import dayjs from 'dayjs';
 
 const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');
@@ -15,7 +16,7 @@ const userCache = new CacheContainer(new MemoryStorage())
 const getDistance = require("geolib").getDistance;
 
 // 5 requests per second so we don't overwhelm opentable's server
-const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
+const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 });
 
 export class VendorOpentable extends VendorBase {
 
@@ -27,13 +28,13 @@ export class VendorOpentable extends VendorBase {
         return ["businessid"];
     }
 
-    async venueSearchInternal(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<any> {
+    async venueSearchInternal(businessid: string, date: string, party_size: number, timeOption: string): Promise<any> {
 
         let token = await VendorOpentable.fetchAuthToken();
         let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
         let datetime = (timeOption === "dinner") ? date + "T19:00:00" : date + "T12:00:00";
         let data = {
-            "rid": venue.businessid,
+            "rid": businessid,
             "partySize": party_size,
             "dateTime": datetime,
             "enableFutureAvailability": false
@@ -53,7 +54,7 @@ export class VendorOpentable extends VendorBase {
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
         await limiter.removeTokens(1);
-        let resbody = await this.venueSearchInternal(venue, date, party_size, timeOption);
+        let resbody = await this.venueSearchInternal(venue.businessid!, date, party_size, timeOption);
         if (typeof (resbody.availability) == "undefined") {
             return [];
         }
@@ -203,6 +204,24 @@ export class VendorOpentable extends VendorBase {
             return a_d - b_d;
         });
 
+
+        const validateResult = async (businessid: string): Promise<boolean> => {
+            try {
+                const result = await this.venueSearchInternal(
+                    businessid,
+                    dayjs().add(7, 'day').format('YYYY-MM-DD'),
+                    2, "dinner"
+                );
+                if (result.availability.error.message === 'NOT_AVAILABLE') {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+            // console.log('validated', businessid)
+            return true;
+        }
+
         const makeResult = (candidate: any) => {
             return {
                 name: candidate.name,
@@ -223,12 +242,15 @@ export class VendorOpentable extends VendorBase {
             }
 
             if (venueNameMatched(term, entry.name)) {
-                return makeResult(entry);
+                if (await validateResult(entry.id)) {
+                    return makeResult(entry);
+                }
             }
             const location = await this._APIVenueLookup(entry.id);
-            // console.log(entry);
             if (location && await addressMatch(location.address, extra.address, location.city, location.state)) {
-                return makeResult(entry);
+                if (await validateResult(entry.id)) {
+                    return makeResult(entry);
+                }
             }
         }
         return null;

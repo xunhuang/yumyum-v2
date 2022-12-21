@@ -34,9 +34,12 @@ export class VendorBase {
         throw (new Error("VendorID() not implemented."));
     }
 
-    async venueSearchSafe(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<Array<TimeSlots> | null> {
+    async venueSearchSafe(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string,
+        nolog: boolean = false): Promise<Array<TimeSlots> | null> {
         try {
-            console.log(`${venue.reservation} searching for ${venue.name} (${venue.key}) ${date} ${party_size} ${timeOption}`);
+            if (!nolog) {
+                console.log(`${venue.reservation} searching for ${venue.name} (${venue.key}) ${date} ${party_size} ${timeOption}`);
+            }
             if (!this.allRequiredFieldsPresent(venue)) {
                 throw new Error(`Some required fields are missing for ${venue.name} (${venue.key})`)
             }
