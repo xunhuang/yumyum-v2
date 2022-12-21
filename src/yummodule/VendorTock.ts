@@ -255,6 +255,10 @@ export class VendorTock extends VendorBase {
             }
 
             const appconfig = await this._fetchAppConfigFromURL(`https://www.exploretock.com/${slug}`);
+            if (!appconfig) {
+                console.log(`can't read appconfig from tock for ${slug} `)
+                continue;
+            }
 
             const business = appconfig.app.config.business;
             const name = business.name;

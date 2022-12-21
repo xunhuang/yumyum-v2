@@ -123,8 +123,11 @@ describe('Resolving reservation system for TBDs', () => {
       // await fixOpentableForMetro("sandiego");
       const metros = MetroAPI.all();
       for (const metro of metros) {
-        console.log(metro.key)
-
+        if (metro.key === "bayarea") {
+          continue;
+        }
+        console.log(metro.key);
+        await fixOpentableForMetro(metro.key);
       }
     }, 1000000000)
   })
