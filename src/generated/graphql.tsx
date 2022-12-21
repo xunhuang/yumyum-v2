@@ -1192,7 +1192,7 @@ export type MetroReservationQueryVariables = Exact<{
 }>;
 
 
-export type MetroReservationQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', key: string, name?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, city?: string | null, region?: string | null, businessid?: string | null } | null> } | null };
+export type MetroReservationQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', key: string, name?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, city?: string | null, region?: string | null, businessid?: string | null, reservation?: string | null } | null> } | null };
 
 export type RepopulateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -1836,6 +1836,7 @@ export const MetroReservationDocument = gql`
       city
       region
       businessid
+      reservation
     }
   }
 }

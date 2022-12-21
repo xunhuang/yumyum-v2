@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe, expect } from '@jest/globals';
+import dayjs from 'dayjs';
 
 import { MetroReservationDocument, MetroReservationQuery } from '../src/generated/graphql';
+import { getVendor } from '../src/yummodule/Vendors';
 import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
 
 var client: ApolloClient<NormalizedCacheObject>;
@@ -30,7 +32,10 @@ describe('Resolving reservation system for TBDs', () => {
       });
       console.log("result: ", result.data.allVenues?.totalCount);
       // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Noosh"));
-      const tests = result.data.allVenues?.nodes?.slice(0, 10000);
+      const tests = result.data.allVenues?.nodes?.slice(0, 100000);
+      const date = dayjs().add(7, 'day').format('YYYY-MM-DD');
+
+
       for (const test of tests || []) {
         const venue: VenueSearchInput = {
           longitude: test?.longitude!,
@@ -39,11 +44,19 @@ describe('Resolving reservation system for TBDs', () => {
           city: test?.city!,
           state: test?.region!,
           address: test?.address!,
+          key: test?.key!,
+          reservation: "opentable",
         }
 
-        console.log(test?.name);
-        const search_result = await VenueEntitySearchAll(venue);
-        // console.log(search_result);
+        const vendor = getVendor("opentable");
+
+        const a: any = test;
+
+        const res = await vendor.venueSearchSafe(a, date, 2, "dinner")
+        if (!res) {
+          console.log(`${test?.name}: searching for reservation failed...`);
+          const search_result = await VenueEntitySearchAll(venue);
+          console.log(search_result);
 
         if (!search_result) {
           console.log(`${test?.name}: resevation system not found`);
@@ -52,6 +65,8 @@ describe('Resolving reservation system for TBDs', () => {
           console.log(search_result);
         } else if (search_result.opentable.businessid !== test?.businessid) {
           console.log(`${test?.name}: resevation system is opentable businessid changed ${test?.businessid} -> ${search_result.opentable.businessid} `);
+        } else {
+          console.log(`${test?.name}: not sure what failed`);
         }
 
         // if (search_result && search_result.reservation) {
@@ -70,6 +85,8 @@ describe('Resolving reservation system for TBDs', () => {
         // } else {
         //   console.log("not found: ", test?.name)
         // }
+        }
+
       }
 
       expect(result.data.allVenues?.totalCount).toBeGreaterThan(0);

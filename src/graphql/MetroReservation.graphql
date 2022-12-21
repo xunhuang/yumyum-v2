@@ -12,6 +12,7 @@ query MetroReservation($metro: String!, $reservation: String!) {
       city
       region
       businessid
+      reservation
     }
   }
 }

@@ -7,6 +7,8 @@ export type VenueSearchInput = {
   city: string;
   state: string;
   address: string;
+  key?: string;
+  reservation?: string;
 };
 
 export async function VenueEntitySearchBest(venue: VenueSearchInput) {
