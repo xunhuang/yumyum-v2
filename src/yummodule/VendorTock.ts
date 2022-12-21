@@ -42,7 +42,6 @@ export class VendorTock extends VendorBase {
                 let slots = res.body.result.ticketGroup;
                 slots.forEach(function (slot: any) {
                     if (slot.date === date && slot.availableTickets > 0 && !slot.isCommunal) {
-                        // if (slot.date === date && slot.availableTickets > 0) {
                         if (slot.minPurchaseSize <= party_size && slot.maxPurchaseSize >= party_size) {
 
                             let datestr =
@@ -117,7 +116,7 @@ export class VendorTock extends VendorBase {
             let text = cheerio(el).html();
             if (text?.includes("window.$REDUX_STATE = ")) {
                 const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-                 // eslint-disable-next-line
+                // eslint-disable-next-line
                 eval(toeval);
             }
             return null;

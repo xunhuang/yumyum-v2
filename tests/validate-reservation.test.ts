@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/clie
 import { describe, expect } from '@jest/globals';
 import dayjs from 'dayjs';
 
-import { MetroReservationDocument, MetroReservationQuery } from '../src/generated/graphql';
+import { MetroReservationDocument, MetroReservationQuery, UpdateVenueInfoDocument, UpdateVenueInfoMutation } from '../src/generated/graphql';
 import { getVendor } from '../src/yummodule/Vendors';
 import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
 
@@ -55,12 +55,12 @@ describe('Resolving reservation system for TBDs', () => {
 
         const res = await vendor.venueSearchSafe(a, date, 2, "dinner", true)
         if (!res) {
-          // console.log(`${test?.name}: searching for reservation failed...`);
           const search_result = await VenueEntitySearchAll(venue);
           console.log(search_result);
 
           if (!search_result) {
             console.log(`${test?.name}: resevation system search threw exception`);
+            continue;
           } else if (!search_result.opentable) {
             console.log(`${test?.name}: resevation system is no longer opentable `);
           } else if (search_result.opentable.businessid !== test?.businessid) {
@@ -69,22 +69,44 @@ describe('Resolving reservation system for TBDs', () => {
             console.log(`${test?.name}: not sure what failed`);
           }
 
-          // if (search_result && search_result.reservation) {
-          //   console.log("found: ", test?.name, search_result)
-          //   const b = JSON.parse(JSON.stringify(search_result));
-          //   b.key = test?.key!;
-          //   b.close = false;
-          //   b.withOnlineReservation = "true";
+          const updateReservatonSystem = async (key: string, reservationSearchResults: any) => {
+            var info: any = null;
+            if (reservationSearchResults.resy) {
+              info = reservationSearchResults.resy;
+            } else if (reservationSearchResults.tock) {
+              info = reservationSearchResults.tock;
+            } else if (reservationSearchResults.opentable) {
+              info = reservationSearchResults.opentable;
+            }
 
-          //   const updateresult = await client.mutate<UpdateVenueInfoMutation>({
-          //     mutation: UpdateVenueInfoDocument,
-          //     variables: b,
-          //   });
-          //   console.log(updateresult);
+            if (info) {
+              const b = JSON.parse(JSON.stringify(info));
+              b.key = key;
+              b.close = false;
+              b.withOnlineReservation = "true";
+              await client.mutate<UpdateVenueInfoMutation>({
+                mutation: UpdateVenueInfoDocument,
+                variables: b,
+              });
+            } else {
+              console.log("system need update: perhaps should set to TBD");
+              const tbd = {
+                key: key,
+                reservaton: "TBD",
+                close: false,
+                withOnlineReservation: "true",
+              }
+              await client.mutate<UpdateVenueInfoMutation>({
+                mutation: UpdateVenueInfoDocument,
+                variables: tbd,
+              });
+            }
+          }
 
-          // } else {
-          //   console.log("not found: ", test?.name)
-          // }
+          if (search_result) {
+            console.log("updating reservation system")
+            await updateReservatonSystem(test?.key!, search_result);
+          }
         }
 
       }
