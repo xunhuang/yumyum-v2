@@ -92,14 +92,16 @@ describe('Resolving reservation system for TBDs', () => {
               console.log("system need update: perhaps should set to TBD");
               const tbd = {
                 key: key,
-                reservaton: "TBD",
+                reservation: "TBD",
                 close: false,
                 withOnlineReservation: "true",
               }
-              await client.mutate<UpdateVenueInfoMutation>({
+              console.log(tbd);
+              const r = await client.mutate<UpdateVenueInfoMutation>({
                 mutation: UpdateVenueInfoDocument,
                 variables: tbd,
               });
+              console.log(r);
             }
           }
 
