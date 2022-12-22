@@ -4,20 +4,12 @@ import { describe } from '@jest/globals';
 import { BayAreaDocument, BayAreaQuery, Venue } from '../src/generated/graphql';
 import { JsonEntrySameWasDbEntry } from '../src/yummodule/JsonEntrySameWasDbEntry';
 import { VenueEntitySearchBest, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
-var client: ApolloClient<NormalizedCacheObject>;
+var client = getYumYumGraphQLClient();
 
 describe('Testing calling GraphQL from apollo generated client', () => {
     beforeAll(async () => {
-
-        const cache = new InMemoryCache();
-        client = new ApolloClient({
-            uri:
-                process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-                "https://graph-3khoexoznq-uc.a.run.app/graphql",
-            cache: cache,
-            connectToDevTools: true,
-        });
     })
 
     describe('Lookup new metros', () => {

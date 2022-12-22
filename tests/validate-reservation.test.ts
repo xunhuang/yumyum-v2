@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe, expect } from '@jest/globals';
 import dayjs from 'dayjs';
 
@@ -6,23 +5,11 @@ import { MetroReservationDocument, MetroReservationQuery, UpdateVenueInfoDocumen
 import { getVendor } from '../src/yummodule/Vendors';
 import { MetroAPI } from '../src/yummodule/MetroAPI';
 import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
-
-var client: ApolloClient<NormalizedCacheObject>;
+var client = getYumYumGraphQLClient();
 
 describe('Resolving reservation system for TBDs', () => {
-  beforeAll(async () => {
-
-    const cache = new InMemoryCache();
-    client = new ApolloClient({
-      uri:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-        "https://graph-3khoexoznq-uc.a.run.app/graphql",
-      cache: cache,
-      connectToDevTools: true,
-    });
-  })
-
 
   async function fixOpentableForMetro(metro: string) {
 

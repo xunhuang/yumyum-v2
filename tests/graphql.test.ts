@@ -1,21 +1,12 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe, expect } from '@jest/globals';
 
 import { LookupReservationInfoDocument, LookupReservationInfoQuery } from '../src/generated/graphql';
+import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
-var client: ApolloClient<NormalizedCacheObject>;
+var client = getYumYumGraphQLClient();
 
 describe('Testing calling GraphQL from apollo generated client', () => {
     beforeAll(async () => {
-
-        const cache = new InMemoryCache();
-        client = new ApolloClient({
-            uri:
-                process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-                "https://graph-3khoexoznq-uc.a.run.app/graphql",
-            cache: cache,
-            connectToDevTools: true,
-        });
     })
 
     describe('Lookup Reservation on server', () => {

@@ -8,22 +8,11 @@ import {
   UsaReservationTbdQuery,
 } from '../src/generated/graphql';
 import { VenueEntitySearchBest, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
-var client: ApolloClient<NormalizedCacheObject>;
+var client = getYumYumGraphQLClient();
 
 describe('Resolving reservation system for TBDs', () => {
-  beforeAll(async () => {
-
-    const cache = new InMemoryCache();
-    client = new ApolloClient({
-      uri:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-        "https://graph-3khoexoznq-uc.a.run.app/graphql",
-      cache: cache,
-      connectToDevTools: true,
-    });
-  })
-
   describe('Lookup Reservation', () => {
     it('find all TBD places and determine reservation system', async () => {
       const result = await client.query<UsaReservationTbdQuery>({
