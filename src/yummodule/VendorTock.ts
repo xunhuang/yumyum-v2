@@ -37,11 +37,33 @@ export class VendorTock extends VendorBase {
                 let total: any = [];
 
                 if (!res.body.result) {
+                    console.log("************ no result")
                     return [];
                 }
+                // console.log(res.body.result);
+                // const same_date = res.body.result.ticketGroup.filter((slot: any) => slot.date == date);
+                // console.log(res.body.result.ticketTypeCalendarDetails);
+                // console.log(JSON.stringify(same_date, null, 2));
+
                 let slots = res.body.result.ticketGroup;
+
                 slots.forEach(function (slot: any) {
-                    if (slot.date === date && slot.availableTickets > 0 && !slot.isCommunal) {
+                    if (slot.date === date && slot.availableTickets > 0) {
+
+                        // Osito's commual is ok... 
+                        if (venue.name !== "Osito" && slot.isCommunal) {
+                            return;
+                        }
+
+                        // Omakase is has extra non-dining experience that we don't want
+                        if (venue.name === "Omakase" && venue.key === "2VZHquW1dA6Gdv7m868O") {
+                            const ticketTypeId = slot.ticketTypePrice[0]?.ticketTypeId;
+                            // pickup or delivery experience not dine in experience
+                            if (ticketTypeId === 129690 || ticketTypeId === 275864) {
+                                return;
+                            }
+                        }
+
                         if (slot.minPurchaseSize <= party_size && slot.maxPurchaseSize >= party_size) {
 
                             let datestr =

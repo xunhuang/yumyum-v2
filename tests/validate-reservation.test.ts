@@ -105,7 +105,6 @@ describe('Resolving reservation system for TBDs', () => {
               mutation: UpdateVenueInfoDocument,
               variables: tbd,
             });
-            console.log(r);
           }
         }
 
@@ -123,10 +122,7 @@ describe('Resolving reservation system for TBDs', () => {
       // await fixOpentableForMetro("sandiego");
       const metros = MetroAPI.all();
       for (const metro of metros) {
-        if (metro.key === "bayarea") {
-          continue;
-        }
-        console.log(metro.key);
+        console.log(`validaing metro area "${metro.key}"`);
         await fixOpentableForMetro(metro.key);
       }
     }, 1000000000)
