@@ -37,7 +37,6 @@ export class VendorTock extends VendorBase {
                 let total: any = [];
 
                 if (!res.body.result) {
-                    console.log("************ no result")
                     return [];
                 }
                 // console.log(res.body.result);
@@ -50,7 +49,7 @@ export class VendorTock extends VendorBase {
                 slots.forEach(function (slot: any) {
                     if (slot.date === date && slot.availableTickets > 0) {
 
-                        // Osito's commual is ok... 
+                        // Osito's commual is ok...  otherwise skip communal
                         if (venue.name !== "Osito" && slot.isCommunal) {
                             return;
                         }
@@ -215,7 +214,6 @@ export class VendorTock extends VendorBase {
     }
 
     async entitySearchViaTockSearchSystem(term: string, longitude: number, latitude: number, extra: any): Promise<any> {
-        // const request = newTockSearchRequest("French Laundary", -122.4194155, 37.7749295);
         const request = newTockSearchRequest(term, longitude, latitude);
         const proto = serializeMsgToProto(request);
 

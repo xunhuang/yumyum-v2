@@ -1,41 +1,17 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe } from '@jest/globals';
 import dayjs from 'dayjs';
-import { LookupReservationInfoDocument, VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
 
 import { VendorTock } from '../src/yummodule/VendorTock';
+import { yumyumVenueByKey } from './getYumYumGraphQLClient';
 
 const smallset = require("./tock.json");
-
-var client: ApolloClient<NormalizedCacheObject>;
 
 var tock = new VendorTock();
 
 describe('Tock System Test', () => {
-  beforeAll(async () => {
-    const cache = new InMemoryCache();
-    client = new ApolloClient({
-      uri:
-        process.env.REACT_APP_GRAPHQL_ENDPOINT ||
-        "https://graph-3khoexoznq-uc.a.run.app/graphql",
-      cache: cache,
-      connectToDevTools: true,
-    });
-
-    return;
-  })
-
-  afterAll(async () => {
-  })
-
   // this one has a strange communal flag...
   it('investigate Osito', async () => {
-    const result = await client.query<VenueByKeyQuery>({
-      query: VenueByKeyDocument,
-      variables: {
-        key: "4vC2zTU1hBOBNnyyEReU4",
-      },
-    });
+    const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");
     const search_result = await tock.venueSearchSafe(
       {
         key: result?.data?.venueByKey?.key!,
@@ -46,16 +22,12 @@ describe('Tock System Test', () => {
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
       2, "dinner"
     );
+    expect(search_result).not.toBeNull();
   })
 
   // this one has a take-out order
   it('investigate omakase', async () => {
-    const result = await client.query<VenueByKeyQuery>({
-      query: VenueByKeyDocument,
-      variables: {
-        key: "2VZHquW1dA6Gdv7m868O",
-      },
-    });
+    const result = await yumyumVenueByKey("2VZHquW1dA6Gdv7m868O");
     const search_result = await tock.venueSearchSafe(
       {
         key: result?.data?.venueByKey?.key!,
@@ -66,6 +38,7 @@ describe('Tock System Test', () => {
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
       2, "dinner"
     );
+    expect(search_result).not.toBeNull();
   })
 
   describe('Search entity by name and long/lat', () => {
