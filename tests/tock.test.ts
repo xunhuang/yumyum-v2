@@ -2,7 +2,7 @@ import { describe } from '@jest/globals';
 import dayjs from 'dayjs';
 
 import { VendorTock } from '../src/yummodule/VendorTock';
-import { yumyumVenueByKey } from './getYumYumGraphQLClient';
+import { venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
 
 const smallset = require("./tock.json");
 
@@ -13,12 +13,7 @@ describe('Tock System Test', () => {
   it('investigate Osito', async () => {
     const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");
     const search_result = await tock.venueSearchSafe(
-      {
-        key: result?.data?.venueByKey?.key!,
-        name: result?.data?.venueByKey?.name!,
-        reservation: result?.data?.venueByKey?.reservation!,
-        businessid: result?.data?.venueByKey?.businessid!,
-      },
+      venueToVendorInfo(result?.data?.venueByKey!),
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
       2, "dinner"
     );
@@ -29,12 +24,7 @@ describe('Tock System Test', () => {
   it('investigate omakase', async () => {
     const result = await yumyumVenueByKey("2VZHquW1dA6Gdv7m868O");
     const search_result = await tock.venueSearchSafe(
-      {
-        key: result?.data?.venueByKey?.key!,
-        name: result?.data?.venueByKey?.name!,
-        reservation: result?.data?.venueByKey?.reservation!,
-        businessid: result?.data?.venueByKey?.businessid!,
-      },
+      venueToVendorInfo(result?.data?.venueByKey!),
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
       2, "dinner"
     );

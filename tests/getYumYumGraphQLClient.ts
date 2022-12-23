@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
+import { Venue, VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
+import { VenueVendorInfo } from '../src/yummodule/VendorBase';
 
 const cache = new InMemoryCache();
 const client = new ApolloClient({
@@ -20,4 +21,14 @@ export async function yumyumVenueByKey(key: string) {
             key: key
         },
     });
+}
+
+export function venueToVendorInfo(venue: Venue): VenueVendorInfo {
+    return {
+        key: venue.key!,
+        name: venue.name!,
+        reservation: venue.reservation!,
+        businessid: venue.businessid!,
+        timezone: venue.timezone!,
+    };
 }
