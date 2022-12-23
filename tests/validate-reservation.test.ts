@@ -1,11 +1,9 @@
 import { describe, expect } from '@jest/globals';
 import dayjs from 'dayjs';
-
-import { MetroReservationDocument, MetroReservationQuery, UpdateVenueInfoDocument, UpdateVenueInfoMutation } from '../src/generated/graphql';
 import { getVendor } from '../src/yummodule/Vendors';
 import { MetroAPI } from '../src/yummodule/MetroAPI';
 import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
-import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
+import { getMetroReservationList, getYumYumGraphQLClient, setVenueReservationToTBD, updateVenueReservation } from './getYumYumGraphQLClient';
 
 var client = getYumYumGraphQLClient();
 
@@ -15,13 +13,14 @@ describe('Resolving reservation system for TBDs', () => {
 
     const vendorString = "opentable";
 
-    const result = await client.query<MetroReservationQuery>({
-      query: MetroReservationDocument,
-      variables: {
-        metro: metro,
-        reservation: vendorString,
-      },
-    });
+    // const result = await client.query<MetroReservationQuery>({
+    //   query: MetroReservationDocument,
+    //   variables: {
+    //     metro: metro,
+    //     reservation: vendorString,
+    //   },
+    // });
+    const result = await getMetroReservationList(metro, vendorString);
     console.log("result: ", result.data.allVenues?.totalCount);
     // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Burmatown"));
     const tests = result.data.allVenues?.nodes?.slice(0, 100000);
@@ -71,27 +70,30 @@ describe('Resolving reservation system for TBDs', () => {
           }
 
           if (info) {
-            const b = JSON.parse(JSON.stringify(info));
-            b.key = key;
-            b.close = false;
-            b.withOnlineReservation = "true";
-            await client.mutate<UpdateVenueInfoMutation>({
-              mutation: UpdateVenueInfoDocument,
-              variables: b,
-            });
+            await updateVenueReservation(key, info);
+            // const b = JSON.parse(JSON.stringify(info));
+            // b.key = key;
+            // b.close = false;
+            // b.withOnlineReservation = "true";
+            // await client.mutate<UpdateVenueInfoMutation>({
+            //   mutation: UpdateVenueInfoDocument,
+            //   variables: b,
+            // });
           } else {
             console.log("system need update: perhaps should set to TBD");
-            const tbd = {
-              key: key,
-              reservation: "TBD",
-              close: false,
-              withOnlineReservation: "true",
-            }
-            console.log(tbd);
-            const r = await client.mutate<UpdateVenueInfoMutation>({
-              mutation: UpdateVenueInfoDocument,
-              variables: tbd,
-            });
+            await setVenueReservationToTBD(key);
+            // console.log("system need update: perhaps should set to TBD");
+            // const tbd = {
+            //   key: key,
+            //   reservation: "TBD",
+            //   close: false,
+            //   withOnlineReservation: "true",
+            // }
+            // console.log(tbd);
+            // const r = await client.mutate<UpdateVenueInfoMutation>({
+            //   mutation: UpdateVenueInfoDocument,
+            //   variables: tbd,
+            // });
           }
         }
 

@@ -1,5 +1,5 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { Venue, VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
+import { ApolloClient, ApolloQueryResult, InMemoryCache } from '@apollo/client';
+import { MetroReservationDocument, MetroReservationQuery, UpdateVenueInfoDocument, UpdateVenueInfoMutation, Venue, VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
 import { VenueVendorInfo } from '../src/yummodule/VendorBase';
 
 const cache = new InMemoryCache();
@@ -20,6 +20,42 @@ export async function yumyumVenueByKey(key: string) {
         variables: {
             key: key
         },
+    });
+}
+
+export async function getMetroReservationList(metro: string, reservation: string) {
+    return await client.query<MetroReservationQuery>({
+        query: MetroReservationDocument,
+        variables: {
+            metro: metro,
+            reservation: reservation,
+        },
+    });
+}
+
+export async function updateVenueReservation(key: string,
+    reservationInfo: any,
+) {
+    const b = JSON.parse(JSON.stringify(reservationInfo));
+    b.key = key;
+    b.close = false;
+    b.withOnlineReservation = "true";
+    return await client.mutate<UpdateVenueInfoMutation>({
+        mutation: UpdateVenueInfoDocument,
+        variables: b,
+    });
+}
+
+export async function setVenueReservationToTBD(key: string) {
+    const tbd = {
+        key: key,
+        reservation: "TBD",
+        close: false,
+        withOnlineReservation: "true",
+    }
+    return await client.mutate<UpdateVenueInfoMutation>({
+        mutation: UpdateVenueInfoDocument,
+        variables: tbd,
     });
 }
 
