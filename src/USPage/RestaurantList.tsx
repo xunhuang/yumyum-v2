@@ -8,7 +8,7 @@ import { useMetro } from './useMetro';
 import { VenueAvailabilityList, VenueDescription, VenueTitle } from './VenueItems';
 import { VenuesMap } from './VenuesMap';
 
-const getDistance = require("geolib").getDistance;
+// const getDistance = require("geolib").getDistance;
 
 type RestaurantListProps = {
   list?: Array<Venue | null>;
@@ -22,6 +22,45 @@ type RestaurantListProps = {
 };
 
 const { useBreakpoint } = Grid;
+
+const starmap: { [name: string]: number } = {
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  ONE_STAR: 1,
+  TWO_STARS: 2,
+  THREE_STARS: 3,
+  Guide: 0.5,
+  MICHELIN_PLATE: 0.5,
+  BIB_GOURMAND: 0.4,
+};
+
+function stars_to_rating(stars: string): number {
+  const rating = starmap[stars];
+  if (rating) {
+    return rating;
+  }
+  return 0.1;//defeault rating. 
+}
+
+function sortByStarsDesc(a: Venue | null, b: Venue | null): number {
+  const a_star = stars_to_rating(a?.stars!);
+  const b_star = stars_to_rating(b?.stars!);
+  return b_star - a_star;
+}
+
+function sortByVintageDesc(a: Venue | null, b: Venue | null): number {
+  return Number(b?.vintage) - Number(a?.vintage);
+}
+
+function defaultSortMethod(a: Venue | null, b: Venue | null): number {
+
+  const vintage = sortByVintageDesc(a, b);
+  if (vintage !== 0) {
+    return vintage;
+  }
+  return sortByStarsDesc(a, b);
+}
 
 export const RestaurantList = ({
   list,
@@ -39,19 +78,25 @@ export const RestaurantList = ({
   if (showAvailableOnly) {
     data = data?.filter((node) => node?.slots?.length! > 0);
   }
-  if (sortByDistanceFromUser && userLocation) {
-    data = data?.slice()?.sort((a, b) => {
-      let a_d = getDistance(
-        { latitude: a?.latitude, longitude: a?.longitude },
-        { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
-      );
-      let b_d = getDistance(
-        { latitude: b?.latitude, longitude: b?.longitude },
-        { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
-      );
-      return a_d - b_d;
-    });
-  }
+
+  // data = data?.slice()?.sort(sortByVintageDesc);
+  data = data?.slice()?.sort(defaultSortMethod);
+
+
+  // if (sortByDistanceFromUser && userLocation) {
+  //   data = data?.slice()?.sort((a, b) => {
+  //     let a_d = getDistance(
+  //       { latitude: a?.latitude, longitude: a?.longitude },
+  //       { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
+  //     );
+  //     let b_d = getDistance(
+  //       { latitude: b?.latitude, longitude: b?.longitude },
+  //       { latitude: userLocation?.latitude, longitude: userLocation?.longitude }
+  //     );
+  //     return a_d - b_d;
+  //   });
+  // }
+
   const availlist = (
     <RestaurantListRender
       date={date}
@@ -118,7 +163,7 @@ export const RestaurantListRender = ({
         itemLayout="vertical"
         size="large"
         pagination={{
-          onChange: (page) => {},
+          onChange: (page) => { },
           pageSize: 20,
         }}
         dataSource={list}
