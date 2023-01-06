@@ -2,7 +2,7 @@ Client Install
 ---------------
 
 npm install --force (?why force? not sure)
-npm start
+NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true npm start
 
 
 Running server locally

@@ -108,7 +108,7 @@ export const RestaurantList = ({
   );
 
   const isSmallScreen = screens.sm || screens.md || screens.lg;
-  const [showMap, setShowMap] = React.useState(true);
+  const [showMap, setShowMap] = React.useState(false);
 
   return (
     <div>
