@@ -148,6 +148,14 @@ export const ListStarsOnly = () => {
   );
 };
 
+export const ListAllLoggedInOnly = () => {
+  const [profile] = useProfile();
+  if (!(profile)) {
+    return <div> Expensive feature. Logged in user only. </div>;
+  }
+  return <ListAll />;
+}
+
 export const ListAll = () => {
   const metro = useMetro();
   const [date] = useRecoilState(SelectedDateState);
@@ -159,6 +167,7 @@ export const ListAll = () => {
       metro: metro,
     },
   });
+
   const second = useBayAreaAllWithSlotsQuery({
     variables: {
       metro: metro,
@@ -264,7 +273,7 @@ export const ListsPage = () => {
     {
       slug: "all",
       text: "All",
-      component: <ListAll />,
+      component: <ListAllLoggedInOnly />,
     },
   ];
 
