@@ -35,7 +35,7 @@ jobs:
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: backup yumyum db
-      run:   gcloud sql export sql yumyumdb gs://yumyum-v2_cloudbuild/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum 
+      run:   gcloud sql export sql yumyumdb gs://yumyum-v2_cloudbuild/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
 
     - name: 'create-json-file'
       run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
