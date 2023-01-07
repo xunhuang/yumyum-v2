@@ -12,7 +12,8 @@ cd graphql
 ln -s ../src/yummodule .
 npm install
 
-export PGHOST=35.239.215.*** # lookup from console.cloud.google.com random
+# export PGHOST=35.239.215.*** # lookup from console.cloud.google.com random
+export PGHOST=35.188.171.*** # lookup from console.cloud.google.com yumyum-v2
 export PGPASSWORD=3DdeM*****  # look it up 
 
 # configure db connection
