@@ -212,13 +212,15 @@ export class VendorOpentable extends VendorBase {
                     dayjs().add(7, 'day').format('YYYY-MM-DD'),
                     2, "dinner"
                 );
-                if (result.availability.error.message === 'NOT_AVAILABLE') {
+                if (result.availability?.error?.message === 'NOT_AVAILABLE') {
+                    console.log("opentable No longer available", businessid);
                     return false;
                 }
             } catch (e) {
+                console.log("opentable validation exception.....", businessid);
+                console.log(e);
                 return false;
             }
-            // console.log('validated', businessid)
             return true;
         }
 
