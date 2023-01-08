@@ -10,7 +10,6 @@ describe('Testing calling GraphQL from apollo generated client', () => {
     })
 
     describe('Lookup Reservation on server', () => {
-        /*
         it('Lookup Resy reservation link meta info', async () => {
             const result = await client.query<LookupReservationInfoQuery>({
                 query: LookupReservationInfoDocument, variables: { url: "https://resy.com/cities/sf/robin?date=2023-01-08&seats=2" }
@@ -19,7 +18,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
             expect(result.data.reservationInfo?.urlSlug).toEqual("robin");
             expect(result.data.reservationInfo?.resyCityCode).toEqual("sf");
         })
-        */
+        /*
         it('Lookup Tock reservation link meta info', async () => {
             const result = await client.query<LookupReservationInfoQuery>({
                 query: LookupReservationInfoDocument, variables: { url: "https://www.exploretock.com/theshotasf/" }
@@ -27,6 +26,7 @@ describe('Testing calling GraphQL from apollo generated client', () => {
             console.log(result);
             expect(result.data.reservationInfo?.businessid).toEqual("13420");
         })
+        */
     })
 })
 
