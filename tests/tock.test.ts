@@ -9,13 +9,21 @@ const smallset = require("./tock.json");
 var tock = new VendorTock();
 
 describe('Tock System Test', () => {
+
+  it('fetch entity info via Url', async () => {
+    const info = await tock.fetchReservationInfoFromURL("https://www.exploretock.com/theshotasf/");
+    expect(info?.reservation).toBe("tock")
+    expect(info?.businessid).toBe(13420);
+    expect(info?.urlSlug).toBe("theshotasf");
+  });
+
   // this one has a strange communal flag...
   it('investigate Osito', async () => {
     const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");
     const search_result = await tock.venueSearchSafe(
       venueToVendorInfo(result?.data?.venueByKey!),
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
-      2, "dinner"
+      2, "dinner", true,
     );
     expect(search_result).not.toBeNull();
   })
@@ -26,13 +34,12 @@ describe('Tock System Test', () => {
     const search_result = await tock.venueSearchSafe(
       venueToVendorInfo(result?.data?.venueByKey!),
       dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
-      2, "dinner"
+      2, "dinner", true
     );
     expect(search_result).not.toBeNull();
   })
 
   describe('Search entity by name and long/lat', () => {
-
     it('A small set that should find exact match, using dual systems)', async () => {
       for (const entity of smallset) {
         const search_result = await tock.entitySearchExactTerm(
