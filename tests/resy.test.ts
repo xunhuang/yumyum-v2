@@ -27,7 +27,7 @@ describe('Resy System Test', () => {
     describe('Search entity by name and long/lat', () => {
         it('should find an entity with exact match', async () => {
             const search_result = await resy.entitySearchExactTerm("Aurum", -122.1156105, 37.3801255, AurumData);
-            expect(search_result.businessid).toEqual(49088);
+            expect(search_result.businessid).toEqual("49088");
             expect(search_result.urlSlug).toEqual("aurum");
             expect(search_result.resyCityCode).toEqual("lsl");
         })
