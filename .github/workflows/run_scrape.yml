@@ -34,8 +34,8 @@ jobs:
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@master
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@master
 
     - name: backup yumyum db
       run:   gcloud sql export sql yumyumdb gs://yumyum-v2_cloudbuild/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
