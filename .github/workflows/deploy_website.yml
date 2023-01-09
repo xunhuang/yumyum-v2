@@ -31,6 +31,7 @@ jobs:
       env: 
         SKIP_PREFLIGHT_CHECK: true
         CI: false
+        NODE_OPTIONS: --openssl-legacy-provider
       run: npm run build
     - name: deploy
       env:
