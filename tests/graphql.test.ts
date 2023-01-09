@@ -18,15 +18,18 @@ describe('Testing calling GraphQL from apollo generated client', () => {
             expect(result.data.reservationInfo?.urlSlug).toEqual("robin");
             expect(result.data.reservationInfo?.resyCityCode).toEqual("sf");
         })
-        /*
         it('Lookup Tock reservation link meta info', async () => {
             const result = await client.query<LookupReservationInfoQuery>({
                 query: LookupReservationInfoDocument, variables: { url: "https://www.exploretock.com/theshotasf/" }
             });
-            console.log(result);
             expect(result.data.reservationInfo?.businessid).toEqual("13420");
         })
-        */
+        it('Lookup Opentable reservation link meta info', async () => {
+            const result = await client.query<LookupReservationInfoQuery>({
+                query: LookupReservationInfoDocument, variables: { url: "https://www.opentable.com/r/alderwood-santa-cruz?ref=18490" }
+            });
+            expect(result.data.reservationInfo?.businessid).toEqual("1057417");
+        })
     })
 })
 
