@@ -120,7 +120,7 @@ export class VendorResy extends VendorBase {
         return data?.location;
     }
 
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<any> {
+    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<VenueReservationInfo | null> {
 
         if (!longitude || !latitude) {
             console.log(`Resy search API requires long/lat, none provided ${term}`);
