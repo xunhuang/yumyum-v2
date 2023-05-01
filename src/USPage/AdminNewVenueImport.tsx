@@ -1,6 +1,7 @@
 import 'antd/dist/antd.css';
 
 import { Button } from 'antd';
+import dayjs from 'dayjs';
 
 import { Loading } from '../components/Loading';
 import { useBayAreaQuery, useCreateVenueMutation, Venue } from '../generated/graphql';
@@ -8,7 +9,6 @@ import { JsonEntrySameWasDbEntry } from '../yummodule/JsonEntrySameWasDbEntry';
 import { MetroAPI } from '../yummodule/MetroAPI';
 import { useMetroFromPath } from './useMetro';
 import { useMetroOriginalJson } from './useMetroOriginalJson';
-
 
 const Nanoid = require("nanoid");
 
@@ -45,7 +45,6 @@ export const AdminNewVenueImport = () => {
     return !found;
   });
 
-
   return (
     <div>
       <Button
@@ -55,7 +54,7 @@ export const AdminNewVenueImport = () => {
           for (var item of newOnly) {
             const v = {
               key: Nanoid.nanoid(),
-              vintage: "2023", // TODO: make this dynamic
+              vintage: dayjs().year().toString(),
               close: false,
               name: item.name,
               metro: metro,
