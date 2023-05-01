@@ -52,8 +52,21 @@ The above reverse engineering was performed by using
 2) fiddler for macos to determine/save the input payload (both Safari and Chrome developer console failed to handle the binary data properly)
 
 
-
 New Emerging Reservation Systems
 --------------------------------
 - Spoton: https://spotonreserve.com/web/restaurant.html?restaurantId=61986/Gusto-Handcrafted-Pasta-Pizza
 - Sevenrooms
+
+
+How to update db
+----------------
+
+# follow data/11-05-2022/README.txt  to generate a number of per city json. check those in
+# for each 
+# Go to admin tab (after logging in)
+## click "Import from Michelin JSON"
+## visually inspect
+## Click "import!" . no GUI feedback
+# run npm test tests/reservation-tbd.test.ts
+
+hopefully the above gets automated some day.
