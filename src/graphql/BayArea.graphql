@@ -46,7 +46,7 @@ query BayArea2021WithSlots(
   allVenues(
     first: $first
     condition: { metro: $metro, withOnlineReservation: "true" }
-    filter: { vintage: { in: ["2022", "2021"] } }
+    filter: { vintage: { in: ["2022", "2021", "2023"] } }
   ) {
     totalCount
     nodes {

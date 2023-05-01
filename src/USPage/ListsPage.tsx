@@ -94,17 +94,6 @@ export const List2021Only = () => {
     },
   });
 
-  // if (metro !== "bayarea") {
-  //   return (
-  //     <div>
-  //       We need help curating restaurant list for {metro}. We have the list of
-  //       2020/2021 Michelin restaurant data, but need help mapping them to the
-  //       appropatie reservation system. It takes about 1-2 hour of work per
-  //       metro. Please comment below if you are interested in helping.
-  //     </div>
-  //   );
-  // }
-
   if (loading) {
     return <Loading />;
   }
@@ -150,11 +139,11 @@ export const ListStarsOnly = () => {
 
 export const ListAllLoggedInOnly = () => {
   const [profile] = useProfile();
-  if (!(profile)) {
+  if (!profile) {
     return <div> Expensive feature. Logged in user only. </div>;
   }
   return <ListAll />;
-}
+};
 
 export const ListAll = () => {
   const metro = useMetro();
@@ -247,7 +236,7 @@ export const ListsPage = () => {
     },
     {
       slug: "new",
-      text: "New in 21/22",
+      text: "New in 21-23",
       component: <List2021Only />,
     },
     {

@@ -134,6 +134,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           <div>
             {venue.longitude}, {venue.latitude}{" "}
           </div>
+          <div>First Introduced {venue.vintage}</div>
         </Form.Item>
         <Form.Item
           name="reservation"

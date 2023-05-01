@@ -34,6 +34,7 @@ query VenueByKey($key: String!) {
 
 fragment VenueAllOtherFields on Venue {
   nodeId
+  vintage
   accomondation
   address
   area

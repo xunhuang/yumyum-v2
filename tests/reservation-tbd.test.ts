@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe, expect } from '@jest/globals';
 
 import {

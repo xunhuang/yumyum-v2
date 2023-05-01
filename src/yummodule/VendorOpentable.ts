@@ -1,4 +1,5 @@
 import cheerio from 'cheerio';
+import dayjs from 'dayjs';
 import { RateLimiter } from 'limiter';
 import { Cache, CacheContainer } from 'node-ts-cache';
 import { MemoryStorage } from 'node-ts-cache-storage-memory';
@@ -6,7 +7,6 @@ import { MemoryStorage } from 'node-ts-cache-storage-memory';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
 import { VenueSearchInput } from './VenueSearchInput';
-import dayjs from 'dayjs';
 
 const nodefetch = require('node-fetch');
 const buildUrl = require('build-url');

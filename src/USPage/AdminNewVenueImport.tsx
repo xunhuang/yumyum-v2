@@ -55,7 +55,7 @@ export const AdminNewVenueImport = () => {
           for (var item of newOnly) {
             const v = {
               key: Nanoid.nanoid(),
-              vintage: "2022",
+              vintage: "2023", // TODO: make this dynamic
               close: false,
               name: item.name,
               metro: metro,
