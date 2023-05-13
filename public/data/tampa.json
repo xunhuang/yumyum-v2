@@ -1,1 +1,6451 @@
-[]
+[
+  {
+    "_geoloc": {
+      "lat": 27.9522981,
+      "lng": -82.5029771
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5c31bf2762ad4689bed24a8dfe309808",
+    "images": [
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5639000",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5c31bf2762ad4689bed24a8dfe309808"
+      },
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5638993",
+        "order": 1,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/a3fd401fdfab468b83fec66558b48bed"
+      },
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5638966",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/2e191e2dbdc14822a957e632c3dad62b"
+      },
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5638970",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b79b24f874bb45b3b8d3757b28dec403"
+      },
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5638975",
+        "order": 4,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1b56856ebb3f4823a7515997eedba4f3"
+      },
+      {
+        "copyright": "Stephen Barna/Ponte",
+        "identifier": "5639011",
+        "order": 5,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/fc1622ef654f492188776a624b06c63f"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Stephen Barna/Ponte",
+      "identifier": "5639000",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5c31bf2762ad4689bed24a8dfe309808",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Ponte",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "ponte-1206505",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      },
+      {
+        "code": "TYC_40",
+        "label": "American",
+        "slug": "american"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/ponte-1206505"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/ponte-1206505",
+    "objectID": "83024",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Chef Christopher Ponte oversees the very grand eponymous restaurant located",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9522981",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.5029771",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Ponte",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33607",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1010 Gramercy Ln.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "American",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Contemporary",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9252675,
+      "lng": -82.5157619
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5d2602819a394df4b55458ac95b9ae2f",
+    "images": [
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "4469460",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5d2602819a394df4b55458ac95b9ae2f"
+      },
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "4469472",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e29997251dbf4c36b252d2e4ae30190f"
+      },
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "4469448",
+        "order": 2,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c245c1bbf6cc480c82b4d9b3c31303ff"
+      },
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "4469456",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/56a8cf33e21d4fcaac1961b2c55f3cec"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Chip Weiner/Bistro BT",
+      "identifier": "4469460",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5d2602819a394df4b55458ac95b9ae2f",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Bistro BT",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "bistro-bt",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1161",
+        "label": "Fusion",
+        "slug": "fusion-1161"
+      },
+      {
+        "code": "TYC_1129",
+        "label": "Vietnamese",
+        "slug": "vietnamese"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/bistro-bt"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/bistro-bt",
+    "objectID": "83030",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "This casual yet charming outpost arrives on the scene courtesy",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9252675",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.5157619",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Bistro BT",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33629",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "4267 Henderson Blvd.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Fusion",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Vietnamese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Fusion",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 28.0705177,
+      "lng": -82.4297298
+    },
+    "image": null,
+    "images": null,
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": null,
+    "michelin_award": null,
+    "name": "Flaming Mountain",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "flaming-mountain",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1030",
+        "label": "Chinese",
+        "slug": "chinese"
+      },
+      {
+        "code": "TYC_1101",
+        "label": "Regional Cuisine",
+        "slug": "regional-cuisine"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/flaming-mountain"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/flaming-mountain",
+    "objectID": "83047",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Flaming Mountain's strip mall environs may be less than",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "28.0705177",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4297298",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Flaming Mountain",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33613",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "13520 University Plaza St.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Chinese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Regional Cuisine",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Chinese",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.93755,
+      "lng": -82.5021772
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/67622ee2043f4cb8b275abd927dd79de",
+    "images": [
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4488567",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/67622ee2043f4cb8b275abd927dd79de"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4487725",
+        "order": 1,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1db2487de76246d79a9abf40275eed1c"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4487729",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/7aea4eb1ae784da19e1619242301f30d"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4487752",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c6e2d4a8b14e4ea5af418675ed3d567b"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4488563",
+        "order": 4,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9f42225c42b344f4a928fd13f5a2dd23"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4487733",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/47d5f9ae924d4065b2a5f94bc69b131b"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4487716",
+        "order": 6,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6fceb6e49bf74b84840f7d2aca4ca98b"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753870",
+        "order": 7,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/f4a8c4c4713e4888ab55b969403e1329"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753873",
+        "order": 8,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/496382eecd124ae0812ea65811c639f8"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753888",
+        "order": 9,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/a9c0dd6b296f4460a46843fc79535909"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753892",
+        "order": 10,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1c3eacc578824d608da551ee3a4427fd"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753911",
+        "order": 11,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/75dd2fe544bd41e69ff548a3d878bc7f"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753906",
+        "order": 12,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d8fc281d7b854ed6ba3fc8da9cf5a801"
+      },
+      {
+        "copyright": "Sky Compass Media/Olivia",
+        "identifier": "4753924",
+        "order": 13,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d7ce60a252254bcc879009bab4f4b6be"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Sky Compass Media/Olivia",
+      "identifier": "4488567",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/67622ee2043f4cb8b275abd927dd79de",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Olivia",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "olivia-1200059",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1067",
+        "label": "Italian",
+        "slug": "italian"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/olivia-1200059"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/olivia-1200059",
+    "objectID": "82920",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Named after Chef/owner Chris Ponte's daughter, it's",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.93755",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.5021772",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Olivia",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33609",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "3601 W. Swann Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Italian",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Italian",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 28.0068343,
+      "lng": -82.459512
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1abfc971cc414b21ba39cbd864c0df2c",
+    "images": [
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448114",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1abfc971cc414b21ba39cbd864c0df2c"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448165",
+        "order": 1,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/84bf65908b8640a6b4763a3549e05c4a"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448142",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/97c06cca8eff41daa5939eab2314256a"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448133",
+        "order": 3,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/00ed3315237d4429930ec40d48ba3cd7"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448183",
+        "order": 4,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6ac976d4a50745948405430f30885323"
+      },
+      {
+        "copyright": "Skyler june/Rooster and the Till",
+        "identifier": "4448205",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/53849df2305147f9956b8a1c4ae02e2f"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448160",
+        "order": 6,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/edaf79fa1e5a4716b330002b304de335"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448136",
+        "order": 7,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0de477b44fdb4440bb352176d0357ac2"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448178",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/817225d0f1794159898679ba96dcb919"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448118",
+        "order": 9,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c2934e63470640cb9d2080ba4e623d1d"
+      },
+      {
+        "copyright": "Skyler June/Rooster and the Till",
+        "identifier": "4448196",
+        "order": 10,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/fade607a9567499f814ddd45e03e00bc"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Skyler June/Rooster and the Till",
+      "identifier": "4448114",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1abfc971cc414b21ba39cbd864c0df2c",
+      "source": "cloud_image"
+    },
+    "michelin_award": "BIB_GOURMAND",
+    "name": "Rooster and the Till",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "rooster-and-the-till",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1065",
+        "label": "International",
+        "slug": "international"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/rooster-and-the-till"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/rooster-and-the-till",
+    "objectID": "82930",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "It's a low-key spot with a contemporary feel",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "28.0068343",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.459512",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "BIB_GOURMAND",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Rooster and the Till",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33604",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "6500 N. Florida Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "International",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "International",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9500225,
+      "lng": -82.4826553
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/61766a4fbeee4e10b2ebf59fda74c1ab",
+    "images": [
+      {
+        "copyright": "Psomi",
+        "identifier": "5779201",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/61766a4fbeee4e10b2ebf59fda74c1ab"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779220",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/64b3800070af40f5ab04c5d94e880bf3"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779199",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/f6b57cd581144a00b75b8849b574ae4e"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779234",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/dc605f6d319347aaa6a466d1ae9fc358"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779200",
+        "order": 4,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/eaf74392a4c94db48850714dde203763"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779212",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d360989e19304af689c2bb25355e54fc"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779217",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74871d32f82448608ae7ec1c9a2ff80b"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779237",
+        "order": 7,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4ca425f2994d42c19a6a96b93705f8fd"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779240",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/8f89c37478484c2ea5659b9664caa54f"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779205",
+        "order": 9,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/694e8dbf8104422181ba469175744154"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779206",
+        "order": 10,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3234e2cd5d3b4522859ad4a9d5a00480"
+      },
+      {
+        "copyright": "Psomi",
+        "identifier": "5779254",
+        "order": 11,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/2b74a319122c46949f183daca40de4dc"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Psomi",
+      "identifier": "5779201",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/61766a4fbeee4e10b2ebf59fda74c1ab",
+      "source": "cloud_image"
+    },
+    "michelin_award": "BIB_GOURMAND",
+    "name": "Psomi",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "psomi",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1056",
+        "label": "Greek",
+        "slug": "greek"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/psomi"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/psomi",
+    "objectID": "83048",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Owned and run by second-generation Greek-American, Christina Theofilos",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9500225",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4826553",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "BIB_GOURMAND",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Psomi",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "701 N. Howard Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Greek",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Greek",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.923091,
+      "lng": -82.4935806
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1851302f4b9f49129a5679929bf78b5d",
+    "images": [
+      {
+        "copyright": "Angel Webb/Restaurant BT",
+        "identifier": "4166710",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1851302f4b9f49129a5679929bf78b5d"
+      },
+      {
+        "copyright": "Jason Henthorne /Restaurant BT",
+        "identifier": "4166806",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/18d246f7c8c24f68b87bd86ed9bfdff5"
+      },
+      {
+        "copyright": "Angel Webb/Restaurant BT",
+        "identifier": "4166404",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/67292d182b6748bcaf5e712e11a4f605"
+      },
+      {
+        "copyright": "Angel Webb /Restaurant BT",
+        "identifier": "4166348",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3515b13fb25d4b58a4587780feda3df2"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Angel Webb/Restaurant BT",
+      "identifier": "4166710",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1851302f4b9f49129a5679929bf78b5d",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Restaurant BT",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "restaurant-bt",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1129",
+        "label": "Vietnamese",
+        "slug": "vietnamese"
+      },
+      {
+        "code": "TYC_1049",
+        "label": "French",
+        "slug": "french"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/restaurant-bt"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/restaurant-bt",
+    "objectID": "82935",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Both intimate and serene, this romantic retreat is restaurateur and",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.923091",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4935806",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Restaurant BT",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33629",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "2507 S. Macdill Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Vietnamese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "French",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Vietnamese",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.93375,
+      "lng": -82.4828388
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4bf55b5417a7428393faf932fb56a613",
+    "images": [
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Haven Tampa/Haven",
+        "identifier": "4573474",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4bf55b5417a7428393faf932fb56a613"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Haven Tampa/Haven",
+        "identifier": "4573465",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/34da14990a00477697bbfb3fce05e317"
+      },
+      {
+        "copyright": "Haven Tampa/Haven",
+        "identifier": "4573552",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c61c140641214bb982f60e6bf36e9c69"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Haven Tampa/Haven",
+        "identifier": "4573541",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/eee0c778838248eab92fcc66241e24ab"
+      },
+      {
+        "copyright": "Haven Tampa/Haven",
+        "identifier": "4573500",
+        "order": 4,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ed43178b552b475a9e5d477f4c9d5307"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Haven Tampa/Haven",
+        "identifier": "4573468",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c05952b532ce4fd28a6792bee7595036"
+      },
+      {
+        "copyright": "Haven Tampa/Haven",
+        "identifier": "4573512",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/82f70aca55974b78a63745e79bc59b94"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Amy Pezzicara/ Pezz Photo for Haven Tampa/Haven",
+      "identifier": "4573474",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4bf55b5417a7428393faf932fb56a613",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Haven",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "haven",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/haven"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/haven",
+    "objectID": "82936",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Noshers will rejoice at the prospect of this charming, quirky",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.93375",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4828388",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Haven",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "2208 W. Morrison Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Contemporary",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.93143,
+      "lng": -82.48311
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/49cb657b45764a6d8c38ff759e54bdff",
+    "images": [
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608255",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/49cb657b45764a6d8c38ff759e54bdff"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608273",
+        "order": 1,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3663b6edb7184bb2bdcc7d60c84aa999"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608258",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/292200a5b001459b9ffb8118bb538a11"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608277",
+        "order": 3,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ee2a7e2378724ef09d2d4ce6b90e66c5"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608291",
+        "order": 4,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/31a3d2dab06c47e0a59ab4f2a7416dc3"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608298",
+        "order": 5,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/167360f16a2b434ba77c2aeb34f6fab5"
+      },
+      {
+        "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+        "identifier": "4608309",
+        "order": 6,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ae8ca71288ca47128b9c714dd3f54fd2"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Epicurean Hotel - Seamus Payne/Élevage",
+      "identifier": "4608255",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/49cb657b45764a6d8c38ff759e54bdff",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Élevage SoHo Kitchen & Bar",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "elevage",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1065",
+        "label": "International",
+        "slug": "international"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/elevage"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/elevage",
+    "objectID": "82939",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Don't be fooled by the lofty name or upscale",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.93143",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.48311",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Élevage SoHo Kitchen & Bar",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1207 S. Howard Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "International",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "International",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.93162,
+      "lng": -82.48282
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/aefeaa9060e747509b8364425e721f6d",
+    "images": [
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573614",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/aefeaa9060e747509b8364425e721f6d"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573659",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/280b97a2817c45d4bc4875f5ba4208a2"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573706",
+        "order": 2,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/bec802f99f2549f7b194a3969e038988"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573664",
+        "order": 3,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5d587d7f4f9546298af70324db3f8cb0"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573579",
+        "order": 4,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/558ef44a6e3c4876a7418a73bb5e2c41"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573575",
+        "order": 5,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/37531bf5818546188d142191bebc457f"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573584",
+        "order": 6,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/48b4d7b1b39a4e3c83b517a78a2f4cbe"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573628",
+        "order": 7,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c13de20a742847358887431e81a02a55"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573593",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b52b8f4735824d47af68b245fbfbd331"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573691",
+        "order": 9,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/750b1bc6478141309fcfb5c4748ef52b"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573676",
+        "order": 10,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3681b44ea555483dbb45d196d6fee67d"
+      },
+      {
+        "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+        "identifier": "4573688",
+        "order": 11,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/83cb1c40f966427790c2946a499b4990"
+      },
+      {
+        "copyright": "Pezz Photo/Bern’s",
+        "identifier": "5678586",
+        "order": 12,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1a32a233e1e4436487a53f236c16d8b8"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Amy Pezzicara/ Pezz Photo for Bern’s Steak House/Bern’s",
+      "identifier": "4573614",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/aefeaa9060e747509b8364425e721f6d",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Bern’s Steak House",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "bern’s",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_75",
+        "label": "Steakhouse",
+        "slug": "steakhouse"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/bern%E2%80%99s"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/bern%E2%80%99s",
+    "objectID": "82958",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "For decades, this stately steakhouse has been a local favorite",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.93162",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.48282",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Bern’s Steak House",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1208 S. Howard Ave",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Steakhouse",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Steakhouse",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.96251,
+      "lng": -82.4646
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d78dca2329fa41b79b7bd79f1b9ee713",
+    "images": [
+      {
+        "copyright": "Keir Magoulas/Rocca",
+        "identifier": "4458160",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d78dca2329fa41b79b7bd79f1b9ee713"
+      },
+      {
+        "copyright": "Keir Magoulas/Rocca",
+        "identifier": "4458086",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/7a5fc7ddcf0344078329174b735c762d"
+      },
+      {
+        "copyright": "Jordan Wise/Rocca",
+        "identifier": "4458110",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/756c2ad49f6e49989ef594a21d16c9fa"
+      },
+      {
+        "copyright": "Keir Magoulas/Rocca",
+        "identifier": "4458155",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9b654e17cca046c2b6defd79f1481c22"
+      },
+      {
+        "copyright": "Jordan Wise/Rocca",
+        "identifier": "4458120",
+        "order": 4,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/315e2c7e0abc4497a5151a19f2d413cd"
+      },
+      {
+        "copyright": "Keir Magoulas/Rocca",
+        "identifier": "4458114",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1281eef1b0604bf58b223443c9ee1766"
+      },
+      {
+        "copyright": "Keir Magoulas/Rocca",
+        "identifier": "4458137",
+        "order": 7,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3a649149d9e14453b90614864df472db"
+      },
+      {
+        "copyright": "Kier Magoulas/Rocca",
+        "identifier": "4714138",
+        "order": 8,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4715d9a62a9b4f5c8ad9c8364639d312"
+      },
+      {
+        "copyright": "Kier Magoulas/Rocca",
+        "identifier": "4714129",
+        "order": 9,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/2366272885da4a308671ad979f53b8c9"
+      },
+      {
+        "copyright": "Kier Magoulas/Rocca",
+        "identifier": "4714075",
+        "order": 10,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/822abe32557b40cb8fb8c7f3df277d71"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Keir Magoulas/Rocca",
+      "identifier": "4458160",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d78dca2329fa41b79b7bd79f1b9ee713",
+      "source": "cloud_image"
+    },
+    "michelin_award": "ONE_STAR",
+    "name": "Rocca",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "rocca",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1067",
+        "label": "Italian",
+        "slug": "italian"
+      },
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/rocca"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/rocca",
+    "objectID": "83040",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Chef Bryce Bonsack blends his New York know-how with",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.96251",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4646",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "ONE_STAR",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Rocca",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "323 W. Palm Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Italian",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Italian",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.96083,
+      "lng": -82.46376
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0df5698537264c10995016a8f98921b0",
+    "images": [
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567611",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0df5698537264c10995016a8f98921b0"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567584",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/cdb824231b4245e5ac0d3e1425ad3e71"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567580",
+        "order": 2,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/57f0ff1ae3a34213a181be723a79d9d8"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567607",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/35eaed5ea16e4cd6b90eeaf926884c26"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567615",
+        "order": 4,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e839403c01244361ab7422193f7c3997"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567634",
+        "order": 5,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5dad7c75861244c7b1e2981d06739008"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4567591",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/866a80befabb4bb09ff47fef9384f5b9"
+      },
+      {
+        "copyright": "Nicole Minnis/Steelbach",
+        "identifier": "4634151",
+        "order": 7,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ce0b3460b65141cba1a66c95f53f089c"
+      },
+      {
+        "copyright": "Zach Gresham/Steelbach",
+        "identifier": "4634160",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74c8b3dd05604a20a5a28244f74e6bd1"
+      },
+      {
+        "copyright": "Andrea Sabin/Steelbach",
+        "identifier": "4766869",
+        "order": 9,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/dc43d85e718f482eb4c34819ee18313e"
+      },
+      {
+        "copyright": "Nicole Minnis/Steelbach",
+        "identifier": "4766881",
+        "order": 10,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74f87c695f80437c91086e7abe0c9960"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Zach Gresham/Steelbach",
+      "identifier": "4567611",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0df5698537264c10995016a8f98921b0",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Steelbach",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "steelbach",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_72",
+        "label": "Southern",
+        "slug": "southern"
+      },
+      {
+        "code": "TYC_75",
+        "label": "Steakhouse",
+        "slug": "steakhouse"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/steelbach"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/steelbach",
+    "objectID": "82957",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Set in a space that once housed the Tampa Electrical",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.96083",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.46376",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Steelbach",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1902 N. Ola Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Southern",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Steakhouse",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Southern",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9606172,
+      "lng": -82.4635688
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0dfec46bc91849e6bd53c111427b51f5",
+    "images": [
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4567643",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0dfec46bc91849e6bd53c111427b51f5"
+      },
+      {
+        "copyright": "Lindsey Batz /Oak & Ola",
+        "identifier": "4564127",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5789a4baaa4144f2b8aec69631a31e90"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4564139",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/fb52667da84d416093732db6328cf868"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4564209",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/213aa1ed719e4749b49898e910adbaaf"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4564083",
+        "order": 4,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4ee16d1a344f474795c81f8645b6af9f"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4574149",
+        "order": 5,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ed374f3d70f6409aa780a513a611dcaa"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4564107",
+        "order": 6,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6562de930275461dac9a4f38f6248b3b"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4564220",
+        "order": 7,
+        "topic": "SUJ_TER",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/68930f23a6c4499cb06898db643b0891"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4567652",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/051311917ee940f0af0b8c8c8a269b04"
+      },
+      {
+        "copyright": "Lindsey Batz/Oak & Ola",
+        "identifier": "4567769",
+        "order": 9,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/f6bb907f6cac43f2a5e458e8ada6572e"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Lindsey Batz/Oak & Ola",
+      "identifier": "4567643",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0dfec46bc91849e6bd53c111427b51f5",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Oak & Ola",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "oak-ola",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_53",
+        "label": "European",
+        "slug": "european"
+      },
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/oak-ola"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/oak-ola",
+    "objectID": "82955",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Under the aegis of celebrated chef, Anne Kearny, this boisterous",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9606172",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4635688",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Oak & Ola",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1910 N. Ola Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "European",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "European",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.93735,
+      "lng": -82.47606
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b70f5d9bad58478b89ae1a389bec8782",
+    "images": [
+      {
+        "copyright": "Vanessa Boy/Timpano",
+        "identifier": "4609483",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b70f5d9bad58478b89ae1a389bec8782"
+      },
+      {
+        "copyright": "Shannon Ball/Timpano",
+        "identifier": "4609497",
+        "order": 1,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/eccbd221e0d740f89b31d7419c8d80b8"
+      },
+      {
+        "copyright": "Ricardo Mejia/Timpano",
+        "identifier": "4609492",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/152e3bbdb0e747c89050d6e214486b26"
+      },
+      {
+        "copyright": "Michael Ferraro/Timpano",
+        "identifier": "4609510",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d22cd6c21de242779f631229a4b14e38"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Vanessa Boy/Timpano",
+      "identifier": "4609483",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b70f5d9bad58478b89ae1a389bec8782",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Timpano",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "timpano",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1179",
+        "label": "Italian-American",
+        "slug": "italian-american"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/timpano"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/timpano",
+    "objectID": "82956",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "After a chic redesign, this longtime Hyde Park Village staple",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.93735",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.47606",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Timpano",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1610 W. Swann Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Italian-American",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Italian-American",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9594956,
+      "lng": -82.462424
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4403bbaf6d6543148c4053b3e7ef7d9a",
+    "images": [
+      {
+        "copyright": "Cliff McBride/Ulele",
+        "identifier": "4216842",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4403bbaf6d6543148c4053b3e7ef7d9a"
+      },
+      {
+        "copyright": "Gabriel Burgos/Ulele",
+        "identifier": "4216778",
+        "order": 1,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/064454ee75684ff4b0d93016f68d27fb"
+      },
+      {
+        "copyright": "Jeff Houck/Ulele",
+        "identifier": "4216818",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b3e4f4e34ed440f89c30e79c333e91d2"
+      },
+      {
+        "copyright": "Jeff Houck/Ulele",
+        "identifier": "4216886",
+        "order": 3,
+        "topic": "SUJ_TER",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/747b76550c404c14bb4d62837dffbd72"
+      },
+      {
+        "copyright": "Jeff Houck/Ulele",
+        "identifier": "4216742",
+        "order": 4,
+        "topic": "SUJ_TER",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6375dabb150b4d80b9da2016ef466157"
+      },
+      {
+        "copyright": "Amy Pezzicara/Ulele",
+        "identifier": "4216858",
+        "order": 5,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/2078a790d436427fac2dc23240cc8f7a"
+      },
+      {
+        "copyright": "Jeff Houck/Ulele",
+        "identifier": "4216728",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e0ad7d458d864445b98a107861db8261"
+      },
+      {
+        "copyright": "Grace Gonzalez/Ulele/Ulele",
+        "identifier": "4711636",
+        "order": 7,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ba7c5240b1794224a5aecdf7e41fe9e2"
+      },
+      {
+        "copyright": "Amy Pezzicara/Ulele",
+        "identifier": "4216773",
+        "order": 8,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/97e3fddb9cb247799507fb8b3061ad80"
+      },
+      {
+        "copyright": "Cliff McBride/Ulele",
+        "identifier": "4216736",
+        "order": 9,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b5ed00b56f754f99aa050f5806cdfb08"
+      },
+      {
+        "copyright": "Jeff Houck/Ulele",
+        "identifier": "4216731",
+        "order": 10,
+        "topic": "SUJ_TER",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c46cba2636b04137a11f17862ff18a07"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Cliff McBride/Ulele",
+      "identifier": "4216842",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4403bbaf6d6543148c4053b3e7ef7d9a",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Ulele",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "ulele",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_40",
+        "label": "American",
+        "slug": "american"
+      },
+      {
+        "code": "TYC_1161",
+        "label": "Fusion",
+        "slug": "fusion-1161"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/ulele"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/ulele",
+    "objectID": "82978",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "With a scenic location at the edge of a restored",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9594956",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.462424",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Ulele",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1810 N. Highland Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "American",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Fusion",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "American",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9373495,
+      "lng": -82.475075
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/24a48b69b19b417eb17b7964af41262e",
+    "images": [
+      {
+        "copyright": "Lindsey Batz/On Swann",
+        "identifier": "4496541",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/24a48b69b19b417eb17b7964af41262e"
+      },
+      {
+        "copyright": "Lindsay Bard/On Swann",
+        "identifier": "4496745",
+        "order": 1,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/8ec649859d2b4c52b817f8beb8ab63e0"
+      },
+      {
+        "copyright": "Billy Zeko/On Swann",
+        "identifier": "4496785",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4e6202ac8e1243c28b3da935bd03eb35"
+      },
+      {
+        "copyright": "Lindsey Batz/On Swann",
+        "identifier": "4496619",
+        "order": 3,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/11e67c768b954673b9a83c988aad9013"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496741",
+        "order": 4,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/acd87bebcc464d3f80afcbf813e195ec"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496781",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3a3a77913d1c435999f8e502a835e5cf"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496856",
+        "order": 6,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d26f34ea1b97454cb1fe6c1f3113fa0c"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496604",
+        "order": 7,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/96338825b1fc432b830617c616f7acaf"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496520",
+        "order": 8,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/979334abf4fe4aeda9fdbd0eb0fab5b3"
+      },
+      {
+        "copyright": "Lindsey batz/On Swann",
+        "identifier": "4496553",
+        "order": 9,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/edb2ad8384974fa7b7529ce4226db10c"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Lindsey Batz/On Swann",
+      "identifier": "4496541",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/24a48b69b19b417eb17b7964af41262e",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "On Swann",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "on-swann",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      },
+      {
+        "code": "TYC_72",
+        "label": "Southern",
+        "slug": "southern"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/on-swann"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/on-swann",
+    "objectID": "82969",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "This lofty, stylish space draws in crowds, thanks to its",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9373495",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.475075",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "On Swann",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1501 W. Swann Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Southern",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Contemporary",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.94191,
+      "lng": -82.46831
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c2406a6f5beb41a69aababa40c7b13b3",
+    "images": [
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "5679627",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c2406a6f5beb41a69aababa40c7b13b3"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4474898",
+        "order": 1,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b7b8c405f9194622a1f314270492338e"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4491177",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9e5fbd4598f44d16aa003afb8899c5d1"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "5679614",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e29e7dcb5ebb45b6bb54b1a296c61ea0"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "5679609",
+        "order": 4,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/80d8c67484494962957761d8d684e113"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4474916",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/fb7427fa486f4a589f16ce51d0ff5a21"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "5629661",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/812a670e18e94bc2a2edcb0c43d96bf8"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4489531",
+        "order": 7,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/dc608e79337d49a7a54771659765dda7"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4489549",
+        "order": 8,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ae426673e347420ea9f8fb2cb3adfd4e"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4489553",
+        "order": 9,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6af201085ac540aeaae4ed788f50d1df"
+      },
+      {
+        "copyright": "Keir Magoulas/Koya",
+        "identifier": "4509614",
+        "order": 10,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ac344ab8baa042a4a435755a5266bf39"
+      },
+      {
+        "copyright": "Eric Fralick/Koya",
+        "identifier": "4610824",
+        "order": 11,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/86b0a37f074d4038bfe0f8ca8476dc55"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Keir Magoulas/Koya",
+      "identifier": "5679627",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c2406a6f5beb41a69aababa40c7b13b3",
+      "source": "cloud_image"
+    },
+    "michelin_award": "ONE_STAR",
+    "name": "Koya",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "koya",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1068",
+        "label": "Japanese",
+        "slug": "japanese"
+      },
+      {
+        "code": "TYC_40",
+        "label": "American",
+        "slug": "american"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/koya"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/koya",
+    "objectID": "82908",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "There is a watchful eye over the experience at this",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.94191",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.46831",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "ONE_STAR",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Koya",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "807 W. Platt St.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Japanese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "American",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Japanese",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.945,
+      "lng": -82.46525
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/972085a4cf5340a6a7914a7b8af4a8e0",
+    "images": [
+      {
+        "copyright": "Amy Pezz/Mise en Place",
+        "identifier": "4629808",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/972085a4cf5340a6a7914a7b8af4a8e0"
+      },
+      {
+        "copyright": "Foto Bohemia/Mise en Place",
+        "identifier": "4629829",
+        "order": 1,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/02af4c754ceb4c9496e132a6466e95b3"
+      },
+      {
+        "copyright": "Foto Bohemia/Mise en Place",
+        "identifier": "4629842",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/72ffd66732544d48a28dd92a320a375a"
+      },
+      {
+        "copyright": "Foto Bohemia/Mise en Place",
+        "identifier": "4629813",
+        "order": 3,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/735fe0b1698b439fa2a5b1e511cac71d"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Amy Pezz/Mise en Place",
+      "identifier": "4629808",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/972085a4cf5340a6a7914a7b8af4a8e0",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Mise en Place",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "mise-en-place",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1065",
+        "label": "International",
+        "slug": "international"
+      },
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/mise-en-place"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/mise-en-place",
+    "objectID": "82914",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Originally a small-scale catering business founded in 1986 by",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.945",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.46525",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Mise en Place",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33606",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "442 W. Kennedy Blvd.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "International",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "International",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.996141,
+      "lng": -82.429634
+    },
+    "image": null,
+    "images": null,
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": null,
+    "michelin_award": null,
+    "name": "Yummy House",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "yummy-house",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1030",
+        "label": "Chinese",
+        "slug": "chinese"
+      },
+      {
+        "code": "TYC_1041",
+        "label": "Dim Sum",
+        "slug": "dim-sum"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/yummy-house"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/yummy-house",
+    "objectID": "82923",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Crowds still clamber to fill the seats at this spacious",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.996141",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.429634",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Yummy House",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33610",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "2620 E. Hillsborough Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Chinese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Dim Sum",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Chinese",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9513073,
+      "lng": -82.4476003
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b89ae07860954418bf7e051d31a04078",
+    "images": [
+      {
+        "copyright": "Cena",
+        "identifier": "4574110",
+        "order": 0,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b89ae07860954418bf7e051d31a04078"
+      },
+      {
+        "copyright": "Cena",
+        "identifier": "4574113",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/90e23b4a539d4ab892e0c0b7df75d797"
+      },
+      {
+        "copyright": "Cena",
+        "identifier": "4574137",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/907c39c9a17c4107b401023d48fc3c18"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Cena",
+      "identifier": "4574110",
+      "order": 0,
+      "topic": "SUJ_PLAT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b89ae07860954418bf7e051d31a04078",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Cena",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "cena-1194505",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1067",
+        "label": "Italian",
+        "slug": "italian"
+      },
+      {
+        "code": "TYC_1182",
+        "label": "American Contemporary",
+        "slug": "american-contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/cena-1194505"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/cena-1194505",
+    "objectID": "82983",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Nestled among retail spaces and luxury apartments, this unassuming spot",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9513073",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4476003",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Cena",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "1120 E. Kennedy Blvd.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Italian",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "American Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Italian",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.94373,
+      "lng": -82.45109
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/18e079c515344238b7ce5ab124021a42",
+    "images": [
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697739",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/18e079c515344238b7ce5ab124021a42"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697667",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/09d63020618a4ab290f64f52ceaa1e11"
+      },
+      {
+        "copyright": "Nikolas Koenig/Lilac",
+        "identifier": "5643295",
+        "order": 2,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e13bcddf99c647fdb893450d5d1c81c3"
+      },
+      {
+        "copyright": "Nikolas Koenig/Lilac",
+        "identifier": "5643310",
+        "order": 3,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0e088f9686c2451da85f66ed4c37a03e"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697718",
+        "order": 4,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/a050c424c4ca4120bbd5358e968c70d7"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697796",
+        "order": 5,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/4cfdd0ed596f460680144f4a0ae72259"
+      },
+      {
+        "copyright": "Gabriel Burgos/Lilac",
+        "identifier": "5643383",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/80d6f967bb71424c81eb5a97e8d15219"
+      },
+      {
+        "copyright": "Nikolas Koenig/Lilac",
+        "identifier": "5643353",
+        "order": 7,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/0e41ac058aef44daad5e39ff237eb438"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697642",
+        "order": 8,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c0abde93d2724ec6a6252f0892a40108"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697674",
+        "order": 9,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/180e31510b9a4e32b17bb2dfb11bfbad"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697701",
+        "order": 10,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1cd1755ce45f455d9eb1263a6d6c7862"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697729",
+        "order": 11,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/96baa36d61e44abaabe56d3444422f1e"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697749",
+        "order": 12,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/358d69a71b6c4ca9812aba1300c0b79b"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697758",
+        "order": 13,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/de27e1d222694354a99b8180649163b1"
+      },
+      {
+        "copyright": "Nitzan Keynan/Lilac",
+        "identifier": "5697769",
+        "order": 14,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/be299d37759441ba9156f9a1ce29458b"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Nitzan Keynan/Lilac",
+      "identifier": "5697739",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/18e079c515344238b7ce5ab124021a42",
+      "source": "cloud_image"
+    },
+    "michelin_award": "ONE_STAR",
+    "name": "Lilac",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "lilac-1205642",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1083",
+        "label": "Mediterranean Cuisine",
+        "slug": "mediterranean-cuisine"
+      },
+      {
+        "code": "TYC_6",
+        "label": "Contemporary",
+        "slug": "contemporary"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/lilac-1205642"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/lilac-1205642",
+    "objectID": "82954",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Situated in the sleek and oh-so-stylish Edition hotel",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.94373",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.45109",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "ONE_STAR",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Lilac",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "500 Channelside Dr.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Mediterranean Cuisine",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Contemporary",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Mediterranean Cuisine",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.9436887,
+      "lng": -82.4471331
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/87a7f2ac7fb54bbb95786f4ba19ec856",
+    "images": [
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695223",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/87a7f2ac7fb54bbb95786f4ba19ec856"
+      },
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695245",
+        "order": 1,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ad04581a01f7424c8c892fa0c58adb76"
+      },
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695250",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9ef6f71e57354c2fbb2d7a97308910ab"
+      },
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695272",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/a56f02ccc78d40e0b5a8f290487f6b9d"
+      },
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695261",
+        "order": 4,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/6a83069d2ded4b338d855ccefbfa611d"
+      },
+      {
+        "copyright": "Keir Magoulas/Noble Rice",
+        "identifier": "5695218",
+        "order": 5,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/8c5909963b7944d5a999efedc66fce4c"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Keir Magoulas/Noble Rice",
+      "identifier": "5695223",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/87a7f2ac7fb54bbb95786f4ba19ec856",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Noble Rice",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "noble-rice",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1068",
+        "label": "Japanese",
+        "slug": "japanese"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/noble-rice"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/noble-rice",
+    "objectID": "82986",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Restaurants pack this area just off Channelside Drive, but Noble",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.9436887",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4471331",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Noble Rice",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33602",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "615 Channelside Dr. #112",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Japanese",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Japanese",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 27.96025,
+      "lng": -82.4357
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74348c7e9a1640e1bec7399c57b0fe9d",
+    "images": [
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531065",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74348c7e9a1640e1bec7399c57b0fe9d"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "4531071",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/033a00d484704727965de7acd71b2163"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "4531162",
+        "order": 2,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9a93a726a67f4ff898626b99fc544fd0"
+      },
+      {
+        "copyright": "Columbia Retaurant/Columbia",
+        "identifier": "4531196",
+        "order": 3,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c3f5bad05a194c2da2255c8d545cfb5f"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531062",
+        "order": 4,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/cb34631720374af7a363532591700a77"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531110",
+        "order": 5,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/051c49b19d694c99ad6bcb6d9825abfd"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "4531176",
+        "order": 6,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ca0bf6ba95214c9296db8403d8ca99eb"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531059",
+        "order": 7,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/69dbd29b525e409d8d6ab265cc0cdd6e"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531090",
+        "order": 8,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ddc6352e3fc54659b1711112977339eb"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531214",
+        "order": 9,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/810b3cc978e642c99230e53254e1804c"
+      },
+      {
+        "copyright": "Columbia Restaurant/Columbia",
+        "identifier": "4531119",
+        "order": 10,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b906dcc6313e4547bdbc78f7f4fd9dec"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "4531056",
+        "order": 11,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/88c5c74987a24d2395cc2ba58142096f"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Columbia Restaurant/Columbia",
+      "identifier": "4531065",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74348c7e9a1640e1bec7399c57b0fe9d",
+      "source": "cloud_image"
+    },
+    "michelin_award": null,
+    "name": "Columbia",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 1,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "columbia",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_1038",
+        "label": "Cuban",
+        "slug": "cuban"
+      },
+      {
+        "code": "TYC_1044",
+        "label": "Spanish",
+        "slug": "spanish"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/columbia"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/columbia",
+    "objectID": "82979",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "For devotees of Cuban-American cuisine, a pilgrimage to this",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "27.96025",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.4357",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "name": {
+        "value": "Columbia",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33605",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "2117 E. 7th Ave.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Cuban",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Spanish",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Cuban",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  },
+  {
+    "_geoloc": {
+      "lat": 28.1431883,
+      "lng": -82.3264981
+    },
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d249324f31044488ab017aba6deb7181",
+    "images": [
+      {
+        "copyright": "Rajesh Pathak/Gorkhali Kitchen",
+        "identifier": "5781800",
+        "order": 0,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d249324f31044488ab017aba6deb7181"
+      },
+      {
+        "copyright": "Rajesh Pathak/Gorkhali Kitchen",
+        "identifier": "5781816",
+        "order": 1,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/89addd82e1da40a694e95462816ddabe"
+      },
+      {
+        "copyright": "Rajesh Pathak/Gorkhali Kitchen",
+        "identifier": "5781795",
+        "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/1a58c4e615f444508f086ee6d4191765"
+      }
+    ],
+    "city": {
+      "name": "Tampa",
+      "slug": "tampa",
+      "exonyms": []
+    },
+    "country": {
+      "name": "USA",
+      "slug": "us",
+      "exonyms": [
+        "Vereinigte Staaten von Amerika",
+        "Estados Unidos",
+        "Etats-Unis",
+        "Stati Uniti",
+        "미국",
+        "Verenigde Staten",
+        "สหรัฐอเมริกา",
+        "USA",
+        "Amerika",
+        "الولايات المتحدة"
+      ],
+      "code": "US",
+      "cname": "united-states"
+    },
+    "good_menu": 0,
+    "main_image": {
+      "copyright": "Rajesh Pathak/Gorkhali Kitchen",
+      "identifier": "5781800",
+      "order": 0,
+      "topic": "SUJ_ENT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d249324f31044488ab017aba6deb7181",
+      "source": "cloud_image"
+    },
+    "michelin_award": "BIB_GOURMAND",
+    "name": "Gorkhali Kitchen",
+    "new_table": 0,
+    "offers": 0,
+    "offers_size": 0,
+    "online_booking": 0,
+    "region": {
+      "name": "Florida",
+      "slug": "florida",
+      "exonyms": []
+    },
+    "site_name": "USA",
+    "site_slug": "us",
+    "slug": "gorkhali-kitchen",
+    "take_away": 0,
+    "cuisines": [
+      {
+        "code": "TYC_121",
+        "label": "Nepali",
+        "slug": "nepali"
+      },
+      {
+        "code": "TYC_1059",
+        "label": "Indian",
+        "slug": "indian"
+      }
+    ],
+    "other_urls": [
+      "/en/florida/tampa/restaurant/gorkhali-kitchen"
+    ],
+    "url": "/us/en/florida/tampa/restaurant/gorkhali-kitchen",
+    "objectID": "82987",
+    "_snippetResult": {
+      "main_desc": {
+        "value": "Take the short drive from downtown for a taste of",
+        "matchLevel": "none"
+      }
+    },
+    "_highlightResult": {
+      "_geoloc": {
+        "lat": {
+          "value": "28.1431883",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "lng": {
+          "value": "-82.3264981",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "city": {
+        "name": {
+          "value": "Tampa",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "country": {
+        "name": {
+          "value": "USA",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "exonyms": [
+          {
+            "value": "Vereinigte Staaten von Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Estados Unidos",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Etats-Unis",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Stati Uniti",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "미국",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Verenigde Staten",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "สหรัฐอเมริกา",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "USA",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "Amerika",
+            "matchLevel": "none",
+            "matchedWords": []
+          },
+          {
+            "value": "الولايات المتحدة",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        ]
+      },
+      "michelin_award": {
+        "value": "BIB_GOURMAND",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "name": {
+        "value": "Gorkhali Kitchen",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "postcode": {
+        "value": "33647",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region": {
+        "name": {
+          "value": "Florida",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      },
+      "street": {
+        "value": "10044 Cross Creek Blvd.",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisines": [
+        {
+          "label": {
+            "value": "Nepali",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        },
+        {
+          "label": {
+            "value": "Indian",
+            "matchLevel": "none",
+            "matchedWords": []
+          }
+        }
+      ],
+      "city_name": {
+        "value": "Tampa",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "country_name": {
+        "value": "United States",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "cuisine_type": {
+        "value": "Nepali",
+        "matchLevel": "none",
+        "matchedWords": []
+      },
+      "region_name": {
+        "value": "Florida",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    }
+  }
+]
