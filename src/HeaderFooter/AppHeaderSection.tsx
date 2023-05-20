@@ -8,10 +8,10 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { setLastUserSelection } from '../USPage/CookieUserSelection';
-import { MetroDefiniton } from '../yummodule/metro_def';
 import { MetroState, useMetro } from '../USPage/useMetro';
 import { SearchInput } from '../USPage/YumSearch';
 import { YProfileCircle } from '../YProfileCircle';
+import { MetroDefiniton } from '../yummodule/metro_def';
 import DatePicker from './DatePicker';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from './SelectedDateState';
 
@@ -44,7 +44,7 @@ const MetroSelect = () => {
       bordered={false}
       onSelect={(value: any, option: any) => {
         setMetro(value);
-        history.push(`/metro/${value}/list/all`);
+        history.push(`/metro/${value}/list/stars`);
       }}
     >
       {MetroDefiniton.map((m) => (
