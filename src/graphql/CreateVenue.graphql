@@ -54,6 +54,7 @@ mutation CreateVenue(
   ) {
     venue {
       key
+      name
     }
   }
 }

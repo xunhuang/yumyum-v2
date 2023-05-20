@@ -18,6 +18,7 @@
     "@types/styled-components": "^5.1.14",
     "@types/superagent": "^4.1.13",
     "antd": "^4.16.13",
+    "babel-jest": "^29.5.0",
     "build-url": "^6.0.1",
     "cheerio": "^1.0.0-rc.10",
     "deepcopy": "^2.1.0",
@@ -31,7 +32,7 @@
     "moment-timezone": "^0.5.34",
     "moving-average": "^1.0.1",
     "moving-averages": "^4.0.6",
-    "nanoid": "^4.0.0",
+    "nanoid": "^3.3.6",
     "node-ts-cache": "^4.4.0",
     "node-ts-cache-storage-memory": "^4.4.0",
     "postgraphile": "^4.12.5",
@@ -85,6 +86,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.21.5",
     "@emotion/styled": "^11.3.0",
     "@google-cloud/bigquery": "^5.9.0",
     "@graphql-codegen/cli": "^2.13.8",

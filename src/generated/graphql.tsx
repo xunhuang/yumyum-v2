@@ -1177,7 +1177,7 @@ export type CreateVenueMutationVariables = Exact<{
 }>;
 
 
-export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: { __typename?: 'CreateVenuePayload', venue?: { __typename?: 'Venue', key: string } | null } | null };
+export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: { __typename?: 'CreateVenuePayload', venue?: { __typename?: 'Venue', key: string, name?: string | null } | null } | null };
 
 export type LookupReservationInfoQueryVariables = Exact<{
   url: Scalars['String'];
@@ -1733,6 +1733,7 @@ export const CreateVenueDocument = gql`
   ) {
     venue {
       key
+      name
     }
   }
 }
