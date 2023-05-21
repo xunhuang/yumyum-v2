@@ -2026,7 +2026,7 @@
     "new_table": 0,
     "offers": 0,
     "offers_size": 0,
-    "online_booking": 1,
+    "online_booking": 0,
     "region": {
       "name": "Illinois",
       "slug": "illinois",

@@ -3635,52 +3635,17 @@
       },
       {
         "copyright": "Maria Belen Ruiz/PAPA LLAMA",
-        "identifier": "4563938",
-        "order": 2,
-        "topic": "SUJ_TER",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/f3fb43bdc1ea4da2b0e270b9eff20b2a"
-      },
-      {
-        "copyright": "Maria Belen Ruiz/PAPA LLAMA",
-        "identifier": "4563944",
-        "order": 3,
-        "topic": "SUJ_INT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/e4bb6082b9624d358ad81c27886909c4"
-      },
-      {
-        "copyright": "Maria Belen Ruiz/PAPA LLAMA",
         "identifier": "4563991",
-        "order": 4,
+        "order": 2,
         "topic": "SUJ_EXT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d01657cd9f4245cea6e90e4bb30486d8"
       },
       {
         "copyright": "Maria Belen Ruiz/PAPA LLAMA",
-        "identifier": "4564053",
-        "order": 5,
-        "topic": "SUJ_ENT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9af81568b94e46929b84804b3d952ba6"
-      },
-      {
-        "copyright": "Maria Belen Ruiz/PAPA LLAMA",
         "identifier": "4564061",
-        "order": 6,
+        "order": 3,
         "topic": "SUJ_INT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/895b57b872a94ab59d46cb57c409e942"
-      },
-      {
-        "copyright": "Maria Belen Ruiz/PAPA LLAMA",
-        "identifier": "4564045",
-        "order": 7,
-        "topic": "SUJ_INT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/be9a32c6c9d74681a3914ffce5919b84"
-      },
-      {
-        "copyright": "Maria Belen Ruiz/PAPA LLAMA",
-        "identifier": "4563985",
-        "order": 8,
-        "topic": "SUJ_PLAT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/3efed0ae672c444fa298439790e155fb"
       }
     ],
     "city": {
@@ -3737,10 +3702,10 @@
         "slug": "peruvian"
       }
     ],
+    "url": "/us/en/florida/orlando/restaurant/papa-llama",
     "other_urls": [
       "/en/florida/orlando/restaurant/papa-llama"
     ],
-    "url": "/us/en/florida/orlando/restaurant/papa-llama",
     "objectID": "83001",
     "_snippetResult": {
       "main_desc": {
