@@ -186,13 +186,16 @@ export class VendorTock extends VendorBase {
         }
 
         for (const best of sorted.slice(0, 10)) {
+            // console.log(JSON.stringify(best, null, 2));
             // distance in meters
-            const distance = getDistance(
-                { latitude: latitude, longitude: longitude },
-                { latitude: best.latitude, longitude: best.longitude }
-            );
-            if (distance > 150) {
-                return null;
+            if (best.latitude != null && best.longitude != null) {
+                const distance = getDistance(
+                    { latitude: latitude, longitude: longitude },
+                    { latitude: best.latitude, longitude: best.longitude }
+                );
+                if (distance > 150) {
+                    return null;
+                }
             }
 
             if (venueNameMatched(term, best.name)) {
