@@ -63,7 +63,7 @@ export const AppHeaderSection = () => {
 
   const [date, setDate] = useRecoilState(SelectedDateState);
   const [party_size, setPartySize] = useRecoilState(SelectedPartySize);
-  const [timeOption] = useRecoilState(SelectedTimeOption);
+  const [timeOption, setTimeOption] = useRecoilState(SelectedTimeOption);
 
   const logo = (
     <Button
@@ -114,6 +114,23 @@ export const AppHeaderSection = () => {
       ))}
     </Select>
   );
+  const time_picker = (
+    <Select
+      defaultValue={timeOption}
+      style={{ width: 120 }}
+      onSelect={(value: any, option: any) => {
+        setTimeOption(value.toString());
+        setLastUserSelection({
+          date: date,
+          party_size: party_size,
+          timeOption: value.toString(),
+        });
+      }}
+    >
+      <Option value="dinner"> Dinner</Option>
+      <Option value="lunch"> Lunch</Option>
+    </Select>
+  );
 
   return (
     <div>
@@ -123,6 +140,7 @@ export const AppHeaderSection = () => {
           <MetroSelect />
           <SearchInput placeholder="Search Yumyum" style={{ flexGrow: 1 }} />
           {date_picker}
+          {time_picker}
           {party_picker}
           <YProfileCircle />
         </Toolbar>

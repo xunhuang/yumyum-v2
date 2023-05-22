@@ -18,4 +18,5 @@ export const SelectedPartySize = atom({
 export const SelectedTimeOption = atom({
   key: "selectedTimeOption",
   default: cookieState?.timeOption || "dinner",
+  // default: cookieState?.timeOption || "lunch",
 });
