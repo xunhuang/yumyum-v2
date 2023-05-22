@@ -148,7 +148,8 @@ export const AppHeaderSection = () => {
       {!wideScreen && (
         <Fragment>
           <Toolbar className={classes.appBar}>
-            <YProfileCircle />
+            {/* <YProfileCircle /> */}
+            <MetroSelect />
             {logo}
             <SearchInput
               placeholder="Search Yumyum"
@@ -156,7 +157,8 @@ export const AppHeaderSection = () => {
             />
           </Toolbar>
           <Toolbar className={classes.appBar}>
-            <MetroSelect />
+            {/* <MetroSelect /> */}
+            {time_picker}
             <div className={classes.expander} />
             {date_picker}
             <div className={classes.expander} />
