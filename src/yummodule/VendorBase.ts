@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { VenueSearchInput } from './VenueSearchInput';
 
 export interface TimeSlots {
@@ -47,15 +45,15 @@ export class VendorBase {
             }
             let slots = await this.venueSearch(venue, date, party_size, timeOption);
             // not all vendors respect the lunch/dinner options for slots so we have to filter them out here
-            if (slots) {
-                slots = slots?.filter((slot) => {
-                    if (timeOption === "lunch") {
-                        return dayjs(slot.time).hour() < 16;
+            // if (slots) {
+            //     slots = slots?.filter((slot) => {
+            //         if (timeOption === "lunch") {
+            //             return dayjs(slot.time).hour() < 16;
 
-                    }
-                    return dayjs(slot.time).hour() >= 16;
-                });
-            }
+            //         }
+            //         return dayjs(slot.time).hour() >= 16;
+            //     });
+            // }
             return slots;
 
         } catch (err) {
