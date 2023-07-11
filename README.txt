@@ -12,7 +12,6 @@ cd graphql
 ln -s ../src/yummodule .
 npm install
 
-# export PGHOST=35.239.215.*** # lookup from console.cloud.google.com random
 export PGHOST=35.188.171.*** # lookup from console.cloud.google.com yumyum-v2
 export PGPASSWORD=3DdeM*****  # look it up 
 
@@ -21,6 +20,19 @@ npm start
 
 then visit  http://localhost:8080/graphiql
 
+type in a query like 
+'''
+query MyQuery {
+  allVenues(filter: {metro: {equalTo: "bayarea"}, name: {equalTo: "Angler SF"}}) {
+    edges {
+      node {
+        name
+        slots (date:"2023-07-14",party_size:2, timeOption:"lunch")
+      }
+    }
+  }
+}
+'''
 
 install code gen
 ----------------

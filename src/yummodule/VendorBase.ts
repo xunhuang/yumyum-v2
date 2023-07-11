@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { VenueSearchInput } from './VenueSearchInput';
 
 export interface TimeSlots {
@@ -43,7 +45,19 @@ export class VendorBase {
             if (!this.allRequiredFieldsPresent(venue)) {
                 throw new Error(`Some required fields are missing for ${venue.name} (${venue.key})`)
             }
-            return await this.venueSearch(venue, date, party_size, timeOption);
+            let slots = await this.venueSearch(venue, date, party_size, timeOption);
+            // not all vendors respect the lunch/dinner options for slots so we have to filter them out here
+            if (slots) {
+                slots = slots?.filter((slot) => {
+                    if (timeOption === "lunch") {
+                        return dayjs(slot.time).hour() < 16;
+
+                    }
+                    return dayjs(slot.time).hour() >= 16;
+                });
+            }
+            return slots;
+
         } catch (err) {
             console.error(`${venue.reservation} Error searching for ${venue.name} (${venue.key}) ${err}`);
             return null;
