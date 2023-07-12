@@ -27,8 +27,7 @@ export const AvailabilityList = ({
   // dedup first
   return (
     <div>
-      {/* {[...new Set(slots)]?.sort().map((timestr) => ( */}
-      {[...new Set(slots)]?.map((timestr) => (
+      {[...new Set(slots)]?.sort().map((timestr) => (
         <Button
           key={timestr}
           type="primary"
