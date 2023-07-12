@@ -1,4 +1,12 @@
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
 import { VenueSearchInput } from './VenueSearchInput';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 
 export interface TimeSlots {
     time: string;
@@ -45,15 +53,14 @@ export class VendorBase {
             }
             let slots = await this.venueSearch(venue, date, party_size, timeOption);
             // not all vendors respect the lunch/dinner options for slots so we have to filter them out here
-            // if (slots) {
-            //     slots = slots?.filter((slot) => {
-            //         if (timeOption === "lunch") {
-            //             return dayjs(slot.time).hour() < 16;
-
-            //         }
-            //         return dayjs(slot.time).hour() >= 16;
-            //     });
-            // }
+            if (slots) {
+                slots = slots?.filter((slot) => {
+                    if (timeOption === "lunch") {
+                        return dayjs(slot.time).tz(venue.timezone).hour() < 16;
+                    }
+                    return dayjs(slot.time).tz(venue.timezone).hour() >= 16;
+                });
+            }
             return slots;
 
         } catch (err) {
