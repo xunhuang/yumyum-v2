@@ -1,6 +1,17 @@
-import { ApolloClient, ApolloQueryResult, InMemoryCache } from '@apollo/client';
-import { MetroReservationDocument, MetroReservationQuery, UpdateVenueInfoDocument, UpdateVenueInfoMutation, Venue, VenueByKeyDocument, VenueByKeyQuery } from '../src/generated/graphql';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import dayjs from 'dayjs';
+
+import {
+    MetroReservationDocument,
+    MetroReservationQuery,
+    UpdateVenueInfoDocument,
+    UpdateVenueInfoMutation,
+    Venue,
+    VenueByKeyDocument,
+    VenueByKeyQuery,
+} from '../src/generated/graphql';
 import { VenueVendorInfo } from '../src/yummodule/VendorBase';
+import { getVendor } from '../src/yummodule/Vendors';
 
 const cache = new InMemoryCache();
 const client = new ApolloClient({
@@ -67,4 +78,16 @@ export function venueToVendorInfo(venue: Venue): VenueVendorInfo {
         businessid: venue.businessid!,
         timezone: venue.timezone!,
     };
+}
+
+
+export async function venueReservationSearchByKey(key: string) {
+    const result = await yumyumVenueByKey(key);
+    const vendorInfo = venueToVendorInfo(result?.data?.venueByKey!);
+    const vendor = getVendor(vendorInfo.reservation)
+    return await vendor.venueSearchSafe(
+        vendorInfo,
+        dayjs().add(7, 'day').format('YYYY-MM-DD'),
+        2, "dinner", true
+    );
 }

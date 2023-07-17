@@ -2,7 +2,7 @@ import { describe } from '@jest/globals';
 import dayjs from 'dayjs';
 
 import { VendorTock } from '../src/yummodule/VendorTock';
-import { venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
+import { venueReservationSearchByKey, venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
 
 const smallset = require("./tock.json");
 
@@ -30,12 +30,7 @@ describe('Tock System Test', () => {
 
   // this one has a take-out order
   it('investigate omakase', async () => {
-    const result = await yumyumVenueByKey("2VZHquW1dA6Gdv7m868O");
-    const search_result = await tock.venueSearchSafe(
-      venueToVendorInfo(result?.data?.venueByKey!),
-      dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
-      2, "dinner", true
-    );
+    const search_result = await venueReservationSearchByKey("2VZHquW1dA6Gdv7m868O");
     expect(search_result).not.toBeNull();
   })
 

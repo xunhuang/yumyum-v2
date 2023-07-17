@@ -2,6 +2,7 @@ import { describe } from '@jest/globals';
 
 import { VendorOpentable } from '../src/yummodule/VendorOpentable';
 import { VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { venueReservationSearchByKey } from './getYumYumGraphQLClient';
 
 var opentable = new VendorOpentable();
 describe('Opentable System Test', () => {
@@ -39,4 +40,13 @@ describe('Opentable System Test', () => {
       expect(search_result?.businessid).toEqual("41389");
     })
   })
+
+  describe('reservation search', () => {
+    it('Testing for Opentable API functioning ok', async () => {
+      // ISA
+      const search_result = await venueReservationSearchByKey("pdeQcjD6o8T1qrfpfeA0");
+      // null means API error
+      expect(search_result).not.toBeNull();
+    })
+  });
 })
