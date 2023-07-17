@@ -1,7 +1,9 @@
 import { describe, expect } from '@jest/globals';
+import dayjs from 'dayjs';
 
 import { VendorResy } from '../src/yummodule/VendorResy';
 import { VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
 
 const nyc = require("./nyc-tbd.json");
 
@@ -59,5 +61,18 @@ describe('Resy System Test', () => {
             }
         }, 100000)
     })
+
+    describe('reservation search', () => {
+        it('Testing for ResyAPI functioning ok', async () => {
+            const result = await yumyumVenueByKey("00d065a4-8869-4ade-86fc-06e37bc918e6");
+            const search_result = await resy.venueSearchSafe(
+                venueToVendorInfo(result?.data?.venueByKey!),
+                dayjs().add(7, 'day').format('YYYY-MM-DD'),
+                2, "dinner", true
+            );
+            // null means API error
+            expect(search_result).not.toBeNull();
+        })
+    });
 })
 
