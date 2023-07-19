@@ -77,6 +77,9 @@ export function venueToVendorInfo(venue: Venue): VenueVendorInfo {
         reservation: venue.reservation!,
         businessid: venue.businessid!,
         timezone: venue.timezone!,
+        longitude: venue.longitude!.toString(),
+        latitude: venue.latitude!.toString(),
+        url_slug: venue.urlSlug!,
     };
 }
 

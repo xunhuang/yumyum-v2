@@ -48,5 +48,11 @@ describe('Opentable System Test', () => {
       // null means API error
       expect(search_result).not.toBeNull();
     })
+    it('Testing for Yelp API functioning ok', async () => {
+      // saltwater
+      const search_result = await venueReservationSearchByKey("c92IICLvjpnfKrZuMNg7");
+      // null means API error
+      expect(search_result).not.toBeNull();
+    })
   });
 })

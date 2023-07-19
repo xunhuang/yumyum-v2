@@ -21,8 +21,8 @@ export interface VenueVendorInfo {
     timezone?: string;
     resy_city_code?: string;
     url_slug?: string;
-    latitude?: string;
     bookingnotes?: string;
+    latitude?: string;
     longitude?: string;
     close?: boolean;
 }
