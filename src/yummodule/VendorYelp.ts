@@ -7,28 +7,6 @@ const superagent = require('superagent');
 const moment = require('moment-timezone');
 const urlparse = require('url');
 
-// async function entitySearchExactTerm(term, longitude, latitude) {
-//     const url = "https://www.yelp.com/search_suggest/v2/prefetch";
-//     return await superagent.get(url)
-//         .query({
-//             // lat: 37.4841344,
-//             // lng: -122.14108159999999,
-//             lat: latitude,
-//             lng: longitude,
-//             is_new_loc: "",
-//             prefix: term,
-//             is_initial_prefetch: "",
-//         })
-//         .then((res) => {
-//             let myresult = JSON.parse(res.text);
-//             let hits = myresult.response[0].suggestions;
-//             if (!hits) {
-//                 return [];
-//             }
-//             return hits;
-//         });
-// }
-
 export class VendorYelp extends VendorBase {
     vendorID() {
         return "yelp";
