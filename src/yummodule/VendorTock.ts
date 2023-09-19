@@ -23,7 +23,8 @@ export class VendorTock extends VendorBase {
         let url = "https://www.exploretock.com/api/consumer/calendar/full";
         let tock_scope = {
             "businessId": venue.businessid,
-            "businessGroupId": venue.businessgroupid
+            "businessGroupId": venue.businessgroupid,
+            "site": "EXPLORETOCK"
         };
 
         return await superagent.post(url)
