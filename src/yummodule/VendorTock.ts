@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-
+import { gotScraping } from 'got-scraping';
 import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from './tockRequestMsg';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
@@ -27,21 +27,39 @@ export class VendorTock extends VendorBase {
             "site": "EXPLORETOCK"
         };
 
-        return await superagent.post(url)
-            .set('x-tock-scope', JSON.stringify(tock_scope))
-            .set('accept-language', 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7')
-            .set('content-type', 'application/json')
-            .set('accept', 'application/json')
-            .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36')
-            .send({})
-            .then((res: any) => {
-                let total: any = [];
+        const response: any = await gotScraping.post({
+            // url: 'https://www.exploretock.com/api/consumer/offerings',
+            url: "https://www.exploretock.com/api/consumer/calendar/full",
+            responseType: 'json',
+            headerGeneratorOptions: {
+                browsers: [
+                    {
+                        name: 'chrome',
+                        minVersion: 87,
+                        maxVersion: 89
+                    }
+                ],
+                devices: ['desktop'],
+                locales: ['de-DE', 'en-US'],
+                operatingSystems: ['windows', 'linux'],
+            },
+            headers: {
+                'x-tock-scope': JSON.stringify(tock_scope),
+                'Accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Content-Type': 'application/json',
+            },
+            json: {
+            }
+        });
 
-                if (!res.body.result) {
+        let total: any = [];
+
+        if (!response.body.result) {
                     return [];
                 }
 
-                let slots = res.body.result.ticketGroup;
+        let slots = response.body.result.ticketGroup;
 
                 slots.forEach(function (slot: any) {
                     if (slot.date === date && slot.availableTickets > 0) {
@@ -78,8 +96,7 @@ export class VendorTock extends VendorBase {
                     }
                 });
 
-                return total;
-            });
+        return total;
     }
 
     getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {
@@ -224,6 +241,7 @@ export class VendorTock extends VendorBase {
                 "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
                 "x-tock-stream-format": "proto2",
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15",
+                "Accept-Encoding": "identity",
             },
             "body": proto,
             "method": "POST"
