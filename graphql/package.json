@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "geolib": "^3.3.3",
     "git": "^0.1.5",
+    "got-scraping": "^3.2.15",
     "install": "^0.13.0",
     "limiter": "^2.1.0",
     "moment-timezone": "^0.5.33",
