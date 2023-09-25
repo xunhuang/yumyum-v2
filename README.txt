@@ -9,7 +9,6 @@ Running server locally
 ----------------------
 
 cd graphql
-ln -s ../src/yummodule .
 npm install
 
 export PGHOST=35.188.171.*** # lookup from console.cloud.google.com yumyum-v2

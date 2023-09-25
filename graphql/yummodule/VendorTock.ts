@@ -1,10 +1,12 @@
 import cheerio from 'cheerio';
+import { gotScraping } from 'got-scraping';
 import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from './tockRequestMsg';
-import { VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
 import { VenueSearchInput } from './VenueSearchInput';
 
 const buildUrl = require('build-url');
+const moment = require('moment-timezone');
 const superagent = require('superagent');
 const getDistance = require("geolib").getDistance;
 const tock = require('./tock-trimmed.json');
@@ -15,6 +17,86 @@ export class VendorTock extends VendorBase {
     }
     requiedFieldsForReservation() {
         return ["businessid", "url_slug"];
+    }
+
+    async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+        let url = "https://www.exploretock.com/api/consumer/calendar/full";
+        let tock_scope = {
+            "businessId": venue.businessid,
+            "businessGroupId": venue.businessgroupid,
+            "site": "EXPLORETOCK"
+        };
+
+        const response: any = await gotScraping.post({
+            url: url,
+            responseType: 'json',
+            headerGeneratorOptions: {
+                browsers: [
+                    {
+                        name: 'chrome',
+                        minVersion: 87,
+                        maxVersion: 89
+                    }
+                ],
+                devices: ['desktop'],
+                locales: ['de-DE', 'en-US'],
+                operatingSystems: ['windows', 'linux'],
+            },
+            headers: {
+                'x-tock-scope': JSON.stringify(tock_scope),
+                'Accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Content-Type': 'application/json',
+            },
+            json: {
+            }
+        });
+
+
+        let total: any = [];
+
+        if (!response.body.result) {
+                    return [];
+                }
+
+        let slots = response.body.result.ticketGroup;
+
+                slots.forEach(function (slot: any) {
+                    if (slot.date === date && slot.availableTickets > 0) {
+
+                        // Osito's commual is ok...  otherwise skip communal
+                        if (venue.name !== "Osito" && slot.isCommunal) {
+                            return;
+                        }
+
+                        // Omakase is has extra non-dining experience that we don't want
+                        if (venue.name === "Omakase" && venue.key === "2VZHquW1dA6Gdv7m868O") {
+                            const ticketTypeId = slot.ticketTypePrice[0]?.ticketTypeId;
+                            // pickup or delivery experience not dine in experience
+                            if (ticketTypeId === 129690 || ticketTypeId === 275864) {
+                                return;
+                            }
+                        }
+
+                        if (slot.minPurchaseSize <= party_size && slot.maxPurchaseSize >= party_size) {
+
+                            let datestr =
+                                moment.tz(date + " " + slot.time, venue.timezone).format();
+
+                            let ret: any = {
+                                time: datestr,
+                            }
+
+                            if (slot.ticketTypePrice && slot.ticketTypePrice.length > 0) {
+                                ret.priceInCents = slot.ticketTypePrice[0].priceCents;
+                            }
+
+                            total.push(ret);
+                        }
+                    }
+                });
+
+        return total;
     }
 
     getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {

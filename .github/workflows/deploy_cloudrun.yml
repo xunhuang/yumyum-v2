@@ -32,17 +32,9 @@ jobs:
         gcloud config set project ${{ secrets.GCP_PROJECT }}
         gcloud config set run/region us-central1
 
-    #- uses: fastai/workflows/ssh@master
-      #with:
-        #ssh_key: ${{ secrets.SSH_KEY }}
-        #key_file: id_ecdsa
-
     - name: move module over something 
-      run: cd graphql ; rm -rf ./yummodule ; mv ../src/yummodule . ; mv ../src/generated .; cd ..
+      run: cd graphql ; mv ../src/generated .; cd ..
 
-    # - name: Setup tmate session
-      # uses: mxschmitt/action-tmate@master
-      
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |
