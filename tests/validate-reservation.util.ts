@@ -1,11 +1,9 @@
-import { describe, expect } from '@jest/globals';
+import { describe } from '@jest/globals';
 import dayjs from 'dayjs';
-import { getVendor } from '../src/yummodule/Vendors';
-import { MetroAPI } from '../src/yummodule/MetroAPI';
-import { VenueEntitySearchAll, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
-import { getMetroReservationList, getYumYumGraphQLClient, setVenueReservationToTBD, updateVenueReservation } from './getYumYumGraphQLClient';
-
-var client = getYumYumGraphQLClient();
+import { getVendor } from '../graphql/yummodule/Vendors';
+import { MetroAPI } from '../graphql/yummodule/MetroAPI';
+import { VenueEntitySearchAll, VenueSearchInput } from '../graphql/yummodule/VenueSearchInput';
+import { getMetroReservationList, setVenueReservationToTBD, updateVenueReservation } from './getYumYumGraphQLClient';
 
 describe('Resolving reservation system for TBDs', () => {
 
@@ -13,16 +11,8 @@ describe('Resolving reservation system for TBDs', () => {
 
     const vendorString = "opentable";
 
-    // const result = await client.query<MetroReservationQuery>({
-    //   query: MetroReservationDocument,
-    //   variables: {
-    //     metro: metro,
-    //     reservation: vendorString,
-    //   },
-    // });
     const result = await getMetroReservationList(metro, vendorString);
     console.log("result: ", result.data.allVenues?.totalCount);
-    // const tests = result.data.allVenues?.nodes?.slice(0, 10000).filter(x => x?.name?.includes("Burmatown"));
     const tests = result.data.allVenues?.nodes?.slice(0, 100000);
     const date = dayjs().add(7, 'day').format('YYYY-MM-DD');
 

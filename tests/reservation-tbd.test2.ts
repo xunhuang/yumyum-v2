@@ -5,8 +5,8 @@ import {
   UpdateVenueInfoMutation,
   UsaReservationTbdDocument,
   UsaReservationTbdQuery,
-} from '../src/generated/graphql';
-import { VenueEntitySearchBest, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+} from '../graphql/generated/graphql';
+import { VenueEntitySearchBest, VenueSearchInput } from '../graphql/yummodule/VenueSearchInput';
 import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
 var client = getYumYumGraphQLClient();

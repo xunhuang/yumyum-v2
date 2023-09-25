@@ -1,7 +1,7 @@
 import { describe } from '@jest/globals';
 import dayjs from 'dayjs';
 
-import { VendorTock } from '../src/yummodule/VendorTock';
+import { VendorTock } from '../graphql/yummodule/VendorTock';
 import { venueReservationSearchByKey, venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
 
 const smallset = require("./tock.json");
@@ -12,6 +12,7 @@ describe('Tock System Test', () => {
 
   it('fetch entity info via Url', async () => {
     const info = await tock.fetchReservationInfoFromURL("https://www.exploretock.com/theshotasf/");
+    console.log(info);
     expect(info?.reservation).toBe("tock")
     expect(info?.businessid).toBe(13420);
     expect(info?.urlSlug).toBe("theshotasf");
@@ -39,6 +40,7 @@ describe('Tock System Test', () => {
       for (const entity of smallset) {
         const search_result = await tock.entitySearchExactTerm(
           entity.name, entity.longitude, entity.latitude, entity);
+        console.log(entity.name, search_result);
         expect(search_result).not.toBeNull();
         expect(search_result?.businessid).toEqual(entity.businessid);
         expect(search_result?.urlSlug).toEqual(entity.urlSlug);

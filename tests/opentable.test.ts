@@ -1,7 +1,7 @@
 import { describe } from '@jest/globals';
 
-import { VendorOpentable } from '../src/yummodule/VendorOpentable';
-import { VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { VendorOpentable } from '../graphql/yummodule/VendorOpentable';
+import { VenueSearchInput } from '../graphql/yummodule/VenueSearchInput';
 import { venueReservationSearchByKey } from './getYumYumGraphQLClient';
 
 var opentable = new VendorOpentable();

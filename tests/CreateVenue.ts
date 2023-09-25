@@ -1,6 +1,6 @@
 import { FetchResult, OperationVariables } from '@apollo/client';
 
-import { CreateVenueDocument, CreateVenueMutation } from '../src/generated/graphql';
+import { CreateVenueDocument, CreateVenueMutation } from '../graphql/generated/graphql';
 import { client } from './graphql.test';
 
 export async function CreateVenue(variables: OperationVariables): Promise<FetchResult<any>> {

@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { describe } from '@jest/globals';
 
-import { BayAreaDocument, BayAreaQuery, Venue } from '../src/generated/graphql';
-import { JsonEntrySameWasDbEntry } from '../src/yummodule/JsonEntrySameWasDbEntry';
-import { VenueEntitySearchBest, VenueSearchInput } from '../src/yummodule/VenueSearchInput';
+import { BayAreaDocument, BayAreaQuery, Venue } from '../graphql/generated/graphql';
+import { JsonEntrySameWasDbEntry } from '../graphql/yummodule/JsonEntrySameWasDbEntry';
+import { VenueEntitySearchBest, VenueSearchInput } from '../graphql/yummodule/VenueSearchInput';
 import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 
 var client = getYumYumGraphQLClient();

@@ -9,9 +9,9 @@ import {
     Venue,
     VenueByKeyDocument,
     VenueByKeyQuery,
-} from '../src/generated/graphql';
-import { VenueVendorInfo } from '../src/yummodule/VendorBase';
-import { getVendor } from '../src/yummodule/Vendors';
+} from '../graphql/generated/graphql';
+import { VenueVendorInfo } from '../graphql/yummodule/VendorBase';
+import { getVendor } from '../graphql/yummodule/Vendors';
 
 const cache = new InMemoryCache();
 const client = new ApolloClient({

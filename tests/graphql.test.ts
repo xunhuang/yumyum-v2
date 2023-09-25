@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 import { JsonEntrySameWasDbEntry } from '../graphql/yummodule/JsonEntrySameWasDbEntry';
 import { MetroAPI } from '../graphql/yummodule/MetroAPI';
-import { BayAreaDocument, BayAreaQuery, Venue } from '../src/generated/graphql';
+import { BayAreaDocument, BayAreaQuery, Venue } from '../graphql/generated/graphql';
 import { CreateVenue } from './CreateVenue';
 import { getYumYumGraphQLClient } from './getYumYumGraphQLClient';
 

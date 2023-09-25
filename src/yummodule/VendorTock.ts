@@ -30,17 +30,6 @@ export class VendorTock extends VendorBase {
         return reservationUrl;
     }
 
-    async fetchVenueInfoFromURL2(url: any) {
-        return await superagent.get(url)
-            .send({})
-            .then((res: any) => {
-            }, (err: any) => {
-                // eat the error
-                console.log("Error for tock: " + err + " " + url);
-                return null;
-            });
-    }
-
     async _fetchAppConfigFromURL(url: any): Promise<any> {
         const w = await fetch(url, {
             method: 'get',

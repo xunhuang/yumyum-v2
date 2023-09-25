@@ -112,41 +112,28 @@ export class VendorTock extends VendorBase {
         return reservationUrl;
     }
 
-    async fetchVenueInfoFromURL2(url: any) {
-        return await superagent.get(url)
-            .send({})
-            .then((res: any) => {
-            }, (err: any) => {
-                // eat the error
-                console.log("Error for tock: " + err + " " + url);
-                return null;
-            });
-    }
-
     async _fetchAppConfigFromURL(url: any): Promise<any> {
-        const w = await fetch(url, {
-            method: 'get',
-            headers: {
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-                "cache-control": "max-age=0",
-                "sec-ch-ua": "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"",
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": "\"macOS\"",
-                "sec-fetch-dest": "document",
-                "sec-fetch-mode": "navigate",
-                "sec-fetch-site": "same-origin",
-                "sec-fetch-user": "?1",
-                "upgrade-insecure-requests": "1",
-                "cookie": "tock_access=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXRyb25JZCI6IjYwNDI5OTUiLCJleHAiOjE2ODk5NjE5MzMsImlhdCI6MTY1ODQyNTkzM30.xIC4sZ8Gr0co5is5DH0k2qi82A3JVP4sosynXg4tdKk\"; tock_access_legacy=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXRyb25JZCI6IjYwNDI5OTUiLCJleHAiOjE2ODk5NjE5MzMsImlhdCI6MTY1ODQyNTkzM30.xIC4sZ8Gr0co5is5DH0k2qi82A3JVP4sosynXg4tdKk\"; __stripe_mid=f83d1c55-78c6-47e5-9864-5cd37fcca2cabb2eff; amp_63a9cb=CeQKSfkRIJYOzKIuGYlfq3...1g8hd1g4u.1g8hd6qb6.0.2.2; _gcl_au=1.1.567772335.1667192142; _fbp=fb.1.1667192143306.2133211097; _ga_9JVND3LQW4=GS1.1.1669102017.13.0.1669102017.0.0.0; _ga=GA1.1.499141721.1658425751; HOMEPAGE_FS=\"true\"; tock_latlng=\"37.7749295,-122.4194155\"; tock_geo=10; __cf_bm=SY8M5vRvjASuPZYAtUTxDUWbEZgT8tpeeL1unuAqY10-1669741466-0-AU1AAT5GtIxlANP56CUdGrHEckCTCqqeSlI0GPdQkcu9Kpgpc6RXGiH3zpwtinqauxvTdL0fwbMgDJZCgrLkPVQ=; tock_exp=WidgetBusinessNeighborhood:0,ExperienceTagFilter:1,AddToCartButtonLinkToCart:0,ShopShippingAdditionalItemsText:0,ShopShippingAdditionalItemsCartText:0,ProductCardPaletteLabelsText:1; JSESSIONID=0pdA8pQbi4nvVe58BQ_bTzaZVk4eMKhTcUv0ktR1; tock_shipping_state=\"IL\"; amp_6fd667=HzhaR_DxAijjYJvkG-t1d_...1gj25hq75.1gj25rb31.g.7t.8d"
+        const response = await gotScraping.get({
+            url: url,
+            headerGeneratorOptions: {
+                browsers: [
+                    {
+                        name: 'chrome',
+                        minVersion: 87,
+                        maxVersion: 89
+                    }
+                ],
+                devices: ['desktop'],
+                locales: ['de-DE', 'en-US'],
+                operatingSystems: ['windows', 'linux'],
             },
-            "referrerPolicy": "strict-origin-when-cross-origin",
-            body: null
+            headers: {
+                'Accept-Language': 'en-US,en;q=0.9',
+            },
         });
 
         var appconfig: any = null;
-        const res = await w.text();
-        const $ = cheerio.load(res);
+        const $ = cheerio.load(response.body);
         $("script").map((i: any, el: any) => {
             let text = cheerio(el).html();
             if (text?.includes("window.$REDUX_STATE = ")) {
