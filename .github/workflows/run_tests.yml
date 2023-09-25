@@ -30,5 +30,8 @@ jobs:
 
     - run: npm ci; npm install 
 
+    - name: move module over something 
+      run: cd graphql ; mv ../src/generated .; cd ..
+
     - name: run tests
       run: npm run test

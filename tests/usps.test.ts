@@ -1,7 +1,7 @@
 import { describe } from '@jest/globals';
 
-import { uspsLookupStreet } from '../src/yummodule/uspsLookupStreet';
-import { VendorTock } from '../src/yummodule/VendorTock';
+import { uspsLookupStreet } from '../graphql/yummodule/uspsLookupStreet';
+import { VendorTock } from '../graphql/yummodule/VendorTock';
 
 const bayarea = require("./bayarea.tock.json");
 

@@ -234,23 +234,36 @@ export class VendorTock extends VendorBase {
         const request = newTockSearchRequest(term, longitude, latitude);
         const proto = serializeMsgToProto(request);
 
-        const yo = await fetch("https://www.exploretock.com/api/consumer/suggest/nav", {
+        const url = "https://www.exploretock.com/api/consumer/suggest/nav";
+
+        const yo: any = await gotScraping.post({
+            url: url,
             "headers": {
                 "accept": "application/octet-stream",
                 "content-type": "application/octet-stream",
                 "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
                 "x-tock-stream-format": "proto2",
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15",
                 "Accept-Encoding": "identity",
             },
             "body": proto,
-            "method": "POST"
+            "method": "POST",
+            responseType: 'buffer',
+            headerGeneratorOptions: {
+                browsers: [
+                    {
+                        name: 'chrome',
+                        minVersion: 87,
+                        maxVersion: 89
+                    }
+                ],
+                devices: ['desktop'],
+                locales: ['de-DE', 'en-US'],
+                operatingSystems: ['windows', 'linux'],
+            },
         });
 
-        const buffer = await yo.arrayBuffer();
+        const buffer = yo.body;
         const response = deserializeTockSearchResponseProtoToMsg(new Uint8Array(buffer));
-
-
         const searchResults = response?.r1!.r2!.r3!.searchResults;
         if (!searchResults) {
             return null;
