@@ -7,7 +7,6 @@ import { VenueSearchInput } from './VenueSearchInput';
 
 const buildUrl = require('build-url');
 const moment = require('moment-timezone');
-const superagent = require('superagent');
 const getDistance = require("geolib").getDistance;
 const tock = require('./tock-trimmed.json');
 
@@ -34,8 +33,8 @@ export class VendorTock extends VendorBase {
                 browsers: [
                     {
                         name: 'chrome',
-                        minVersion: 87,
-                        maxVersion: 89
+                        minVersion: 100,// 87
+                        maxVersion: 120// 89
                     }
                 ],
                 devices: ['desktop'],

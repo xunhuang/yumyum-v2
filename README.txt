@@ -48,6 +48,10 @@ https://graph-3khoexoznq-uc.a.run.app/graphiql
 
 
 Run Unit Tests
+--------------
+
+cd graphql; ln -s ../src/generated .
+
 npm test
 
 Run one specific unit test 
@@ -57,7 +61,9 @@ npm test tests/integration/abc/resy.test.ts
 
 TOCK protocol buff proto generation 
 -----------------------------------
+brew install protobuf
 ./compileProtos.sh 
+
 The above reverse engineering was performed by using 
 1) https://protobuf-decoder.netlify.app/ to analyize the octect stream to determine the protobuf structure
 2) fiddler for macos to determine/save the input payload (both Safari and Chrome developer console failed to handle the binary data properly)

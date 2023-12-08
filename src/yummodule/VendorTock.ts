@@ -5,7 +5,6 @@ import { addressMatch, venueNameMatched } from './venueNameMatched';
 import { VenueSearchInput } from './VenueSearchInput';
 
 const buildUrl = require('build-url');
-const superagent = require('superagent');
 const getDistance = require("geolib").getDistance;
 const tock = require('./tock-trimmed.json');
 
