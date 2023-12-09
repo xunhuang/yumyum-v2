@@ -26,3 +26,4 @@ yarn-error.log*
 .firebase/hosting.YnVpbGQ.cache
 .env.production
 /graphql/node_modules/
+./tockspecial/node_modules
