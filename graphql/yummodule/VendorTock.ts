@@ -9,6 +9,7 @@ const buildUrl = require('build-url');
 const moment = require('moment-timezone');
 const getDistance = require("geolib").getDistance;
 const tock = require('./tock-trimmed.json');
+const UserAgent = require('user-agents');
 
 export class VendorTock extends VendorBase {
     vendorID() {
@@ -19,6 +20,7 @@ export class VendorTock extends VendorBase {
     }
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
+        const userAgent = new UserAgent({ deviceCategory: 'mobile' })
         let url = "https://www.exploretock.com/api/consumer/calendar/full";
         let tock_scope = {
             "businessId": venue.businessid,
@@ -47,7 +49,8 @@ export class VendorTock extends VendorBase {
                 'Accept-Language': 'en-US,en;q=0.9',
                 'Content-Type': 'application/json',
                 // this header may make things worse
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1'
+                // 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1'
+                'User-Agent': userAgent.toString(),
             },
             json: {
             }

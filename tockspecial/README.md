@@ -6,6 +6,13 @@ that we need to use got-scraping to defeat.
 
 The code here deplys to cloud function to enable us to test in simple way.
 
+
+To run locally, run
+
+```
+npx @google-cloud/functions-framework --target=helloGET
+```
+
 after using innstall gcloud CLI, run "cloud init", then the following
 
 ```

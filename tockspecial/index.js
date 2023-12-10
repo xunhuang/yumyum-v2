@@ -1,10 +1,14 @@
-// import { gotScraping } from 'got-scraping';
+// rest of your code
 const functions = require('@google-cloud/functions-framework');
 const { gotScraping } = require('got-scraping');
+const UserAgent = require('user-agents');
 
 // Register an HTTP function with the Functions Framework that will be executed
 // when you make an HTTP request to the deployed function's endpoint.
 functions.http('helloGET', async (req, res) => {
+  const userAgent = new UserAgent({ deviceCategory: 'mobile' })
+  // const userAgent = new UserAgent();
+
   const response = await gotScraping.post({
     // url: 'https://www.exploretock.com/api/consumer/offerings',
     url: "https://www.exploretock.com/api/consumer/calendar/full",
@@ -26,7 +30,7 @@ functions.http('helloGET', async (req, res) => {
       'Accept': 'application/json',
       'Accept-Language': 'en-US,en;q=0.9',
       'Content-Type': 'application/json',
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1'
+      'User-Agent': userAgent.toString(),
     },
     json: {
     }

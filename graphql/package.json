@@ -42,6 +42,7 @@
     "postgraphile": "^4.12.5",
     "postgraphile-plugin-connection-filter": "^2.2.2",
     "superagent": "^6.1.0",
+    "user-agents": "^1.1.48",
     "usps-webtools": "^1.0.7"
   },
   "devDependencies": {

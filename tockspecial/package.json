@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
-    "got-scraping": "^3.2.15"
+    "got-scraping": "^3.2.15",
+    "user-agents": "^1.1.48"
   },
   "devDependencies": {
     "c8": "^8.0.0",
