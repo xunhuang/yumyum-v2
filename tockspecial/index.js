@@ -1,4 +1,3 @@
-// rest of your code
 const functions = require('@google-cloud/functions-framework');
 const { gotScraping } = require('got-scraping');
 const UserAgent = require('user-agents');
@@ -6,6 +5,11 @@ const UserAgent = require('user-agents');
 // Register an HTTP function with the Functions Framework that will be executed
 // when you make an HTTP request to the deployed function's endpoint.
 functions.http('helloGET', async (req, res) => {
+
+  // paramater are passed as query string like
+  // https://us-central1-<project-name>.cloudfunctions.net/helloGET?a=1&b=2
+  console.log(req.query);
+  
   const userAgent = new UserAgent({ deviceCategory: 'mobile' })
   // const userAgent = new UserAgent();
 
@@ -35,8 +39,7 @@ functions.http('helloGET', async (req, res) => {
     json: {
     }
   });
-
-  console.log(JSON.stringify(response.body));
+  // console.log(JSON.stringify(response.body));
   res.send(JSON.stringify(response.body));
 });
 
