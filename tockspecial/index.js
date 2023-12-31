@@ -10,16 +10,43 @@ dayjs.extend(timezone)
 
 venuetimezone = "America/Los_Angeles";
 
-// Register an HTTP function with the Functions Framework that will be executed
-// when you make an HTTP request to the deployed function's endpoint.
+functions.http('tock', async (req, res) => {
+  const result =  await tock_avail(req.query.businessId, req.query.businessGroupId, req.query.venuetimezone, req.query.date, req.query.party_size);
+  res.send(JSON.stringify(result));
+});
+
 functions.http('helloGET', async (req, res) => {
 
   // paramater are passed as query string like
   // https://us-central1-<project-name>.cloudfunctions.net/helloGET?a=1&b=2
-  console.log(req.query);
+  // console.log(req.query);
+
+  // return await tock_avail(req.query.businessId, req.query.businessGroupId, venuetimezone, req.query.date, req.query.party_size);
+  businessId=19093;
+  businessGroupId=14253;
+  date="2024-01-26";
+  party_size = 2;
+
+  const result=  await tock_avail(businessId, businessGroupId, venuetimezone, date, party_size);
+  res.send(JSON.stringify(result));
   
+});
+
+functions.http('helloGET2', async (req, res) => {
+  res.send("hello world");
+});
+
+
+async function tock_avail(businessId, businessGroupId, venuetimezone, date, party_size) {
+
   const userAgent = new UserAgent({ deviceCategory: 'mobile' })
   // const userAgent = new UserAgent();
+
+  let tock_scope = {
+    "businessId": businessId,
+    "businessGroupId": businessGroupId,
+    "site":"EXPLORETOCK",
+  };
 
   const response = await gotScraping.post({
     // url: 'https://www.exploretock.com/api/consumer/offerings',
@@ -38,7 +65,9 @@ functions.http('helloGET', async (req, res) => {
       operatingSystems: ['windows', 'linux'],
     },
     headers: {
-      'x-tock-scope': '{"businessId":19093,"businessGroupId":"14253","site":"EXPLORETOCK"}',
+      // 'x-tock-scope': '{"businessId":19093,"businessGroupId":"14253","site":"EXPLORETOCK"}',
+      // note that businessID is quoted in the header
+      'x-tock-scope': JSON.stringify(tock_scope),
       'Accept': 'application/json',
       'Accept-Language': 'en-US,en;q=0.9',
       'Content-Type': 'application/json',
@@ -47,10 +76,7 @@ functions.http('helloGET', async (req, res) => {
     json: {
     }
   });
-  // console.log(JSON.stringify(response.body));
-  // res.send(JSON.stringify(response.body));
-  date="2024-01-26";
-  party_size = 2;
+
       let total= [];
 
       if (!response.body.result) {
@@ -75,9 +101,6 @@ functions.http('helloGET', async (req, res) => {
           }
         }
       });
-  res.send(JSON.stringify(total));
-});
+return total;
 
-functions.http('helloGET2', async (req, res) => {
-  res.send("hello world");
-});
+}
