@@ -17,6 +17,10 @@ functions.http('tock', async(req, res) => {
 
 functions.http('tock_full', async(req, res) => {
     const result = await tock_full(req.query.businessId, req.query.businessGroupId, req.query.venuetimezone, req.query.date, req.query.party_size);
+    if (!result.result) {
+        console.error(`error, no result for ${req.query.businessId}`);
+    }
+    res.send(JSON.stringify(result));
     res.send(JSON.stringify(result));
 });
 
