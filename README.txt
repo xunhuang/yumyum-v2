@@ -33,6 +33,13 @@ query MyQuery {
 }
 '''
 
+To test both front and backend locally
+'''
+export REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8080/graphql
+''' 
+and restart the frontend server
+
+
 install code gen
 ----------------
 npm i -D @graphql-codegen/cli
