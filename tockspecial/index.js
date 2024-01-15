@@ -1,6 +1,26 @@
 const functions = require('@google-cloud/functions-framework');
 const { gotScraping } = require('got-scraping');
 const UserAgent = require('user-agents');
+const bunyan = require('bunyan');
+// Imports the Google Cloud client library for Bunyan
+const { LoggingBunyan } = require('@google-cloud/logging-bunyan');
+// Creates a Bunyan Cloud Logging client
+const loggingBunyan = new LoggingBunyan();
+
+// Create a Bunyan logger that streams to Cloud Logging
+// Logs will be written to: "projects/YOUR_PROJECT_ID/logs/bunyan_log"
+const logger = bunyan.createLogger({
+    // The JSON payload of the log as it appears in Cloud Logging
+    // will contain "name": "my-service"
+    name: 'my-service',
+    streams: [
+        // Log to the console at 'info' and above
+        { stream: process.stdout, level: 'info' },
+        // And log to Cloud Logging, logging at 'info' and above
+        loggingBunyan.stream('info'),
+    ],
+});
+
 
 const dayjs = require('dayjs');
 var utc = require('dayjs/plugin/utc')
@@ -18,7 +38,10 @@ functions.http('tock', async(req, res) => {
 functions.http('tock_full', async(req, res) => {
     const result = await tock_full(req.query.businessId, req.query.businessGroupId, req.query.venuetimezone, req.query.date, req.query.party_size);
     if (!result.result) {
-        console.error(`error, no result for ${req.query.businessId}`);
+        // console.error(`error, no result for ${req.query.businessId}`);
+        logger.info(`error, no result for ${req.query.businessId}`);
+    } else {
+        logger.info(`Success, with result for ${req.query.businessId}`);
     }
     return res.send(JSON.stringify(result));
 });

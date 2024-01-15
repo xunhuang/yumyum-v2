@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
+    "@google-cloud/logging-bunyan": "^5.0.1",
+    "bunyan": "^1.8.15",
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
     "dayjs-timezone-iana-plugin": "^0.1.0",

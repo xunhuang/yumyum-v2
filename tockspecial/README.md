@@ -25,6 +25,16 @@ gcloud functions deploy hello-node-function \
   --allow-unauthenticated
 ```
 
+```
+gcloud functions deploy tock_full \          
+  --gen2 --region=us-west1 \
+  --runtime=nodejs20 \
+  --source=. \
+  --entry-point=tock_full \
+  --trigger-http \
+  --allow-unauthenticated
+ ```
+
 if successful, this should give you a bunch output with this in the end:
 
 ```
