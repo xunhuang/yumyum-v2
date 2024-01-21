@@ -26,7 +26,7 @@ gcloud functions deploy hello-node-function \
 ```
 
 ```
-gcloud functions deploy tock_full \          
+gcloud functions deploy tock_full \
   --gen2 --region=us-west1 \
   --runtime=nodejs20 \
   --source=. \
@@ -35,14 +35,15 @@ gcloud functions deploy tock_full \
   --allow-unauthenticated
  ```
 
+Must have higher memory limit for this
 ```
-gcloud functions deploy tock_pup \          
+gcloud functions deploy tock_pup \
   --gen2 --region=us-west1 \
   --runtime=nodejs20 \
   --source=. \
   --entry-point=tock_pup \
   --trigger-http \
-  --allow-unauthenticated
+  --allow-unauthenticated --memory=1024M
  ```
 
 if successful, this should give you a bunch output with this in the end:
