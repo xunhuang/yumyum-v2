@@ -4,10 +4,7 @@ const puppeteer = require('puppeteer-extra')
 
 // add stealth plugin and use defaults (all evasion techniques) 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const { head } = require('superagent');
 puppeteer.use(StealthPlugin())
-
-const TARGET_URL = "https://www.exploretock.com/api/consumer/calendar/full/v2";
 
 // puppeteer usage as normal 
 puppeteer.launch({ headless: true }).then(async browser => {

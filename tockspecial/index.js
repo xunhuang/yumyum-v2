@@ -4,6 +4,11 @@ const UserAgent = require('user-agents');
 const bunyan = require('bunyan');
 // Imports the Google Cloud client library for Bunyan
 const { LoggingBunyan } = require('@google-cloud/logging-bunyan');
+const puppeteer = require('puppeteer-extra');
+// add stealth plugin and use defaults (all evasion techniques) 
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+puppeteer.use(StealthPlugin())
+
 // Creates a Bunyan Cloud Logging client
 const loggingBunyan = new LoggingBunyan();
 
@@ -20,6 +25,7 @@ const logger = bunyan.createLogger({
         loggingBunyan.stream('info'),
     ],
 });
+
 
 
 const dayjs = require('dayjs');
@@ -103,4 +109,50 @@ async function tock_full(businessId, businessGroupId, venuetimezone, date, party
         json: {}
     });
     return response.body;
+}
+
+functions.http('tock_pup', async(req, res) => {
+    const result = await tock_pup(req.query.businessId, req.query.businessGroupId, req.query.venuetimezone, req.query.date, req.query.party_size);
+    return res.send(result);
+});
+
+async function tock_pup(businessId, businessGroupId, venuetimezone, date, party_size, urlSlug) {
+    var result = {};
+    // puppeteer usage as normal 
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage()
+    await page.setRequestInterception(true)
+    page.on('request', (request) => {
+        if (request.url().includes('calendar')) {
+            console.log('>>', request.method(), request.url())
+                // console.log(request.headers());
+            const requestParams = {};
+            requestParams.method = request.method();
+            requestParams.postData = request.postData();
+
+            var headers = {
+                ...request.headers(),
+                'accept': 'application/json',
+            }
+            requestParams.headers = headers;
+            // console.log(requestParams);
+            request.continue(requestParams);
+            return;
+        }
+        request.continue()
+    })
+
+    page.on('response', async(response) => {
+        if (response.url().includes('calendar')) {
+            console.log('<<', response.status(), response.url())
+            const text = await response.text();
+            console.log(text.slice(0, 220));
+            result = text;
+        }
+    })
+
+    await page.goto('https://www.exploretock.com/thebaratosito/search?date=2024-01-20&size=2&time=20%3A00');
+    await page.waitForTimeout(1000);
+    await browser.close()
+    return result;
 }
