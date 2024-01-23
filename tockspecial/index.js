@@ -1,4 +1,5 @@
 const functions = require('@google-cloud/functions-framework');
+const { Redis } = require('@upstash/redis');
 const { gotScraping } = require('got-scraping');
 const UserAgent = require('user-agents');
 const bunyan = require('bunyan');
@@ -30,7 +31,7 @@ const logger = bunyan.createLogger({
 
 const dayjs = require('dayjs');
 var utc = require('dayjs/plugin/utc')
-var timezone = require('dayjs/plugin/timezone') // dependent on utc plugin
+var timezone = require('dayjs/plugin/timezone'); // dependent on utc plugin
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -114,6 +115,17 @@ async function tock_full(businessId, businessGroupId, venuetimezone, date, party
 functions.http('tock_pup', async(req, res) => {
     const result = await tock_pup(req.query.businessId, req.query.businessGroupId, req.query.venuetimezone, req.query.date, req.query.party_size);
     return res.send(result);
+});
+
+
+const redis = new Redis({
+    url: 'https://usw1-native-monster-33884.upstash.io',
+    token: 'AoRcACQgZGI3MzE1N2YtMTFkZC00YjEyLTg0OGQtZmZiZjc1Y2Y2Mzk4LwraMey4IVXa2OKkRWvMgY5GtMQMbkljGrjngks_ovc=',
+})
+
+functions.http('tock_redis', async (req, res) => {
+    const data = await redis.get(req.query.urlSlug);
+    return res.send(data);
 });
 
 async function tock_pup(businessId, businessGroupId, venuetimezone, date, party_size, urlSlug) {

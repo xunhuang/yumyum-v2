@@ -1,5 +1,6 @@
 import cheerio from 'cheerio';
 import { gotScraping } from 'got-scraping';
+
 import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from './tockRequestMsg';
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
 import { addressMatch, venueNameMatched } from './venueNameMatched';
@@ -56,7 +57,8 @@ export class VendorTock extends VendorBase {
         // });
 
         const response: any = await gotScraping.get({
-            url: "https://us-west1-yumyum-v2.cloudfunctions.net/tock_full",
+            // url: "https://us-west1-yumyum-v2.cloudfunctions.net/tock_full",
+            url: "https://us-west1-yumyum-v2.cloudfunctions.net/tock_redis",
             responseType: 'json',
             headerGeneratorOptions: {
                 browsers: [
@@ -82,6 +84,7 @@ export class VendorTock extends VendorBase {
                 venuetimezone: venue.timezone,
                 businessId: venue.businessid,
                 businessGroupId: venue.businessgroupid,
+                urlSlug: venue.url_slug,
             }
         });
 

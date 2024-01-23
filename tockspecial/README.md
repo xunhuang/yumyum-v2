@@ -10,7 +10,7 @@ The code here deplys to cloud function to enable us to test in simple way.
 To run locally, run
 
 ```
-npx @google-cloud/functions-framework --target=helloGET
+npx @google-cloud/functions-framework --target=tock_redis
 ```
 
 after using innstall gcloud CLI, run "cloud init", then the following
@@ -31,6 +31,16 @@ gcloud functions deploy tock_full \
   --runtime=nodejs20 \
   --source=. \
   --entry-point=tock_full \
+  --trigger-http \
+  --allow-unauthenticated
+ ```
+
+```
+gcloud functions deploy tock_redis \
+  --gen2 --region=us-west1 \
+  --runtime=nodejs20 \
+  --source=. \
+  --entry-point=tock_redis \
   --trigger-http \
   --allow-unauthenticated
  ```
