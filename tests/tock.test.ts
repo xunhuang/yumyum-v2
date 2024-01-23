@@ -23,15 +23,18 @@ describe('Tock System Test', () => {
     const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");
     const search_result = await tock.venueSearchSafe(
       venueToVendorInfo(result?.data?.venueByKey!),
-      dayjs().add(7, 'day').format('YYYY-MM-DD'), // "2022-12-22",
+      dayjs().add(7, 'day').format('YYYY-MM-DD'),
+      // "2024-02-10",
       2, "dinner", true,
     );
+    console.log(search_result);
     expect(search_result).not.toBeNull();
   })
 
   // this one has a take-out order
   it('investigate omakase', async () => {
     const search_result = await venueReservationSearchByKey("2VZHquW1dA6Gdv7m868O");
+    console.log(search_result);
     expect(search_result).not.toBeNull();
   })
 
@@ -46,6 +49,6 @@ describe('Tock System Test', () => {
         expect(search_result?.urlSlug).toEqual(entity.urlSlug);
       }
     }, 100000)
-
   })
+
 })

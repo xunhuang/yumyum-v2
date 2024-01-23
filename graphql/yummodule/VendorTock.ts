@@ -88,50 +88,54 @@ export class VendorTock extends VendorBase {
             }
         });
 
-
-
         let total: any = [];
 
         if (!response.body.result) {
-                    return [];
+            return [];
+        }
+
+        let data1 = response.body.result.ticketGroupByBusinessDay[date];
+        if (!data1) {
+            console.log("no data for date: ", date);
+            console.log(response.body.result);
+            return [];
+        }
+
+        let slots = data1.ticketGroupByDate[date].ticketGroup;
+        slots.forEach(function (slot: any) {
+            if (slot.availableTickets > 0) {
+
+                // Osito's commual is ok...  otherwise skip communal
+                if (venue.name !== "Osito" && slot.isCommunal) {
+                    return;
                 }
 
-        let slots = response.body.result.ticketGroup;
-
-                slots.forEach(function (slot: any) {
-                    if (slot.date === date && slot.availableTickets > 0) {
-
-                        // Osito's commual is ok...  otherwise skip communal
-                        if (venue.name !== "Osito" && slot.isCommunal) {
-                            return;
-                        }
-
-                        // Omakase is has extra non-dining experience that we don't want
-                        if (venue.name === "Omakase" && venue.key === "2VZHquW1dA6Gdv7m868O") {
-                            const ticketTypeId = slot.ticketTypePrice[0]?.ticketTypeId;
-                            // pickup or delivery experience not dine in experience
-                            if (ticketTypeId === 129690 || ticketTypeId === 275864) {
-                                return;
-                            }
-                        }
-
-                        if (slot.minPurchaseSize <= party_size && slot.maxPurchaseSize >= party_size) {
-
-                            let datestr =
-                                moment.tz(date + " " + slot.time, venue.timezone).format();
-
-                            let ret: any = {
-                                time: datestr,
-                            }
-
-                            if (slot.ticketTypePrice && slot.ticketTypePrice.length > 0) {
-                                ret.priceInCents = slot.ticketTypePrice[0].priceCents;
-                            }
-
-                            total.push(ret);
-                        }
+                // Omakase is has extra non-dining experience that we don't want
+                if (venue.name === "Omakase" && venue.key === "2VZHquW1dA6Gdv7m868O") {
+                    const ticketTypeId = slot.ticketTypePrice[0]?.ticketTypeId;
+                    // pickup or delivery experience not dine in experience
+                    if (ticketTypeId === 129690 || ticketTypeId === 275864) {
+                        return;
                     }
-                });
+                }
+
+                if (slot.minPurchaseSize <= party_size && slot.maxPurchaseSize >= party_size) {
+
+                    let datestr =
+                        moment.tz(date + " " + slot.time, venue.timezone).format();
+
+                    let ret: any = {
+                        time: datestr,
+                    }
+
+                    if (slot.ticketTypePrice && slot.ticketTypePrice.length > 0) {
+                        ret.priceInCents = slot.ticketTypePrice[0].priceCents;
+                    }
+
+                    total.push(ret);
+                }
+            }
+        });
 
         return total;
     }
