@@ -1,9 +1,9 @@
-name: Run Michelin Scraping
+name: Run Tock scraping
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0/15 * * * *"
 
 jobs:
   setup-build-publish-deploy:
