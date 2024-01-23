@@ -6,8 +6,10 @@ const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin())
 
+const BayAreaSlugs = require('./bayareatockslug.json');
+
 // puppeteer usage as normal 
-puppeteer.launch({ headless: true }).then(async browser => {
+puppeteer.launch({ headless: "new" }).then(async browser => {
     const page = await browser.newPage()
     await page.setRequestInterception(true)
     page.on('request', (request) => {
@@ -23,7 +25,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
                 'accept': 'application/json',
             }
             requestParams.headers = headers;
-            console.log(requestParams);
+            // console.log(requestParams);
             request.continue(requestParams);
             return;
         }
@@ -33,15 +35,25 @@ puppeteer.launch({ headless: true }).then(async browser => {
     page.on('response', async(response) => {
         if (response.url().includes('calendar')) {
             console.log('<<', response.status(), response.url())
+            const requestheader = response.request().headers();
+            // console.log(requestheader['x-tock-scope']);
+            console.log(requestheader['x-tock-path']);
+
             const text = await response.text();
             console.log(text.slice(0, 220));
+            // console.log(text);
         }
     })
 
-    await page.goto('https://www.exploretock.com/thebaratosito/search?date=2024-01-20&size=2&time=20%3A00');
-    await page.waitForTimeout(2000);
-    await page.screenshot({ path: 'cointracker_home.png', fullPage: true });
-    await page.goto('https://www.exploretock.com/ssal/search?date=2024-01-20&size=2&time=20%3A00');
-    await page.waitForTimeout(2000);
+    for (var i = 0; i < BayAreaSlugs.length && i < 1000; i++) {
+        var slug = BayAreaSlugs[i];
+        const url = 'https://www.exploretock.com/' + slug + '/search?date=2024-01-30&size=2&time=20%3A00';
+        console.log("going to " + url);
+        await page.goto(url);
+        await page.waitForTimeout(2000);
+        // await page.screenshot({ path: slug + '_home.png', fullPage: true });
+        // await page.screenshot({ path: 'cointracker_home.png', fullPage: true });
+    }
+
     await browser.close()
 });
