@@ -1,11 +1,9 @@
 const { Redis } = require('@upstash/redis');
 
-const redis = new Redis(
-    {
-        url: process.env.UPSTASH_REDIS_REST_URL,
-        token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    }
-);
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 // puppeteer-extra is a drop-in replacement for puppeteer, 
 // it augments the installed puppeteer with plugin functionality 
@@ -62,7 +60,7 @@ puppeteer.launch({ headless: "new" }).then(async browser => {
                 const text = await response.text();
                 console.log(text.slice(0, 220));
                 if (isJSON(text) && text.length > 220) {
-                // near empty json is means the restaurant is likely no longer on tock
+                    // near empty json is means the restaurant is likely no longer on tock
                     lastPath = requestheader['x-tock-path'];
                     const slug = lastPath.split("/")[1]
                     await redis.set(slug, text);
@@ -71,7 +69,9 @@ puppeteer.launch({ headless: "new" }).then(async browser => {
         }
     })
 
-    for (var i = 0; i < BayAreaSlugs.length && i < 2000; i++) {
+    const shuffledArray = BayAreaSlugs.sort(() => Math.random() - 0.5);
+
+    for (var i = 0; i < shuffledArray.length && i < 2000; i++) {
         var slug = BayAreaSlugs[i];
         const date = dayjs().format('YYYY-MM-DD');
         const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
