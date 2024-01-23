@@ -29,7 +29,6 @@ puppeteer.launch({ headless: "new" }).then(async browser => {
     page.on('request', (request) => {
         if (request.url().includes('calendar')) {
             console.log('>>', request.method(), request.url())
-                // console.log(request.headers());
             const requestParams = {};
             requestParams.method = request.method();
             requestParams.postData = request.postData();
@@ -50,12 +49,12 @@ puppeteer.launch({ headless: "new" }).then(async browser => {
         if (response.url().includes('calendar')) {
             console.log('<<', response.status(), response.url())
             const requestheader = response.request().headers();
-            // console.log(lastPath);
 
             try {
                 const text = await response.text();
                 console.log(text.slice(0, 220));
-                if (isJSON(text)) {
+                if (isJSON(text) && text.length > 220) {
+                // near empty json is means the restaurant is likely no longer on tock
                     lastPath = requestheader['x-tock-path'];
                 }
             } catch (e) { }
