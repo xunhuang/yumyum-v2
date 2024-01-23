@@ -7,11 +7,25 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin())
 
 const BayAreaSlugs = require('./bayareatockslug.json');
+const dayjs = require('dayjs');
+
+var lastPath = '';
+
+
+function isJSON(str) {
+    try {
+        JSON.stringify(JSON.parse(str));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
 // puppeteer usage as normal 
 puppeteer.launch({ headless: "new" }).then(async browser => {
     const page = await browser.newPage()
     await page.setRequestInterception(true)
+
     page.on('request', (request) => {
         if (request.url().includes('calendar')) {
             console.log('>>', request.method(), request.url())
@@ -36,21 +50,31 @@ puppeteer.launch({ headless: "new" }).then(async browser => {
         if (response.url().includes('calendar')) {
             console.log('<<', response.status(), response.url())
             const requestheader = response.request().headers();
-            // console.log(requestheader['x-tock-scope']);
-            console.log(requestheader['x-tock-path']);
+            // console.log(lastPath);
 
-            const text = await response.text();
-            console.log(text.slice(0, 220));
-            // console.log(text);
+            try {
+                const text = await response.text();
+                console.log(text.slice(0, 220));
+                if (isJSON(text)) {
+                    lastPath = requestheader['x-tock-path'];
+                }
+            } catch (e) { }
         }
     })
 
     for (var i = 0; i < BayAreaSlugs.length && i < 1000; i++) {
         var slug = BayAreaSlugs[i];
-        const url = 'https://www.exploretock.com/' + slug + '/search?date=2024-01-30&size=2&time=20%3A00';
-        console.log("going to " + url);
+        const date = dayjs().format('YYYY-MM-DD');
+        const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
+        console.log(`going to ${url}`);
         await page.goto(url);
         await page.waitForTimeout(2000);
+        const expectedPath = `/${slug}/search`;
+
+        if (lastPath !== expectedPath) {
+            console.log(`BAD BAD ${slug} ${lastPath} ${expectedPath} --------------------------------`);
+            console.log(`BAD ${url} `);
+        }
         // await page.screenshot({ path: slug + '_home.png', fullPage: true });
         // await page.screenshot({ path: 'cointracker_home.png', fullPage: true });
     }
