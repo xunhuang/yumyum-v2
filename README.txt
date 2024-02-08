@@ -2,6 +2,9 @@ Client Install
 ---------------
 
 npm install --force (?why force? not sure)
+npm start
+
+if the above doesn't work, try this
 NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true npm start
 
 

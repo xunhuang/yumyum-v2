@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+process.env.NODE_OPTIONS = "--openssl-legacy-provider";
+
 try {
   const firebaseConfig = JSON.parse(process.env.REACT_APP_FIREBASE!);
   if (firebaseConfig) {
