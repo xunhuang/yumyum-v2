@@ -169,6 +169,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           {prefillbutton("tock", true)}
           {prefillbutton("resy", true)}
           {prefillbutton("yelp", true)}
+          {prefillbutton("sevenrooms", true)}
           {prefillbutton("none", false)}
           {prefillbutton("Call/Email", false)}
           {prefillbutton("TBD", false)}

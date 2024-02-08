@@ -57,6 +57,7 @@ export const VendorMap: tplotOptions = {
     zenchef: new VendorZenchef(),
     covermanager: new VendorCovermanager(),
     restaurantes: new VendorRestaurantes(),
+    spotonreserve: new VendorRestaurantes(), // SpotOnReserve, using Restaurantes as placeholder
     "resengo.com": new VendorResengo(),
 }
 
