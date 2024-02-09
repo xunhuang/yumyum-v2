@@ -63,7 +63,7 @@
     "node": "18.11.1"
   },
   "scripts": {
-    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
     "deploy": "npx firebase deploy",
     "test": "jest",
