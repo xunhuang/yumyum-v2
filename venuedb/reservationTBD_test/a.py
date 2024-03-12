@@ -3,8 +3,9 @@ import json
 from langchain_community.document_loaders.recursive_url_loader import RecursiveUrlLoader
 from bs4 import BeautifulSoup as Soup
 from openai import OpenAI
+from dotenv import load_dotenv
 
-os.environ["OPENAI_API_KEY"] = "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"
+load_dotenv()
 
 client = OpenAI(
     # This is the default and can be omitted

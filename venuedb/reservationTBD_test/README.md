@@ -1,12 +1,18 @@
 
-## How to run 
+## How to run on Mac
 
-1. Start python env 
+1. Start python virtual env 
 
-python -m venv try_me
+```
+python3 -m venv try_me
 source try_me/bin/activate
+```
 
-2. pip install -r requirements.txt
+2. install dependencies 
+
+```
+pip install -r requirements.txt
+```
 
 
 
@@ -14,7 +20,9 @@ source try_me/bin/activate
 
 To run
 
+```
 python a.py
+```
 
 
 4. To capture additional python packages install back into the requirements.txt file. 
