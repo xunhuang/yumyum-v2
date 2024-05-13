@@ -97,3 +97,4 @@ How to update db
 # run npm test tests/reservation-tbd.test.ts
 
 hopefully the above gets automated some day.
+---
