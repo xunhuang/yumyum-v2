@@ -56,6 +56,7 @@ export class VendorResy extends VendorBase {
         party_size: party_size,
         venue_id: venue.businessid,
       })
+      .set("Accept-Encoding", "identity")
       .set(
         "Authorization",
         'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"'
