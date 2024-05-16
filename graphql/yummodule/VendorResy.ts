@@ -45,35 +45,7 @@ export class VendorResy extends VendorBase {
     await limiter.removeTokens(1);
     const url = "https://api.resy.com/4/find";
 
-    // console.log(venue);
-    // let myurl = buildUrl(url, {
-    //     queryParams: {
-    //         day: date,
-    //         lat: 0,
-    //         long: 0,
-    //         party_size: party_size,
-    //         venue_id: venue.businessid,
-    //     }
-    // });
-
-    // const response = await nodefetch(myurl, {
-    //     "agent": new proxyAgent('http://127.0.0.1:8866'),
-    //     headers: {
-    //         "Authorization": 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-    //         "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-    //         "Accept-Encoding": "identity",
-    //         "accept": "*/*",
-    //     }
-    // });
-
-    // if (response.ok) {
-    //     const data = await response.json();
-    //     console.log(data);
-    // } else {
-    //     console.log(response.status);
-    //     console.log(response);
-    // }
-    // return [];
+    console.log("resy version in graphql not in src");
 
     return await superagent
       .get(url)
