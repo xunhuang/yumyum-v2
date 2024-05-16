@@ -35,52 +35,6 @@ export class VendorResy extends VendorBase {
     return ["businessid", "url_slug", "resy_city_code"];
   }
 
-  async venueSearch(
-    venue: VenueVendorInfo,
-    date: string,
-    party_size: number,
-    timeOption: string
-  ): Promise<TimeSlots[]> {
-    await limiter.removeTokens(1);
-    const url = "https://api.resy.com/4/find";
-
-    console.log("resy version in src");
-    return await superagent
-      .get(url)
-      .query({
-        day: date,
-        lat: 0,
-        long: 0,
-        party_size: party_size,
-        venue_id: venue.businessid,
-      })
-      .set(
-        "Authorization",
-        'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"'
-      )
-      .set(
-        "User-Agent",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-      )
-      .then((res: any) => {
-        let total: TimeSlots[] = [];
-        if (!res.body.results.venues) {
-          return [];
-        }
-        if (!res.body.results.venues[0]) {
-          return [];
-        }
-        let slots = res.body.results.venues[0].slots;
-        slots.forEach(function (slot: any) {
-          let datestr = moment.tz(slot.date.start, venue.timezone).format();
-          total.push({
-            time: datestr,
-          });
-        });
-        return total;
-      });
-  }
-
   getReservationUrl(
     venue: VenueVendorInfo,
     date: string,
