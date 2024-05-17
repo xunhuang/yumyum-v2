@@ -8,13 +8,12 @@ import {
 } from "./VendorBase";
 import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
+import { findResyReservation } from "./findResyReservation";
 
 const buildUrl = require("build-url");
 const superagent = require("superagent");
-const moment = require("moment-timezone");
 const urlparse = require("url");
 const getDistance = require("geolib").getDistance;
-const nodefetch = require("node-fetch");
 
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
@@ -43,45 +42,18 @@ export class VendorResy extends VendorBase {
     timeOption: string
   ): Promise<TimeSlots[]> {
     await limiter.removeTokens(1);
-    const url = "https://api.resy.com/4/find";
 
-    console.log("resy version in graphql not in src");
+    const url = new URL("https://us-west1-yumyum-v2.cloudfunctions.net/resy_1");
+    url.searchParams.append("businessid", venue.businessid!);
+    url.searchParams.append("party_size", party_size.toString());
+    url.searchParams.append("date", date);
+    url.searchParams.append("timezone", venue.timezone!);
 
-    return await superagent
-      .get(url)
-      .query({
-        day: date,
-        lat: 0,
-        long: 0,
-        party_size: party_size,
-        venue_id: venue.businessid,
-      })
-      .set("Accept-Encoding", "identity")
-      .set(
-        "Authorization",
-        'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"'
-      )
-      .set(
-        "User-Agent",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-      )
-      .then((res: any) => {
-        let total: TimeSlots[] = [];
-        if (!res.body.results.venues) {
-          return [];
-        }
-        if (!res.body.results.venues[0]) {
-          return [];
-        }
-        let slots = res.body.results.venues[0].slots;
-        slots.forEach(function (slot: any) {
-          let datestr = moment.tz(slot.date.start, venue.timezone).format();
-          total.push({
-            time: datestr,
-          });
-        });
-        return total;
-      });
+    console.log(url.toString());
+    const response = await fetch(url.toString());
+    const data = await response.json();
+    console.log(data);
+    return data;
   }
 
   getReservationUrl(

@@ -6,7 +6,7 @@ To run locally, run
 npx @google-cloud/functions-framework --target=tock_redis
 ```
 
-after using innstall gcloud CLI, run "cloud init", then the following
+after using innstall gcloud CLI, run "gcloud init", then the following
 
 ```
 gcloud functions deploy tock_redis \
@@ -16,9 +16,10 @@ gcloud functions deploy tock_redis \
   --entry-point=tock_redis \
   --trigger-http \
   --allow-unauthenticated
- ```
+```
 
 Must have higher memory limit for this
+
 ```
 gcloud functions deploy tock_pup \
   --gen2 --region=us-west1 \
@@ -27,7 +28,7 @@ gcloud functions deploy tock_pup \
   --entry-point=tock_pup \
   --trigger-http \
   --allow-unauthenticated --memory=1024M
- ```
+```
 
 if successful, this should give you a bunch output with this in the end:
 
