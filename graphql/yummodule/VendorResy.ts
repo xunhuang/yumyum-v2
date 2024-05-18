@@ -8,7 +8,6 @@ import {
 } from "./VendorBase";
 import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
-import { findResyReservation } from "./findResyReservation";
 
 const buildUrl = require("build-url");
 const superagent = require("superagent");
