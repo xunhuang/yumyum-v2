@@ -1,4 +1,5 @@
 const { Redis } = require("@upstash/redis");
+const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
@@ -27,16 +28,19 @@ function isJSON(str) {
 }
 
 async function tockSlugs() {
-  const a = await fetch("https://graph-3khoexoznq-uc.a.run.app/graphql", {
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json",
-    },
-    body: '{"query":"query MyQuery {\\n  allVenues(\\n    filter: {metro: {equalTo: \\"bayarea\\"}, reservation: {equalTo: \\"tock\\"}}\\n  ) {\\nnodes {\\n        name\\n        urlSlug\\n      }\\n  }\\n\\n}\\n","variables":null,"operationName":"MyQuery"}',
-    method: "POST",
-  });
+  const query = `
+    query MyQuery {
+  allVenues(
+    filter: {metro: {equalTo: "bayarea"}, reservation: {equalTo: "tock"}}
+  ) {
+nodes {
+        name
+        urlSlug
+      }
+  }
+}`;
+  const json = await yumyumGraphQLCall(query);
 
-  const json = await a.json();
   const nodes = json.data.allVenues.nodes;
   const slugs = nodes.map((n) => n.urlSlug);
   console.log(JSON.stringify(slugs));
