@@ -2,7 +2,6 @@ async function yumyumGraphQLCall(query) {
   const body = {
     query: query,
   };
-  console.log(body);
   const a = await fetch("https://graph-3khoexoznq-uc.a.run.app/graphql", {
     headers: {
       accept: "application/json",
