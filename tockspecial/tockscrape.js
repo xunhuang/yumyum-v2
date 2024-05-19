@@ -1,5 +1,6 @@
 const { Redis } = require("@upstash/redis");
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
+const dayjs = require("dayjs");
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
@@ -14,24 +15,13 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-const dayjs = require("dayjs");
-
-var lastPath = "";
-
-function isJSON(str) {
-  try {
-    JSON.stringify(JSON.parse(str));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
+var GlobalResults = {};
 
 async function tockSlugs() {
   const query = `
     query MyQuery {
   allVenues(
-    filter: {metro: {equalTo: "bayarea"}, reservation: {equalTo: "tock"}}
+    filter: {metro: {equalTo: "bayarea"}, reservation: {equalTo: "tock"}, close: {equalTo: false}}
   ) {
 nodes {
         name
@@ -47,76 +37,143 @@ nodes {
   return slugs;
 }
 
-(async function main() {
-  try {
-    const BayAreaSlugs = await tockSlugs();
-    const browser = await puppeteer.launch({ headless: "new" });
+const response_processing = async (response) => {
+  if (response.url().includes("calendar")) {
+    const status = response.status();
+    console.log("<<", status, response.url());
+    const requestheader = response.request().headers();
 
-    const page = await browser.newPage();
-    await page.setRequestInterception(true);
-
-    page.on("request", (request) => {
-      if (request.url().includes("calendar")) {
-        console.log(">>", request.method(), request.url());
-        const requestParams = {};
-        requestParams.method = request.method();
-        requestParams.postData = request.postData();
-
-        var headers = {
-          ...request.headers(),
-          accept: "application/json",
-        };
-        requestParams.headers = headers;
-        // console.log(requestParams);
-        request.continue(requestParams);
-        return;
-      }
-      request.continue();
-    });
-
-    page.on("response", async (response) => {
-      if (response.url().includes("calendar")) {
-        console.log("<<", response.status(), response.url());
-        const requestheader = response.request().headers();
-
-        try {
-          const text = await response.text();
-          console.log(text.slice(0, 220));
-          if (isJSON(text) && text.length > 220) {
-            // near empty json is means the restaurant is likely no longer on tock
-            lastPath = requestheader["x-tock-path"];
-            const slug = lastPath.split("/")[1];
-            await redis.set(slug, text);
-          }
-        } catch (e) {}
-      }
-    });
-
-    const shuffledArray = BayAreaSlugs.sort(() => Math.random() - 0.5);
-
-    console.log(shuffledArray);
-
-    for (var i = 0; i < shuffledArray.length && i < 2000; i++) {
-      var slug = BayAreaSlugs[i];
-      const date = dayjs().format("YYYY-MM-DD");
-      const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
-      console.log(`going to ${url}`);
-      await page.goto(url);
-      await page.waitForTimeout(2000);
-      const expectedPath = `/${slug}/search`;
-
-      if (lastPath !== expectedPath) {
-        console.log(
-          `BAD BAD ${slug} ${lastPath} ${expectedPath} --------------------------------`
-        );
-        console.log(`BAD ${url} `);
-      }
-      // await page.screenshot({ path: slug + '_home.png', fullPage: true });
-      // await page.screenshot({ path: 'cointracker_home.png', fullPage: true });
+    if (status != "200") {
+      console.log(requestheader);
+      return;
     }
 
-    await browser.close();
+    try {
+      const text = await response.text();
+      console.log(text.slice(0, 220));
+      const lastPath = requestheader["x-tock-path"];
+      const slug = lastPath.split("/")[1];
+      GlobalResults[slug] = text;
+
+      // potentially we can save to Redis here instead of waiting till the end
+
+      const calendar = JSON.parse(GlobalResults[slug]);
+      if (calendar && calendar.result.ticketGroupByBusinessDay) {
+        await saveToRedis(slug, calendar);
+      }
+    } catch (e) {
+      console.log("problem readding response for url ", response.url());
+      console.log(requestheader);
+      console.log(e);
+    }
+  }
+};
+const request_processing = (request) => {
+  if (request.url().includes("calendar")) {
+    console.log(">>", request.method(), request.url());
+    const requestParams = {};
+    requestParams.method = request.method();
+    requestParams.postData = request.postData();
+
+    var headers = {
+      ...request.headers(),
+      accept: "application/json",
+    };
+    requestParams.headers = headers;
+    request.continue(requestParams);
+    return;
+  }
+  request.continue();
+};
+
+(async function main() {
+  try {
+    // const BayAreaSlugs = [
+    //   "italico",
+    //   "thetableatmerchantroots",
+    //   "umma",
+    //   "thetableatmerchantroots",
+    //   "lion-dance-cafe-oakland",
+    // ];
+
+    const BayAreaSlugs = await tockSlugs();
+    await scrapeTockList(BayAreaSlugs);
+    console.log("all done - saving to redis may continue before exiting");
   } catch (error) {
     console.error(error);
   }
 })();
+
+async function saveToRedis(slug, calendar) {
+  const result = {};
+  for (d in calendar.result.ticketGroupByBusinessDay) {
+    if (calendar.result.ticketGroupByBusinessDay[d].ticketGroupByDate[d]) {
+      result[`${slug}-${d}`] = JSON.stringify(
+        calendar.result.ticketGroupByBusinessDay[d].ticketGroupByDate[d]
+          .ticketGroup
+      );
+    }
+  }
+
+  const chunks = chunkObject(result, 1000000); // 1 Mbytes
+  for (const chunk of chunks) {
+    try {
+      console.log(`${slug} Chunk size: ${Object.keys(chunk).length} keys`);
+      console.log(
+        `${slug} Total size: ${
+          new TextEncoder().encode(JSON.stringify(chunk)).length
+        } bytes`
+      );
+      await redis.mset(chunk);
+    } catch (e) {
+      console.log("REDIS ERROR for " + e);
+    }
+  }
+}
+
+async function scrapeTockList(slugsList) {
+  const browser = await puppeteer.launch({ headless: "new" });
+  for (var i = 0; i < slugsList.length && i < 2000; i++) {
+    const page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on("request", request_processing);
+    page.on("response", response_processing);
+
+    var slug = slugsList[i];
+    GlobalResults[slug] = null;
+    const date = dayjs().format("YYYY-MM-DD");
+    const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
+
+    console.log(`going to ${url}`);
+    await page.goto(url);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  }
+  console.log("done with scraping");
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+  await browser.close();
+}
+
+function chunkObject(obj, chunkSizeInBytes) {
+  const chunks = [];
+  let chunk = {};
+
+  let currentChunkSize = 0;
+  for (const [key, value] of Object.entries(obj)) {
+    const entrySize = new TextEncoder().encode(
+      JSON.stringify({ [key]: value })
+    ).length;
+    if (currentChunkSize + entrySize > chunkSizeInBytes) {
+      chunks.push(chunk);
+      chunk = {};
+      currentChunkSize = 0;
+    }
+    chunk[key] = value;
+    currentChunkSize += entrySize;
+  }
+
+  if (Object.keys(chunk).length > 0) {
+    chunks.push(chunk);
+  }
+
+  return chunks;
+}
