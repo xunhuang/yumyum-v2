@@ -15,7 +15,7 @@ const redis = new Redis({
 })
 
 functions.http('tock_redis', async (req, res) => {
-    const data = await redis.get(req.query.urlSlug);
+    const data = await redis.get(`${req.query.urlSlug}-${req.query.date}`);
     return res.send(data);
 });
 
