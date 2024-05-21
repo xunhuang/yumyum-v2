@@ -1,65 +1,41 @@
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
 const buildUrl = require("build-url");
 
 const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
 
 const dayjs = require("dayjs");
+const { resy_calendar_key } = require("./resy_support");
+const { resyLists } = require("./resy_support");
 
 (async function main() {
-  //   const partySizeArg = process.argv[2];
-  //   const party_size = partySizeArg ? parseInt(partySizeArg, 10) : 2;
-
-  //   if (isNaN(party_size) || party_size < 1) {
-  //     console.error("Please provide a valid numeric value for party size.");
-  //     process.exit(1);
-  //   }
   try {
     const rl = await resyLists();
-    // console.log(rl);
-    // const l = rl.filter((v) => v.name == "AltoVino");
     const partylist = [2, 3, 4, 1, 5, 6, 7, 8, 9, 10];
-    await Promise.all(
-      partylist.map(async (party_size) => {
-        const answers = {};
-        const l = rl;
-        console.log(l);
-        for (let i = 0; i < l.length && i < 1000; i++) {
-          const v = l[i];
-          const calendar = await resy_calendar(
-            v.businessid,
-            party_size,
-            v.name,
-            30
-          );
-          answers[`resy-calendar-${v.urlSlug}-${party_size}`] = calendar;
-          console.log(v.name, party_size, "done");
+    for (party_size of partylist) {
+      const answers = {};
+      const l = rl;
+      console.log(l);
+      for (let i = 0; i < l.length && i < 1000; i++) {
+        const v = l[i];
+        const calendar = await resy_calendar(
+          v.businessid,
+          party_size,
+          v.name,
+          30
+        );
+        if (calendar.status == 429) {
+          console.log(v.urlSlug, party_size, "Rate limiting exceeded");
+          continue;
         }
-        console.log(answers);
-        await saveToRedisWithChunking(answers, `party of ${party_size}`);
-      })
-    );
+        answers[resy_calendar_key(v.urlSlug, party_size)] = calendar;
+        console.log(v.name, party_size, "done");
+      }
+      console.log(answers);
+      await saveToRedisWithChunking(answers, `party of ${party_size}`);
+    }
   } catch (error) {
     console.error(error);
   }
 })();
-
-async function resyLists() {
-  const query = `
-  query MyQuery {
-  allVenues(
-    filter: {metro: {equalTo: "bayarea"}, reservation: {equalTo: "resy"}, close:{equalTo:false}}
-  ) {
-nodes {
-        name
-        urlSlug
-        businessid
-      }
-  }
-}`;
-
-  const json = await yumyumGraphQLCall(query);
-  return json.data.allVenues.nodes;
-}
 
 async function resy_calendar(venue_id, num_seats, name, days_ahead) {
   //   const today = dayjs().add(1, "days").format("YYYY-MM-DD");
