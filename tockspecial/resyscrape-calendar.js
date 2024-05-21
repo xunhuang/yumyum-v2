@@ -1,6 +1,8 @@
 const buildUrl = require("build-url");
 
 const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
+const { RateLimiter } = require("limiter");
+const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
 
 const dayjs = require("dayjs");
 const { resy_calendar_key } = require("./resy_support");
@@ -38,6 +40,7 @@ const { resyLists } = require("./resy_support");
 })();
 
 async function resy_calendar(venue_id, num_seats, name, days_ahead) {
+  await limiter.removeTokens(1);
   //   const today = dayjs().add(1, "days").format("YYYY-MM-DD");
   const today = dayjs().add(0, "days").format("YYYY-MM-DD");
   const enddate = dayjs().add(days_ahead, "days").format("YYYY-MM-DD");
