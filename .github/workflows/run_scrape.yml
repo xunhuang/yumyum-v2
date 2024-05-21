@@ -13,53 +13,52 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    # Setup gcloud CLI
-    - uses: google-github-actions/setup-gcloud@v0
-      with:
-        service_account_email: ${{ secrets.GCP_EMAIL }}
-        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-        export_default_credentials: true
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          export_default_credentials: true
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - run: cd data/11-05-2022; npm ci; npm install 
+      - run: cd data/11-05-2022; npm ci; npm install
 
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-    # - name: Setup tmate session
-    #   uses: mxschmitt/action-tmate@master
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@master
 
-    - name: backup yumyum db
-      run:   gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
+      - name: backup yumyum db
+        run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
 
-    - name: 'create-json-file'
-      run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
+      - name: "create-json-file"
+        run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
 
-    - name: 'compressing into gz file'
-      run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
+      - name: "compressing into gz file"
+        run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
 
-    - id: 'upload-folder'
-      uses: 'google-github-actions/upload-cloud-storage@v0'
-      with:
-        path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
-        destination: 'yumyum-v2_cloudbuild/yumyum_import'
+      - id: "upload-folder"
+        uses: "google-github-actions/upload-cloud-storage@v0"
+        with:
+          path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
+          destination: "yumyum-v2_cloudbuild/yumyum_import"
 
     # - name: 'create tock listing json file'
-      # run: cd data/11-05-2022; npx ts-node src/tock.ts >>  tock-${{steps.date.outputs.date }}.json
+    # run: cd data/11-05-2022; npx ts-node src/tock.ts >>  tock-${{steps.date.outputs.date }}.json
     # - name: 'compressing tock listing into gz file'
-      # run: cd data/11-05-2022; gzip tock-${{steps.date.outputs.date}}.json
-
+    # run: cd data/11-05-2022; gzip tock-${{steps.date.outputs.date}}.json
 
     # - id: 'upload-folder-tock'
-      # uses: 'google-github-actions/upload-cloud-storage@v0'
-      # with:
-        # path: data/11-05-2022/tock-${{ steps.date.outputs.date }}.json.gz
-        # destination: 'yumyum-v2_cloudbuild/tock_import'
+    # uses: 'google-github-actions/upload-cloud-storage@v0'
+    # with:
+    # path: data/11-05-2022/tock-${{ steps.date.outputs.date }}.json.gz
+    # destination: 'yumyum-v2_cloudbuild/tock_import'
