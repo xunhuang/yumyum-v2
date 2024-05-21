@@ -25,6 +25,7 @@
     "dayjs-plugin-utc": "^0.1.2",
     "dayjs-timezone-iana-plugin": "^0.1.0",
     "got-scraping": "^3.2.15",
+    "limiter": "^2.1.0",
     "puppeteer": "^21.7.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",

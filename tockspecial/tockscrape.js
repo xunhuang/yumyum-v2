@@ -1,11 +1,5 @@
-const { Redis } = require("@upstash/redis");
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
 const dayjs = require("dayjs");
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
@@ -13,6 +7,7 @@ const puppeteer = require("puppeteer-extra");
 
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
 puppeteer.use(StealthPlugin());
 
 var GlobalResults = {};
@@ -114,21 +109,7 @@ async function saveToRedis(slug, calendar) {
       );
     }
   }
-
-  const chunks = chunkObject(result, 1000000); // 1 Mbytes
-  for (const chunk of chunks) {
-    try {
-      console.log(`${slug} Chunk size: ${Object.keys(chunk).length} keys`);
-      console.log(
-        `${slug} Total size: ${
-          new TextEncoder().encode(JSON.stringify(chunk)).length
-        } bytes`
-      );
-      await redis.mset(chunk);
-    } catch (e) {
-      console.log("REDIS ERROR for " + e);
-    }
-  }
+  await saveToRedisWithChunking(result, slug);
 }
 
 async function scrapeTockList(slugsList) {
@@ -151,29 +132,4 @@ async function scrapeTockList(slugsList) {
   console.log("done with scraping");
   await new Promise((resolve) => setTimeout(resolve, 5000));
   await browser.close();
-}
-
-function chunkObject(obj, chunkSizeInBytes) {
-  const chunks = [];
-  let chunk = {};
-
-  let currentChunkSize = 0;
-  for (const [key, value] of Object.entries(obj)) {
-    const entrySize = new TextEncoder().encode(
-      JSON.stringify({ [key]: value })
-    ).length;
-    if (currentChunkSize + entrySize > chunkSizeInBytes) {
-      chunks.push(chunk);
-      chunk = {};
-      currentChunkSize = 0;
-    }
-    chunk[key] = value;
-    currentChunkSize += entrySize;
-  }
-
-  if (Object.keys(chunk).length > 0) {
-    chunks.push(chunk);
-  }
-
-  return chunks;
 }
