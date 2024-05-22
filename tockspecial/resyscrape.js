@@ -26,9 +26,8 @@ const { newFindReservation } = require("./resy_support");
     console.log(rl);
     // const l = rl.filter((v) => v.name == "AltoVino");
     // const l = rl.filter((v) => v.name == "Lord Stanley");
-    // const l = rl;
-    const l = rl.slice(0, 30);
-    console.log(l);
+    const l = rl;
+    // const l = rl.slice(0, 30);
 
     const keys = l.map((v) => resy_calendar_key(v.urlSlug, party_size));
 
