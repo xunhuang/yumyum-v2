@@ -1,8 +1,9 @@
 const { Redis } = require("@upstash/redis");
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
-const buildUrl = require("build-url");
+const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
 const { resy_calendar_key } = require("./resy_support");
 const { resyLists } = require("./resy_support");
+const { RateLimiter } = require("limiter");
+const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
@@ -10,6 +11,7 @@ const redis = new Redis({
 });
 
 const dayjs = require("dayjs");
+const { newFindReservation } = require("./resy_support");
 
 (async function main() {
   const partySizeArg = process.argv[2];
@@ -24,89 +26,79 @@ const dayjs = require("dayjs");
     console.log(rl);
     // const l = rl.filter((v) => v.name == "AltoVino");
     // const l = rl.filter((v) => v.name == "Lord Stanley");
-    const l = rl;
+    // const l = rl;
+    const l = rl.slice(0, 30);
     console.log(l);
-    for (i = 0; i < l.length && i < 1000; i++) {
-      v = l[i];
 
-      const key = resy_calendar_key(v.urlSlug, party_size);
-      console.log(key);
-      const calendar = await redis.get(
-        resy_calendar_key(v.urlSlug, party_size)
-      );
-      const entries = calendar.scheduled;
-      console.log(calendar);
-      continue;
-      if (entries.length > 0) {
-        // for (line of entries) {
-        entries.map(async (line) => {
-          if (line.inventory.reservation == "available") {
-            // console.log(line.date);
-            const date_avail_data = await newFindReservation(
-              v.businessid,
-              line.date,
-              party_size
-            );
+    const keys = l.map((v) => resy_calendar_key(v.urlSlug, party_size));
 
-            if (date_avail_data.results.venues[0]) {
-              console.log(
-                // date_avail_data.results.venues[0].slots.map((s) => s.date.start)
-                v.name,
-                line.date,
-                date_avail_data.results.venues[0].slots.length,
-                "entries for party of ",
-                party_size
-              );
-            } else {
-              // console.log("XXXXX");
-              // console.log(date_avail_data.results);
-            }
-          }
-        });
-        // }
-      }
+    console.log(keys);
+    const data = await redis.mget(keys);
+    console.log(data);
+    const noavail = [];
+    const avail = [];
+
+    for (i = 0; i < l.length; i++) {
+      console.log(l[i].urlSlug, l[i].name);
+      console.log(data[i]);
+      data[i]?.scheduled?.map((entry) => {
+        if (!l[i].urlSlug) {
+          console.log(l[i], "is null            xxxxxxxxxxxxxx");
+          return;
+        }
+        if (entry.inventory.reservation != "available") {
+          noavail.push({
+            slug: l[i].urlSlug,
+            venue_id: l[i].bussinessid,
+            party_size: party_size,
+            date: entry.date,
+            note: entry.inventory.reservation,
+          });
+        } else {
+          avail.push({
+            slug: l[i].urlSlug,
+            party_size: party_size,
+            date: entry.date,
+          });
+        }
+      });
     }
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    await saveToRedisWithChunking(noavail, `no availabilites`);
+
+    // Group the 'avail' array by the 'date' field
+    const groupedAvail = avail.reduce((acc, entry) => {
+      const date = entry.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(entry);
+      return acc;
+    }, {});
+
+    for (k in groupedAvail) {
+      const answers = {};
+      for (e of groupedAvail[k]) {
+        const reservation = await newFindReservation(
+          e.venue_id,
+          e.date,
+          e.party_size
+        );
+        const key = `resy-${e.slug}-${e.date}-${e.party_size}`;
+        if (reservation.results.venues[0]) {
+          answers[key] = reservation.results.venues[0].slots.map(
+            (s) => s.date.start
+          );
+        } else {
+          console.log(`no answer for  ${key}`);
+          console.log(reservation);
+          answers[key] = null;
+        }
+      }
+      console.log(answers);
+      await saveToRedisWithChunking(answers, `party of ${e.date}`);
+    }
   } catch (error) {
     console.error(error);
   }
 })();
-
-async function newFindReservation(venue_id, date, party_size) {
-  const a = await fetch(
-    buildUrl("https://api.resy.com", {
-      path: "4/find",
-      queryParams: {
-        lat: 0,
-        long: 0,
-        day: date,
-        party_size: party_size,
-        venue_id: venue_id,
-      },
-    }),
-    {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-        authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-        "cache-control": "no-cache",
-        priority: "u=1, i",
-        "sec-ch-ua":
-          '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-site",
-        "x-origin": "https://resy.com",
-      },
-      referrer: "https://resy.com/",
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: null,
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-    }
-  );
-  return await a.json();
-}
