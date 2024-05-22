@@ -23,7 +23,8 @@ const dayjs = require("dayjs");
     const rl = await resyLists();
     console.log(rl);
     // const l = rl.filter((v) => v.name == "AltoVino");
-    const l = rl.filter((v) => v.name == "Lord Stanley");
+    // const l = rl.filter((v) => v.name == "Lord Stanley");
+    const l = rl;
     console.log(l);
     for (i = 0; i < l.length && i < 1000; i++) {
       v = l[i];
