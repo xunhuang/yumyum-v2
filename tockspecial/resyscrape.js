@@ -9,6 +9,7 @@ const redis = new Redis({
 });
 
 const { newFindReservation } = require("./resy_support");
+const { resy_day_key } = require("./resy_support");
 
 (async function main() {
   const partySizeArg = process.argv[2];
@@ -34,15 +35,15 @@ const { newFindReservation } = require("./resy_support");
     const noavail = [];
     const avail = [];
 
-    for (i = 0; i < l.length; i++) {
+    for (const i = 0; i < l.length; i++) {
       console.log(l[i].urlSlug, l[i].name);
       console.log(data[i]);
       data[i]?.scheduled?.map((entry) => {
         if (!l[i].urlSlug) {
           console.log(l[i], "is null            xxxxxxxxxxxxxx");
-          return;
+          return null;
         }
-        if (entry.inventory.reservation != "available") {
+        if (entry.inventory.reservation !== "available") {
           noavail.push({
             slug: l[i].urlSlug,
             venue_id: l[i].businessid,
@@ -76,9 +77,9 @@ const { newFindReservation } = require("./resy_support");
     var dates = Object.keys(groupedAvail).sort();
     // dates = ["2024-06-07"];
 
-    for (k of dates) {
+    for (const k of dates) {
       const answers = {};
-      for (e of groupedAvail[k]) {
+      for (const e of groupedAvail[k]) {
         const reservation = await newFindReservation(
           e.venue_id,
           e.date,
@@ -86,17 +87,17 @@ const { newFindReservation } = require("./resy_support");
         );
         console.log(e);
 
-        if (reservation.status == 429) {
+        if (reservation.status === 429) {
           console.log(e.slug, e.date, e.party_size, "Rate limiting exceeded");
           continue;
         }
-        const key = `resy-${e.slug}-${e.date}-${e.party_size}`;
+        const key = resy_day_key(e.slug, e.date, e.party_size);
 
         if (reservation.results.venues[0]) {
           answers[key] = reservation.results.venues[0].slots.map(
             (s) => s.date.start
           );
-          if (answers[key].length == 0) {
+          if (answers[key].length === 0) {
             console.log(
               "zero length answer, inspect this",
               JSON.stringify(reservation, 0, 2)
@@ -115,3 +116,5 @@ const { newFindReservation } = require("./resy_support");
     console.error(error);
   }
 })();
+
+

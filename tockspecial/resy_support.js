@@ -65,3 +65,7 @@ async function newFindReservation(venue_id, date, party_size) {
   return await a.json();
 }
 exports.newFindReservation = newFindReservation;
+function resy_day_key(slug, date, party_size) {
+  return `resy-${slug}-${date}-${party_size}`;
+}
+exports.resy_day_key = resy_day_key;
