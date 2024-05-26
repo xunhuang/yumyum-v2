@@ -12,7 +12,8 @@ functions.http("resy_reservation_find", async (req, res) => {
     req.query.date,
     req.query.party_size,
     req.query.businessid,
-    req.query.timezone
+    req.query.timezone,
+    req.query.url_slug,
   );
 
   return res.send(JSON.stringify(result));

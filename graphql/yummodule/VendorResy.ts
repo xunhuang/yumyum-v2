@@ -47,6 +47,7 @@ export class VendorResy extends VendorBase {
     url.searchParams.append("party_size", party_size.toString());
     url.searchParams.append("date", date);
     url.searchParams.append("timezone", venue.timezone!);
+    url.searchParams.append("url_slug", venue.url_slug!);
 
     console.log(url.toString());
     const response = await fetch(url.toString());

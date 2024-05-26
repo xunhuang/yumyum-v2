@@ -1,7 +1,7 @@
 const dayjs = require("dayjs");
 const superagent = require("superagent");
 
-async function findResyReservation(date, party_size, businessid, timezone) {
+async function findResyReservation(date, party_size, businessid, timezone, url_slug) {
   const url = "https://api.resy.com/4/find";
 
   return await superagent
