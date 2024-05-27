@@ -35,7 +35,7 @@ const { resy_day_key } = require("./resy_support");
     const noavail = [];
     const avail = [];
 
-    for (const i = 0; i < l.length; i++) {
+    for (let i = 0; i < l.length; i++) {
       console.log(l[i].urlSlug, l[i].name);
       console.log(data[i]);
       data[i]?.scheduled?.map((entry) => {
@@ -62,7 +62,13 @@ const { resy_day_key } = require("./resy_support");
       });
     }
 
-    await saveToRedisWithChunking(noavail, `no availabilites`);
+    const noavailmap = {};
+    noavail.map((item) => {
+      const key = resy_day_key(item.slug, item.date, item.party_size);
+      noavailmap[key] = [];
+    });
+
+    await saveToRedisWithChunking(noavailmap, `no availabilites`);
 
     // Group the 'avail' array by the 'date' field
     const groupedAvail = avail.reduce((acc, entry) => {
@@ -116,5 +122,3 @@ const { resy_day_key } = require("./resy_support");
     console.error(error);
   }
 })();
-
-

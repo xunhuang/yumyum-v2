@@ -8,18 +8,26 @@ async function findResyReservation(
   timezone,
   url_slug
 ) {
-  const slots = await newFindReservation(businessid, date, party_size);
+  const reservation = await newFindReservation(businessid, date, party_size);
   const total = [];
-  if (slots === null || !Array.isArray(slots)) {
-    console.log("slots is null not not an array", slots);
+  if (reservation.status === 429 || reservation.status === 400) {
+    console.log("resy realtime error code", reservation.status);
+    if (reservation.status === 429) {
+      console.log("Rate limiting Exceeded");
+    }
     return null;
   }
-  slots.forEach(function (slot) {
-    let datestr = dayjs.tz(slot.date.start, timezone).format();
-    total.push({
-      time: datestr,
+  if (reservation.results.venues[0]) {
+    const slots = reservation.results.venues[0].slots;
+    slots.forEach(function (slot) {
+      let datestr = dayjs.tz(slot.date.start, timezone).format();
+      total.push({
+        time: datestr,
+      });
     });
-  });
+  } else {
+    return null;
+  }
   return total;
 }
 
