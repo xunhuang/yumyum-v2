@@ -3,6 +3,8 @@
 ## To run locally, run
 
 ```
+ln -sf ../tockspecial/resy_support.js .
+ln -sf ../tockspecial/yumyumGraphQLCall.js .
 npm install
 npm start
 ```

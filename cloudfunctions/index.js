@@ -3,7 +3,7 @@ const dayjs = require("dayjs");
 const utc = require("dayjs/plugin/utc"); // dependent on utc plugin
 const timezone = require("dayjs/plugin/timezone");
 const { findResyReservation } = require("./findResyReservation");
-const { resy_day_key } = require("../tockspecial/resy_support");
+const { resy_day_key } = require("./resy_support");
 const { Redis } = require("@upstash/redis");
 
 const redis = new Redis({

@@ -1,5 +1,5 @@
 const dayjs = require("dayjs");
-const { newFindReservation } = require("../tockspecial/resy_support");
+const { newFindReservation } = require("./resy_support");
 
 async function findResyReservation(
   date,
