@@ -15,7 +15,8 @@
     "start": "npx nodemon --exec 'npx @google-cloud/functions-framework --target=resy_reservation_find'",
     "start2": "npx nodemon --exec 'npx @google-cloud/functions-framework --target=resy_reservation_find_redis'",
     "deploy": "gcloud functions deploy resy_1 --gen2 --region=us-west1   --runtime=nodejs20   --source=.   --entry-point=resy_reservation_find   --trigger-http   --allow-unauthenticated --set-env-vars UPSTASH_REDIS_REST_URL=$UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN=$UPSTASH_REDIS_REST_TOKEN",
-    "deploy2": "gcloud functions deploy resy_2 --gen2 --region=us-west1   --runtime=nodejs20   --source=.   --entry-point=resy_reservation_find   --trigger-http   --allow-unauthenticated"
+    "deploy2": "gcloud functions deploy resy_redis --gen2 --region=us-west1   --runtime=nodejs20   --source=.   --entry-point=resy_reservation_find_redis   --trigger-http   --allow-unauthenticated --set-env-vars UPSTASH_REDIS_REST_URL=$UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN=$UPSTASH_REDIS_REST_TOKEN",
+    "deploy3": "gcloud functions deploy resy_realtime --gen2 --region=us-west1   --runtime=nodejs20   --source=.   --entry-point=resy_reservation_find_realtime   --trigger-http   --allow-unauthenticated --set-env-vars UPSTASH_REDIS_REST_URL=$UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN=$UPSTASH_REDIS_REST_TOKEN"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.3.0",
