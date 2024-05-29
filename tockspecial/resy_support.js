@@ -17,6 +17,7 @@ nodes {
         name
         urlSlug
         businessid
+        key
       }
   }
 }`;
@@ -69,3 +70,22 @@ function resy_day_key(slug, date, party_size) {
   return `resy-${slug}-${date}-${party_size}`;
 }
 exports.resy_day_key = resy_day_key;
+
+exports.resy_set_venue_to_tbd = async function (venue_key) {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    reservation: "TBD"
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}

@@ -116,7 +116,7 @@ const { resy_day_key } = require("./resy_support");
         }
       }
       console.log(answers);
-      await saveToRedisWithChunking(answers, `party of ${e.date}`);
+      await saveToRedisWithChunking(answers, `party of ${k}`);
     }
   } catch (error) {
     console.error(error);
