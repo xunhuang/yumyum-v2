@@ -12,7 +12,7 @@ const { resyLists } = require("./resy_support");
   try {
     const rl = await resyLists();
     const partylist = [2, 3, 4, 1, 5, 6, 7, 8, 9, 10];
-    for (party_size of partylist) {
+    for (let party_size of partylist) {
       const answers = {};
       const l = rl;
       console.log(l);
@@ -24,7 +24,7 @@ const { resyLists } = require("./resy_support");
           v.name,
           30
         );
-        if (calendar.status == 429) {
+        if (calendar.status === 429) {
           console.log(v.urlSlug, party_size, "Rate limiting exceeded");
           continue;
         }
