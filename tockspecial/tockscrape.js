@@ -12,9 +12,9 @@ const { resy_set_venue_to_tbd } = require("./resy_support");
 puppeteer.use(StealthPlugin());
 
 var GlobalResults = {};
-var GlobalSlugMap = {}
+var GlobalSlugMap = {};
 
-async function tockSlugs() {
+async function resyDbData() {
   const query = `
     query MyQuery {
   allVenues(
@@ -43,8 +43,8 @@ const response_processing = async (response) => {
 
     if (status !== 200) {
       console.log("XXX status !=200 problem readding response for ", lastPath);
-    // even though we get an error, this might be a transient network issue
-    // so let's not be too aggressive in marking this as a bad venue
+      // even though we get an error, this might be a transient network issue
+      // so let's not be too aggressive in marking this as a bad venue
       return;
     }
 
@@ -56,15 +56,21 @@ const response_processing = async (response) => {
       // potentially we can save to Redis here instead of waiting till the end
 
       const calendar = JSON.parse(GlobalResults[slug]);
-      if (calendar && (
-        Object.keys(calendar.result.ticketGroupByBusinessDay).length > 0
-        || calendar.result.ticketType.length > 0
-        || calendar.result.ticketTypePackage.length > 0
-        || calendar.result.packagedTicketType.length > 0
-      )) {
+      if (
+        calendar &&
+        (Object.keys(calendar.result.ticketGroupByBusinessDay).length > 0 ||
+          calendar.result.ticketType.length > 0 ||
+          calendar.result.ticketTypePackage.length > 0 ||
+          calendar.result.packagedTicketType.length > 0)
+      ) {
         await saveToRedis(slug, calendar);
       } else {
-        console.log("XXX no legit calendar for ", slug, lastPath, response.url());
+        console.log(
+          "XXX no legit calendar for ",
+          slug,
+          lastPath,
+          response.url()
+        );
         // If we get here, a proper response was received, but it was empty
         // this means it's not likely a transient network issue. So let's mark this as a bad venue
         // item as TBD
@@ -105,14 +111,13 @@ const request_processing = (request) => {
     //   "lion-dance-cafe-oakland",
     // ];
 
-    const tockdata = await tockSlugs();
+    const tockdata = await resyDbData();
     const BayAreaSlugs = tockdata.map((v) => v.urlSlug);
 
     GlobalSlugMap = tockdata.reduce((acc, element) => {
       acc[element.urlSlug] = element;
       return acc;
     }, {});
-
 
     await scrapeTockList(BayAreaSlugs);
     console.log("all done - saving to redis may continue before exiting");
