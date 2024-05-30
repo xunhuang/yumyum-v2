@@ -81,7 +81,6 @@ const { resy_day_key } = require("./resy_support");
     }, {});
 
     var dates = Object.keys(groupedAvail).sort();
-    // dates = ["2024-06-07"];
 
     for (const k of dates) {
       const answers = {};
