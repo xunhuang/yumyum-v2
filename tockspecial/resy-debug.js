@@ -7,13 +7,7 @@ const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
   token: process.env.UPSTASH_REDIS_REST_TOKEN,
 });
-const buildUrl = require("build-url");
 
-const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
-const { RateLimiter } = require("limiter");
-const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
-
-const dayjs = require("dayjs");
 const { resy_set_venue_to_tbd } = require("./resy_support");
 const { resy_calendar_key } = require("./resy_support");
 const { resyLists } = require("./resy_support");
@@ -35,9 +29,7 @@ const { resyLists } = require("./resy_support");
           const result = await resy_set_venue_to_tbd(rl[index].key);
           console.log(result)
         }
-        // Assuming resy_set_venue_to_tbd function needs to be defined or imported
       }
-      // console.log(keyDataMap);
     }
   } catch (error) {
     console.error(error);
