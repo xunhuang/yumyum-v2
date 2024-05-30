@@ -36,12 +36,17 @@ export const AdminNewVenueImport = () => {
   }
 
   const entrynodes = first.data?.allVenues?.nodes || [];
+  const matches: any = [];
+
   const newOnly = listFromJsonFile.filter((jsonentry: any) => {
     const found = entrynodes.find(
       (dbentry: Venue | any, index: number, thisobject: any) => {
         return JsonEntrySameWasDbEntry(jsonentry, dbentry);
       }
     );
+    if (found) {
+      matches.push({ newItem: jsonentry.name, found: found.name });
+    }
     return !found;
   });
 
@@ -89,6 +94,15 @@ export const AdminNewVenueImport = () => {
       </Button>
       <div>Total: {newOnly?.length}</div>
       <ListTable list={newOnly!} metro={metro} />
+
+      <div>matched: {matches?.length}</div>
+      <ul>
+        {matches.map((item: any) => (
+          <li key={item.newItem}>
+            {item.newItem}, {item.found}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
