@@ -1,7 +1,5 @@
-import { RateLimiter } from "limiter";
 
 import {
-  TimeSlots,
   VendorBase,
   VenueReservationInfo,
   VenueVendorInfo,
@@ -11,11 +9,9 @@ import { VenueSearchInput } from "./VenueSearchInput";
 
 const buildUrl = require("build-url");
 const superagent = require("superagent");
-const moment = require("moment-timezone");
 const urlparse = require("url");
 const getDistance = require("geolib").getDistance;
 
-const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
 /* Resy API:
 
