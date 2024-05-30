@@ -81,7 +81,6 @@ const { resy_day_key } = require("./resy_support");
     }, {});
 
     var dates = Object.keys(groupedAvail).sort();
-    // dates = ["2024-06-07"];
 
     for (const k of dates) {
       const answers = {};
@@ -116,7 +115,7 @@ const { resy_day_key } = require("./resy_support");
         }
       }
       console.log(answers);
-      await saveToRedisWithChunking(answers, `party of ${e.date}`);
+      await saveToRedisWithChunking(answers, `party of ${k}`);
     }
   } catch (error) {
     console.error(error);
