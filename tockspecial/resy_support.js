@@ -89,3 +89,23 @@ mutation MyMutation {
   const json = await yumyumGraphQLCall(query);
   return json;
 }
+
+exports.opentable_set_venue_to_tbd = async function (venue_key, businessid) {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    reservation: "opentable",
+    businessid: "${businessid}",
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}
