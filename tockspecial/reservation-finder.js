@@ -2,11 +2,17 @@ const cheerio = require("cheerio");
 
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
 const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./resy_support");
+const dayjs = require("dayjs");
+const { buildUrl } = require("build-url");
+const { resyAPIFetch } = require("./resy_support");
 
 (async function main() {
   try {
     const bayAreaList = await BayAreaListWithTBD();
     for (let v of bayAreaList) {
+      // if (v.url === "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei") {
+      //   continue
+      // }
       const body = await simpleFetchGet(v.url);
       const $ = cheerio.load(body);
 
@@ -16,8 +22,11 @@ const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./re
         console.log(element.attribs["href"]);
         reservation_links.push(element.attribs["href"]);
       });
+
       if (reservation_links.length === 0) {
         var resy = false;
+        var venueId = null;
+
         // eslint-disable-next-line no-loop-func
         $('button[data-dtm-partner="resy"]').each((index, element) => {
           const scriptTag = $("script")
@@ -26,9 +35,8 @@ const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./re
 
           if (scriptTag) {
             const venueIdMatch = scriptTag.match(/venueId:\s*'(\d+)'/);
-            const venueId = venueIdMatch ? venueIdMatch[1] : null;
+            venueId = venueIdMatch ? venueIdMatch[1] : null;
             console.log("resy", venueId);
-
           } else {
             console.log("resy: venueId not found");
           }
@@ -36,6 +44,12 @@ const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./re
         });
 
         if (resy) {
+          const resyData = await resyAPILookupByVenueID(venueId);
+          // this call may fail because Michelin may not have the correct data
+          // as a venue may have moved to a different platform and not 
+          // updated their Michelin page
+          console.log(resyData);
+          console.log(v.url);
           break;
         }
       } else {
@@ -138,4 +152,22 @@ query MyQuery {
 
   const json = await yumyumGraphQLCall(query);
   return json.data.allVenues.nodes;
+}
+
+
+
+async function resyAPILookupByVenueID(venue_id) {
+  // https://api.resy.com/4/find?lat=0&long=0&day=2024-05-29&party_size=3&venue_id=7074 
+
+  const url = buildUrl("https://api.resy.com", {
+    path: "4/find",
+    queryParams: {
+      long: 0,
+      lat: 0,
+      venue_id: venue_id,
+      party_size: 2,
+      day: dayjs().format("YYYY-MM-DD"),
+    },
+  });
+  return await resyAPIFetch(url);
 }
