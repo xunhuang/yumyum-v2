@@ -22,6 +22,7 @@
     "@upstash/redis": "^1.28.2",
     "build-url": "^6.0.1",
     "bunyan": "^1.8.15",
+    "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
     "dayjs-timezone-iana-plugin": "^0.1.0",

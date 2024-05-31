@@ -1,12 +1,16 @@
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 
-import { Button } from 'antd';
+import { Button } from "antd";
 
-import { Loading } from '../components/Loading';
-import { useBayAreaQuery, useRepopulateVenueInfoMutation, Venue } from '../generated/graphql';
-import { JsonEntrySameWasDbEntry } from '../yummodule/JsonEntrySameWasDbEntry';
-import { useMetroFromPath } from './useMetro';
-import { useMetroOriginalJson } from './useMetroOriginalJson';
+import { Loading } from "../components/Loading";
+import {
+  useBayAreaQuery,
+  useRepopulateVenueInfoMutation,
+  Venue,
+} from "../generated/graphql";
+import { JsonEntrySameWasDbEntry } from "../yummodule/JsonEntrySameWasDbEntry";
+import { useMetroFromPath } from "./useMetro";
+import { useMetroOriginalJson } from "./useMetroOriginalJson";
 
 export const AdminNewVenuesRepopulate = () => {
   const metro = useMetroFromPath();
@@ -63,6 +67,8 @@ export const AdminNewVenuesRepopulate = () => {
         jsonentry.images?.map((i: any) => i.url) || []
       );
 
+      console.log(jsonentry);
+
       const v = {
         key: venue.key,
         name: jsonentry.name,
@@ -75,7 +81,8 @@ export const AdminNewVenuesRepopulate = () => {
         latitude: jsonentry._geoloc.lat,
         longitude: jsonentry._geoloc.lng,
         stars: jsonentry.michelin_award || "MICHELIN_PLATE",
-        url: jsonentry.slug,
+        url: `https://guide.michelin.com${jsonentry.url}`,
+        michelineOnlineReservation: jsonentry.online_booking === 1,
       };
       await updateVenue({
         variables: v,
