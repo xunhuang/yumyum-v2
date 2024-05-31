@@ -1,7 +1,7 @@
 const cheerio = require("cheerio");
 
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
-const { opentable_set_venue_to_tbd } = require("./resy_support");
+const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./resy_support");
 
 (async function main() {
   try {
@@ -17,6 +17,8 @@ const { opentable_set_venue_to_tbd } = require("./resy_support");
         reservation_links.push(element.attribs["href"]);
       });
       if (reservation_links.length === 0) {
+        var resy = false;
+        // eslint-disable-next-line no-loop-func
         $('button[data-dtm-partner="resy"]').each((index, element) => {
           const scriptTag = $("script")
             .filter((i, el) => $(el).html().includes("venueId"))
@@ -26,10 +28,16 @@ const { opentable_set_venue_to_tbd } = require("./resy_support");
             const venueIdMatch = scriptTag.match(/venueId:\s*'(\d+)'/);
             const venueId = venueIdMatch ? venueIdMatch[1] : null;
             console.log("resy", venueId);
+
           } else {
             console.log("resy: venueId not found");
           }
+          resy = true;
         });
+
+        if (resy) {
+          break;
+        }
       } else {
         if (reservation_links[0].includes("opentable")) {
           const opentablelink = reservation_links[0];
@@ -44,10 +52,29 @@ const { opentable_set_venue_to_tbd } = require("./resy_support");
           await opentable_set_venue_to_tbd(v.key, restaurantId);
           let url = `https://www.opentable.com/restaurant/profile/${restaurantId}/reserve`;
           console.log(url);
-        }
+        } else if (reservation_links[0].includes("exploretock")) {
+          const tocklink = reservation_links[0];
+          const tockwebsite = await simpleFetchGet(tocklink);
+          const $ = cheerio.load(tockwebsite);
 
+          var appconfig = {};
+          $("script").map((i, el) => {
+            let text = $(el).html();
+            if (text?.includes("window.$REDUX_STATE = ")) {
+              const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+              // eslint-disable-next-line
+              eval(toeval);
+            }
+            return null;
+          });
+
+          const businessid = appconfig.app.config.business.id;
+          const slug = appconfig.app.config.business.domainName;
+          console.log(businessid);
+          console.log(slug);
+          await tock_set_venue_reservation(v.key, businessid, slug);
+        }
       }
-      break;
     }
   } catch (error) {
     console.error(error);
