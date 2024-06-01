@@ -1,7 +1,8 @@
 const cheerio = require("cheerio");
 
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
-const { opentable_set_venue_to_tbd, tock_set_venue_reservation } = require("./resy_support");
+const { opentable_set_venue_reservation, tock_set_venue_reservation } = require("./resy_support");
+const { resy_set_venue_reservation } = require("./resy_support");
 const dayjs = require("dayjs");
 const { buildUrl } = require("build-url");
 const { resyAPIFetch } = require("./resy_support");
@@ -10,6 +11,7 @@ const { resyAPIFetch } = require("./resy_support");
   try {
     const bayAreaList = await BayAreaListWithTBD();
     for (let v of bayAreaList) {
+      console.log("checking", v.url)
       // if (v.url === "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei") {
       //   continue
       // }
@@ -48,9 +50,20 @@ const { resyAPIFetch } = require("./resy_support");
           // this call may fail because Michelin may not have the correct data
           // as a venue may have moved to a different platform and not 
           // updated their Michelin page
-          console.log(resyData);
-          console.log(v.url);
-          break;
+          if (resyData.status === 400) {
+            console.log("Resy API returned 404, likely Michelin data is outdated (it thinks it's resy, but resy disagreeds).");
+            continue;
+          }
+
+          const venue = resyData.results.venues[0];
+          if (venue && venue.venue.id.resy.toString() === venueId) {
+            // console.log(JSON.stringify(venue, null, 2));
+            console.log(v.url);
+            await resy_set_venue_reservation(v.key, venue.venue.url_slug, venue.venue.location.code, venueId);
+          } else {
+            console.log("Resy API returned no venue data, not sure why");
+            break;
+          }
         }
       } else {
         if (reservation_links[0].includes("opentable")) {
@@ -63,7 +76,7 @@ const { resyAPIFetch } = require("./resy_support");
 
           console.log(v);
           console.log('Restaurant ID:', restaurantId, v.key);
-          await opentable_set_venue_to_tbd(v.key, restaurantId);
+          await opentable_set_venue_reservation(v.key, restaurantId);
           let url = `https://www.opentable.com/restaurant/profile/${restaurantId}/reserve`;
           console.log(url);
         } else if (reservation_links[0].includes("exploretock")) {
@@ -155,10 +168,7 @@ query MyQuery {
 }
 
 
-
 async function resyAPILookupByVenueID(venue_id) {
-  // https://api.resy.com/4/find?lat=0&long=0&day=2024-05-29&party_size=3&venue_id=7074 
-
   const url = buildUrl("https://api.resy.com", {
     path: "4/find",
     queryParams: {
