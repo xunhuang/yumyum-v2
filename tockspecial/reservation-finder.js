@@ -1,6 +1,7 @@
 const cheerio = require("cheerio");
 const getDistance = require("geolib").getDistance;
 const { buildUrl } = require("build-url");
+const USPS = require("usps-webtools");
 const dayjs = require("dayjs");
 
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
@@ -21,11 +22,12 @@ const { resultKeyNameFromField } = require("@apollo/client/utilities");
       const opentable_id = await opentable_basic_search_and_validate(
         v.name,
         v.longitude,
-        v.latitude
+        v.latitude,
+        v.address
       );
       console.log(v.name, "opentable found", opentable_id);
       if (opentable_id) {
-        await opentable_set_venue_reservation(v.key, opentable_id);
+        // await opentable_set_venue_reservation(v.key, opentable_id);
       }
     }
   } catch (error) {
@@ -48,6 +50,7 @@ query MyQuery {
     totalCount
     nodes {
       name
+      address
       urlSlug
       key
       michelinslug
@@ -67,7 +70,12 @@ query MyQuery {
   return json.data.allVenues.nodes;
 }
 
-async function opentable_basic_search_and_validate(term, longitude, latitude) {
+async function opentable_basic_search_and_validate(
+  term,
+  longitude,
+  latitude,
+  address
+) {
   const result = await opentable_basic_search(term, longitude, latitude);
 
   for (const entry of result) {
@@ -103,7 +111,24 @@ async function opentable_basic_search_and_validate(term, longitude, latitude) {
 
     // maybe check address
 
-    // const location = await this._APIVenueLookup(entry.id);
+    const appConfig = await _APIfetchAppConfig(entry.id);
+    console.log(appConfig?.restaurant?.address);
+    const location = appConfig?.restaurant?.address;
+    if (location) {
+      if (
+        await addressMatch(
+          location.line1,
+          address,
+          location.city,
+          location.state
+        )
+      ) {
+        console.log("XXXXX Address matched");
+        if (await validateResult(entry.id)) {
+          return opentable_id;
+        }
+      }
+    }
     // if (
     //   location &&
     //   (await addressMatch(
@@ -164,6 +189,22 @@ function venueNameMatched(a, b) {
   return a === b;
 }
 
+async function _APIfetchAppConfig(businessid) {
+  let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
+  const w = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  });
+  const res = await w.text();
+  const $ = cheerio.load(res);
+
+  let scripts = $("#client-initial-state").html();
+  let appconfig = JSON.parse(scripts);
+  return appconfig;
+}
+
 async function validateResult(opentable_id) {
   const sevenDaysFromNow = dayjs().add(7, "day").format("YYYY-MM-DD");
   const result = await opentable_reservation_search(
@@ -192,24 +233,7 @@ async function fetchAuthToken() {
     return opentable_auth_token;
   }
 
-  // Inspired by https://www.vintnersresort.com/dining/john-ash-co/
-  // https://www.opentable.com/restref/client?rid=1477&restref=1477&partysize=2&datetime=2022-10-31T19%3A00&lang=en-US&r3uid=TJkBfg-7J&ot_campaign=JA+Landing+Page&ot_source=Restaurant+website&color=1&modal=true'
-
-  const url = buildUrl("https://www.opentable.com", {
-    path: "restref/client",
-    queryParams: {
-      rid: "1477",
-      restref: "1477",
-      partysize: "2",
-      datetime: "2023-10-31T19:00:00",
-    },
-  });
-  const res = await simpleFetchGet(url);
-  const $ = cheerio.load(res);
-
-  let scripts = $("#client-initial-state");
-  let json = scripts.html();
-  let config = JSON.parse(json);
+  let config = await _APIfetchAppConfig(1477);
   opentable_auth_token = config["authToken"];
   return opentable_auth_token;
 }
@@ -241,4 +265,55 @@ async function opentable_reservation_search(
 
   const json = await w.json();
   return json;
+}
+
+async function addressMatch(street_a, street_b, city, state) {
+  if (!street_a || !street_b) {
+    return false;
+  }
+
+  street_a = street_a.toLowerCase();
+  street_b = street_b.toLowerCase();
+  if (street_a === street_b) {
+    return true;
+  }
+
+  const usps_street_a = await uspsLookupStreet(street_a, city, state);
+  const usps_street_b = await uspsLookupStreet(street_b, city, state);
+
+  if (!usps_street_a || !usps_street_b) {
+    return false;
+  }
+  return usps_street_a === usps_street_b;
+}
+
+const usps = new USPS({
+  server: "http://production.shippingapis.com/ShippingAPI.dll",
+  userId: "638XUNHU2733",
+  ttl: 10000, //TTL in milliseconds for request
+});
+
+async function uspsLookupStreet(street1, city, state) {
+  return new Promise((resolve, reject) => {
+    let fixedState = state;
+    if (fixedState === "New York State") {
+      fixedState = "NY";
+    }
+
+    usps.verify(
+      {
+        street1: street1,
+        // street2: 'Apt 2',
+        city: city,
+        state: fixedState,
+      },
+      function (err, address) {
+        // if (!address?.street1) {
+        //   console.log("uspsLookupStreet: no address found for " + street1 + ", " + city + ", " + fixedState);
+        // }
+
+        resolve(address?.street1);
+      }
+    );
+  });
 }
