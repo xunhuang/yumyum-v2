@@ -39,8 +39,7 @@ async function opentable_basic_search_and_validate(
     );
 
     if (distance > 3500) {
-      console.log("got", entry.name, "too far ", distance
-      );
+      console.log("got", entry.name, "too far ", distance);
       continue;
     }
 
@@ -48,7 +47,7 @@ async function opentable_basic_search_and_validate(
 
     if (venueNameMatched(term, entry.name)) {
       console.log("name matched");
-      if (await validateResult(opentable_id)) {
+      if (await validateOpentableId(opentable_id)) {
         return opentable_id;
       }
     } else {
@@ -56,7 +55,7 @@ async function opentable_basic_search_and_validate(
     }
 
     // maybe check address
-    const appConfig = await opentable_fetchAppConfig(entry.id);
+    const appConfig = await opentable_fetchAppConfig(opentable_id);
     console.log(appConfig?.restaurant?.address);
     const location = appConfig?.restaurant?.address;
     if (location) {
@@ -67,7 +66,7 @@ async function opentable_basic_search_and_validate(
         location.state
       )) {
         console.log("XXXXX Address matched");
-        if (await validateResult(entry.id)) {
+        if (await validateOpentableId(opentable_id)) {
           return opentable_id;
         }
       }
@@ -136,7 +135,7 @@ async function opentable_fetchAppConfig(businessid) {
   return appconfig;
 }
 
-async function validateResult(opentable_id) {
+async function validateOpentableId(opentable_id) {
   const sevenDaysFromNow = dayjs().add(7, "day").format("YYYY-MM-DD");
   const result = await opentable_reservation_search(
     opentable_id,

@@ -2,6 +2,8 @@ const USPS = require("usps-webtools");
 
 
 async function addressMatch(street_a, street_b, city, state) {
+
+  console.log("addressMatch", street_a, street_b, city, state);
   if (!street_a || !street_b) {
     return false;
   }
