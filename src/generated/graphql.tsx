@@ -1434,7 +1434,7 @@ export const BayArea2021WithSlotsDocument = gql`
   allVenues(
     first: $first
     condition: {metro: $metro, withOnlineReservation: "true"}
-    filter: {vintage: {in: ["2022", "2021", "2023"]}}
+    filter: {vintage: {in: ["2022", "2023", "2024", "2025", "2026"]}}
   ) {
     totalCount
     nodes {

@@ -236,7 +236,7 @@ export const ListsPage = () => {
     },
     {
       slug: "new",
-      text: "New in 21-23",
+      text: "New in 22-24",
       component: <List2021Only />,
     },
     {
