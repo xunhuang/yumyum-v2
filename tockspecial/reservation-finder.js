@@ -2,6 +2,7 @@ const getDistance = require("geolib").getDistance;
 exports.getDistance = getDistance;
 const { buildUrl } = require("build-url");
 const { RateLimiter } = require("limiter");
+require("dotenv").config();
 
 const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
 const {
@@ -20,28 +21,52 @@ const limiter = new RateLimiter({
 (async function main() {
   try {
     const bayAreaList = await BayAreaListWithTBD();
-    // for (let v of bayAreaList.slice(20, 30)) {
     for (let v of bayAreaList) {
-      console.log(v.name);
-      const result = await isItClosed(v.name, v.city, v.region);
-      console.log(
-        `${v.name} - ${v.city} - ${v.region} - ${
-          result.closed === true ? "closed" : "open "
-        }`
-      );
-      // const success = await isItClosed("SSAL", "San Francisco");
-      // break;
+      await checkIfVenueIsClosedAndActOnIt(v.key, v.name, v.city, v.region);
     }
   } catch (error) {
     console.error(error);
   }
 })();
 
+// return true if it is closed...
+async function checkIfVenueIsClosedAndActOnIt(key, name, city, state) {
+  const result = await isItClosed(name, city, state);
+  console.log(
+    `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "
+    }`
+  );
+  if (result.closed === true) {
+    console.log(`reference: ${JSON.stringify(result)}`);
+    await setVenueToClosed(key, "PERPLEXITY_AI" + JSON.stringify(result));
+    return true;
+  }
+  return false;
+}
+
+async function setVenueToClosed(venue_key, reason) {
+  const escapedReason = reason.replace(/"/g, '\\"');
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    close: true
+    devnotes: "${escapedReason}"
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}
 async function isItClosed(name, city, state) {
   await limiter.removeTokens(1);
 
-  require("dotenv").config();
-  const openaiApiKey = process.env.OPENAI_API_KEY;
+  const openaiApiKey = process.env.PERPLEXITY_AI_KEY;
   const systemMessage = `
   you are an agent to extract information from the web and return a simple json object.
   you are given a name of a venue and a city, and you are asked to determine if the venue is closed.
@@ -54,6 +79,7 @@ async function isItClosed(name, city, state) {
   if there is a reservation system, the json object should have a boolean variable for key "online_book" as true.
   if there is a reveration link, put string value for the key "reservationLink".
   and if there is a reservation platform, the json object should have an array of strings for the key "platform".
+  if the venued is close, add a field "reference" to link to the sources of the information.
 
   please return only a pure json object with nothing else. 
   it's important to only return a json object with the correct keys and values and nothing else.
@@ -83,7 +109,7 @@ async function isItClosed(name, city, state) {
   });
 
   const text = await response.text();
-  console.log("text is", text);
+  // console.log("text is", text);
 
   // console.log(data.choices[0].message.content);
   var answer = "";
