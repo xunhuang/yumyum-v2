@@ -14,7 +14,7 @@ puppeteer.use(StealthPlugin());
 var GlobalResults = {};
 var GlobalSlugMap = {};
 
-async function resyDbData() {
+async function tockDbData() {
   const query = `
     query MyQuery {
   allVenues(
@@ -103,15 +103,7 @@ const request_processing = (request) => {
 
 (async function main() {
   try {
-    // const BayAreaSlugs = [
-    //   "italico",
-    //   "thetableatmerchantroots",
-    //   "umma",
-    //   "thetableatmerchantroots",
-    //   "lion-dance-cafe-oakland",
-    // ];
-
-    const tockdata = await resyDbData();
+    const tockdata = await tockDbData();
     const BayAreaSlugs = tockdata.map((v) => v.urlSlug);
 
     GlobalSlugMap = tockdata.reduce((acc, element) => {
