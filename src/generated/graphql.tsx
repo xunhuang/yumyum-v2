@@ -1691,7 +1691,7 @@ export type BayAreaOfflineLazyQueryHookResult = ReturnType<typeof useBayAreaOffl
 export type BayAreaOfflineQueryResult = Apollo.QueryResult<BayAreaOfflineQuery, BayAreaOfflineQueryVariables>;
 export const MetroTbdDocument = gql`
     query MetroTBD($metro: String!) {
-  allVenues(condition: {metro: $metro, reservation: "TBD"}) {
+  allVenues(condition: {metro: $metro, reservation: "TBD", close: false}) {
     nodes {
       ...VenuMainInfo
     }
