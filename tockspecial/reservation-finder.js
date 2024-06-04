@@ -2,8 +2,11 @@ const getDistance = require("geolib").getDistance;
 exports.getDistance = getDistance;
 require("dotenv").config();
 
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
-const { checkIfVenueIsClosedAndActOnIt } = require("./checkIfVenueIsClosedAndActOnIt");
+const { yumyumGraphQLCall } = require("yumutil");
+
+const {
+  checkIfVenueIsClosedAndActOnIt,
+} = require("./checkIfVenueIsClosedAndActOnIt");
 const { process_for_opentable } = require("./opentable_support");
 const { process_for_resy } = require("./resy_support");
 
@@ -15,7 +18,13 @@ const { process_for_resy } = require("./resy_support");
       console.log(v);
       // await checkIfVenueIsClosedAndActOnIt(v.key, v.name, v.city, v.region);
       // await process_for_opentable(v.key, v.name, v.longitude, v.latitude, v.address);
-      const l = await process_for_resy(v.key, v.name, v.longitude, v.latitude, v.address);
+      const l = await process_for_resy(
+        v.key,
+        v.name,
+        v.longitude,
+        v.latitude,
+        v.address
+      );
       console.log(l);
     }
   } catch (error) {

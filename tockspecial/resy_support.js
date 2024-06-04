@@ -1,5 +1,6 @@
 const buildUrl = require("build-url");
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
+
+const { yumyumGraphQLCall } = require("yumutil");
 const { RateLimiter } = require("limiter");
 const dayjs = require("dayjs");
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
@@ -74,7 +75,6 @@ function resy_day_key(slug, date, party_size) {
 }
 exports.resy_day_key = resy_day_key;
 
-
 async function resy_find_location_details(slug, location) {
   const result = await resyAPIFetch(
     buildUrl("https://api.resy.com", {
@@ -83,11 +83,11 @@ async function resy_find_location_details(slug, location) {
         url_slug: slug,
         location: location,
       },
-    }));
+    })
+  );
   console.log(result);
   return result?.location;
 }
-
 
 exports.resy_set_venue_to_tbd = async function (venue_key) {
   const query = `
@@ -106,8 +106,11 @@ mutation MyMutation {
 
   const json = await yumyumGraphQLCall(query);
   return json;
-}
-exports.opentable_set_venue_reservation = async function (venue_key, businessid) {
+};
+exports.opentable_set_venue_reservation = async function (
+  venue_key,
+  businessid
+) {
   const query = `
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
@@ -125,9 +128,13 @@ mutation MyMutation {
 
   const json = await yumyumGraphQLCall(query);
   return json;
-}
+};
 
-exports.tock_set_venue_reservation = async function (venue_key, slug, businessid) {
+exports.tock_set_venue_reservation = async function (
+  venue_key,
+  slug,
+  businessid
+) {
   const query = `
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
@@ -145,9 +152,14 @@ mutation MyMutation {
 `;
   const json = await yumyumGraphQLCall(query);
   return json;
-}
+};
 
-async function resy_set_venue_reservation(venue_key, slug, resycityCode, venue_id) {
+async function resy_set_venue_reservation(
+  venue_key,
+  slug,
+  resycityCode,
+  venue_id
+) {
   const query = `
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
@@ -177,7 +189,8 @@ async function resyAPIFetch(url) {
       authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
       "cache-control": "no-cache",
       priority: "u=1, i",
-      "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+      "sec-ch-ua":
+        '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
       "sec-ch-ua-mobile": "?0",
       "sec-ch-ua-platform": '"macOS"',
       "sec-fetch-dest": "empty",
@@ -198,27 +211,26 @@ async function resyAPIFetch(url) {
 exports.resyAPIFetch = resyAPIFetch;
 
 async function simpleFetchGet(url) {
-  const content = await fetch(
-    url,
-    {
-      headers: {
-        accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-        priority: "u=0, i",
-        "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "document",
-        "sec-fetch-mode": "navigate",
-        "sec-fetch-site": "none",
-        "sec-fetch-user": "?1",
-        "upgrade-insecure-requests": "1",
-      },
-      referrerPolicy: "strict-origin-when-cross-origin",
-      body: null,
-      method: "GET",
-    }
-  );
+  const content = await fetch(url, {
+    headers: {
+      accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+      priority: "u=0, i",
+      "sec-ch-ua":
+        '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "document",
+      "sec-fetch-mode": "navigate",
+      "sec-fetch-site": "none",
+      "sec-fetch-user": "?1",
+      "upgrade-insecure-requests": "1",
+    },
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: null,
+    method: "GET",
+  });
 
   const body = await content.text();
   return body;
@@ -245,7 +257,6 @@ async function resy_basic_search_and_validate(
   latitude,
   address
 ) {
-
   const makeResult = (entry) => {
     const result = {
       name: entry.name,
@@ -274,8 +285,10 @@ async function resy_basic_search_and_validate(
       continue;
     }
     // console.log("close enough", distance);
-    if (venueNameMatched(term, entry.name) ||
-      await resy_address_matched(entry.url_slug, entry.location.id, address)) {
+    if (
+      venueNameMatched(term, entry.name) ||
+      (await resy_address_matched(entry.url_slug, entry.location.id, address))
+    ) {
       // console.log("name or address matched");
       if (await validateResyId(resy_id)) {
         return makeResult(entry);
@@ -306,35 +319,35 @@ async function validateResyId(resy_id) {
 
 async function resy_basic_search(term, longitude, latitude) {
   try {
-    const result =
-      await fetch("https://api.resy.com/3/venuesearch/search", {
-        "headers": {
-          "accept": "application/json, text/plain, */*",
-          "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-          "authorization": "ResyAPI api_key=\"VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5\"",
-          "cache-control": "no-cache",
-          "content-type": "application/json",
-          "priority": "u=1, i",
-          "sec-ch-ua": "\"Chromium\";v=\"124\", \"Google Chrome\";v=\"124\", \"Not-A.Brand\";v=\"99\"",
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": "\"macOS\"",
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-site",
-          "x-origin": "https://resy.com",
-          "Referer": "https://resy.com/",
-          "Referrer-Policy": "strict-origin-when-cross-origin"
+    const result = await fetch("https://api.resy.com/3/venuesearch/search", {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+        authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+        "cache-control": "no-cache",
+        "content-type": "application/json",
+        priority: "u=1, i",
+        "sec-ch-ua":
+          '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "x-origin": "https://resy.com",
+        Referer: "https://resy.com/",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+      },
+      body: JSON.stringify({
+        geo: {
+          longitude: longitude,
+          latitude: latitude,
         },
-        body: JSON.stringify({
-          geo: {
-            longitude: longitude,
-            latitude: latitude,
-          },
-          query: term,
-          types: ["venue", "cuisine"],
-        }),
-        "method": "POST"
-      });
+        query: term,
+        types: ["venue", "cuisine"],
+      }),
+      method: "POST",
+    });
     const json = await result.json();
     return json.search.hits;
   } catch (error) {
@@ -368,11 +381,16 @@ async function process_for_resy(key, name, longitude, latitude, address) {
     address
   );
   if (!result) {
-    console.log(name, "opentable not found");
+    console.log(name, "resy not found");
     return false;
   }
   console.log("resy found", result);
-  await resy_set_venue_reservation(key, result.urlSlug, result.resyCityCode, result.businessid);
+  await resy_set_venue_reservation(
+    key,
+    result.urlSlug,
+    result.resyCityCode,
+    result.businessid
+  );
   return true;
 }
 

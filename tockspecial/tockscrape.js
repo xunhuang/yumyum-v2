@@ -1,4 +1,4 @@
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
+const { yumyumGraphQLCall } = require("yumutil");
 const dayjs = require("dayjs");
 
 // puppeteer-extra is a drop-in replacement for puppeteer,

@@ -1,4 +1,4 @@
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
+const { yumyumGraphQLCall } = require("yumutil");
 const { RateLimiter } = require("limiter");
 
 const limiter = new RateLimiter({

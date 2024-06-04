@@ -1,7 +1,10 @@
 const cheerio = require("cheerio");
 
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
-const { opentable_set_venue_reservation, tock_set_venue_reservation } = require("./resy_support");
+const { yumyumGraphQLCall } = require("yumutil");
+const {
+  opentable_set_venue_reservation,
+  tock_set_venue_reservation,
+} = require("./resy_support");
 const { resy_set_venue_reservation } = require("./resy_support");
 const { simpleFetchGet } = require("./resy_support");
 const { resyAPILookupByVenueID } = require("./resy_support");
@@ -10,7 +13,7 @@ const { resyAPILookupByVenueID } = require("./resy_support");
   try {
     const bayAreaList = await BayAreaListWithTBD();
     for (let v of bayAreaList) {
-      console.log("checking", v.url)
+      console.log("checking", v.url);
       // if (v.url === "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei") {
       //   continue
       // }
@@ -47,10 +50,12 @@ const { resyAPILookupByVenueID } = require("./resy_support");
         if (resy) {
           const resyData = await resyAPILookupByVenueID(venueId);
           // this call may fail because Michelin may not have the correct data
-          // as a venue may have moved to a different platform and not 
+          // as a venue may have moved to a different platform and not
           // updated their Michelin page
           if (resyData.status === 400) {
-            console.log("Resy API returned 404, likely Michelin data is outdated (it thinks it's resy, but resy disagreeds).");
+            console.log(
+              "Resy API returned 404, likely Michelin data is outdated (it thinks it's resy, but resy disagreeds)."
+            );
             continue;
           }
 
@@ -58,7 +63,12 @@ const { resyAPILookupByVenueID } = require("./resy_support");
           if (venue && venue.venue.id.resy.toString() === venueId) {
             // console.log(JSON.stringify(venue, null, 2));
             console.log(v.url);
-            await resy_set_venue_reservation(v.key, venue.venue.url_slug, venue.venue.location.code, venueId);
+            await resy_set_venue_reservation(
+              v.key,
+              venue.venue.url_slug,
+              venue.venue.location.code,
+              venueId
+            );
           } else {
             console.log("Resy API returned no venue data, not sure why");
             break;
@@ -70,11 +80,13 @@ const { resyAPILookupByVenueID } = require("./resy_support");
           const opentablewebsite = await simpleFetchGet(opentablelink);
           const $ = cheerio.load(opentablewebsite);
           // Extract the restaurantId from the 'al:ios:url' meta tag
-          const iosUrlContent = $('meta[property="al:ios:url"]').attr('content');
+          const iosUrlContent = $('meta[property="al:ios:url"]').attr(
+            "content"
+          );
           const restaurantId = iosUrlContent.match(/rid=(\d+)/)[1];
 
           console.log(v);
-          console.log('Restaurant ID:', restaurantId, v.key);
+          console.log("Restaurant ID:", restaurantId, v.key);
           await opentable_set_venue_reservation(v.key, restaurantId);
           let url = `https://www.opentable.com/restaurant/profile/${restaurantId}/reserve`;
           console.log(url);
@@ -138,4 +150,3 @@ query MyQuery {
   const json = await yumyumGraphQLCall(query);
   return json.data.allVenues.nodes;
 }
-
