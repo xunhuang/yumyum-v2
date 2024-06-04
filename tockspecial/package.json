@@ -28,6 +28,7 @@
     "dayjs-timezone-iana-plugin": "^0.1.0",
     "dotenv": "^16.4.5",
     "geolib": "^3.3.4",
+    "google-protobuf": "^3.21.2",
     "got-scraping": "^3.2.15",
     "limiter": "^2.1.0",
     "puppeteer": "^21.7.0",

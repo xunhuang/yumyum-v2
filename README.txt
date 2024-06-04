@@ -72,6 +72,8 @@ npm test tests/integration/abc/resy.test.ts
 TOCK protocol buff proto generation 
 -----------------------------------
 brew install protobuf
+npm install -g protoc-gen-js
+npm install -g google-protobuf
 ./compileProtos.sh 
 
 The above reverse engineering was performed by using 
