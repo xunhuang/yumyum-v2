@@ -1,16 +1,24 @@
 {
   "name": "yumutil",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.4.0"
+    "@types/long": "^5.0.0",
+    "@types/node": "^20.14.2",
+    "long": "^5.2.3",
+    "protobufjs": "^7.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.10",
+    "ws": "^8.17.0"
   }
 }

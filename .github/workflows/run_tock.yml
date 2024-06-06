@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: cd yumutil; npm ci; npm install; npm link
+      - run: cd yumutil; npm ci; npm install; npm run build; npm link
 
       - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
