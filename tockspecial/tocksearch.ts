@@ -1,12 +1,13 @@
-const { yumyumGraphQLCall } = require("./yumyumGraphQLCall");
+import { yumyumGraphQLCall } from "yumutil";
+import { newTockSearchRequest } from "./tockRequestMsg";
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
-const puppeteer = require("puppeteer-extra");
+import puppeteer from "puppeteer-extra";
 
 // add stealth plugin and use defaults (all evasion techniques)
-const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const { executablePath } = require('puppeteer');
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { executablePath } from "puppeteer";
 puppeteer.use(StealthPlugin());
 
 interface Venue {
@@ -34,7 +35,6 @@ nodes {
   return nodes;
 }
 
-
 function doubleToByteArray(number: number): number[] {
   const buffer = new ArrayBuffer(8);
   const longNum = new Float64Array(buffer);
@@ -44,14 +44,14 @@ function doubleToByteArray(number: number): number[] {
 
 function doubleToFloat64(number: number): string {
   const bytes = doubleToByteArray(number);
-  return bytes.map(b => (b >>> 0).toString(16).padStart(2, '0')).join("");
+  return bytes.map((b) => (b >>> 0).toString(16).padStart(2, "0")).join("");
 }
 
 (async function main(): Promise<void> {
   console.log("hello");
   const browser = await puppeteer.launch({
     executablePath: executablePath(),
-    headless: false
+    headless: false,
   });
   const page = await browser.newPage();
   const url = `https://www.exploretock.com`;
@@ -59,6 +59,4 @@ function doubleToFloat64(number: number): string {
   await page.goto(url);
   await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log("done");
-
 })();
-
