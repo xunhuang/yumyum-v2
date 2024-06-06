@@ -10,7 +10,11 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/long": "^5.0.0",
     "@types/node": "^20.14.2",
+    "long": "^5.2.3",
+    "protobufjs": "^7.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
