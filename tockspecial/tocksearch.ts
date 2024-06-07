@@ -11,31 +11,45 @@ import puppeteer from "puppeteer-extra";
 
 // add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { executablePath } from "puppeteer";
-import { buffer } from "stream/consumers";
+import { Page, executablePath } from "puppeteer";
 puppeteer.use(StealthPlugin());
 
 (async function main(): Promise<void> {
   console.log("hello");
   const browser = await puppeteer.launch({
     executablePath: executablePath(),
-    headless: false,
+    // headless: false,
+    headless: "new",
   });
-  const searchUrl = "https://www.exploretock.com/api/consumer/suggest/nav";
   const page = await browser.newPage();
   const url = `https://www.exploretock.com`;
   console.log(`going to ${url}`);
   await page.goto(url);
+
+  console.log(`waiting 2 secs for page to load`);
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  try {
-    const term = "SSAL";
-    const longitude = -121.8892769;
-    const latitude = 37.3348779;
+  const tbdlist = await BayAreaListWithTBD();
+  for (const venue of tbdlist) {
+    console.log(venue);
+    const result = await tock_basic_search(page, venue.name, venue.longitude, venue.latitude);
+    console.log(result);
+    if (result && result.searchResults && result.searchResults.length > 0) {
+      console.log(`found ${result.searchResults.length} results for ${venue.name}`);
+      const entries = result.searchResults;
+      for (const entry of entries) {
+        console.log(entry);
+      }
+      break;
+    }
+  }
+  console.log("done");
+})();
+
+async function tock_basic_search(page: Page, term: string, longitude: number, latitude: number) {
     const requestData = newTockSearchRequest(term, longitude, latitude);
     const proto = serializeMsgToProto(requestData);
-    const protoBase64 = Buffer.from(proto).toString("base64");
-    // Send the POST request
+  const protoBase64 = Buffer.from(proto).toString("base64");
     const response = await page.evaluate((data: any) => {
       console.log(data);
 
@@ -73,9 +87,59 @@ puppeteer.use(StealthPlugin());
     }, protoBase64);
     const binaryResponse = Buffer.from(response, "base64");
     const final = deserializeTockSearchResponseProtoToMsg(binaryResponse);
-    console.log(final.r1?.r2?.r3);
-  } catch (e) {
-    console.log(e);
+  return (final.r1?.r2?.r3);
+}
+
+async function BayAreaListWithTBD() {
+  // michelinobjectid: { isNull: false }
+  // url: { startsWith: "https://guide.michelin.com" }
+  const query = `
+query MyQuery {
+  allVenues(
+    filter: {
+      metro: { equalTo: "bayarea" }
+      reservation: { equalTo: "TBD" }
+      close: { equalTo: false }
+    }
+  ) {
+    totalCount
+    nodes {
+      name
+      address
+      urlSlug
+      key
+      michelinslug
+      michelinId
+      url
+      realurl
+      michelinobjectid
+      tags
+      michelineOnlineReservation
+      longitude
+      latitude
+      city
+      region
+    }
   }
-  console.log("done");
-})();
+}`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json.data.allVenues.nodes;
+}
+
+// async function tock_fetch_app_config(tocklink) {
+//   const tockwebsite = await simpleFetchGet(tocklink);
+//   const $ = cheerio.load(tockwebsite);
+
+//   var appconfig = {};
+//   $("script").map((i, el) => {
+//     let text = $(el).html();
+//     if (text?.includes("window.$REDUX_STATE = ")) {
+//       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+//       // eslint-disable-next-line
+//       eval(toeval);
+//     }
+//     return null;
+//   });
+//   return appconfig;
+// }

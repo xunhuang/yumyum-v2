@@ -92,19 +92,7 @@ const { resyAPILookupByVenueID } = require("./resy_support");
           console.log(url);
         } else if (reservation_links[0].includes("exploretock")) {
           const tocklink = reservation_links[0];
-          const tockwebsite = await simpleFetchGet(tocklink);
-          const $ = cheerio.load(tockwebsite);
-
-          var appconfig = {};
-          $("script").map((i, el) => {
-            let text = $(el).html();
-            if (text?.includes("window.$REDUX_STATE = ")) {
-              const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-              // eslint-disable-next-line
-              eval(toeval);
-            }
-            return null;
-          });
+          var appconfig = await tock_fetch_app_config(tocklink);
 
           const businessid = appconfig.app.config.business.id;
           const slug = appconfig.app.config.business.domainName;
@@ -118,6 +106,23 @@ const { resyAPILookupByVenueID } = require("./resy_support");
     console.error(error);
   }
 })();
+
+async function tock_fetch_app_config(tocklink) {
+  const tockwebsite = await simpleFetchGet(tocklink);
+  const $ = cheerio.load(tockwebsite);
+
+  var appconfig = {};
+  $("script").map((i, el) => {
+    let text = $(el).html();
+    if (text?.includes("window.$REDUX_STATE = ")) {
+      const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+      // eslint-disable-next-line
+      eval(toeval);
+    }
+    return null;
+  });
+  return appconfig;
+}
 
 async function BayAreaListWithTBD() {
   const query = `
