@@ -6,6 +6,7 @@ import {
 } from "./tockRequestMsg";
 
 import { simpleFetchGet, addressMatch } from "./utils";
+import { tock_set_venue_reservation } from "./tock";
 
 export {
   yumyumGraphQLCall,
@@ -13,5 +14,6 @@ export {
   serializeMsgToProto,
   deserializeTockSearchResponseProtoToMsg,
   simpleFetchGet,
-  addressMatch
+  addressMatch,
+  tock_set_venue_reservation,
 };

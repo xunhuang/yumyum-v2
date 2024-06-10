@@ -4,6 +4,7 @@ import {
   serializeMsgToProto,
   deserializeTockSearchResponseProtoToMsg,
   addressMatch,
+  tock_set_venue_reservation,
 } from "yumutil";
 import * as cheerio from 'cheerio';
 
@@ -74,6 +75,9 @@ puppeteer.use(StealthPlugin());
           ) {
             console.log("matched, continue");
             console.log(" tock FOUND real matched >>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            const businessid = appconfig.app.config.business.id;
+            const slug = appconfig.app.config.business.domainName;
+            await tock_set_venue_reservation(venue.key, slug, businessid);
             found = true;
             break;
           }
