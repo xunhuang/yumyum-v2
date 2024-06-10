@@ -3,7 +3,9 @@ import {
   newTockSearchRequest,
   serializeMsgToProto,
   deserializeTockSearchResponseProtoToMsg,
+  addressMatch,
 } from "yumutil";
+import * as cheerio from 'cheerio';
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
@@ -12,6 +14,7 @@ import puppeteer from "puppeteer-extra";
 // add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { Page, executablePath } from "puppeteer";
+import dayjs from "dayjs";
 puppeteer.use(StealthPlugin());
 
 (async function main(): Promise<void> {
@@ -31,39 +34,84 @@ puppeteer.use(StealthPlugin());
 
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
-    console.log(venue);
+    console.log(`${venue.name} - ${venue.address}`);
     const result = await tock_basic_search(page, venue.name, venue.longitude, venue.latitude);
     console.log(result);
     if (result && result.searchResults && result.searchResults.length > 0) {
       console.log(`found ${result.searchResults.length} results for ${venue.name}`);
       const entries = result.searchResults;
+      var found = false;
       for (const entry of entries) {
-        console.log(entry);
+        const tockLink = `https://www.exploretock.com/${entry.slug}`;
+        console.log(tockLink);
+        const appconfig = await tock_fetch_app_config(tockLink);
+        const ticketAvailableUntil = appconfig.app.config.business.ticketsAvailableUntil;
+        // console.log(ticketAvailableUntil);
+        // console.log(appconfig.app.config.business);
+        const today = dayjs().format("YYYY-MM-DD");
+        if (today < ticketAvailableUntil) {
+          console.log(`ticket available for ${venue.name}`);
+          console.log(" tock FOUND real candidate ");
+
+          // Since there is no longitude and latitude in the appconfig, 
+          // we can't directly use the distance between the venues
+
+          // Let's check if Country match
+          // then whether State, City and Name match
+          // whether street match
+
+          if (appconfig.app.config.business.country !== "US") {
+            console.log("country mismatch, continue");
+            continue;
+          }
+
+          if ((appconfig.app.config.business.name === venue.name
+            && (appconfig.app.config.business.state === "CA" && venue.region === "California")
+            && (appconfig.app.config.business.city.toLowerCase() === venue.city.toLowerCase())
+          ) || (
+              await addressMatch(appconfig.app.config.business.address, venue.address, venue.city, venue.region)
+            )
+          ) {
+            console.log("matched, continue");
+            console.log(" tock FOUND real matched >>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            found = true;
+            break;
+          }
+
+          console.log(" unfornately neither name not match or address not match ----");
+        } else {
+          // this means last day ticket available was in the past
+          // like restaurant no longer on tock
+          console.log(`${venue.name} was on tock in the past,  but no tickets available on plaform anymore `);
+        }
       }
-      break;
+      // break;
+      if (!found) {
+        console.log(`unfornately  ---- ${venue.name} not found`);
+      }
     }
   }
   console.log("done");
 })();
 
 async function tock_basic_search(page: Page, term: string, longitude: number, latitude: number) {
-    const requestData = newTockSearchRequest(term, longitude, latitude);
-    const proto = serializeMsgToProto(requestData);
+  const requestdata = newTockSearchRequest(term, longitude, latitude);
+  const proto = serializeMsgToProto(requestdata);
   const protoBase64 = Buffer.from(proto).toString("base64");
     const response = await page.evaluate((data: any) => {
       console.log(data);
 
-      // Decode the Base64-encoded binary data back to binary
-      const binaryString = atob(data);
-      const len = binaryString.length;
+      // decode the base64-encoded binary data back to binary
+      const binarystring = atob(data);
+      const len = binarystring.length;
       const bytes = new Uint8Array(len);
       for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
+        bytes[i] = binarystring.charCodeAt(i);
       }
 
-      const searchUrl = "https://www.exploretock.com/api/consumer/suggest/nav";
-      return fetch(searchUrl, {
-        method: "POST",
+      const searchurl = "https://www.exploretock.com/api/consumer/suggest/nav";
+      return fetch(searchurl, {
+        method: "post",
         headers: {
           accept: "application/octet-stream",
           "content-type": "application/octet-stream",
@@ -127,19 +175,40 @@ query MyQuery {
   return json.data.allVenues.nodes;
 }
 
-// async function tock_fetch_app_config(tocklink) {
-//   const tockwebsite = await simpleFetchGet(tocklink);
-//   const $ = cheerio.load(tockwebsite);
+interface AppConfig {
+  // Define the structure of AppConfig based on what you expect from $REDUX_STATE
+  [key: string]: any; // This is a generic definition, specify more detailed properties as needed
+}
 
-//   var appconfig = {};
-//   $("script").map((i, el) => {
-//     let text = $(el).html();
-//     if (text?.includes("window.$REDUX_STATE = ")) {
-//       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-//       // eslint-disable-next-line
-//       eval(toeval);
-//     }
-//     return null;
-//   });
-//   return appconfig;
-// }
+
+async function puppeteerFetch(url: string): Promise<string> {
+  const browser = await puppeteer.launch({
+    executablePath: executablePath(),
+    headless: "new",
+  });
+  const page = await browser.newPage();
+  await page.goto(url);
+  const html = await page.content();
+  await browser.close();
+  return html;
+}
+
+
+async function tock_fetch_app_config(tocklink: string): Promise<AppConfig> {
+  const tockwebsite: string = await puppeteerFetch(tocklink);
+  const $ = cheerio.load(tockwebsite);
+
+// console.log(tockwebsite);
+
+  let appconfig: AppConfig = {};
+  $("script").each((i: number, el: cheerio.Element) => {
+    let text: string | null = $(el).html();
+    if (text?.includes("window.$REDUX_STATE = ")) {
+      const toeval: string = text.replace("window.$REDUX_STATE", "appconfig");
+      // eslint-disable-next-line no-eval
+      eval(toeval);
+    }
+    // return ;
+  });
+  return appconfig;
+}
