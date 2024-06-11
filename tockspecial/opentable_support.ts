@@ -1,11 +1,49 @@
-const cheerio = require("cheerio");
-const dayjs = require("dayjs");
-const { venueNameMatched, addressMatch } = require("./util");
-const { getDistance } = require("./reservation-finder");
-const { opentable_set_venue_reservation } = require("./resy_support");
+import cheerio from "cheerio";
+import dayjs from "dayjs";
+import { venueNameMatched, addressMatch, yumyumGraphQLCall } from "yumutil";
+import { getDistance } from "geolib";
 
+interface Entry {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
 
-async function process_for_opentable(key, name, longitude, latitude, address) {
+interface AppConfig {
+  restaurant?: {
+    address?: {
+      line1: string;
+      city: string;
+      state: string;
+    };
+  };
+}
+
+export async function opentable_set_venue_reservation(
+  venue_key: string,
+  businessid: string
+): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    reservation: "opentable",
+    businessid: "${businessid}",
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+};
+
+async function process_for_opentable(key: string, name: string, longitude: number, latitude: number, address: string): Promise<boolean> {
   const opentable_id = await opentable_basic_search_and_validate(
     name,
     longitude,
@@ -20,14 +58,14 @@ async function process_for_opentable(key, name, longitude, latitude, address) {
   await opentable_set_venue_reservation(key, opentable_id);
   return true;
 }
-exports.process_for_opentable = process_for_opentable;
+export { process_for_opentable };
 
 async function opentable_basic_search_and_validate(
-  term,
-  longitude,
-  latitude,
-  address
-) {
+  term: string,
+  longitude: number,
+  latitude: number,
+  address: string
+): Promise<string | null> {
   const result = await opentable_basic_search(term, longitude, latitude);
 
   for (const entry of result) {
@@ -76,14 +114,12 @@ async function opentable_basic_search_and_validate(
   return null;
 }
 
-async function opentable_basic_search(term, longitude, latitude) {
+async function opentable_basic_search(term: string, longitude: number, latitude: number): Promise<Entry[]> {
   try {
     const result = await fetch(
       "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete",
       {
         headers: {
-          // don't uncomment this.... it will fail
-          // 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
           "content-type": "application/json",
           "x-csrf-token": "eda2a880-4591-44e3-b7e0-9f7f03079bd3",
         },
@@ -98,7 +134,6 @@ async function opentable_basic_search(term, longitude, latitude) {
           extensions: {
             persistedQuery: {
               version: 1,
-              // needs updating
               sha256Hash: "fe1d118abd4c227750693027c2414d43014c2493f64f49bcef5a65274ce9c3c3",
             },
           },
@@ -115,11 +150,10 @@ async function opentable_basic_search(term, longitude, latitude) {
     console.error(error);
   }
   return [];
-
 }
 
 
-async function opentable_fetchAppConfig(businessid) {
+async function opentable_fetchAppConfig(businessid: string): Promise<AppConfig | undefined> {
   let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
   const w = await fetch(url, {
     method: "get",
@@ -130,12 +164,12 @@ async function opentable_fetchAppConfig(businessid) {
   const res = await w.text();
   const $ = cheerio.load(res);
 
-  let scripts = $("#client-initial-state").html();
+  let scripts = $("#client-initial-state").html() || "no-script let it fail";
   let appconfig = JSON.parse(scripts);
   return appconfig;
 }
 
-async function validateOpentableId(opentable_id) {
+async function validateOpentableId(opentable_id: string): Promise<boolean> {
   const sevenDaysFromNow = dayjs().add(7, "day").format("YYYY-MM-DD");
   const result = await opentable_reservation_search(
     opentable_id,
@@ -143,7 +177,6 @@ async function validateOpentableId(opentable_id) {
     2,
     "dinner"
   );
-  // console.log(result);
   if (!result.availability) {
     console.log("opentable No longer available", opentable_id);
     return false;
@@ -154,24 +187,27 @@ async function validateOpentableId(opentable_id) {
   }
   return true;
 }
-var opentable_auth_token = null;
+var opentable_auth_token: string | null = null;
 
-async function fetchAuthToken() {
+async function fetchAuthToken(): Promise<string> {
   if (opentable_auth_token) {
     return opentable_auth_token;
   }
 
-  let config = await opentable_fetchAppConfig(1477);
+  let config = await opentable_fetchAppConfig("1477");
+  if (!config || !config['authToken']) {
+    throw new Error("Unable to fetch auth token for opentable");
+  }
   opentable_auth_token = config["authToken"];
-  return opentable_auth_token;
+  return opentable_auth_token!;
 }
 
 async function opentable_reservation_search(
-  businessid,
-  date,
-  party_size,
-  timeOption
-) {
+  businessid: string,
+  date: string,
+  party_size: number,
+  timeOption: string
+): Promise<any> {
   let token = await fetchAuthToken();
   let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
   let datetime = timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";

@@ -5,7 +5,7 @@ import {
   deserializeTockSearchResponseProtoToMsg,
 } from "./tockRequestMsg";
 
-import { simpleFetchGet, addressMatch } from "./utils";
+import { simpleFetchGet, addressMatch, venueNameMatched } from "./utils";
 import { tock_set_venue_reservation } from "./tock";
 
 export {
@@ -15,5 +15,6 @@ export {
   deserializeTockSearchResponseProtoToMsg,
   simpleFetchGet,
   addressMatch,
+  venueNameMatched,
   tock_set_venue_reservation,
 };
