@@ -6,7 +6,7 @@ const { yumyumGraphQLCall } = require("yumutil");
 
 const {
   checkIfVenueIsClosedAndActOnIt,
-} = require("./checkIfVenueIsClosedAndActOnIt");
+} = require("./checkIfVenueIsClosedAndActOnIt.ts");
 const { process_for_opentable } = require("./opentable_support");
 const { process_for_resy } = require("./resy_support");
 

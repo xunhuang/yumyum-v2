@@ -1,5 +1,7 @@
-const { yumyumGraphQLCall } = require("yumutil");
-const { RateLimiter } = require("limiter");
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
+import { RateLimiter } from "limiter";
+import dotenv from "dotenv";
+dotenv.config();
 
 const limiter = new RateLimiter({
   tokensPerInterval: 10,
@@ -7,8 +9,7 @@ const limiter = new RateLimiter({
 });
 
 // return true if it is closed...
-
-async function checkIfVenueIsClosedAndActOnIt(key, name, city, state) {
+export async function checkIfVenueIsClosedAndActOnIt(key: string, name: string, city: string, state: string): Promise<boolean> {
   const result = await isItClosed(name, city, state);
   console.log(
     `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "}`
@@ -20,9 +21,8 @@ async function checkIfVenueIsClosedAndActOnIt(key, name, city, state) {
   }
   return false;
 }
-exports.checkIfVenueIsClosedAndActOnIt = checkIfVenueIsClosedAndActOnIt;
 
-async function setVenueToClosed(venue_key, reason) {
+async function setVenueToClosed(venue_key: string, reason: string): Promise<any> {
   const escapedReason = reason.replace(/"/g, '\\"');
   const query = `
 mutation MyMutation {
@@ -41,10 +41,13 @@ mutation MyMutation {
   const json = await yumyumGraphQLCall(query);
   return json;
 }
-async function isItClosed(name, city, state) {
+async function isItClosed(name: string, city: string, state: string): Promise<any> {
   await limiter.removeTokens(1);
 
   const openaiApiKey = process.env.PERPLEXITY_AI_KEY;
+  if (!openaiApiKey || openaiApiKey === "") {
+    throw new Error("PERPLEXITY_AI_KEY is not set");
+  }
   const systemMessage = `
   you are an agent to extract information from the web and return a simple json object.
   you are given a name of a venue and a city, and you are asked to determine if the venue is closed.
@@ -73,7 +76,6 @@ async function isItClosed(name, city, state) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      // model: "gpt-4",
       model: "llama-3-sonar-small-32k-online",
       temperature: 0,
       messages: [
@@ -87,8 +89,6 @@ async function isItClosed(name, city, state) {
   });
 
   const text = await response.text();
-  // console.log("text is", text);
-  // console.log(data.choices[0].message.content);
   var answer = "";
   try {
     const data = JSON.parse(text);
@@ -98,7 +98,7 @@ async function isItClosed(name, city, state) {
     return extractJsonFromText(answer);
   }
 }
-const extractJsonFromText = (text) => {
+const extractJsonFromText = (text: string): any => {
   const jsonRegex = /{(?:[^{}]|({)|})*}/;
   const match = text.match(jsonRegex);
   if (match) {

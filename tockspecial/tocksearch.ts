@@ -2,7 +2,8 @@ import {
   yumyumGraphQLCall,
   process_for_opentable,
   process_for_resy,
-  process_for_tock
+  process_for_tock,
+  checkIfVenueIsClosedAndActOnIt
 } from "yumutil";
 
 (async function main(): Promise<void> {
@@ -11,9 +12,10 @@ import {
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     console.log(`${venue.name} - ${venue.address}`);
-    const tock_result = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+    // const tock_result = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
     // const opentable_result = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
     // const resy_result = await process_for_resy(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
   }
   console.log("done");
 })();
