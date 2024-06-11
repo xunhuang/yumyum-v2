@@ -17,7 +17,7 @@ jobs:
         with:
           submodules: recursive
       # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@v0
+      - uses: google-github-actions/setup-gcloud@v2
         with:
           service_account_email: ${{ secrets.GCP_EMAIL }}
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: cd yumutil; npm ci; npm install; npm run build; npm link
+      - run: cd yumutil; npm ci; npm install; npm install -g ts-node; npm run build; npm link
 
       - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
@@ -37,18 +37,18 @@ jobs:
         env:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-        run: cd tockspecial; npx ts-node tockscrape.ts
+        run: cd tockspecial; ts-node tockscrape.ts
 
       - name: Run Resy Calendar level scraping
         id: runresycalenarscrape
         env:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-        run: cd tockspecial; npx ts-node resyscrape-calendar.ts
+        run: cd tockspecial; ts-node resyscrape-calendar.ts
 
       - name: Run Resy day level scraping
         id: runresy_day
         env:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-        run: cd tockspecial; npx ts-node resyscrape.ts
+        run: cd tockspecial; ts-node resyscrape.ts
