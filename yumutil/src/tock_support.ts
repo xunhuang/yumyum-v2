@@ -1,19 +1,15 @@
-import {
-  newTockSearchRequest,
-  serializeMsgToProto,
-  deserializeTockSearchResponseProtoToMsg,
-  addressMatch,
-  tock_set_venue_reservation
-} from "yumutil";
 import * as cheerio from 'cheerio';
 import puppeteer from "puppeteer-extra";
 import { Page, executablePath } from "puppeteer";
 import dayjs from "dayjs";
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
 // add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from "./tockRequestMsg";
+import { addressMatch } from "./utils";
 puppeteer.use(StealthPlugin());
 
 var browserPage: Page;
@@ -22,7 +18,7 @@ async function getBrowerPageSingleton(): Promise<Page> {
     const browser = await puppeteer.launch({
       executablePath: executablePath(),
       // headless: false,
-      headless: "new",
+      headless: true,
     });
     const page = await browser.newPage();
     const url = `https://www.exploretock.com`;
@@ -152,7 +148,7 @@ interface AppConfig {
 async function puppeteerFetch(url: string): Promise<string> {
   const browser = await puppeteer.launch({
     executablePath: executablePath(),
-    headless: "new",
+    headless: true,
   });
   const page = await browser.newPage();
   await page.goto(url);
@@ -179,3 +175,27 @@ async function tock_fetch_app_config(tocklink: string): Promise<AppConfig> {
   });
   return appconfig;
 }
+
+export async function tock_set_venue_reservation(
+  venue_key: string,
+  slug: string,
+  businessid: string
+): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    urlSlug: "${slug}",
+    reservation: "tock",
+    businessid: "${businessid}",
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+  const json = await yumyumGraphQLCall(query);
+  return json;
+};
