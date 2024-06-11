@@ -1,8 +1,8 @@
 import {
   yumyumGraphQLCall,
+  process_for_opentable,
 } from "yumutil";
 import { process_for_tock } from "./process_for_tock";
-import { process_for_opentable } from "./opentable_support";
 
 (async function main(): Promise<void> {
   console.log("hello");
@@ -11,7 +11,7 @@ import { process_for_opentable } from "./opentable_support";
   for (const venue of tbdlist) {
     console.log(`${venue.name} - ${venue.address}`);
     // const tock_result = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
-    // const opentable_result = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    const opentable_result = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
   }
   console.log("done");
 })();

@@ -1,6 +1,7 @@
 import cheerio from "cheerio";
 import dayjs from "dayjs";
-import { venueNameMatched, addressMatch, yumyumGraphQLCall } from "yumutil";
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall"
+import { venueNameMatched, addressMatch } from "./utils"
 import { getDistance } from "geolib";
 
 interface Entry {
