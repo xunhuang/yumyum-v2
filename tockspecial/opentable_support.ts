@@ -18,6 +18,7 @@ interface AppConfig {
       state: string;
     };
   };
+  authToken?: string;
 }
 
 export async function opentable_set_venue_reservation(
@@ -54,7 +55,7 @@ async function process_for_opentable(key: string, name: string, longitude: numbe
     console.log(name, "opentable not found");
     return false;
   }
-  console.log(name, "opentable found YYYYYYYYY", opentable_id);
+  console.log(name, "Opentable found a match ---------------- ", opentable_id);
   await opentable_set_venue_reservation(key, opentable_id);
   return true;
 }
@@ -84,13 +85,11 @@ async function opentable_basic_search_and_validate(
     console.log("close enough", distance);
 
     if (venueNameMatched(term, entry.name)) {
-      console.log("name matched");
+      console.log("name matched for ", term, entry.name);
       if (await validateOpentableId(opentable_id)) {
         return opentable_id;
       }
-    } else {
-      console.log("name did not match", term, entry.name);
-    }
+    } 
 
     // maybe check address
     const appConfig = await opentable_fetchAppConfig(opentable_id);
@@ -103,7 +102,7 @@ async function opentable_basic_search_and_validate(
         location.city,
         location.state
       )) {
-        console.log("XXXXX Address matched");
+        console.log("Address matched for ", term, entry.name);
         if (await validateOpentableId(opentable_id)) {
           return opentable_id;
         }
@@ -142,7 +141,6 @@ async function opentable_basic_search(term: string, longitude: number, latitude:
       }
     );
     const json = await result.json();
-    console.log(json);
     const resultlist = json.data.autocomplete?.autocompleteResults;
     return resultlist;
   } catch (error) {
@@ -151,7 +149,6 @@ async function opentable_basic_search(term: string, longitude: number, latitude:
   }
   return [];
 }
-
 
 async function opentable_fetchAppConfig(businessid: string): Promise<AppConfig | undefined> {
   let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
