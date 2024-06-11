@@ -10,8 +10,9 @@ import { checkIfVenueIsClosedAndActOnIt } from "./checkIfVenueIsClosedAndActOnIt
 import { process_for_opentable } from "./opentable_support";
 import { process_for_resy } from "./resy_support";
 import { process_for_tock, tock_set_venue_reservation } from "./tock_support";
-import { resy_set_venue_to_tbd } from "./resy_support";
+import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, resy_calendar } from "./resy_support";
 import { saveToRedisWithChunking } from "./saveToRedisWithChunking";
+
 
 export {
   yumyumGraphQLCall,
@@ -27,6 +28,9 @@ export {
   process_for_tock,
   checkIfVenueIsClosedAndActOnIt,
   resy_set_venue_to_tbd,
-  saveToRedisWithChunking
+  saveToRedisWithChunking,
+  resy_calendar_key,
+  resyLists,
+  resy_calendar,
 }
 

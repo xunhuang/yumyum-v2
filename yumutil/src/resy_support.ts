@@ -295,7 +295,7 @@ async function resy_basic_search(term: string, longitude: number, latitude: numb
   }
   return [];
 }
-async function resy_calendar(venue_id: string, num_seats: number, name: string, days_ahead: number): Promise<any> {
+export async function resy_calendar(venue_id: string, num_seats: number, name: string, days_ahead: number): Promise<any> {
   const today = dayjs().add(-1, "days").format("YYYY-MM-DD");
   const enddate = dayjs().add(days_ahead, "days").format("YYYY-MM-DD");
 

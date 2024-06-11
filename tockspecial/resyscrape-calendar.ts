@@ -1,18 +1,14 @@
+import { RateLimiter } from "limiter";
+import { resy_calendar_key, resyLists, resy_calendar, saveToRedisWithChunking } from "yumutil";
 
-const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
-const { RateLimiter } = require("limiter");
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
-
-const { resy_calendar_key } = require("./resy_support");
-const { resyLists } = require("./resy_support");
-const { resy_calendar } = require("./resy_support");
 
 (async function main() {
   try {
     const rl = await resyLists();
     const partylist = [2, 3, 4, 1, 5, 6, 7, 8, 9, 10];
-    for (let party_size of partylist) {
-      const answers = {};
+    for (const party_size of partylist) {
+      const answers: Record<string, any> = {};
       const l = rl;
       console.log(l);
       for (let i = 0; i < l.length && i < 1000; i++) {
@@ -38,7 +34,7 @@ const { resy_calendar } = require("./resy_support");
   }
 })();
 
-async function resy_calendar_ratelimited(venue_id, num_seats, name, days_ahead) {
+async function resy_calendar_ratelimited(venue_id: string, num_seats: number, name: string, days_ahead: number) {
   await limiter.removeTokens(1);
   return await resy_calendar(venue_id, num_seats, name, days_ahead);
 }
