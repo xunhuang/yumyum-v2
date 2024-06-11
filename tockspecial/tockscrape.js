@@ -1,4 +1,4 @@
-const { yumyumGraphQLCall } = require("yumutil");
+const { yumyumGraphQLCall, resy_set_venue_to_tbd } = require("yumutil");
 const dayjs = require("dayjs");
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
@@ -8,7 +8,6 @@ const puppeteer = require("puppeteer-extra");
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const { saveToRedisWithChunking } = require("./saveToRedisWithChunking");
-const { resy_set_venue_to_tbd } = require("./resy_support");
 puppeteer.use(StealthPlugin());
 
 var GlobalResults = {};
