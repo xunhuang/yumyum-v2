@@ -12,10 +12,22 @@ import {
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     console.log(`${venue.name} - ${venue.address}`);
-    // const tock_result = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
-    // const opentable_result = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    // const resy_result = await process_for_resy(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
+    const tock_found = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+    if (tock_found) {
+      continue;
+    }
+    const opentable_found = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    if (opentable_found) {
+      continue;
+    }
+    const resy_found = await process_for_resy(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    if (resy_found) {
+      continue;
+    }
+    // const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
+    // if (closed) {
+    //   continue;
+    // }
   }
   console.log("done");
 })();
