@@ -1,9 +1,9 @@
 import {
   yumyumGraphQLCall,
   process_for_opentable,
+  process_for_resy
 } from "yumutil";
 import { process_for_tock } from "./process_for_tock";
-import { process_for_resy } from "./resy_support";
 
 (async function main(): Promise<void> {
   console.log("hello");

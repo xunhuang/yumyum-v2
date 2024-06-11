@@ -1,9 +1,9 @@
 import buildUrl from "build-url";
-import { yumyumGraphQLCall } from "yumutil";
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
-import { venueNameMatched, addressMatch } from "yumutil";
+import { venueNameMatched, addressMatch } from "./utils";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
 

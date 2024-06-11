@@ -8,6 +8,7 @@ import {
 import { simpleFetchGet, addressMatch, venueNameMatched } from "./utils";
 import { tock_set_venue_reservation } from "./tock";
 import { process_for_opentable } from "./opentable_support";
+import { process_for_resy } from "./resy_support";
 
 export {
   yumyumGraphQLCall,
@@ -19,4 +20,5 @@ export {
   venueNameMatched,
   tock_set_venue_reservation,
   process_for_opentable,
-};
+  process_for_resy,
+}
