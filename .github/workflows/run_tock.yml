@@ -44,11 +44,11 @@ jobs:
         env:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-        run: cd tockspecial; node resyscrape-calendar.js
+        run: cd tockspecial; ts-node resyscrape-calendar.ts
 
       - name: Run Resy day level scraping
         id: runresy_day
         env:
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-        run: cd tockspecial; node resyscrape.js
+        run: cd tockspecial; ts-node resyscrape.ts
