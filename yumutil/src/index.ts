@@ -10,6 +10,7 @@ import { checkIfVenueIsClosedAndActOnIt } from "./checkIfVenueIsClosedAndActOnIt
 import { process_for_opentable } from "./opentable_support";
 import { process_for_resy } from "./resy_support";
 import { process_for_tock, tock_set_venue_reservation } from "./tock_support";
+import { resy_set_venue_to_tbd } from "./resy_support";
 
 export {
   yumyumGraphQLCall,
@@ -24,5 +25,6 @@ export {
   process_for_resy,
   process_for_tock,
   checkIfVenueIsClosedAndActOnIt,
+  resy_set_venue_to_tbd,
 }
 
