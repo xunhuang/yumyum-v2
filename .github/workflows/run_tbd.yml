@@ -28,22 +28,15 @@ jobs:
 
       - name: Run Resy-debug
         id: runresy_debug
-        env:
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        env: ${{ secrets }}
         run: cd tockspecial; ts-node resy-debug.ts
 
       - name: Run reservation-finder-by-michelin-guide-website
         id: run_reservation_finder_by_michelin_guide_website
-        env:
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        env: ${{ secrets }}
         run: cd tockspecial; ts-node reservation-finder-by-michelin-guide-website.ts
 
       - name: Run reservation-finder
         id: run_reservation_finder
-        env:
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-          PERPLEXITY_AI_KEY: ${{ secrets.PERPLEXITY_AI_KEY }}
+        env: ${{ secrets }}
         run: cd tockspecial; ts-node reservation-finder.ts
