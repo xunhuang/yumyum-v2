@@ -725,7 +725,7 @@
         }
       },
       "street": {
-        "value": "615 Channelside Dr. #112",
+        "value": "615 Channelside Dr., #112",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -1557,95 +1557,123 @@
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/74348c7e9a1640e1bec7399c57b0fe9d"
       },
       {
+        "copyright": "Rob Harris/Columbia",
+        "identifier": "7115860",
+        "order": 1,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/84d7f205f1294c8c97b93fc9730409bf"
+      },
+      {
         "copyright": "Jeff Houck/Columbia",
         "identifier": "4531071",
-        "order": 1,
+        "order": 2,
         "topic": "SUJ_PLAT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/033a00d484704727965de7acd71b2163"
       },
       {
         "copyright": "Jeff Houck/Columbia",
         "identifier": "4531162",
-        "order": 2,
+        "order": 3,
         "topic": "SUJ_EXT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9a93a726a67f4ff898626b99fc544fd0"
       },
       {
         "copyright": "Columbia Retaurant/Columbia",
         "identifier": "4531196",
-        "order": 3,
+        "order": 4,
         "topic": "SUJ_ENT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c3f5bad05a194c2da2255c8d545cfb5f"
       },
       {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531062",
-        "order": 4,
+        "order": 5,
         "topic": "SUJ_INT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/cb34631720374af7a363532591700a77"
       },
       {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531110",
-        "order": 5,
+        "order": 6,
         "topic": "SUJ_INT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/051c49b19d694c99ad6bcb6d9825abfd"
       },
       {
         "copyright": "Jeff Houck/Columbia",
         "identifier": "4531176",
-        "order": 6,
+        "order": 7,
         "topic": "SUJ_PLAT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ca0bf6ba95214c9296db8403d8ca99eb"
       },
       {
         "copyright": "Jeff Houck/Columbia",
+        "identifier": "7115894",
+        "order": 8,
+        "topic": "SUJ_DES",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/889fb5619dc54f1396a6e8235c4bbdd5"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
         "identifier": "6509789",
-        "order": 7,
+        "order": 9,
         "topic": "SUJ_EXT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5331ef625e9740048dc519f3e9600f4a"
       },
       {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531059",
-        "order": 8,
+        "order": 10,
         "topic": "SUJ_INT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/69dbd29b525e409d8d6ab265cc0cdd6e"
       },
       {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "7115912",
+        "order": 11,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c68f54e323184dac855852427a47340b"
+      },
+      {
+        "copyright": "Jeff Houck/Columbia",
+        "identifier": "7115837",
+        "order": 12,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/db5c811f6ff544f4ae7ab4750a9271c7"
+      },
+      {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531090",
-        "order": 9,
+        "order": 13,
         "topic": "SUJ_INT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/ddc6352e3fc54659b1711112977339eb"
       },
       {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531214",
-        "order": 10,
+        "order": 14,
         "topic": "SUJ_DES",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/810b3cc978e642c99230e53254e1804c"
       },
       {
         "copyright": "Columbia Restaurant/Columbia",
         "identifier": "4531119",
-        "order": 11,
+        "order": 15,
         "topic": "SUJ_PLAT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b906dcc6313e4547bdbc78f7f4fd9dec"
       },
       {
         "copyright": "Jeff Houck/Columbia",
-        "identifier": "4531056",
-        "order": 12,
-        "topic": "SUJ_ENT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/88c5c74987a24d2395cc2ba58142096f"
+        "identifier": "7115846",
+        "order": 16,
+        "topic": "SUJ_AUT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/52605744d0084bb4948ab8ab0cc2e797"
       },
       {
         "copyright": "Jeff Houck/Columbia",
-        "identifier": "6509766",
-        "order": 13,
-        "topic": "SUJ_AUT",
-        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9a770fe1590a4494ada4e2376084a4ec"
+        "identifier": "7115903",
+        "order": 17,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/9184d98a0e3547209ddc9aee3a7b1d25"
       }
     ],
     "city": {
@@ -5763,7 +5791,7 @@
         }
       },
       "street": {
-        "value": "1208 S. Howard Ave",
+        "value": "1208 S. Howard Ave.",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -7690,17 +7718,38 @@
       },
       {
         "copyright": "Chip Weiner/Bistro BT",
-        "identifier": "4469448",
+        "identifier": "7116046",
         "order": 2,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/b169dcd85be849b097d6f1ef03743e16"
+      },
+      {
+        "copyright": "Angel Webb/Bistro BT",
+        "identifier": "7116065",
+        "order": 3,
+        "topic": "SUJ_PLAT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/5d940d17f9894bb3b7b522fe6c138653"
+      },
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "4469448",
+        "order": 4,
         "topic": "SUJ_ENT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/c245c1bbf6cc480c82b4d9b3c31303ff"
       },
       {
         "copyright": "Chip Weiner/Bistro BT",
         "identifier": "4469456",
-        "order": 3,
+        "order": 5,
         "topic": "SUJ_PLAT",
         "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/56a8cf33e21d4fcaac1961b2c55f3cec"
+      },
+      {
+        "copyright": "Chip Weiner/Bistro BT",
+        "identifier": "7116029",
+        "order": 6,
+        "topic": "SUJ_ENT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/87b0cac4261b48c0b22bbad4c1960387"
       }
     ],
     "city": {

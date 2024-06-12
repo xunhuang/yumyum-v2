@@ -1,0 +1,32 @@
+name: Resy Calendar Level scraping
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0/15 * * * *"
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run:  npm install -g ts-node
+      - run: cd yumutil; npm ci; npm install; npm run build; npm link
+      - run: cd tockspecial; npm ci; npm install; npm link yumutil
+
+      - name: Run Resy Calendar level scraping
+        id: runresycalenarscrape
+        env: ${{ secrets }}
+        run: cd tockspecial; ts-node resyscrape-calendar.ts

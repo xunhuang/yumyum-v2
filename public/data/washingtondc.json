@@ -394,7 +394,7 @@
     "new_table": 0,
     "offers": 0,
     "offers_size": 0,
-    "online_booking": 1,
+    "online_booking": 0,
     "region": {
       "name": "District of Columbia",
       "slug": "district-of-columbia",
@@ -7013,7 +7013,7 @@
     "objectID": "87689",
     "_snippetResult": {
       "main_desc": {
-        "value": "Magnificent Métier may be accessed via an elevator, which deposits",
+        "value": "Métier's spare and sleek dining space may be best",
         "matchLevel": "none"
       }
     },
@@ -7423,7 +7423,7 @@
         }
       },
       "street": {
-        "value": "200 Massachusetts Ave., NW, Ste.150",
+        "value": "200 Massachusetts Ave. NW, Ste.150",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -10503,7 +10503,7 @@
     "new_table": 0,
     "offers": 0,
     "offers_size": 0,
-    "online_booking": 1,
+    "online_booking": 0,
     "region": {
       "name": "District of Columbia",
       "slug": "district-of-columbia",
@@ -16629,7 +16629,7 @@
         }
       },
       "street": {
-        "value": "200 Massachusetts Ave. NW Ste. 100",
+        "value": "200 Massachusetts Ave. NW, Ste. 100",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -21600,7 +21600,7 @@
     "new_table": 0,
     "offers": 0,
     "offers_size": 0,
-    "online_booking": 1,
+    "online_booking": 0,
     "region": {
       "name": "District of Columbia",
       "slug": "district-of-columbia",
@@ -21624,7 +21624,7 @@
     "objectID": "87638",
     "_snippetResult": {
       "main_desc": {
-        "value": "A devastating fire is every chef's worst nightmare, but",
+        "value": "Chef Johnny Spero and his team have risen from the",
         "matchLevel": "none"
       }
     },
@@ -21742,7 +21742,7 @@
         }
       },
       "street": {
-        "value": "3201 Cherry Hill Ln.NW",
+        "value": "3201 Cherry Hill Ln. NW",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -26365,7 +26365,7 @@
         }
       },
       "street": {
-        "value": "922 N St. NW",
+        "value": "922 N. St. NW",
         "matchLevel": "none",
         "matchedWords": []
       },
@@ -29728,7 +29728,7 @@
     "new_table": 0,
     "offers": 0,
     "offers_size": 0,
-    "online_booking": 0,
+    "online_booking": 1,
     "region": {
       "name": "District of Columbia",
       "slug": "district-of-columbia",
