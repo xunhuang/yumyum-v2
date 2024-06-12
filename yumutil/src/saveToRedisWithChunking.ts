@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'; 
 
 // this loads from .env file in current directory (not ~/.env)
 dotenv.config();
@@ -12,6 +12,10 @@ const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
+
+export function getRedis() {
+  return redis;
+}
 
 export async function saveToRedisWithChunking(
   result: Record<string, any>,

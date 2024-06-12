@@ -1,15 +1,6 @@
-import { Redis } from "@upstash/redis";
-import dotenv from 'dotenv';
-import { resy_set_venue_to_tbd, resy_calendar_key, resyLists } from "yumutil";
+import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, getRedis } from "yumutil";
 
-// this loads from .env file in current directory (not ~/.env)
-dotenv.config();
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
+const redis = getRedis();
 
 (async function main() {
   try {
