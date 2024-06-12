@@ -1,40 +1,34 @@
-const cheerio = require("cheerio");
-
-const { yumyumGraphQLCall } = require("yumutil");
-const {
+import cheerio from "cheerio";
+import {
+  yumyumGraphQLCall,
   opentable_set_venue_reservation,
   tock_set_venue_reservation,
-} = require("./resy_support");
-const { resy_set_venue_reservation } = require("./resy_support");
-const { simpleFetchGet } = require("./resy_support");
-const { resyAPILookupByVenueID } = require("./resy_support");
+  resy_set_venue_reservation,
+  simpleFetchGet,
+  resyAPILookupByVenueID
+} from "yumutil";
 
 (async function main() {
   try {
     const bayAreaList = await BayAreaListWithTBD();
     for (let v of bayAreaList) {
       console.log("checking", v.url);
-      // if (v.url === "https://guide.michelin.com/us/en/california/san-francisco/restaurant/nisei") {
-      //   continue
-      // }
       const body = await simpleFetchGet(v.url);
       const $ = cheerio.load(body);
 
-      var reservation_links = [];
-      // eslint-disable-next-line no-loop-func
+      let reservation_links: string[] = [];
       $('a[data-event="partner_book"]').each((index, element) => {
         console.log(element.attribs["href"]);
         reservation_links.push(element.attribs["href"]);
       });
 
       if (reservation_links.length === 0) {
-        var resy = false;
-        var venueId = null;
+        var venueId: string | null = null;
 
         // eslint-disable-next-line no-loop-func
-        $('button[data-dtm-partner="resy"]').each((index, element) => {
+        $('button[data-dtm-partner="resy"]').each((_, _element: any) => {
           const scriptTag = $("script")
-            .filter((i, el) => $(el).html().includes("venueId"))
+            .filter((i, el) => $(el).html()!.includes("venueId"))
             .html();
 
           if (scriptTag) {
@@ -44,24 +38,19 @@ const { resyAPILookupByVenueID } = require("./resy_support");
           } else {
             console.log("resy: venueId not found");
           }
-          resy = true;
         });
 
-        if (resy) {
+        if (venueId) {
           const resyData = await resyAPILookupByVenueID(venueId);
-          // this call may fail because Michelin may not have the correct data
-          // as a venue may have moved to a different platform and not
-          // updated their Michelin page
           if (resyData.status === 400) {
             console.log(
-              "Resy API returned 404, likely Michelin data is outdated (it thinks it's resy, but resy disagreeds)."
+              "Resy API returned 404, likely Michelin data is outdated."
             );
             continue;
           }
 
           const venue = resyData.results.venues[0];
           if (venue && venue.venue.id.resy.toString() === venueId) {
-            // console.log(JSON.stringify(venue, null, 2));
             console.log(v.url);
             await resy_set_venue_reservation(
               v.key,
@@ -79,20 +68,19 @@ const { resyAPILookupByVenueID } = require("./resy_support");
           const opentablelink = reservation_links[0];
           const opentablewebsite = await simpleFetchGet(opentablelink);
           const $ = cheerio.load(opentablewebsite);
-          // Extract the restaurantId from the 'al:ios:url' meta tag
-          const iosUrlContent = $('meta[property="al:ios:url"]').attr(
-            "content"
-          );
-          const restaurantId = iosUrlContent.match(/rid=(\d+)/)[1];
+          const iosUrlContent = $('meta[property="al:ios:url"]').attr("content");
+          const restaurantId: string | null = iosUrlContent?.match(/rid=(\d+)/)?.[1] || null;
 
-          console.log(v);
-          console.log("Restaurant ID:", restaurantId, v.key);
-          await opentable_set_venue_reservation(v.key, restaurantId);
-          let url = `https://www.opentable.com/restaurant/profile/${restaurantId}/reserve`;
-          console.log(url);
+          if (restaurantId) {
+            console.log("Restaurant ID:", restaurantId, v.key);
+            await opentable_set_venue_reservation(v.key, restaurantId);
+            let url = `https://www.opentable.com/restaurant/profile/${restaurantId}/reserve`;
+            console.log(url);
+            continue;
+          }
         } else if (reservation_links[0].includes("exploretock")) {
           const tocklink = reservation_links[0];
-          var appconfig = await tock_fetch_app_config(tocklink);
+          const appconfig = await tock_fetch_app_config(tocklink);
 
           const businessid = appconfig.app.config.business.id;
           const slug = appconfig.app.config.business.domainName;
@@ -107,16 +95,15 @@ const { resyAPILookupByVenueID } = require("./resy_support");
   }
 })();
 
-async function tock_fetch_app_config(tocklink) {
+async function tock_fetch_app_config(tocklink: string) {
   const tockwebsite = await simpleFetchGet(tocklink);
   const $ = cheerio.load(tockwebsite);
 
-  var appconfig = {};
+  let appconfig: any = {};
   $("script").map((i, el) => {
     let text = $(el).html();
     if (text?.includes("window.$REDUX_STATE = ")) {
       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-      // eslint-disable-next-line
       eval(toeval);
     }
     return null;

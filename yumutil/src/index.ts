@@ -7,8 +7,8 @@ import {
 
 import { simpleFetchGet, addressMatch, venueNameMatched } from "./utils";
 import { checkIfVenueIsClosedAndActOnIt } from "./checkIfVenueIsClosedAndActOnIt";
-import { process_for_opentable } from "./opentable_support";
-import { process_for_resy } from "./resy_support";
+import { process_for_opentable, opentable_set_venue_reservation } from "./opentable_support";
+import { process_for_resy, resyAPILookupByVenueID, resy_set_venue_reservation } from "./resy_support";
 import { process_for_tock, tock_set_venue_reservation } from "./tock_support";
 import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, resy_calendar, newFindReservation, resy_day_key } from "./resy_support";
 
@@ -34,6 +34,9 @@ export {
   resyLists,
   resy_calendar,
   newFindReservation,
-  resy_day_key
+  resy_day_key,
+  opentable_set_venue_reservation,
+  resy_set_venue_reservation,
+  resyAPILookupByVenueID
 }
 
