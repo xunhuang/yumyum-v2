@@ -13,7 +13,7 @@ jobs:
       matrix:
         node-version: [20.x]
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
