@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import puppeteer from "puppeteer-extra";
-import { Page, executablePath } from "puppeteer";
+import { Browser, Page, executablePath } from "puppeteer";
 import dayjs from "dayjs";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 
@@ -12,10 +12,12 @@ import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializ
 import { addressMatch } from "./utils";
 puppeteer.use(StealthPlugin());
 
+var browser: Browser;
 var browserPage: Page;
+
 async function getBrowerPageSingleton(): Promise<Page> {
   if (!browserPage) {
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       executablePath: executablePath(),
       // headless: false,
       headless: true,
@@ -28,6 +30,13 @@ async function getBrowerPageSingleton(): Promise<Page> {
   }
   return browserPage;
 }
+
+export async function tock_support_shutdown(): Promise<void> {
+  if (browser) {
+    await browser.close();
+  }
+}
+
 export async function process_for_tock(venuekey: string, venuename: string, longitude: number, latitude: number, address: string, city: string, state: string): Promise<boolean> {
   const result = await tock_basic_search_and_validate(venuename, longitude, latitude, address, city, state);
   if (!result) {

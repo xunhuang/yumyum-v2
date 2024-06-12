@@ -3,7 +3,8 @@ import {
   process_for_opentable,
   process_for_resy,
   process_for_tock,
-  checkIfVenueIsClosedAndActOnIt
+  checkIfVenueIsClosedAndActOnIt,
+  tock_support_shutdown
 } from "yumutil";
 
 (async function main(): Promise<void> {
@@ -24,17 +25,17 @@ import {
     if (resy_found) {
       continue;
     }
-    // const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
-    // if (closed) {
-    //   continue;
-    // }
+    const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
+    if (closed) {
+      continue;
+    }
   }
+
   console.log("done");
+  await tock_support_shutdown();
 })();
 
 async function BayAreaListWithTBD() {
-  // michelinobjectid: { isNull: false }
-  // url: { startsWith: "https://guide.michelin.com" }
   const query = `
 query MyQuery {
   allVenues(

@@ -104,6 +104,7 @@ async function tock_fetch_app_config(tocklink: string) {
     let text = $(el).html();
     if (text?.includes("window.$REDUX_STATE = ")) {
       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+      // eslint-disable-next-line no-eval
       eval(toeval);
     }
     return null;
