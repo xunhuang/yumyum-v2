@@ -16,15 +16,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@v2
-        with:
-          service_account_email: ${{ secrets.GCP_EMAIL }}
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-          export_default_credentials: true
-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -34,7 +27,15 @@ jobs:
 
       - name: Run tock scraping
         id: runtockscrape
-        env:
-          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        env: ${{ secrets }}
         run: cd tockspecial; ts-node tockscrape.ts
+
+      - name: Run Resy Calendar level scraping
+        id: runresycalenarscrape
+        env: ${{ secrets }}
+        run: cd tockspecial; ts-node resyscrape-calendar.ts
+
+      - name: Run Resy day level scraping
+        id: runresy_day
+        env: ${{ secrets }}
+        run: cd tockspecial; ts-node resyscrape.ts
