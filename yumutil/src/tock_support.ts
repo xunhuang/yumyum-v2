@@ -62,6 +62,10 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
       const tockLink = `https://www.exploretock.com/${entry.slug}`;
       console.log(tockLink);
       const appconfig = await tock_fetch_app_config(tockLink);
+      if (!appconfig || !appconfig.app) {
+        console.log(`${tockLink} has no proper appconfig`);
+        continue;
+      }
       const ticketAvailableUntil = appconfig.app.config.business.ticketsAvailableUntil;
       // console.log(ticketAvailableUntil);
       // console.log(appconfig.app.config.business);
