@@ -5,21 +5,22 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
 
 (async function main() {
   try {
+    const partySizeArg = process.argv[2];
+    const party_size = partySizeArg ? parseInt(partySizeArg, 10) : 2;
+
     const rl = await resyLists();
-    const partylist = [2, 3, 4, 1, 5, 6, 7, 8, 9, 10];
-    for (const party_size of partylist) {
-      const answers: Record<string, any> = {};
-      const l = rl;
-      console.log(l);
-      for (let i = 0; i < l.length && i < 1000; i++) {
-        const v = l[i];
-        const calendar = await resy_calendar_ratelimited(
-          v.businessid,
-          party_size,
-          v.name,
+    const answers: Record<string, any> = {};
+    const l = rl;
+    console.log(l);
+    for (let i = 0; i < l.length && i < 1000; i++) {
+      const v = l[i];
+      const calendar = await resy_calendar_ratelimited(
+        v.businessid,
+        party_size,
+        v.name,
           30
         );
-        if (calendar.status === 429) {
+      if (calendar.status === 429) {
           console.log(v.urlSlug, party_size, "Rate limiting exceeded");
           continue;
         }
@@ -27,8 +28,7 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
         console.log(v.name, party_size, "done");
       }
       console.log(answers);
-      await saveToRedisWithChunking(answers, `party of ${party_size}`);
-    }
+    await saveToRedisWithChunking(answers, `party of ${party_size}`);
   } catch (error) {
     console.error(error);
   }

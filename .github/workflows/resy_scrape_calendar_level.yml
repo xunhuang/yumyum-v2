@@ -26,7 +26,14 @@ jobs:
       - run: cd yumutil; npm ci; npm install; npm run build; npm link
       - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
-      # - name: Run Resy Calendar level scraping
-      #   id: runresycalenarscrape
-      #   env: ${{ secrets }}
-      #   run: cd tockspecial; ts-node resyscrape-calendar.ts
+      - name: Run Resy Calendar level scraping
+        env: ${{ secrets }}
+        run: cd tockspecial; ts-node resyscrape-calendar.ts
+
+      - name: Run Resy day level scraping
+         env: ${{ secrets }}
+         run: cd tockspecial; ts-node resyscrape.ts
+
+      - name: Run Resy Calendar level scraping 3
+        env: ${{ secrets }}
+        run: cd tockspecial; ts-node resyscrape-calendar.ts 3
