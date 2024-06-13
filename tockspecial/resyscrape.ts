@@ -54,6 +54,7 @@ const redis = getRedis();
       });
     }
 
+
     const noavailmap: Record<string, any[]> = {};
     // eslint-disable-next-line array-callback-return
     noavail.map((item) => {
@@ -78,12 +79,17 @@ const redis = getRedis();
     for (const k of dates) {
       const answers: Record<string, any> = {};
       for (const e of groupedAvail[k]) {
+        console.log(e);
         const reservation = await newFindReservation(
           e.venue_id,
           e.date,
           e.party_size
         );
-        console.log(e);
+
+        if (!reservation) {
+          console.log(e.slug, e.date, e.party_size, "transport error");
+          continue;
+        }
 
         if (reservation.status === 429) {
           console.log(e.slug, e.date, e.party_size, "Rate limiting exceeded");
@@ -92,15 +98,17 @@ const redis = getRedis();
         const key = resy_day_key(e.slug, e.date, e.party_size);
 
         if (reservation.results.venues[0]) {
-          answers[key] = reservation.results.venues[0].slots.map(
+          const slots = reservation.results.venues[0].slots.map(
             (s: any) => s.date.start
           );
-          if (answers[key].length === 0) {
+          if (slots.length === 0) {
             console.log(
-              "zero length answer, inspect this",
-              JSON.stringify(reservation, null, 2)
+              "zero length in slots",
+              // JSON.stringify(reservation, null, 2)
             );
           }
+          console.log(slots.length, "slots");
+          answers[key] = slots;
         } else {
           console.log(`no answer for  ${key}`);
           console.log(reservation);

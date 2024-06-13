@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { getDistance } from "geolib";
 import { venueNameMatched, addressMatch } from "./utils";
 
-const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
+const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
 export function resy_calendar_key(slug: string, party_size: number): string {
   return `resy-calendar-${slug}-${party_size}`;
@@ -32,7 +32,6 @@ nodes {
 
 // we should rename this.... 
 export async function newFindReservation(venue_id: string, date: string, party_size: number): Promise<any> {
-  await limiter.removeTokens(1);
   const result = await resyAPIFetch(
     buildUrl("https://api.resy.com", {
       path: "4/find",
@@ -147,6 +146,7 @@ mutation MyMutation {
 }
 
 async function resyAPIFetch(url: string): Promise<any> {
+  await limiter.removeTokens(1);
   const response = await fetch(url, {
     headers: {
       accept: "application/json, text/plain, */*",
@@ -172,8 +172,19 @@ async function resyAPIFetch(url: string): Promise<any> {
     mode: "cors",
     credentials: "include",
   });
-  const json = await response.json();
-  return json;
+
+  if (response.status !== 200) {
+    console.log("resyAPIFetch error", url, response.status);
+    return null;
+  }
+
+  try {
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.log("resyAPIFetch error", url, response.status);
+    return null;
+  }
 }
 
 export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
