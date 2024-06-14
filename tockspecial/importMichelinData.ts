@@ -1,4 +1,4 @@
-import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, getRedis, yumyumGraphQLCall } from "yumutil";
+import { yumyumGraphQLCall } from "yumutil";
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 import fs from 'fs';
@@ -64,8 +64,10 @@ export function JsonEntrySameWasDbEntry(
 }
 
 (async function main() {
-  // await importNewMichelinDataToDatabase();
-  // const dbList = await bayAreaDatabaseList();
+  await importNewMichelinDataToDatabase();
+
+  await findOutdatedEntries();
+
   await repopulateMichelinData();
 })();
 
@@ -217,9 +219,11 @@ function michelinDataNewToDbList(michelinData: any, dbList: any): [any] {
   return newOnly;
 }
 
+
 // these are the "former" restaurants that are no longer in the michelin list
 // we should set "stars" to "MICHELIN_FORMER" 
-async function outdatedList(michelinData: any, dbList: any): Promise<any> {
+async function findOutdatedEntries(): Promise<any> {
+  const dbList = await bayAreaDatabaseList();
   const outdated = dbList.filter((dbentry: any) => {
     const found = michelinData.find(
       (jsonentry: any, index: number, thisobject: any) => {
@@ -228,8 +232,6 @@ async function outdatedList(michelinData: any, dbList: any): Promise<any> {
     );
     return !found;
   });
-  // console.log(newOnly);
-  // console.log(matches);
 
   for (var item of outdated) {
     console.log(item.name, item.stars);
