@@ -4,6 +4,9 @@ import dayjs from 'dayjs';
 import fs from 'fs';
 
 const michelinData = JSON.parse(fs.readFileSync('../public/data/bayarea.json', 'utf8'));
+// XXX hardcode for now
+const metro = "bayarea";
+const timezone = "America/Los_Angeles";
 
 
 // this file performs the following:
@@ -62,18 +65,75 @@ export function JsonEntrySameWasDbEntry(
 
 (async function main() {
   // await importNewMichelinDataToDatabase();
-  const dbList = await bayAreaDatabaseList();
-  const outdated = await outdatedList(michelinData, dbList);
+  // const dbList = await bayAreaDatabaseList();
+  await repopulateMichelinData();
 })();
 
+async function repopulateMichelinData() {
+  try {
+    const dbList = await bayAreaDatabaseList();
+    for (const jsonentry of michelinData) {
+      // console.log(jsonentry);
+      const venue = dbList.find(
+        (dbentry: any, index: number, thisobject: any) => {
+          return JsonEntrySameWasDbEntry(jsonentry, dbentry);
+        }
+      );
+
+      if (!venue) {
+        console.log("Not found", jsonentry);
+        continue;
+      }
+
+      let coverImage = jsonentry.main_image?.url;
+      if (!coverImage) {
+        coverImage = venue.coverImage;
+      }
+      if (!coverImage) {
+        console.log("No cover image", venue.name);
+        continue;
+      }
+
+      let imageList = JSON.stringify(
+        jsonentry.images?.map((i: any) => i.url) || []
+      );
+
+      console.log(jsonentry);
+
+      const v = {
+        name: jsonentry.name,
+        metro: metro,
+        michelinslug: jsonentry.slug,
+        michelinobjectid: jsonentry.objectID,
+        coverImage: coverImage,
+        cuisine: jsonentry.cuisines.map((c: any) => c.label).join(", "),
+        imageList: imageList,
+        latitude: jsonentry._geoloc.lat,
+        longitude: jsonentry._geoloc.lng,
+        stars: normalize_star_rating(jsonentry.michelin_award || "MICHELIN_PLATE"),
+        url: `https://guide.michelin.com${jsonentry.url}`,
+        michelineOnlineReservation: jsonentry.online_booking === 1,
+      };
+      console.log(v);
+      await set_venue_data_change(venue.key, v);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function normalize_star_rating(stars: string): string {
+  if (stars === "selected") {
+    return "MICHELIN_PLATE";
+  }
+  return stars;
+}
 
 async function importNewMichelinDataToDatabase() {
   try {
     const dbList = await bayAreaDatabaseList();
     const newOnly = michelinDataNewToDbList(michelinData, dbList);
     // console.log(newOnly);
-    const metro = "bayarea";
-    const timezone = "America/Los_Angeles";
 
     for (var item of newOnly) {
       const v = {
@@ -191,6 +251,25 @@ mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
     stars: "MICHELIN_FORMER",
   }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+  const jsonData = await yumyumGraphQLCall(query);
+  return jsonData.data.updateVenueByKey.venue;
+}
+
+async function set_venue_data_change(
+  venue_key: string,
+  venue_data: any
+): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: ${stringifyWithoutQuotes(venue_data)}, key: "${venue_key}"}) {
   venue {
     name
     key
