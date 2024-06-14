@@ -59,6 +59,9 @@ jobs:
       - name: "import data"
         env: ${{ secrets }}
         run: cd tockspecial; npx ts-node importMichelinData.ts
+      - name: Setup tmate session
+        env: ${{ secrets }}
+        uses: mxschmitt/action-tmate@v2
 
     # - name: 'create tock listing json file'
     # run: cd data/11-05-2022; npx ts-node src/tock.ts >>  tock-${{steps.date.outputs.date }}.json
