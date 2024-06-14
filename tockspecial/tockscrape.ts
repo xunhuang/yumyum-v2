@@ -162,7 +162,13 @@ async function scrapeTockList(slugsList: string[]): Promise<void> {
     const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
 
     console.log(`going to ${url}`);
-    await page.goto(url);
+    try {
+      await page.goto(url);
+    } catch (e) {
+      console.log("Problem going to ", url);
+      console.log(e);
+      console.log("continuing --------------------");
+    }
     await new Promise((resolve) => setTimeout(resolve, 2000));
   }
   console.log("done with scraping");
