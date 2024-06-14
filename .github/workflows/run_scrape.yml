@@ -57,6 +57,7 @@ jobs:
         run: cd data/11-05-2022; sh runme.sh
 
       - name: "import data"
+        env: ${{ secrets }}
         run: cd tockspecial; npx ts-node importMichelinData.ts
 
     # - name: 'create tock listing json file'
