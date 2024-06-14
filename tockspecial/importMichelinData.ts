@@ -6,6 +6,11 @@ import fs from 'fs';
 const michelinData = JSON.parse(fs.readFileSync('../public/data/bayarea.json', 'utf8'));
 
 
+// this file performs the following:
+// 1. import new michelin data to the database
+// 2. update the database with outdated michelin data
+// 3. Repopulate the database with michelin data (images, star ratings, address etc)
+
 export async function bayAreaDatabaseList(): Promise<any> {
   const query = `
     query MyQuery {
@@ -56,7 +61,9 @@ export function JsonEntrySameWasDbEntry(
 }
 
 (async function main() {
-  await importNewMichelinDataToDatabase();
+  // await importNewMichelinDataToDatabase();
+  const dbList = await bayAreaDatabaseList();
+  const outdated = await outdatedList(michelinData, dbList);
 })();
 
 
@@ -65,8 +72,6 @@ async function importNewMichelinDataToDatabase() {
     const dbList = await bayAreaDatabaseList();
     const newOnly = michelinDataNewToDbList(michelinData, dbList);
     // console.log(newOnly);
-    // const outdated = outdatedList(michelinData, dbList);
-    // console.log(JSON.stringify(outdated, null, 2));
     const metro = "bayarea";
     const timezone = "America/Los_Angeles";
 
@@ -117,7 +122,6 @@ function stringifyWithoutQuotes(obj: any): string {
   return `{${props}}`;
 }
 
-
 async function createVenue(venue: any) {
   const query = `
   mutation MyMutation {
@@ -155,8 +159,8 @@ function michelinDataNewToDbList(michelinData: any, dbList: any): [any] {
 
 // these are the "former" restaurants that are no longer in the michelin list
 // we should set "stars" to "MICHELIN_FORMER" 
-function outdatedList(michelinData: any, dbList: any): [any] {
-  const newOnly = dbList.filter((dbentry: any) => {
+async function outdatedList(michelinData: any, dbList: any): Promise<any> {
+  const outdated = dbList.filter((dbentry: any) => {
     const found = michelinData.find(
       (jsonentry: any, index: number, thisobject: any) => {
         return JsonEntrySameWasDbEntry(jsonentry, dbentry);
@@ -166,5 +170,35 @@ function outdatedList(michelinData: any, dbList: any): [any] {
   });
   // console.log(newOnly);
   // console.log(matches);
-  return newOnly;
+
+  for (var item of outdated) {
+    console.log(item.name, item.stars);
+    if (["BIB_GOURMAND", "MICHELIN_PLATE", "1", "2", "ONE_STAR", "TWO_STAR"].includes(item.stars)) {
+      console.log("Found outdated", item.name, item.key);
+      await set_michelin_former(item.key);
+    } else {
+      console.log("Found outdated", item.name, "********************************");
+    }
+  }
+  return outdated;
+
+}
+async function set_michelin_former(
+  venue_key: string,
+): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    stars: "MICHELIN_FORMER",
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+  const jsonData = await yumyumGraphQLCall(query);
+  return jsonData.data.updateVenueByKey.venue;
 }
