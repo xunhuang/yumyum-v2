@@ -1,7 +1,7 @@
 import cheerio from "cheerio";
 import dayjs from "dayjs";
-import { yumyumGraphQLCall } from "./yumyumGraphQLCall"
-import { venueNameMatched, addressMatch } from "./utils"
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
+import { venueNameMatched, addressMatch } from "./utils";
 import { getDistance } from "geolib";
 
 interface Entry {
@@ -31,6 +31,7 @@ mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
     reservation: "opentable",
     businessid: "${businessid}",
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
@@ -43,9 +44,15 @@ mutation MyMutation {
 
   const json = await yumyumGraphQLCall(query);
   return json;
-};
+}
 
-async function process_for_opentable(key: string, name: string, longitude: number, latitude: number, address: string): Promise<boolean> {
+async function process_for_opentable(
+  key: string,
+  name: string,
+  longitude: number,
+  latitude: number,
+  address: string
+): Promise<boolean> {
   const opentable_id = await opentable_basic_search_and_validate(
     name,
     longitude,
@@ -90,19 +97,21 @@ async function opentable_basic_search_and_validate(
       if (await validateOpentableId(opentable_id)) {
         return opentable_id;
       }
-    } 
+    }
 
     // maybe check address
     const appConfig = await opentable_fetchAppConfig(opentable_id);
     console.log(appConfig?.restaurant?.address);
     const location = appConfig?.restaurant?.address;
     if (location) {
-      if (await addressMatch(
-        location.line1,
-        address,
-        location.city,
-        location.state
-      )) {
+      if (
+        await addressMatch(
+          location.line1,
+          address,
+          location.city,
+          location.state
+        )
+      ) {
         console.log("Address matched for ", term, entry.name);
         if (await validateOpentableId(opentable_id)) {
           return opentable_id;
@@ -114,7 +123,11 @@ async function opentable_basic_search_and_validate(
   return null;
 }
 
-async function opentable_basic_search(term: string, longitude: number, latitude: number): Promise<Entry[]> {
+async function opentable_basic_search(
+  term: string,
+  longitude: number,
+  latitude: number
+): Promise<Entry[]> {
   try {
     const result = await fetch(
       "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete",
@@ -134,7 +147,8 @@ async function opentable_basic_search(term: string, longitude: number, latitude:
           extensions: {
             persistedQuery: {
               version: 1,
-              sha256Hash: "fe1d118abd4c227750693027c2414d43014c2493f64f49bcef5a65274ce9c3c3",
+              sha256Hash:
+                "fe1d118abd4c227750693027c2414d43014c2493f64f49bcef5a65274ce9c3c3",
             },
           },
         }),
@@ -151,7 +165,9 @@ async function opentable_basic_search(term: string, longitude: number, latitude:
   return [];
 }
 
-async function opentable_fetchAppConfig(businessid: string): Promise<AppConfig | undefined> {
+async function opentable_fetchAppConfig(
+  businessid: string
+): Promise<AppConfig | undefined> {
   let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
   const w = await fetch(url, {
     method: "get",
@@ -193,7 +209,7 @@ async function fetchAuthToken(): Promise<string> {
   }
 
   let config = await opentable_fetchAppConfig("1477");
-  if (!config || !config['authToken']) {
+  if (!config || !config["authToken"]) {
     throw new Error("Unable to fetch auth token for opentable");
   }
   opentable_auth_token = config["authToken"];
@@ -208,7 +224,8 @@ async function opentable_reservation_search(
 ): Promise<any> {
   let token = await fetchAuthToken();
   let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
-  let datetime = timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
+  let datetime =
+    timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
   let data = {
     rid: businessid,
     partySize: party_size,

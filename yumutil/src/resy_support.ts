@@ -81,6 +81,7 @@ export async function resy_set_venue_to_tbd(venue_key: string): Promise<any> {
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
     reservation: "TBD"
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
@@ -108,6 +109,7 @@ mutation MyMutation {
     reservation: "resy",
     businessid: "${venue_id}",
     resyCityCode: "${resycityCode}",
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
