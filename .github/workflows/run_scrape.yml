@@ -34,8 +34,9 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-      # - name: Setup tmate session
-      #   uses: mxschmitt/action-tmate@master
+      - run:  npm install -g ts-node
+      - run: cd yumutil; npm ci; npm install; npm run build; npm link
+      - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
       - name: backup yumyum db
         run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
@@ -51,6 +52,12 @@ jobs:
         with:
           path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
           destination: "yumyum-v2_cloudbuild/yumyum_import"
+
+      - name: "download and json-file"
+        run: cd data/11-05-2022; sh runme.sh
+
+      - name: "import data"
+        run: cd tockspecial; npx ts-node importMichelinData.ts
 
     # - name: 'create tock listing json file'
     # run: cd data/11-05-2022; npx ts-node src/tock.ts >>  tock-${{steps.date.outputs.date }}.json

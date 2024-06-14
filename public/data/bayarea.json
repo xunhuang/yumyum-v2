@@ -42153,8 +42153,23 @@
       "lat": 37.52775,
       "lng": -122.285416
     },
-    "image": null,
-    "images": null,
+    "image": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d9159205b40544e585c4a18f133c31da",
+    "images": [
+      {
+        "copyright": "Shalizaar",
+        "identifier": "7137206",
+        "order": 0,
+        "topic": "SUJ_INT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d9159205b40544e585c4a18f133c31da"
+      },
+      {
+        "copyright": "Shalizaar",
+        "identifier": "7137216",
+        "order": 1,
+        "topic": "SUJ_EXT",
+        "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/11e45dabab92440da0e05122e9e688ea"
+      }
+    ],
     "city": {
       "name": "Belmont",
       "slug": "belmont",
@@ -42179,7 +42194,14 @@
       "cname": "united-states"
     },
     "good_menu": 0,
-    "main_image": null,
+    "main_image": {
+      "copyright": "Shalizaar",
+      "identifier": "7137206",
+      "order": 0,
+      "topic": "SUJ_INT",
+      "url": "https://axwwgrkdco.cloudimg.io/v7/__gmpics__/d9159205b40544e585c4a18f133c31da",
+      "source": "cloud_image"
+    },
     "michelin_award": "selected",
     "name": "Shalizaar",
     "new_table": 0,

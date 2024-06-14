@@ -19,6 +19,8 @@ async function download_app_config(city_slug: string): Promise<any> {
   const w = await fetch_new(url);
   const html = await w.text();
 
+  console.log(html);
+
   const $ = cheerio.load(html);
   const scripts = $('script');
   var appconfig: any = null;
@@ -27,6 +29,7 @@ async function download_app_config(city_slug: string): Promise<any> {
     const text = $(el).text();
     if (text.includes("window.$REDUX_STATE")) {
       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+      console.log(toeval);
       eval(toeval);
     }
     return null;

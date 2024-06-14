@@ -1,4 +1,4 @@
-name: Resy Calendar Level scraping
+name: Resy Calendar and Day Level scraping
 
 on:
   workflow_dispatch:
