@@ -59,8 +59,11 @@ nodes {
   return json.data.allVenues.nodes[0];
 }
 
-// we should rename this.... 
-export async function newFindReservation(venue_id: string, date: string, party_size: number): Promise<any> {
+export async function newFindReservation(
+  venue_id: string,
+  date: string,
+  party_size: number
+): Promise<any> {
   const result = await resyAPIFetch(
     buildUrl("https://api.resy.com", {
       path: "4/find",
@@ -71,15 +74,23 @@ export async function newFindReservation(venue_id: string, date: string, party_s
         party_size: party_size.toString(),
         venue_id: venue_id,
       },
-    }));
+    })
+  );
   return result;
 }
 
-export function resy_day_key(slug: string, date: string, party_size: number): string {
+export function resy_day_key(
+  slug: string,
+  date: string,
+  party_size: number
+): string {
   return `resy-${slug}-${date}-${party_size}`;
 }
 
-async function resy_find_location_details(slug: string, location: string): Promise<any> {
+async function resy_find_location_details(
+  slug: string,
+  location: string
+): Promise<any> {
   const result = await resyAPIFetch(
     buildUrl("https://api.resy.com", {
       path: "3/venue",
@@ -101,6 +112,7 @@ export async function resy_set_venue_to_tbd(venue_key: string): Promise<any> {
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
     reservation: "TBD"
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
@@ -115,47 +127,12 @@ mutation MyMutation {
   return json;
 }
 
-export async function opentable_set_venue_reservation(venue_key: string, businessid: string): Promise<any> {
-  const query = `
-mutation MyMutation {
-  updateVenueByKey(input: {venuePatch: {
-    reservation: "opentable",
-    businessid: "${businessid}",
-  }, key: "${venue_key}"}) {
-  venue {
-    name
-    key
-    closehours
-  }
-  }
-}
-`;
-
-  const json = await yumyumGraphQLCall(query);
-  return json;
-}
-
-export async function tock_set_venue_reservation(venue_key: string, slug: string, businessid: string): Promise<any> {
-  const query = `
-mutation MyMutation {
-  updateVenueByKey(input: {venuePatch: {
-    urlSlug: "${slug}",
-    reservation: "tock",
-    businessid: "${businessid}",
-  }, key: "${venue_key}"}) {
-  venue {
-    name
-    key
-    closehours
-  }
-  }
-}
-`;
-  const json = await yumyumGraphQLCall(query);
-  return json;
-}
-
-export async function resy_set_venue_reservation(venue_key: string, slug: string, resycityCode: string, venue_id: string): Promise<any> {
+export async function resy_set_venue_reservation(
+  venue_key: string,
+  slug: string,
+  resycityCode: string,
+  venue_id: string
+): Promise<any> {
   const query = `
 mutation MyMutation {
   updateVenueByKey(input: {venuePatch: {
@@ -163,6 +140,7 @@ mutation MyMutation {
     reservation: "resy",
     businessid: "${venue_id}",
     resyCityCode: "${resycityCode}",
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
@@ -285,7 +263,11 @@ export async function resy_basic_search_and_validate(
   return null;
 }
 
-async function resy_address_matched(url_slug: string, location_id: string, address: string): Promise<boolean> {
+async function resy_address_matched(
+  url_slug: string,
+  location_id: string,
+  address: string
+): Promise<boolean> {
   const location = await resy_find_location_details(url_slug, location_id);
   if (location) {
     console.log("location", location.address_1);
@@ -306,7 +288,11 @@ async function validateResyId(resy_id: string): Promise<boolean> {
   return calendar && calendar.last_calendar_day !== null;
 }
 
-async function resy_basic_search(term: string, longitude: number, latitude: number): Promise<any[]> {
+async function resy_basic_search(
+  term: string,
+  longitude: number,
+  latitude: number
+): Promise<any[]> {
   try {
     const result = await fetch("https://api.resy.com/3/venuesearch/search", {
       headers: {
@@ -347,7 +333,12 @@ async function resy_basic_search(term: string, longitude: number, latitude: numb
   }
   return [];
 }
-export async function resy_calendar(venue_id: string, num_seats: number, name: string, days_ahead: number): Promise<any> {
+export async function resy_calendar(
+  venue_id: string,
+  num_seats: number,
+  name: string,
+  days_ahead: number
+): Promise<any> {
   const today = dayjs().add(-1, "days").format("YYYY-MM-DD");
   const enddate = dayjs().add(days_ahead, "days").format("YYYY-MM-DD");
 
@@ -363,7 +354,13 @@ export async function resy_calendar(venue_id: string, num_seats: number, name: s
   return await resyAPIFetch(url);
 }
 
-export async function process_for_resy(key: string, name: string, longitude: number, latitude: number, address: string): Promise<boolean> {
+export async function process_for_resy(
+  key: string,
+  name: string,
+  longitude: number,
+  latitude: number,
+  address: string
+): Promise<boolean> {
   const result = await resy_basic_search_and_validate(
     name,
     longitude,
@@ -383,4 +380,3 @@ export async function process_for_resy(key: string, name: string, longitude: num
   );
   return true;
 }
-

@@ -28,3 +28,4 @@ yarn-error.log*
 .env.production
 /graphql/node_modules/
 ./tockspecial/node_modules
+./yumutil/dist

@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
 import { Browser, Page, executablePath } from "puppeteer";
 import dayjs from "dayjs";
@@ -8,7 +8,11 @@ import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 // it augments the installed puppeteer with plugin functionality
 // add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { deserializeTockSearchResponseProtoToMsg, newTockSearchRequest, serializeMsgToProto } from "./tockRequestMsg";
+import {
+  deserializeTockSearchResponseProtoToMsg,
+  newTockSearchRequest,
+  serializeMsgToProto,
+} from "./tockRequestMsg";
 import { addressMatch } from "./utils";
 puppeteer.use(StealthPlugin());
 
@@ -37,12 +41,31 @@ export async function tock_support_shutdown(): Promise<void> {
   }
 }
 
-export async function process_for_tock(venuekey: string, venuename: string, longitude: number, latitude: number, address: string, city: string, state: string): Promise<boolean> {
-  const result = await tock_basic_search_and_validate(venuename, longitude, latitude, address, city, state);
+export async function process_for_tock(
+  venuekey: string,
+  venuename: string,
+  longitude: number,
+  latitude: number,
+  address: string,
+  city: string,
+  state: string
+): Promise<boolean> {
+  const result = await tock_basic_search_and_validate(
+    venuename,
+    longitude,
+    latitude,
+    address,
+    city,
+    state
+  );
   if (!result) {
     return false;
   }
-  const updateresult = await tock_set_venue_reservation(venuekey, result.slug, result.businessid);
+  const updateresult = await tock_set_venue_reservation(
+    venuekey,
+    result.slug,
+    result.businessid
+  );
   console.log(updateresult);
   return true;
 }
@@ -51,12 +74,21 @@ interface TockSearchResult {
   slug: string;
 }
 
-async function tock_basic_search_and_validate(venuename: string, longitude: number, latitude: number, address: string, city: string, state: string): Promise<TockSearchResult | null> {
+async function tock_basic_search_and_validate(
+  venuename: string,
+  longitude: number,
+  latitude: number,
+  address: string,
+  city: string,
+  state: string
+): Promise<TockSearchResult | null> {
   const page = await getBrowerPageSingleton();
   const result = await tock_basic_search(page, venuename, longitude, latitude);
   console.log(result);
   if (result && result.searchResults && result.searchResults.length > 0) {
-    console.log(`found ${result.searchResults.length} results for ${venuename}`);
+    console.log(
+      `found ${result.searchResults.length} results for ${venuename}`
+    );
     const entries = result.searchResults;
     for (const entry of entries) {
       const tockLink = `https://www.exploretock.com/${entry.slug}`;
@@ -66,7 +98,8 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
         console.log(`${tockLink} has no proper appconfig`);
         continue;
       }
-      const ticketAvailableUntil = appconfig.app.config.business.ticketsAvailableUntil;
+      const ticketAvailableUntil =
+        appconfig.app.config.business.ticketsAvailableUntil;
       // console.log(ticketAvailableUntil);
       // console.log(appconfig.app.config.business);
       const today = dayjs().format("YYYY-MM-DD");
@@ -74,7 +107,7 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
         console.log(`ticket available for ${venuename}`);
         console.log(" tock FOUND real candidate ");
 
-        // Since there is no longitude and latitude in the appconfig, 
+        // Since there is no longitude and latitude in the appconfig,
         // we can't directly use the distance between the venues
         // Let's check if Country match
         // then whether State, City and Name match
@@ -84,12 +117,19 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
           continue;
         }
 
-        if ((appconfig.app.config.business.name === venuename
-          && (appconfig.app.config.business.state === "CA" && state === "California")
-          && (appconfig.app.config.business.city.toLowerCase() === city.toLowerCase())
-        ) || (
-            await addressMatch(appconfig.app.config.business.address, address, city, state)
-          )) {
+        if (
+          (appconfig.app.config.business.name === venuename &&
+            appconfig.app.config.business.state === "CA" &&
+            state === "California" &&
+            appconfig.app.config.business.city.toLowerCase() ===
+              city.toLowerCase()) ||
+          (await addressMatch(
+            appconfig.app.config.business.address,
+            address,
+            city,
+            state
+          ))
+        ) {
           console.log("matched, continue");
           console.log(" tock FOUND real matched >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
           const businessid = appconfig.app.config.business.id;
@@ -97,11 +137,15 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
           return { businessid: businessid, slug: slug };
         }
 
-        console.log(" unfornately neither name not match or address not match ----");
+        console.log(
+          " unfornately neither name not match or address not match ----"
+        );
       } else {
         // this means last day ticket available was in the past
         // like restaurant no longer on tock
-        console.log(`${venuename} was on tock in the past,  but no tickets available on plaform anymore `);
+        console.log(
+          `${venuename} was on tock in the past,  but no tickets available on plaform anymore `
+        );
       }
     }
   }
@@ -109,7 +153,12 @@ async function tock_basic_search_and_validate(venuename: string, longitude: numb
   return null;
 }
 
-async function tock_basic_search(page: Page, term: string, longitude: number, latitude: number) {
+async function tock_basic_search(
+  page: Page,
+  term: string,
+  longitude: number,
+  latitude: number
+) {
   const requestdata = newTockSearchRequest(term, longitude, latitude);
   const proto = serializeMsgToProto(requestdata);
   const protoBase64 = Buffer.from(proto).toString("base64");
@@ -150,13 +199,12 @@ async function tock_basic_search(page: Page, term: string, longitude: number, la
   }, protoBase64);
   const binaryResponse = Buffer.from(response, "base64");
   const final = deserializeTockSearchResponseProtoToMsg(binaryResponse);
-  return (final.r1?.r2?.r3);
+  return final.r1?.r2?.r3;
 }
 interface AppConfig {
   // Define the structure of AppConfig based on what you expect from $REDUX_STATE
   [key: string]: any; // This is a generic definition, specify more detailed properties as needed
 }
-
 
 async function puppeteerFetch(url: string): Promise<string> {
   const browser = await puppeteer.launch({
@@ -169,7 +217,6 @@ async function puppeteerFetch(url: string): Promise<string> {
   await browser.close();
   return html;
 }
-
 
 async function tock_fetch_app_config(tocklink: string): Promise<AppConfig> {
   const tockwebsite: string = await puppeteerFetch(tocklink);
@@ -200,6 +247,7 @@ mutation MyMutation {
     urlSlug: "${slug}",
     reservation: "tock",
     businessid: "${businessid}",
+    withOnlineReservation: "true",
   }, key: "${venue_key}"}) {
   venue {
     name
@@ -211,4 +259,4 @@ mutation MyMutation {
 `;
   const json = await yumyumGraphQLCall(query);
   return json;
-};
+}
