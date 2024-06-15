@@ -22,12 +22,41 @@ nodes {
         urlSlug
         businessid
         key
+        longitude
+        latitude
+        address
+        resyCityCode
+        city
       }
   }
 }`;
 
   const json = await yumyumGraphQLCall(query);
   return json.data.allVenues.nodes;
+}
+
+export async function getVenueByKey(key: string): Promise<any> {
+  const query = `
+  query MyQuery {
+  allVenues(
+    filter: { key:{equalTo:"${key}"}}
+  ) {
+nodes {
+        name
+        urlSlug
+        businessid
+        key
+        longitude
+        latitude
+        address
+        resyCityCode
+        city
+      }
+  }
+}`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json.data.allVenues.nodes[0];
 }
 
 // we should rename this.... 
@@ -57,10 +86,13 @@ async function resy_find_location_details(slug: string, location: string): Promi
       queryParams: {
         url_slug: slug,
         location: location,
+        // location: "mrn",
       },
     })
   );
-  console.log(result);
+  console.log("slug -------------------------------");
+  // console.log("location", location);
+  // console.log(result);
   return result?.location;
 }
 
@@ -201,7 +233,7 @@ export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
   return await resyAPIFetch(url);
 }
 
-async function resy_basic_search_and_validate(
+export async function resy_basic_search_and_validate(
   term: string,
   longitude: number,
   latitude: number,
@@ -220,7 +252,8 @@ async function resy_basic_search_and_validate(
   const result = await resy_basic_search(term, longitude, latitude);
 
   for (const entry of result) {
-    console.log("checking", entry);
+    console.log("checking", entry.name);
+
     const resy_id = entry.id.resy;
     const entryLongitude = entry._geoloc.lng;
     const entryLatitude = entry._geoloc.lat;
@@ -234,11 +267,16 @@ async function resy_basic_search_and_validate(
       console.log("got", entry.name, "too far ", distance);
       continue;
     }
+
+    console.log("got", entry.name, "close enough", distance);
+    console.log("got", entry.location);
     if (
       venueNameMatched(term, entry.name) ||
       (await resy_address_matched(entry.url_slug, entry.location.id, address))
     ) {
+      console.log('validating', resy_id);
       if (await validateResyId(resy_id)) {
+        console.log('validated', resy_id);
         return makeResult(entry);
       }
     }
@@ -250,6 +288,8 @@ async function resy_basic_search_and_validate(
 async function resy_address_matched(url_slug: string, location_id: string, address: string): Promise<boolean> {
   const location = await resy_find_location_details(url_slug, location_id);
   if (location) {
+    console.log("location", location.address_1);
+    console.log("compared to location", address);
     return addressMatch(
       location.address_1,
       address,
@@ -262,7 +302,8 @@ async function resy_address_matched(url_slug: string, location_id: string, addre
 
 async function validateResyId(resy_id: string): Promise<boolean> {
   const calendar = await resy_calendar(resy_id, 2, "any", 30);
-  return calendar.last_calendar_day !== null;
+  console.log("calendar", calendar);
+  return calendar && calendar.last_calendar_day !== null;
 }
 
 async function resy_basic_search(term: string, longitude: number, latitude: number): Promise<any[]> {

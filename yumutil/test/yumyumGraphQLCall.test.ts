@@ -20,7 +20,6 @@ describe("yumyum graphql calls", () => {
       }
     }`;
     const result = await yumyumGraphQLCall(query);
-    console.log("hihi -----------", result.data.allVenues.totalCount);
     expect(result.data.allVenues.totalCount).toBeGreaterThan(10);
     expect(result.data.allVenues.nodes).not.toBeNull();
   });
