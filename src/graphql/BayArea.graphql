@@ -74,6 +74,25 @@ query BayAreaBibWithSlots(
   }
 }
 
+query BayAreaLegacyWithSlots(
+  $metro: String!
+  $date: String!
+  $party_size: Int = 2
+  $timeOption: String = "dinner"
+  $first: Int = 1000
+) {
+  allVenues(
+    first: $first
+    condition: { metro: $metro, withOnlineReservation: "true", close: false }
+    filter: { stars: { in: ["MICHELIN_FORMER"] } }
+  ) {
+    totalCount
+    nodes {
+      ...VenuAvailability
+    }
+  }
+}
+
 query BayAreaPlatesWithSlots(
   $metro: String!
   $date: String!

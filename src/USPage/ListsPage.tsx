@@ -1,26 +1,32 @@
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 
-import { Tabs } from 'antd';
-import Link from 'antd/lib/typography/Link';
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { Tabs } from "antd";
+import Link from "antd/lib/typography/Link";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
-import { Loading } from '../components/Loading';
+import { Loading } from "../components/Loading";
 import {
   useBayArea2021WithSlotsQuery,
   useBayAreaAllWithSlotsQuery,
   useBayAreaBibWithSlotsQuery,
+  useBayAreaLazyQuery,
+  useBayAreaLegacyWithSlotsQuery,
   useBayAreaOfflineQuery,
   useBayAreaPlatesWithSlotsQuery,
   useBayAreaQuery,
   useBayAreaStarredWithSlotsQuery,
-} from '../generated/graphql';
-import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
-import { useProfile } from '../YProfileCircle';
-import { NearbyVenues } from './NearbyVenues';
-import { RestaurantList } from './RestaurantList';
-import { useMetro } from './useMetro';
+} from "../generated/graphql";
+import {
+  SelectedDateState,
+  SelectedPartySize,
+  SelectedTimeOption,
+} from "../HeaderFooter/SelectedDateState";
+import { useProfile } from "../YProfileCircle";
+import { NearbyVenues } from "./NearbyVenues";
+import { RestaurantList } from "./RestaurantList";
+import { useMetro } from "./useMetro";
 
 const { TabPane } = Tabs;
 export const ListPlatesOnly = () => {
@@ -58,6 +64,34 @@ export const ListBibOnly = () => {
   const metro = useMetro();
 
   const { data, loading } = useBayAreaBibWithSlotsQuery({
+    variables: {
+      metro: metro,
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={data?.allVenues?.nodes}
+    ></RestaurantList>
+  );
+};
+export const ListMichelinLegacy = () => {
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
+  const metro = useMetro();
+
+  const { data, loading } = useBayAreaLegacyWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -255,6 +289,11 @@ export const ListsPage = () => {
       component: <ListBibOnly />,
     },
     {
+      slug: "legacy",
+      text: "Legacy",
+      component: <ListMichelinLegacy />,
+    },
+    {
       slug: "offline",
       text: "Offline",
       component: <ListOffLineOnly />,
@@ -316,4 +355,3 @@ function MetroAdminPage(metro: string): JSX.Element {
     </div>
   );
 }
-
