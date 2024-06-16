@@ -1,85 +1,169 @@
-import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, getRedis, resy_basic_search_and_validate, getVenueByKey } from "yumutil";
+import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, getRedis, resy_basic_search_and_validate, getVenueByKey, resyAPILookupByVenueID, venueNameMatched, resy_calendar, resyAPILookupByVenueID2 } from "yumutil";
+import { getDistance } from "geolib";
 
-// const redis = getRedis();
+var similarity = require('jaro-winkler');
+
+
+
+function venueNameSimilar(name1: string, name2: string): boolean {
+  const distance = similarity(name1, name2);
+  if (distance > 0.9) {
+    return true;
+  }
+  // not exact or close... but still
+  const normalized1 = name1.toLowerCase().replace(/[^a-z0-9]/gi, ' ');
+  const normalized2 = name2.toLowerCase().replace(/[^a-z0-9]/gi, '');
+  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
+    return true;
+  }
+
+  return false;
+}
+
+// This file is to validate existing Resy venue to make sure they are still current.  
+// Many reason why a venue would not be current
+//   - going out of business
+//   - switched platforms
+//   - manual/earlier mistakes
+// 
+// Other changes can occur over time: resy urlslug may change, resy city code may change
+// 
+// Method for determination
+//  1. search: if I perform a search and can identify the same place. 
+//         however a search may failed for many reasons (name mismatched (Angler vs Angler'SF), wrong 
+//         long/lat, wrong street name, or failed usps API etc.
+//  2. if a venue ID's calendar call fails --> bad
+//  3. if a venue ID's find reservation call fails --> bad
+//  4. Lookup by venue ID, same location --> good
+//              this returns long/lat, but not address
+//              this return name, and veneu_group name 
+// 
+// main logic
+//      if (lookupbyID is bad) ==> definitely bad 
+//      if (lookupbyID is good)
+//         if (calendar_call is bad) ==> bad
+//                   (need to sure the call succeceed with a legit json)
+//         if (reservation finder is bad) ==> bad
+//                   (need to sure the call succeceed with a legit json)
+// do we need search then???
+
+async function getKeyInfoByResyVenueID(businessid: string): Promise<any> {
+  const result = await resyAPILookupByVenueID(businessid);
+  // console.log(result);
+  if (!result || result.results.venues.length === 0) {
+    return null;
+  }
+
+  const venue = result.results.venues[0];
+  const response = {
+    longitude: venue.venue.location.geo.lon,
+    latitude: venue.venue.location.geo.lat,
+    name: venue.venue.name,
+    groupname: venue.venue.venue_group.name,
+    url_slug: venue.venue.url_slug,
+    resyCityCode: venue.venue.location.code,
+    city: venue.venue.location.name,
+  }
+  return response;
+}
+async function getKeyInfoByResyVenueID2(urlslug: string, location_id: string): Promise<any> {
+  const result = await resyAPILookupByVenueID2(urlslug, location_id);
+  // console.log(JSON.stringify(result, null, 2));
+  if (!result) {
+    return null;
+  }
+
+  const venue = result;
+  const response = {
+    longitude: venue.location.longitude,
+    latitude: venue.location.latitude,
+    name: venue.name,
+    groupname: venue.venue_group.name,
+    url_slug: venue.url_slug,
+    resyCityCode: venue.location.code,
+    city: venue.location.locality,
+    businessid: venue.id.resy.toString(),
+  }
+  return response;
+}
+
+async function checkIsValidlityByResyVenueIdLookup(item: any): Promise<boolean> {
+  let result = await getKeyInfoByResyVenueID(item.businessid);
+  // const result = await getKeyInfoByResyVenueID2(item.businessid, item.resyCityCode);
+  // let result = await getKeyInfoByResyVenueID2(item.urlSlug, "san-francisco-ca");
+
+  if (result && item.urlSlug === result.url_slug) {
+    // same slug ---- good, who would use other's companie's slug?
+    console.log("same slug ******************************", item.name);
+    return true;
+  }
+
+  if (result) {
+    // slug is not matching..... 
+    console.log("slug is not matching ******************************", item.urlSlug, result.url_slug);
+    // needs to update the slugs and city code.. 
+    // but continue.... 
+  } else {
+    result = await getKeyInfoByResyVenueID2(item.urlSlug, "san-francisco-ca");
+    if (!result) {
+      console.log("no result after 2 searches ****************** for", item);
+      return false;
+    }
+    if (item.businessid !== result.businessid) {
+      console.log("business id is not the same ******************", item.businessid, result.businessid);
+      // check if ID are the same....
+      return false;
+    }
+    // continue..... 
+  }
+
+  const physicaldistance = getDistance(
+    { latitude: item.latitude, longitude: item.longitude },
+    { latitude: result.latitude, longitude: result.longitude }
+  );
+
+  if (physicaldistance > 100000) {
+    // 10Km istoo far away
+    console.log("way too far ", item.name, physicaldistance);
+    return false;
+  }
+
+  if (venueNameSimilar(item.name, result.name)) {
+    console.log("name similar ", item.name, result.name);
+    return true;
+  }
+  if (venueNameSimilar(item.name, result.groupname)) {
+    console.log("group name similar ", item.name, result.groupname);
+    return true;
+  }
+
+  return false;
+}
 
 (async function main() {
   try {
-    // const list = await resyLists();
-    // const partylist = [2];
+    const list = await resyLists();
 
-    const baditems: string[] = [];
     const badnames: string[] = [];
 
-    // for (let item of list) {
-    //   console.log(item);
-    //   const result = await resy_basic_search_and_validate(item.name, item.longitude, item.latitude, item.address);
-    //   if (!result
-    //     || result.businessid !== item.businessid
-    //     || result.urlSlug !== item.urlSlug
-    //     || result.resyCityCode !== item.resyCityCode
-    //   ) {
-    //     baditems.push(item.key);
-    //     badnames.push(item.name);
-    //     console.log(item.name);
-    //   }
-    // }
-
-
-    const badkeysinput = [
-      // ok now supposed to be bad  '407fbd33-2acc-4e60-9f21-2086c066237c',
-      // ok now '49780d75-349f-4fbb-8e74-a5012fdee24d',
-      // ok now '794efba8-ac81-4301-bb3f-7ced485c807c',
-      // wrong city!!!! and closed.  '7gKyliy2siRyQsWxoi9W',
-      // should catch this name... name is similar... what happened to address. 'eec444cc-a9b0-4d70-8879-606267f49fb7',
-      // 'eec444cc-a9b0-4d70-8879-606267f49fb7',
-      // 'fefnJzX0erJVuNVvczFk',
-
-      // 'ivYoqYgBYwYEIACS05ku',
-      // 'KwP3tkeJMn8ozHfxCaAk',
-      // 'lnwqkb161yUPLPVqnClyW',
-      // 'n9sktx9ozAf4mZjCG3um',
-      'oBs3rtAXxT0InXrdXyDs',
-      // 'PFFw9S59Jl2MISngZbvB', // rasa, moved to opentable
-      // 'PiC8VQKzKNzbEZC12qLq' the complexity in Chez panizsee is there is a cafe and a restaurant in the same address 
-    ];
-
-    for (let key of badkeysinput) {
-      const item = await getVenueByKey(key);
-      console.log(item);
-      const result = await resy_basic_search_and_validate(item.name, item.longitude, item.latitude, item.address);
-      if (!result
-        || result.businessid !== item.businessid
-        // || result.urlSlug !== item.urlSlug
-        // || result.resyCityCode !== item.resyCityCode
-      ) {
-        console.log(result);
-        console.log(item);
-        baditems.push(item.key);
+    for (let item of list) {
+      console.log("checking", item.name);
+      const valid = await checkIsValidlityByResyVenueIdLookup(item);
+      if (!valid) {
         badnames.push(item.name);
-        console.log(item.name);
+        console.log("BADBADBAD ******************", item.name);
+        continue;
       }
+      const calendar = await resy_calendar(item.businessid, 2, item.name, 30);
+      if (calendar && calendar.last_calendar_day !== null) {
+        console.log("good ******************", item.name);
+      } else {
+        console.log("bad ******************", item.name);
+        badnames.push(item.name);
+      }
+
     }
-
-
-    console.log(baditems);
     console.log(badnames);
-
-    // for (let party_size of partylist) {
-
-    //   const keys = rl.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
-    //   const data = await redis.mget(keys);
-    //   const keyDataMap: any = {};
-    //   for (let index = 0; index < keys.length; index++) {
-    //     const entry = data[index] as any;
-    //     const key = keys[index];
-    //     keyDataMap[key] = entry;
-    //     if (entry.last_calendar_day === null) {
-    //       console.log(key, "not a healthy place, likely closed or moved to another platform");
-    //       const result = await resy_set_venue_to_tbd(rl[index].key);
-    //       console.log(result)
-    //     }
-    //   }
-    // }
   } catch (error) {
     console.error(error);
   }

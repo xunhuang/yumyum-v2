@@ -12,10 +12,13 @@ export function resy_calendar_key(slug: string, party_size: number): string {
 }
 
 export async function resyLists(): Promise<any> {
+  // name: {equalTo: "Delage"},
   const query = `
   query MyQuery {
   allVenues(
-    filter: {metro: {equalTo: "bayarea"}, reservation: {equalTo: "resy"}, close:{equalTo:false}}
+    filter: {metro: {equalTo: "bayarea"},
+    reservation: {equalTo: "resy"},
+    close:{equalTo:false}}
   ) {
 nodes {
         name
@@ -198,8 +201,35 @@ async function resyAPIFetch(url: string): Promise<any> {
 }
 
 export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
+  // this API call is problematic as 
+  // if a venue is not available *TODAY*, it will actually get 500 error
+  // need a better alternative
   const url = buildUrl("https://api.resy.com", {
     path: "4/find",
+    queryParams: {
+      long: "0",
+      lat: "0",
+      venue_id: venue_id,
+      party_size: "2",
+      day: dayjs().format("YYYY-MM-DD"),
+    },
+  });
+  return await resyAPIFetch(url);
+}
+export async function resyAPILookupByVenueID2(url_slug: string, location_id: string): Promise<any> {
+  const url = buildUrl("https://api.resy.com", {
+    path: "3/venue",
+    queryParams: {
+      url_slug: url_slug,
+      location: location_id,
+    },
+  });
+  return await resyAPIFetch(url);
+}
+
+export async function resyAPILookupByVenueID3(venue_id: string): Promise<any> {
+  const url = buildUrl("https://api.resy.com", {
+    path: "2/config",
     queryParams: {
       long: "0",
       lat: "0",

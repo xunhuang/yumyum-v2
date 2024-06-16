@@ -30,6 +30,7 @@
     "geolib": "^3.3.4",
     "google-protobuf": "^3.21.2",
     "got-scraping": "^3.2.15",
+    "jaro-winkler": "^0.2.8",
     "limiter": "^2.1.0",
     "puppeteer": "^21.7.0",
     "puppeteer-extra": "^3.3.6",
