@@ -1,4 +1,4 @@
-import { resy_set_venue_to_tbd, resy_calendar_key, resyLists, getRedis, resy_basic_search_and_validate, getVenueByKey, resyAPILookupByVenueID, venueNameMatched, resy_calendar, resyAPILookupByVenueID2 } from "yumutil";
+import { resy_set_venue_to_tbd, resyLists, resyAPILookupByVenueID, resy_calendar, resyAPILookupByVenueID2 } from "yumutil";
 import { getDistance } from "geolib";
 
 var similarity = require('jaro-winkler');
@@ -102,6 +102,7 @@ async function checkIsValidlityByResyVenueIdLookup(item: any): Promise<boolean> 
     // slug is not matching..... 
     console.log("slug is not matching ******************************", item.urlSlug, result.url_slug);
     // needs to update the slugs and city code.. 
+    // XXX TODO...
     // but continue.... 
   } else {
     result = await getKeyInfoByResyVenueID2(item.urlSlug, "san-francisco-ca");
@@ -112,6 +113,7 @@ async function checkIsValidlityByResyVenueIdLookup(item: any): Promise<boolean> 
     if (item.businessid !== result.businessid) {
       console.log("business id is not the same ******************", item.businessid, result.businessid);
       // check if ID are the same....
+      // XXX TODO...
       return false;
     }
     // continue..... 
@@ -163,6 +165,12 @@ async function checkIsValidlityByResyVenueIdLookup(item: any): Promise<boolean> 
       }
 
     }
+    console.log("In Summary this is a bad list");
+    // XXX TODO... set these to TBD. Not automatated yet because there is very limited data
+    // to make me confident it works well.
+    // for (let name of badnames) {
+    //   await resy_set_venue_to_tbd(key_not_name);
+    // }
     console.log(badnames);
   } catch (error) {
     console.error(error);
