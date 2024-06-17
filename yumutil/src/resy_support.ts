@@ -12,7 +12,7 @@ export function resy_calendar_key(slug: string, party_size: number): string {
 }
 
 export async function resyLists(): Promise<any> {
-  // name: {equalTo: "Delage"},
+  // name: { equalTo: "Delage" },
   const query = `
   query MyQuery {
   allVenues(
@@ -385,6 +385,7 @@ export async function resy_calendar(
 }
 
 export async function process_for_resy(
+  saveChanges: boolean,
   key: string,
   name: string,
   longitude: number,
@@ -402,11 +403,13 @@ export async function process_for_resy(
     return false;
   }
   console.log("resy found", result);
-  await resy_set_venue_reservation(
-    key,
-    result.urlSlug,
-    result.resyCityCode,
-    result.businessid
-  );
+  if (saveChanges) {
+    await resy_set_venue_reservation(
+      key,
+      result.urlSlug,
+      result.resyCityCode,
+      result.businessid
+    );
+  }
   return true;
 }

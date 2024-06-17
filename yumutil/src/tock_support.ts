@@ -42,6 +42,7 @@ export async function tock_support_shutdown(): Promise<void> {
 }
 
 export async function process_for_tock(
+  saveChanges: boolean,
   venuekey: string,
   venuename: string,
   longitude: number,
@@ -61,12 +62,13 @@ export async function process_for_tock(
   if (!result) {
     return false;
   }
-  const updateresult = await tock_set_venue_reservation(
-    venuekey,
-    result.slug,
-    result.businessid
-  );
-  console.log(updateresult);
+  if (saveChanges) {
+    await tock_set_venue_reservation(
+      venuekey,
+      result.slug,
+      result.businessid
+    );
+  }
   return true;
 }
 interface TockSearchResult {
@@ -84,10 +86,10 @@ async function tock_basic_search_and_validate(
 ): Promise<TockSearchResult | null> {
   const page = await getBrowerPageSingleton();
   const result = await tock_basic_search(page, venuename, longitude, latitude);
-  console.log(result);
+  console.log(result?.searchResults.map((r) => `${r.name},  ${r.slug},${r.city}`).join("\n"));
   if (result && result.searchResults && result.searchResults.length > 0) {
     console.log(
-      `found ${result.searchResults.length} results for ${venuename}`
+      `found ${result.searchResults.length} results for ${venuename} ------------------------`
     );
     const entries = result.searchResults;
     for (const entry of entries) {
@@ -105,7 +107,11 @@ async function tock_basic_search_and_validate(
       const today = dayjs().format("YYYY-MM-DD");
       if (today < ticketAvailableUntil) {
         console.log(`ticket available for ${venuename}`);
-        console.log(" tock FOUND real candidate ");
+        console.log(" tock FOUND real candidate on tock ", entry.name, entry.slug, entry.city);
+
+        const businessid = appconfig.app.config.business.id;
+        const slug = appconfig.app.config.business.domainName;
+        const candidate = { businessid: businessid, slug: slug };
 
         // Since there is no longitude and latitude in the appconfig,
         // we can't directly use the distance between the venues
@@ -117,24 +123,22 @@ async function tock_basic_search_and_validate(
           continue;
         }
 
-        if (
-          (appconfig.app.config.business.name === venuename &&
-            appconfig.app.config.business.state === "CA" &&
-            state === "California" &&
-            appconfig.app.config.business.city.toLowerCase() ===
-              city.toLowerCase()) ||
-          (await addressMatch(
-            appconfig.app.config.business.address,
-            address,
-            city,
-            state
-          ))
-        ) {
-          console.log("matched, continue");
-          console.log(" tock FOUND real matched >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-          const businessid = appconfig.app.config.business.id;
-          const slug = appconfig.app.config.business.domainName;
-          return { businessid: businessid, slug: slug };
+        if (!(appconfig.app.config.business.state === "CA" &&
+          state === "California")) {
+          // XXX:TODO make a better state match
+          console.log("state mismatch, continue");
+          continue;
+        }
+        if (appconfig.app.config.business.name === venuename) {
+          return candidate;
+        }
+        if (await addressMatch(
+          appconfig.app.config.business.address,
+          address,
+          city,
+          state
+        )) {
+          return candidate
         }
 
         console.log(

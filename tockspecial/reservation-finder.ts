@@ -4,7 +4,7 @@ import {
   process_for_resy,
   process_for_tock,
   checkIfVenueIsClosedAndActOnIt,
-  tock_support_shutdown
+  tock_support_shutdown,
 } from "yumutil";
 
 (async function main(): Promise<void> {
@@ -12,23 +12,33 @@ import {
 
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
+    const saveChanges = false;
     console.log(`${venue.name} - ${venue.address}`);
-    const tock_found = await process_for_tock(venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+    const tock_found = await process_for_tock(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
     if (tock_found) {
+      if (venue.reservation !== "tock") {
+        console.log(` need to update ----------------- ${venue.name} - to tock`);
+      }
       continue;
     }
-    const opentable_found = await process_for_opentable(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    const opentable_found = await process_for_opentable(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
     if (opentable_found) {
+      if (venue.reservation !== "opentable") {
+        console.log(` need to update ----------------- ${venue.name} - to opentable`);
+      }
       continue;
     }
-    const resy_found = await process_for_resy(venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    const resy_found = await process_for_resy(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
     if (resy_found) {
+      if (venue.reservation !== "resy") {
+        console.log(` need to update ----------------- ${venue.name} - to resy`);
+      }
       continue;
     }
-    const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
-    if (closed) {
-      continue;
-    }
+    // const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
+    // if (closed) {
+    //   continue;
+    // }
   }
 
   console.log("done");
@@ -41,7 +51,7 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-      reservation: { equalTo: "TBD" }
+     reservation: { equalTo: "TBD" }
       close: { equalTo: false }
     }
   ) {
@@ -62,6 +72,7 @@ query MyQuery {
       latitude
       city
       region
+      reservation
     }
   }
 }`;

@@ -47,6 +47,7 @@ mutation MyMutation {
 }
 
 async function process_for_opentable(
+  saveChanges: boolean,
   key: string,
   name: string,
   longitude: number,
@@ -64,7 +65,9 @@ async function process_for_opentable(
     return false;
   }
   console.log(name, "Opentable found a match ---------------- ", opentable_id);
-  await opentable_set_venue_reservation(key, opentable_id);
+  if (saveChanges) {
+    await opentable_set_venue_reservation(key, opentable_id);
+  }
   return true;
 }
 export { process_for_opentable };
