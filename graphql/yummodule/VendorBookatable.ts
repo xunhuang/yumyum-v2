@@ -4,6 +4,7 @@ const buildUrl = require('build-url');
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+
 export class VendorBookatable extends VendorBase {
     vendorID() {
         return "bookatable";

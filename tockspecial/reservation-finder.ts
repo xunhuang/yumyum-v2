@@ -13,30 +13,31 @@ import {
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     const saveChanges = false;
-    console.log(`${venue.name} - ${venue.address}`);
-    const tock_found = await process_for_tock(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
-    if (tock_found) {
-      if (venue.reservation !== "tock") {
-        console.log(` need to update ----------------- ${venue.name} - to tock`);
-      }
-      continue;
-    }
-    const opentable_found = await process_for_opentable(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    if (opentable_found) {
-      if (venue.reservation !== "opentable") {
-        console.log(` need to update ----------------- ${venue.name} - to opentable`);
-      }
-      continue;
-    }
-    const resy_found = await process_for_resy(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    if (resy_found) {
-      if (venue.reservation !== "resy") {
-        console.log(` need to update ----------------- ${venue.name} - to resy`);
-      }
-      continue;
-    }
-    // const closed = await checkIfVenueIsClosedAndActOnIt(venue.key, venue.name, venue.city, venue.region);
+    console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
+    // // const tock_found = await process_for_tock(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+    // // if (tock_found) {
+    // //   if (venue.reservation !== "tock") {
+    // //     console.log(` need to update ----------------- ${venue.name} - to tock`);
+    // //   }
+    // //   continue;
+    // }
+    // const opentable_found = await process_for_opentable(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    // if (opentable_found) {
+    //   if (venue.reservation !== "opentable") {
+    //     console.log(` need to update ----------------- ${venue.name} - to opentable`);
+    //   }
+    //   continue;
+    // }
+    // const resy_found = await process_for_resy(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+    // if (resy_found) {
+    //   if (venue.reservation !== "resy") {
+    //     console.log(` need to update ----------------- ${venue.name} - to resy`);
+    //   }
+    //   continue;
+    // }
+    // const closed = await checkIfVenueIsClosedAndActOnIt(saveChanges, venue.key, venue.name, venue.city, venue.region);
     // if (closed) {
+    //   console.log(` need to update restorant to closed`);
     //   continue;
     // }
   }
@@ -44,6 +45,7 @@ import {
   console.log("done");
   await tock_support_shutdown();
 })();
+// name: { equalTo: "Noosh" }
 
 async function BayAreaListWithTBD() {
   const query = `
@@ -51,7 +53,7 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-     reservation: { equalTo: "TBD" }
+     reservation: { equalTo: "opentable" }
       close: { equalTo: false }
     }
   ) {

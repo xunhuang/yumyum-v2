@@ -9,14 +9,16 @@ const limiter = new RateLimiter({
 });
 
 // return true if it is closed...
-export async function checkIfVenueIsClosedAndActOnIt(key: string, name: string, city: string, state: string): Promise<boolean> {
+export async function checkIfVenueIsClosedAndActOnIt(saveChanges: boolean, key: string, name: string, city: string, state: string): Promise<boolean> {
   const result = await isItClosed(name, city, state);
   console.log(
     `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "}`
   );
   if (result.closed === true) {
     console.log(`reference: ${JSON.stringify(result)}`);
-    await setVenueToClosed(key, "PERPLEXITY_AI" + JSON.stringify(result));
+    if (saveChanges) {
+      await setVenueToClosed(key, "PERPLEXITY_AI" + JSON.stringify(result));
+    }
     return true;
   }
   return false;

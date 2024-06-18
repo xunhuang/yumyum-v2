@@ -1,4 +1,10 @@
 import { uspsLookupStreet } from './uspsLookupStreet';
+import { yumyumGraphQLCall } from './yumyumGraphQLCall';
+import dotenv from "dotenv";
+const buildUrl = require('build-url');
+dotenv.config();
+
+const API_KEY = process.env.GOOGLE_CLOUD_API;
 
 export function venueNameMatched(a: string, b: string): boolean {
     a = a.toLowerCase();
@@ -58,3 +64,38 @@ export async function simpleFetchGet(url: string): Promise<string> {
   return body;
 }
 
+export async function get_longlat_from_address(address: string, city: string, state: string) {
+
+  const fullAddress = `${address}, ${city}, ${state}`;
+  const baseurl = "https://maps.googleapis.com/maps/api/geocode/json";
+
+  let reservationUrl = buildUrl(baseurl, {
+    queryParams: {
+      address: fullAddress,
+      key: API_KEY,
+    },
+  });
+
+  const json = await simpleFetchGet(reservationUrl);
+  const result = JSON.parse(json).results[0].geometry.location;
+  return result;
+}
+
+export async function setVenueGPS(venue_key: string, longitude: number, latitude: number): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    longitude: ${longitude}
+    latitude: ${latitude}
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+} 

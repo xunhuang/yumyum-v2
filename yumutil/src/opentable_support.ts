@@ -82,6 +82,11 @@ async function opentable_basic_search_and_validate(
 
   for (const entry of result) {
     const opentable_id = entry.id;
+
+    console.log(entry)
+    console.log(longitude, latitude);
+    console.log(address);
+
     // distance in meters
     const distance = getDistance(
       { latitude: latitude, longitude: longitude },
