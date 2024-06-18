@@ -28,7 +28,12 @@ async function getBrowerPageSingleton(): Promise<Page> {
     });
     const page = await browser.newPage();
     const url = `https://www.exploretock.com`;
-    await page.goto(url);
+    try { 
+      await page.goto(url);
+    } catch (error) {
+      console.error(`Error fetching URL: ${url}`, error);
+      throw error;
+    }
     browserPage = page;
     await new Promise((resolve) => setTimeout(resolve, 2000));
   }
@@ -216,7 +221,12 @@ async function puppeteerFetch(url: string): Promise<string> {
     headless: true,
   });
   const page = await browser.newPage();
-  await page.goto(url);
+  try {
+    await page.goto(url);
+  } catch (error) {
+    console.error(`Error fetching URL: ${url}`, error);
+    throw error;
+  }
   const html = await page.content();
   await browser.close();
   return html;

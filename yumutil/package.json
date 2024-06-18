@@ -28,6 +28,7 @@
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "geolib": "^3.3.4",
+    "jaro-winkler": "^0.2.8",
     "limiter": "^2.1.0",
     "puppeteer": "^22.10.1",
     "puppeteer-extra": "^3.3.6",

@@ -3,9 +3,7 @@ import { getDistance } from "geolib";
 
 var similarity = require('jaro-winkler');
 
-
-
-function venueNameSimilar(name1: string, name2: string): boolean {
+export function venueNameSimilar(name1: string, name2: string): boolean {
   const distance = similarity(name1, name2);
   if (distance > 0.9) {
     return true;

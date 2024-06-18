@@ -2,6 +2,8 @@ import { uspsLookupStreet } from './uspsLookupStreet';
 import { yumyumGraphQLCall } from './yumyumGraphQLCall';
 import dotenv from "dotenv";
 const buildUrl = require('build-url');
+var similarity = require('jaro-winkler');
+
 dotenv.config();
 
 const API_KEY = process.env.GOOGLE_CLOUD_API;
@@ -10,6 +12,22 @@ export function venueNameMatched(a: string, b: string): boolean {
     a = a.toLowerCase();
     b = b.toLowerCase();
     return a === b;
+}
+
+
+export function venueNameSimilar(name1: string, name2: string): boolean {
+  const distance = similarity(name1, name2);
+  if (distance > 0.9) {
+    return true;
+  }
+  // not exact or close... but still
+  const normalized1 = name1.toLowerCase().replace(/[^a-z0-9]/gi, ' ');
+  const normalized2 = name2.toLowerCase().replace(/[^a-z0-9]/gi, '');
+  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
+    return true;
+  }
+
+  return false;
 }
 
 export async function addressMatch(street_a: string, street_b: string, city: string, state: string): Promise<boolean> {

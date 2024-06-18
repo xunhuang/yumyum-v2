@@ -7,6 +7,38 @@ import {
   tock_support_shutdown,
 } from "yumutil";
 
+async function is_this_tock(venue: any): Promise<boolean> {
+  return process_for_tock(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+}
+async function is_this_opentable(venue: any): Promise<boolean> {
+  return await process_for_opentable(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+}
+async function is_this_resy(venue: any): Promise<boolean> {
+  return await process_for_resy(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+}
+async function is_this_closed(venue: any): Promise<boolean> {
+  return await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
+}
+
+
+async function whichReservationSystemIsthis(venue: any): Promise<string | null> {
+  for (const key in functionMap) {
+    const func = functionMap[key];
+    const found = await func(venue);
+    if (found) {
+      return key;
+    }
+  }
+  return null;
+}
+
+const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
+  tock: is_this_tock,
+  opentable: is_this_opentable,
+  resy: is_this_resy,
+  closed: is_this_closed,
+};
+
 (async function main(): Promise<void> {
   console.log("hello");
 
@@ -14,6 +46,20 @@ import {
   for (const venue of tbdlist) {
     const saveChanges = false;
     console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
+    const reservation = venue.reservation;
+    const func = functionMap[reservation];
+    if (func) {
+      const found = await func(venue);
+      if (found) {
+        console.log(`Found ${reservation} for ${venue.name} MATCHING ++++++++++++++++++++++++++++++++++`);
+      } else {
+        console.log(`Found ${reservation} for ${venue.name} NOT MATCHING XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`);
+        const which = await whichReservationSystemIsthis(venue);
+        if (which) {
+          console.log(` need to update ----------------- ${venue.name} -  should be to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
+        }
+      }
+    }
     // // const tock_found = await process_for_tock(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
     // // if (tock_found) {
     // //   if (venue.reservation !== "tock") {

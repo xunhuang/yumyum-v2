@@ -1,7 +1,7 @@
 import cheerio from "cheerio";
 import dayjs from "dayjs";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
-import { venueNameMatched, addressMatch } from "./utils";
+import { venueNameMatched, addressMatch, venueNameSimilar } from "./utils";
 import { getDistance } from "geolib";
 
 interface Entry {
@@ -100,7 +100,7 @@ async function opentable_basic_search_and_validate(
 
     console.log("close enough", distance);
 
-    if (venueNameMatched(term, entry.name)) {
+    if (venueNameSimilar(term, entry.name)) {
       console.log("name matched for ", term, entry.name);
       if (await validateOpentableId(opentable_id)) {
         return opentable_id;

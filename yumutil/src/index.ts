@@ -5,7 +5,7 @@ import {
   deserializeTockSearchResponseProtoToMsg,
 } from "./tockRequestMsg";
 
-import { simpleFetchGet, addressMatch, venueNameMatched, setVenueGPS, get_longlat_from_address } from "./utils";
+import { venueNameSimilar, simpleFetchGet, addressMatch, venueNameMatched, setVenueGPS, get_longlat_from_address } from "./utils";
 import { checkIfVenueIsClosedAndActOnIt } from "./checkIfVenueIsClosedAndActOnIt";
 import { process_for_opentable, opentable_set_venue_reservation } from "./opentable_support";
 import { getVenueByKey, process_for_resy, resyAPILookupByVenueID, resyAPILookupByVenueID2, resy_basic_search_and_validate, resy_set_venue_reservation } from "./resy_support";
@@ -44,6 +44,8 @@ export {
   getRedis,
   getVenueByKey,
   setVenueGPS,
-  get_longlat_from_address
+  get_longlat_from_address,
+  venueNameSimilar,
 }
+
 
