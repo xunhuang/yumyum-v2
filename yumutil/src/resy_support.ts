@@ -3,7 +3,7 @@ import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
-import { venueNameMatched, addressMatch } from "./utils";
+import { venueNameMatched, addressMatch, venueNameSimilar } from "./utils";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
@@ -277,9 +277,8 @@ export async function resy_basic_search_and_validate(
     }
 
     console.log("got", entry.name, "close enough", distance);
-    console.log("got", entry.location);
     if (
-      venueNameMatched(term, entry.name) ||
+      venueNameSimilar(term, entry.name) ||
       (await resy_address_matched(entry.url_slug, entry.location.id, address))
     ) {
       console.log('validating', resy_id);

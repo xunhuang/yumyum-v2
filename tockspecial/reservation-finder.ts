@@ -19,7 +19,9 @@ async function is_this_resy(venue: any): Promise<boolean> {
 async function is_this_closed(venue: any): Promise<boolean> {
   return await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
 }
-
+async function is_this_tbd(venue: any): Promise<boolean> {
+  return false;
+}
 
 async function whichReservationSystemIsthis(venue: any): Promise<string | null> {
   for (const key in functionMap) {
@@ -37,6 +39,7 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   opentable: is_this_opentable,
   resy: is_this_resy,
   closed: is_this_closed,
+  TBD: is_this_tbd,
 };
 
 (async function main(): Promise<void> {
@@ -92,6 +95,9 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   await tock_support_shutdown();
 })();
 // name: { equalTo: "Noosh" }
+//  name: { equalTo: "Auberge du Soleil" }
+// reservation: { equalTo: "opentable" }
+// name: { equalTo: "Aubergine" }
 
 async function BayAreaListWithTBD() {
   const query = `
@@ -99,7 +105,7 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-     reservation: { equalTo: "opentable" }
+      reservation: { equalTo: "opentable" }
       close: { equalTo: false }
     }
   ) {

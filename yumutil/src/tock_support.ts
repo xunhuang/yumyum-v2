@@ -13,7 +13,7 @@ import {
   newTockSearchRequest,
   serializeMsgToProto,
 } from "./tockRequestMsg";
-import { addressMatch } from "./utils";
+import { addressMatch, venueNameSimilar } from "./utils";
 puppeteer.use(StealthPlugin());
 
 var browser: Browser;
@@ -134,7 +134,7 @@ async function tock_basic_search_and_validate(
           console.log("state mismatch, continue");
           continue;
         }
-        if (appconfig.app.config.business.name === venuename) {
+        if (venueNameSimilar(appconfig.app.config.business.name, venuename)) {
           return candidate;
         }
         if (await addressMatch(

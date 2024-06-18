@@ -106,6 +106,7 @@ async function opentable_basic_search_and_validate(
         return opentable_id;
       }
     }
+    console.log("name not matched for ", term, entry.name);
 
     // maybe check address
     const appConfig = await opentable_fetchAppConfig(opentable_id);
@@ -200,11 +201,11 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
     "dinner"
   );
   if (!result.availability) {
-    console.log("opentable No longer available", opentable_id);
+    console.log("opentable No longer available/functional when validating", opentable_id);
     return false;
   }
   if (result.availability?.error?.message === "NOT_AVAILABLE") {
-    console.log("opentable No longer available", opentable_id);
+    console.log("opentable No longer available/functional when validating", opentable_id);
     return false;
   }
   return true;

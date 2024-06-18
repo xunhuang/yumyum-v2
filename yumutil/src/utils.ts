@@ -20,9 +20,10 @@ export function venueNameSimilar(name1: string, name2: string): boolean {
   if (distance > 0.9) {
     return true;
   }
-  // not exact or close... but still
-  const normalized1 = name1.toLowerCase().replace(/[^a-z0-9]/gi, ' ');
-  const normalized2 = name2.toLowerCase().replace(/[^a-z0-9]/gi, '');
+  // names not exact or close... but still try to match substring 
+  // as some names are "Sierra Mar" vs "Sierra Mar the bar"
+  const normalized1 = name1.toLowerCase().replace(/[^a-z0-9 ]/gi, '');
+  const normalized2 = name2.toLowerCase().replace(/[^a-z0-9 ]/gi, '');
   if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
     return true;
   }
@@ -42,13 +43,23 @@ export async function addressMatch(street_a: string, street_b: string, city: str
         return true;
     }
 
+  if (venueNameSimilar(street_a, street_b)) {
+    return true;
+  }
+
     const usps_street_a = await uspsLookupStreet(street_a, city, state);
     const usps_street_b = await uspsLookupStreet(street_b, city, state);
 
   console.log(usps_street_a, usps_street_b, city, state);
 
     if (!usps_street_a || !usps_street_b) {
+      const standardized_address_a = await get_standardized_US_address_from_google(street_a, city, state);
+      const standardized_address_b = await get_standardized_US_address_from_google(street_b, city, state);
+      console.log(standardized_address_a, standardized_address_b, city, state);
+      if (!standardized_address_a || !standardized_address_b) {
         return false;
+      }
+      return standardized_address_a === standardized_address_b;
     }
     return usps_street_a === usps_street_b;
 }
@@ -80,6 +91,33 @@ export async function simpleFetchGet(url: string): Promise<string> {
 
   const body = await content.text();
   return body;
+}
+export async function simpleFetchPost(url: string, body: any): Promise<string> {
+  const content = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+      priority: "u=0, i",
+      "sec-ch-ua":
+        '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "document",
+      "sec-fetch-mode": "navigate",
+      "sec-fetch-site": "none",
+      "sec-fetch-user": "?1",
+      "upgrade-insecure-requests": "1",
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    },
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: body,
+    method: "POST",
+  });
+
+  return await content.text();
 }
 
 export async function get_longlat_from_address(address: string, city: string, state: string) {
@@ -117,3 +155,18 @@ mutation MyMutation {
   const json = await yumyumGraphQLCall(query);
   return json;
 } 
+
+export async function get_standardized_US_address_from_google(address: string, city: string, state: string) {
+
+  const baseurl = `https://addressvalidation.googleapis.com/v1:validateAddress?key=${API_KEY}`
+  const body = {
+    "address": {
+      "regionCode": "US",
+      "addressLines": [address, city, state]
+    },
+  }
+
+  const json = await simpleFetchPost(baseurl, JSON.stringify(body));
+  const result = JSON.parse(json);
+  return result.result.address.formattedAddress;
+}
