@@ -117,7 +117,7 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-      reservation: { equalTo: "resy" }
+      reservation: { equalTo: "tock" }
       close: { equalTo: false }
     }
   ) {
