@@ -5,6 +5,7 @@ import {
   process_for_tock,
   checkIfVenueIsClosedAndActOnIt,
   tock_support_shutdown,
+  validateResyVenueInfo,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -14,7 +15,17 @@ async function is_this_opentable(venue: any): Promise<boolean> {
   return await process_for_opentable(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
 }
 async function is_this_resy(venue: any): Promise<boolean> {
-  return await process_for_resy(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  // first try to find the venue by the name/address/slug via the search system
+  const found = await process_for_resy(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  if (found) {
+    return true;
+  }
+  // if the venue is already resy(per input), then we need to validate the venue info
+  // by directly fetching the info via business id/slug and see if it matches
+  if (venue.reservation === "resy") {
+    return validateResyVenueInfo(venue);
+  }
+  return false;
 }
 async function is_this_closed(venue: any): Promise<boolean> {
   return await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
@@ -98,6 +109,7 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 //  name: { equalTo: "Auberge du Soleil" }
 // reservation: { equalTo: "opentable" }
 // name: { equalTo: "Aubergine" }
+name: { equalTo: "1601 Bar & Kitchen" }
 
 async function BayAreaListWithTBD() {
   const query = `
@@ -105,7 +117,7 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-      reservation: { equalTo: "opentable" }
+      reservation: { equalTo: "resy" }
       close: { equalTo: false }
     }
   ) {

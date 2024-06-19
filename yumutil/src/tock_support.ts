@@ -216,11 +216,11 @@ interface AppConfig {
 }
 
 async function puppeteerFetch(url: string): Promise<string> {
-  const browser = await puppeteer.launch({
-    executablePath: executablePath(),
-    headless: true,
-  });
-  const page = await browser.newPage();
+  const page = await getBrowerPageSingleton();
+  // const browser = await puppeteer.launch({
+  //   executablePath: executablePath(),
+  //   headless: true,
+  // });
   try {
     await page.goto(url);
   } catch (error) {
@@ -228,7 +228,7 @@ async function puppeteerFetch(url: string): Promise<string> {
     throw error;
   }
   const html = await page.content();
-  await browser.close();
+  // await browser.close();
   return html;
 }
 
