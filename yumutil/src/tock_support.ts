@@ -84,7 +84,7 @@ interface TockSearchResult {
 // venue info is from db, fetched via graphql call
 export async function validateTockVenueInfo(venue: any): Promise<boolean> {
   const appconfig = await tock_fetch_app_config(venue.urlSlug);
-  if (!appconfig || !appconfig.app) {
+  if (!appconfig?.app?.config?.business) {
     console.log(`Tock Slug ${venue.urlSlug} has no proper appconfig`);
     return false;
   }
@@ -117,7 +117,7 @@ async function tock_basic_search_and_validate(
     const entries = result.searchResults;
     for (const entry of entries) {
       const appconfig = await tock_fetch_app_config(entry.slug!);
-      if (!appconfig || !appconfig.app) {
+      if (!appconfig?.app?.config?.business) {
         console.log(`Tock Slug ${entry.slug} has no proper appconfig`);
         continue;
       }

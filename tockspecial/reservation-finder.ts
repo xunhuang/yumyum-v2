@@ -129,6 +129,7 @@ query MyQuery {
       metro: { equalTo: "bayarea" }
       reservation: { equalTo: "tock" }
       close: { equalTo: false }
+      name: { equalTo: "Lion Dance Cafe" }
     }
   ) {
     totalCount
