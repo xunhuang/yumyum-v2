@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fetch_new = require('node-fetch');
 const cheerio = require('cheerio');
 const jq = require('node-jq')
 
@@ -16,10 +15,8 @@ async function jqQuery(jsonObject: any, query: string): Promise<any> {
 
 async function download_app_config(city_slug: string): Promise<any> {
   const url = `https://www.exploretock.com/city/${city_slug}`;
-  const w = await fetch_new(url);
+  const w = await fetch(url);
   const html = await w.text();
-
-  console.log(html);
 
   const $ = cheerio.load(html);
   const scripts = $('script');
@@ -29,7 +26,7 @@ async function download_app_config(city_slug: string): Promise<any> {
     const text = $(el).text();
     if (text.includes("window.$REDUX_STATE")) {
       const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-      console.log(toeval);
+      // eslint-disable-next-line no-eval
       eval(toeval);
     }
     return null;

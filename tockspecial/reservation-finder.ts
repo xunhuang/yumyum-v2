@@ -6,10 +6,21 @@ import {
   checkIfVenueIsClosedAndActOnIt,
   tock_support_shutdown,
   validateResyVenueInfo,
+  validateTockVenueInfo,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
-  return process_for_tock(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+  // const found = await process_for_tock(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+  const found = await process_for_tock(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+  if (found) {
+    return true;
+  }
+  // not found via search, let's use existing info to see 
+  // if it's still tock, functional and same name given the same tock slug
+  if (venue.reservation === "tock") {
+    return await validateTockVenueInfo(venue);
+  }
+  return false;
 }
 async function is_this_opentable(venue: any): Promise<boolean> {
   return await process_for_opentable(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
@@ -109,7 +120,6 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 //  name: { equalTo: "Auberge du Soleil" }
 // reservation: { equalTo: "opentable" }
 // name: { equalTo: "Aubergine" }
-name: { equalTo: "1601 Bar & Kitchen" }
 
 async function BayAreaListWithTBD() {
   const query = `

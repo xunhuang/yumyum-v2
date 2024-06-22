@@ -3,7 +3,7 @@ import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
-import { venueNameMatched, addressMatch, venueNameSimilar } from "./utils";
+import { addressMatch, venueNameSimilar } from "./utils";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 3000 });
 

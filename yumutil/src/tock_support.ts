@@ -81,6 +81,24 @@ interface TockSearchResult {
   slug: string;
 }
 
+// venue info is from db, fetched via graphql call
+export async function validateTockVenueInfo(venue: any): Promise<boolean> {
+  const appconfig = await tock_fetch_app_config(venue.urlSlug);
+  if (!appconfig || !appconfig.app) {
+    console.log(`Tock Slug ${venue.urlSlug} has no proper appconfig`);
+    return false;
+  }
+  // check if name matches, and if it's operational 
+  if (!venueNameSimilar(appconfig.app.config.business.name, venue.name)) {
+    console.log(`Tock Slug ${venue.urlSlug} has name mismatch : ${appconfig.app.config.business.name} !== ${venue.name}`);
+    return false;
+  }
+  const ticketAvailableUntil =
+    appconfig.app.config.business.ticketsAvailableUntil;
+  const today = dayjs().format("YYYY-MM-DD");
+  return today < ticketAvailableUntil;
+}
+
 async function tock_basic_search_and_validate(
   venuename: string,
   longitude: number,
@@ -98,11 +116,9 @@ async function tock_basic_search_and_validate(
     );
     const entries = result.searchResults;
     for (const entry of entries) {
-      const tockLink = `https://www.exploretock.com/${entry.slug}`;
-      console.log(tockLink);
-      const appconfig = await tock_fetch_app_config(tockLink);
+      const appconfig = await tock_fetch_app_config(entry.slug!);
       if (!appconfig || !appconfig.app) {
-        console.log(`${tockLink} has no proper appconfig`);
+        console.log(`Tock Slug ${entry.slug} has no proper appconfig`);
         continue;
       }
       const ticketAvailableUntil =
@@ -232,7 +248,8 @@ async function puppeteerFetch(url: string): Promise<string> {
   return html;
 }
 
-async function tock_fetch_app_config(tocklink: string): Promise<AppConfig> {
+async function tock_fetch_app_config(tockslug: string): Promise<AppConfig> {
+  const tocklink = `https://www.exploretock.com/${tockslug}`;
   const tockwebsite: string = await puppeteerFetch(tocklink);
   const $ = cheerio.load(tockwebsite);
 

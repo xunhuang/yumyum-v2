@@ -1,7 +1,4 @@
-import { resy_set_venue_to_tbd, resyLists, resyAPILookupByVenueID, resy_calendar, resyAPILookupByVenueID2, venueNameSimilar, validateResyVenueInfo } from "yumutil";
-import { getDistance } from "geolib";
-
-
+import { resyLists, validateResyVenueInfo } from "yumutil";
 
 
 (async function main() {
