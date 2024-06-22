@@ -7,6 +7,7 @@ import {
   tock_support_shutdown,
   validateResyVenueInfo,
   validateTockVenueInfo,
+  validateOpentableVenueInfo,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -23,11 +24,18 @@ async function is_this_tock(venue: any): Promise<boolean> {
   return false;
 }
 async function is_this_opentable(venue: any): Promise<boolean> {
-  return await process_for_opentable(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  const found = await process_for_opentable(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  if (found) {
+    return true;
+  }
+  if (venue.reservation === "opentable") {
+    return await validateOpentableVenueInfo(venue);
+  }
+  return false;
 }
 async function is_this_resy(venue: any): Promise<boolean> {
   // first try to find the venue by the name/address/slug via the search system
-  const found = await process_for_resy(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  const found = await process_for_resy(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
   if (found) {
     return true;
   }
@@ -69,7 +77,6 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
-    const saveChanges = false;
     console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
     const reservation = venue.reservation;
     const func = functionMap[reservation];
@@ -116,10 +123,11 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   console.log("done");
   await tock_support_shutdown();
 })();
-// name: { equalTo: "Noosh" }
+// name: { equalTo: "Noosh" } // closed 
 //  name: { equalTo: "Auberge du Soleil" }
 // reservation: { equalTo: "opentable" }
 // name: { equalTo: "Aubergine" }
+// name: { equalTo: "Bombera" }
 
 async function BayAreaListWithTBD() {
   const query = `
@@ -127,9 +135,8 @@ query MyQuery {
   allVenues(
     filter: {
       metro: { equalTo: "bayarea" }
-      reservation: { equalTo: "tock" }
+      reservation: { in: ["opentable", "resy", "tock", "TBD"] }
       close: { equalTo: false }
-      name: { equalTo: "Lion Dance Cafe" }
     }
   ) {
     totalCount
@@ -150,6 +157,7 @@ query MyQuery {
       city
       region
       reservation
+      businessid
     }
   }
 }`;

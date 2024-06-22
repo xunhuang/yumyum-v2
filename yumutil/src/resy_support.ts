@@ -504,7 +504,6 @@ async function checkIsValidlityByResyVenueIdLookup(venue: any): Promise<boolean>
     }
     if (venue.businessid !== result.businessid) {
       console.log("business id is not the same ******************", venue.businessid, result.businessid);
-      // check if ID are the same....
       // XXX TODO...
       return false;
     }

@@ -18,8 +18,22 @@ interface AppConfig {
       city: string;
       state: string;
     };
+    name?: string;
   };
   authToken?: string;
+}
+
+export async function validateOpentableVenueInfo(venue: any): Promise<boolean> {
+  const appconfig = await opentable_fetchAppConfig(venue.businessid);
+  if (!appconfig?.restaurant?.name) {
+    console.log("No restaurant name found for ", venue.name);
+    return false;
+  }
+  if (!venueNameSimilar(venue.name, appconfig.restaurant.name)) {
+    console.log("restaurant name not similar for ", venue.name, appconfig.restaurant.name);
+    return false;
+  }
+  return await validateOpentableId(venue.businessid);
 }
 
 export async function opentable_set_venue_reservation(
@@ -187,9 +201,20 @@ async function opentable_fetchAppConfig(
   const res = await w.text();
   const $ = cheerio.load(res);
 
-  let scripts = $("#client-initial-state").html() || "no-script let it fail";
-  let appconfig = JSON.parse(scripts);
-  return appconfig;
+  let scripts = $("#client-initial-state").html();
+  if (!scripts) {
+    console.log("no scripts found for ", url);
+    // no config
+    return undefined;
+  }
+  try {
+    let appconfig = JSON.parse(scripts);
+    return appconfig;
+  } catch (error) {
+    console.log("opentable_fetchAppConfig error", businessid);
+    console.error(error);
+  }
+  return undefined;
 }
 
 async function validateOpentableId(opentable_id: string): Promise<boolean> {
