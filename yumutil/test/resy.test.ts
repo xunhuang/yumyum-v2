@@ -1,43 +1,35 @@
 import { describe, expect } from "@jest/globals";
-import { resy_basic_search_and_validate, yumyumGraphQLCall } from "yumutil";
+import dayjs from "dayjs";
+import { newFindReservation, resy_basic_search_and_validate, yumyumGraphQLCall } from "yumutil";
+
+const heirloomCafe = {
+  name: "Heirloom Cafe",
+  city: "San Francisco",
+  address: "2500 Folsom St",
+  latitude: 37.757116,
+  longitude: -122.414713,
+  state: "CA",
+  // to be returned from search 
+  businessid: '7074',
+  urlSlug: 'heirloom-cafe',
+  resyCityCode: 'sf'
+}
 
 describe("resy", () => {
-  // it("resy basic search", async () => {
-  //   const data = {
-  //     name: "Heirloom Cafe",
-  //     city: "San Francisco",
-  //     address: "2500 Folsom St",
-  //     latitude: 37.757116,
-  //     longitude: -122.414713,
-  //     state: "CA",
-  //     // to be returned from search 
-  //     businessid: '7074',
-  //     urlSlug: 'heirloom-cafe',
-  //     resyCityCode: 'sf'
-  //   };
+  it("resy basic search heirloom cafe", async () => {
+    const data = heirloomCafe;
 
-  //   const result = await resy_basic_search_and_validate(data.name,
-  //     data.longitude, data.latitude, data.address);
+    const result = await resy_basic_search_and_validate(data.name,
+      data.longitude, data.latitude, data.address);
 
-  //   expect(result).not.toBeNull();
-  //   expect(result.name).toBe(data.name);
-  //   expect(result.businessid).toBe(data.businessid);
-  //   expect(result.urlSlug).toBe(data.urlSlug);
-  //   expect(result.resyCityCode).toBe(data.resyCityCode);
-  // });
+    expect(result).not.toBeNull();
+    expect(result.name).toBe(data.name);
+    expect(result.businessid).toBe(data.businessid);
+    expect(result.urlSlug).toBe(data.urlSlug);
+    expect(result.resyCityCode).toBe(data.resyCityCode);
+  });
 
-  it("resy basic search marlena", async () => {
-    // const data = {
-    //   "name": "Marlena",
-    //   "urlSlug": "marlena",
-    //   "businessid": "35007",
-    //   "key": "407fbd33-2acc-4e60-9f21-2086c066237c",
-    //   "longitude": -122.4134486,
-    //   "latitude": 37.7467485,
-    //   "region": "California",
-    //   "address": "300 Precita Ave.",
-    //   "resyCityCode": "sf"
-    // };
+  it("resy basic search guesthouse", async () => {
     const data = {
       name: "Guesthouse",
       urlSlug: "guesthouse",
@@ -57,6 +49,16 @@ describe("resy", () => {
     expect(result.businessid).toBe(data.businessid);
     expect(result.urlSlug).toBe(data.urlSlug);
     expect(result.resyCityCode).toBe(data.resyCityCode);
+  });
+  it("resy API - find reservation", async () => {
+    const data = heirloomCafe;
 
+    const result = await newFindReservation(
+      data.businessid,
+      dayjs().add(1, 'day').format('YYYY-MM-DD'),
+      2);
+
+    expect(result).not.toBeNull();
+    expect(result.results?.venues?.length).not.toBeNull();
   });
 });
