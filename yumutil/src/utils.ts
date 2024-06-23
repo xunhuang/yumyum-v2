@@ -156,7 +156,7 @@ mutation MyMutation {
   return json;
 } 
 
-export async function get_standardized_US_address_from_google(address: string, city: string, state: string) {
+export async function get_standardized_US_address_from_google(address: string, city: string, state: string): Promise<string | undefined> {
 
   const baseurl = `https://addressvalidation.googleapis.com/v1:validateAddress?key=${API_KEY}`
   const body = {
@@ -168,5 +168,10 @@ export async function get_standardized_US_address_from_google(address: string, c
 
   const json = await simpleFetchPost(baseurl, JSON.stringify(body));
   const result = JSON.parse(json);
-  return result.result.address.formattedAddress;
+  if (result?.result?.address?.formattedAddress) {
+    return result.result.address.formattedAddress;
+  }
+  console.log("Google search: No formatted address found for ", address, city, state);
+  console.log("Result was", result);
+  return undefined;
 }
