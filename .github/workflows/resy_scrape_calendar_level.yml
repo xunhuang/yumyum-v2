@@ -3,7 +3,7 @@ name: Resy Calendar and Day Level scraping
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0/15 * * * *"
+    - cron: "0/30 * * * *"
 
 jobs:
   setup-build-publish-deploy:
