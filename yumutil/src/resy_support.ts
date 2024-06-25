@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { getDistance } from "geolib";
 import { addressMatch, venueNameSimilar } from "./utils";
 
-const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 3000 });
+const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
 export function resy_calendar_key(slug: string, party_size: number): string {
   return `resy-calendar-${slug}-${party_size}`;
@@ -161,23 +161,24 @@ mutation MyMutation {
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
   const response = await fetch(url, {
-    "headers": {
-      "accept": "application/json, text/plain, */*",
-      "authorization": "ResyAPI api_key=\"VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5\"",
+    headers: {
+      accept: "application/json, text/plain, */*",
+      authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
       "cache-control": "no-cache",
-      "sec-ch-ua": "\"Google Chrome\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+      "sec-ch-ua":
+        '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
       "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": "\"macOS\"",
+      "sec-ch-ua-platform": '"macOS"',
       "x-origin": "https://resy.com",
       "user-agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     },
-    "referrer": "https://resy.com/",
-    "referrerPolicy": "strict-origin-when-cross-origin",
-    "body": null,
-    "method": "GET",
-    "mode": "cors",
-    "credentials": "include"
+    referrer: "https://resy.com/",
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: null,
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
   });
 
   if (response.status !== 200) {
@@ -195,7 +196,7 @@ async function resyAPIFetch(url: string): Promise<any> {
 }
 
 export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
-  // this API call is problematic as 
+  // this API call is problematic as
   // if a venue is not available *TODAY*, it will actually get 500 error
   // need a better alternative
   const url = buildUrl("https://api.resy.com", {
@@ -210,7 +211,10 @@ export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
   });
   return await resyAPIFetch(url);
 }
-export async function resyAPILookupByVenueID2(url_slug: string, location_id: string): Promise<any> {
+export async function resyAPILookupByVenueID2(
+  url_slug: string,
+  location_id: string
+): Promise<any> {
   const url = buildUrl("https://api.resy.com", {
     path: "3/venue",
     queryParams: {
@@ -275,9 +279,9 @@ export async function resy_basic_search_and_validate(
       venueNameSimilar(term, entry.name) ||
       (await resy_address_matched(entry.url_slug, entry.location.id, address))
     ) {
-      console.log('validating', resy_id);
+      console.log("validating", resy_id);
       if (await validateResyId(resy_id)) {
-        console.log('validated', resy_id);
+        console.log("validated", resy_id);
         return makeResult(entry);
       }
     }
@@ -407,26 +411,26 @@ export async function process_for_resy(
   return true;
 }
 
-// This file is to validate existing Resy venue to make sure they are still current.  
+// This file is to validate existing Resy venue to make sure they are still current.
 // Many reason why a venue would not be current
 //   - going out of business
 //   - switched platforms
 //   - manual/earlier mistakes
-// 
+//
 // Other changes can occur over time: resy urlslug may change, resy city code may change
-// 
+//
 // Method for determination
-//  1. search: if I perform a search and can identify the same place. 
-//         however a search may failed for many reasons (name mismatched (Angler vs Angler'SF), wrong 
+//  1. search: if I perform a search and can identify the same place.
+//         however a search may failed for many reasons (name mismatched (Angler vs Angler'SF), wrong
 //         long/lat, wrong street name, or failed usps API etc.
 //  2. if a venue ID's calendar call fails --> bad
 //  3. if a venue ID's find reservation call fails --> bad
 //  4. Lookup by venue ID, same location --> good
 //              this returns long/lat, but not address
-//              this return name, and veneu_group name 
-// 
+//              this return name, and veneu_group name
+//
 // main logic
-//      if (lookupbyID is bad) ==> definitely bad 
+//      if (lookupbyID is bad) ==> definitely bad
 //      if (lookupbyID is good)
 //         if (calendar_call is bad) ==> bad
 //                   (need to sure the call succeceed with a legit json)
@@ -450,10 +454,13 @@ async function getKeyInfoByResyVenueID(businessid: string): Promise<any> {
     url_slug: venue.venue.url_slug,
     resyCityCode: venue.venue.location.code,
     city: venue.venue.location.name,
-  }
+  };
   return response;
 }
-async function getKeyInfoByResyVenueID2(urlslug: string, location_id: string): Promise<any> {
+async function getKeyInfoByResyVenueID2(
+  urlslug: string,
+  location_id: string
+): Promise<any> {
   const result = await resyAPILookupByVenueID2(urlslug, location_id);
   if (!result) {
     return null;
@@ -469,11 +476,13 @@ async function getKeyInfoByResyVenueID2(urlslug: string, location_id: string): P
     resyCityCode: venue.location.code,
     city: venue.location.locality,
     businessid: venue.id.resy.toString(),
-  }
+  };
   return response;
 }
 
-async function checkIsValidlityByResyVenueIdLookup(venue: any): Promise<boolean> {
+async function checkIsValidlityByResyVenueIdLookup(
+  venue: any
+): Promise<boolean> {
   let result = await getKeyInfoByResyVenueID(venue.businessid);
   // const result = await getKeyInfoByResyVenueID2(item.businessid, item.resyCityCode);
   // let result = await getKeyInfoByResyVenueID2(item.urlSlug, "san-francisco-ca");
@@ -485,11 +494,15 @@ async function checkIsValidlityByResyVenueIdLookup(venue: any): Promise<boolean>
   }
 
   if (result) {
-    // slug is not matching..... 
-    console.log("slug is not matching ******************************", venue.urlSlug, result.url_slug);
-    // needs to update the slugs and city code.. 
+    // slug is not matching.....
+    console.log(
+      "slug is not matching ******************************",
+      venue.urlSlug,
+      result.url_slug
+    );
+    // needs to update the slugs and city code..
     // XXX TODO...
-    // but continue.... 
+    // but continue....
   } else {
     result = await getKeyInfoByResyVenueID2(venue.urlSlug, "san-francisco-ca");
     if (!result) {
@@ -497,11 +510,15 @@ async function checkIsValidlityByResyVenueIdLookup(venue: any): Promise<boolean>
       return false;
     }
     if (venue.businessid !== result.businessid) {
-      console.log("business id is not the same ******************", venue.businessid, result.businessid);
+      console.log(
+        "business id is not the same ******************",
+        venue.businessid,
+        result.businessid
+      );
       // XXX TODO...
       return false;
     }
-    // continue..... 
+    // continue.....
   }
 
   const physicaldistance = getDistance(
