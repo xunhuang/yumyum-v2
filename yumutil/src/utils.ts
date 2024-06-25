@@ -175,3 +175,46 @@ export async function get_standardized_US_address_from_google(address: string, c
   console.log("Result was", result);
   return undefined;
 }
+
+// export async function get_google_place_details(place_id: string): Promise<any> {
+//   const baseurl = buildUrl('https://maps.googleapis.com/maps/api/place/details/json', {
+//     queryParams: {
+//       place_id: place_id,
+//       fields: 'name,rating,provider,formatted_phone_number',
+//       key: API_KEY
+//     }
+//   });
+//   const json = await simpleFetchGet(baseurl);
+//   return JSON.parse(json);
+// }
+
+export async function GoogleFindPlaceFromText(input: string): Promise<any> {
+  const baseurl = buildUrl('https://maps.googleapis.com/maps/api/place/findplacefromtext/json', {
+    queryParams: {
+      input: input,
+      inputtype: 'textquery',
+      fields: 'formatted_address,name,rating,opening_hours,geometry,place_id,business_status',
+      key: API_KEY
+    }
+  });
+  const json = await simpleFetchGet(baseurl);
+  return JSON.parse(json);
+}
+
+export async function GoogleIsThisPlaceClosed(name: string, address: string, city: string, state: string): Promise<any> {
+  const searchTerm = `${name} ${address} ${city} ${state}`;
+  const result = await GoogleFindPlaceFromText(searchTerm);
+  console.log(result);
+  if (result.candidates.length !== 1) {
+    return undefined; // unsure
+  }
+  const status = result.candidates[0].business_status;
+  if (status === 'CLOSED_TEMPORARILY') {
+    // rarely a restuarant would come back alive... 
+    return true;
+  }
+  if (status === 'CLOSED_PERMANENTLY') {
+    return true;
+  }
+  return false;
+}

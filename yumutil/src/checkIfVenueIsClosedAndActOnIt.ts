@@ -14,6 +14,9 @@ export async function checkIfVenueIsClosedAndActOnIt(saveChanges: boolean, key: 
   console.log(
     `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "}`
   );
+  if (!result) {
+    return false;
+  }
   if (result.closed === true) {
     console.log(`reference: ${JSON.stringify(result)}`);
     if (saveChanges) {
@@ -24,7 +27,7 @@ export async function checkIfVenueIsClosedAndActOnIt(saveChanges: boolean, key: 
   return false;
 }
 
-async function setVenueToClosed(venue_key: string, reason: string): Promise<any> {
+export async function setVenueToClosed(venue_key: string, reason: string): Promise<any> {
   const escapedReason = reason.replace(/"/g, '\\"');
   const query = `
 mutation MyMutation {

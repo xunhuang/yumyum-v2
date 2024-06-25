@@ -8,6 +8,8 @@ import {
   validateResyVenueInfo,
   validateTockVenueInfo,
   validateOpentableVenueInfo,
+  GoogleIsThisPlaceClosed,
+  setVenueToClosed,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -47,7 +49,15 @@ async function is_this_resy(venue: any): Promise<boolean> {
   return false;
 }
 async function is_this_closed(venue: any): Promise<boolean> {
-  return await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
+  const closed = await GoogleIsThisPlaceClosed(venue.name, venue.address, venue.city, venue.region);
+  if (closed === undefined) {
+    //this means unknown
+    return await checkIfVenueIsClosedAndActOnIt(true, venue.key, venue.name, venue.city, venue.region);
+  }
+  if (closed) {
+    await setVenueToClosed(venue.key, "google places API");
+  }
+  return closed;
 }
 async function is_this_tbd(venue: any): Promise<boolean> {
   return false;
@@ -84,40 +94,13 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
       const found = await func(venue);
       if (found) {
         console.log(`Found ${reservation} for ${venue.name} MATCHING ++++++++++++++++++++++++++++++++++`);
-      } else {
-        console.log(`Found ${reservation} for ${venue.name} NOT MATCHING XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`);
-        const which = await whichReservationSystemIsthis(venue);
-        if (which) {
-          console.log(` need to update ----------------- ${venue.name} -  should be to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
-        }
+        continue;
       }
     }
-    // // const tock_found = await process_for_tock(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
-    // // if (tock_found) {
-    // //   if (venue.reservation !== "tock") {
-    // //     console.log(` need to update ----------------- ${venue.name} - to tock`);
-    // //   }
-    // //   continue;
-    // }
-    // const opentable_found = await process_for_opentable(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    // if (opentable_found) {
-    //   if (venue.reservation !== "opentable") {
-    //     console.log(` need to update ----------------- ${venue.name} - to opentable`);
-    //   }
-    //   continue;
-    // }
-    // const resy_found = await process_for_resy(saveChanges, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
-    // if (resy_found) {
-    //   if (venue.reservation !== "resy") {
-    //     console.log(` need to update ----------------- ${venue.name} - to resy`);
-    //   }
-    //   continue;
-    // }
-    // const closed = await checkIfVenueIsClosedAndActOnIt(saveChanges, venue.key, venue.name, venue.city, venue.region);
-    // if (closed) {
-    //   console.log(` need to update restorant to closed`);
-    //   continue;
-    // }
+    const which = await whichReservationSystemIsthis(venue);
+    if (which) {
+      console.log(` need to update ----------------- ${venue.name} -  should be to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
+    }
   }
 
   console.log("done");
@@ -137,7 +120,7 @@ query MyQuery {
       metro: { equalTo: "bayarea" }
       reservation: { in: ["opentable", "resy", "tock", "TBD"] }
       close: { equalTo: false }
-    }
+
   ) {
     totalCount
     nodes {
