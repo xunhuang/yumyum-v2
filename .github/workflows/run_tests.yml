@@ -6,32 +6,33 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
+
+jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    - uses: google-github-actions/setup-gcloud@v0
-      with:
-        service_account_email: ${{ secrets.GCP_EMAIL }}
-        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-        export_default_credentials: true
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - run:  npm install -g ts-node
+      - run: cd yumutil; npm ci; npm install; npm run build; npm link
+      - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
-    - run: npm ci; npm install 
+      - name: move module over something 
+        run: cd graphql ; cp -r  ../src/generated .; cd ..
 
-    - name: move module over something 
-      run: cd graphql ; cp -r  ../src/generated .; cd ..
+      - name: run yumutil tests
+        run: cd yumutil ; npm ci; npm install; npm test
 
-    - name: run tests
-      run: npm run test
+      - name: run tests on top level
+        run: npm run test
