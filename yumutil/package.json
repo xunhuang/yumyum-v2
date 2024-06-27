@@ -12,11 +12,14 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
     "@types/long": "^5.0.0",
     "@types/node": "^20.14.2",
     "chai": "^5.1.1",
     "long": "^5.2.3",
     "protobufjs": "^7.3.0",
+    "ts-jest": "^29.1.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
