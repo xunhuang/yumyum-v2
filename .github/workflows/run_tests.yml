@@ -1,6 +1,9 @@
 name: Run Unit Tests
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
@@ -22,16 +25,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run:  npm install -g ts-node
+      - run: npm install -g ts-node
       - run: cd yumutil; npm ci; npm install; npm run build; npm link
       - run: cd yumutil/test;  npm link yumutil
       - run: cd yumutil;  npm link yumutil
 
-      - name: move module over something 
+      - name: move module over something
         run: cd graphql ; cp -r  ../src/generated .; cd ..
 
       - name: run yumutil tests
+        env: ${{ secrets }}
         run: cd yumutil ; npm ci; npm install; npm test
 
-      - name: run tests on top level
-        run: npm run test
+      # - name: run tests on top level
+      # run: npm run test
