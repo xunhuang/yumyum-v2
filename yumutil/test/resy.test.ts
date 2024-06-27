@@ -1,6 +1,10 @@
 import { describe, expect } from "@jest/globals";
 import dayjs from "dayjs";
-import { newFindReservation, resy_basic_search_and_validate, yumyumGraphQLCall } from "yumutil";
+import {
+  newFindReservation,
+  resy_basic_search_and_validate,
+  yumyumGraphQLCall,
+} from "../src";
 
 const heirloomCafe = {
   name: "Heirloom Cafe",
@@ -9,18 +13,22 @@ const heirloomCafe = {
   latitude: 37.757116,
   longitude: -122.414713,
   state: "CA",
-  // to be returned from search 
-  businessid: '7074',
-  urlSlug: 'heirloom-cafe',
-  resyCityCode: 'sf'
-}
+  // to be returned from search
+  businessid: "7074",
+  urlSlug: "heirloom-cafe",
+  resyCityCode: "sf",
+};
 
 describe("resy", () => {
   it("resy basic search heirloom cafe", async () => {
     const data = heirloomCafe;
 
-    const result = await resy_basic_search_and_validate(data.name,
-      data.longitude, data.latitude, data.address);
+    const result = await resy_basic_search_and_validate(
+      data.name,
+      data.longitude,
+      data.latitude,
+      data.address
+    );
 
     expect(result).not.toBeNull();
     expect(result.name).toBe(data.name);
@@ -39,11 +47,15 @@ describe("resy", () => {
       latitude: 37.9545644,
       region: "California",
       address: "850 College Ave.",
-      resyCityCode: "mrn"
-    }
+      resyCityCode: "mrn",
+    };
 
-    const result = await resy_basic_search_and_validate(data.name,
-      data.longitude, data.latitude, data.address);
+    const result = await resy_basic_search_and_validate(
+      data.name,
+      data.longitude,
+      data.latitude,
+      data.address
+    );
     expect(result).not.toBeNull();
     expect(result.name).toBe(data.name);
     expect(result.businessid).toBe(data.businessid);
@@ -55,8 +67,9 @@ describe("resy", () => {
 
     const result = await newFindReservation(
       data.businessid,
-      dayjs().add(1, 'day').format('YYYY-MM-DD'),
-      2);
+      dayjs().add(1, "day").format("YYYY-MM-DD"),
+      2
+    );
 
     expect(result).not.toBeNull();
     expect(result.results?.venues?.length).not.toBeNull();

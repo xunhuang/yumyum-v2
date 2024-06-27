@@ -1,5 +1,5 @@
 import { describe, expect } from "@jest/globals";
-import { yumyumGraphQLCall } from "yumutil";
+import { yumyumGraphQLCall } from "../src";
 
 describe("yumyum graphql calls", () => {
   it("basic graphql call for bay area", async () => {
