@@ -10,6 +10,7 @@ import {
   validateOpentableVenueInfo,
   GoogleIsThisPlaceClosed,
   setVenueToClosed,
+  resy_set_venue_to_tbd,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -78,13 +79,11 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   tock: is_this_tock,
   opentable: is_this_opentable,
   resy: is_this_resy,
-  closed: is_this_closed,
-  TBD: is_this_tbd,
+  // TBD: is_this_tbd,
+  // closed: is_this_closed,
 };
 
 (async function main(): Promise<void> {
-  console.log("hello");
-
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
@@ -99,19 +98,23 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
     }
     const which = await whichReservationSystemIsthis(venue);
     if (which) {
-      console.log(` need to update ----------------- ${venue.name} -  should be to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
+      console.log(`updated  ----------------- ${venue.name} to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
+      continue;
     }
+
+    if (await is_this_closed(venue)) {
+      continue;
+    }
+
+    console.log(`out of ideas  ----------------- ${venue.name} to TBD  HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH`);
+    await resy_set_venue_to_tbd(venue.key);
   }
 
   console.log("done");
   await tock_support_shutdown();
 })();
-// name: { equalTo: "Noosh" } // closed 
-//  name: { equalTo: "Auberge du Soleil" }
-// reservation: { equalTo: "opentable" }
-// name: { equalTo: "Aubergine" }
-// name: { equalTo: "Bombera" }
 
+// reservation: { in: [ "TBD"] }
 async function BayAreaListWithTBD() {
   const query = `
 query MyQuery {
@@ -120,7 +123,7 @@ query MyQuery {
       metro: { equalTo: "bayarea" }
       reservation: { in: ["opentable", "resy", "tock", "TBD"] }
       close: { equalTo: false }
-
+    }
   ) {
     totalCount
     nodes {

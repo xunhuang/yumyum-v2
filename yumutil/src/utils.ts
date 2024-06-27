@@ -176,17 +176,6 @@ export async function get_standardized_US_address_from_google(address: string, c
   return undefined;
 }
 
-// export async function get_google_place_details(place_id: string): Promise<any> {
-//   const baseurl = buildUrl('https://maps.googleapis.com/maps/api/place/details/json', {
-//     queryParams: {
-//       place_id: place_id,
-//       fields: 'name,rating,provider,formatted_phone_number',
-//       key: API_KEY
-//     }
-//   });
-//   const json = await simpleFetchGet(baseurl);
-//   return JSON.parse(json);
-// }
 
 export async function GoogleFindPlaceFromText(input: string): Promise<any> {
   const baseurl = buildUrl('https://maps.googleapis.com/maps/api/place/findplacefromtext/json', {
@@ -200,6 +189,19 @@ export async function GoogleFindPlaceFromText(input: string): Promise<any> {
   const json = await simpleFetchGet(baseurl);
   return JSON.parse(json);
 }
+
+export async function get_google_place_details(place_id: string): Promise<any> {
+  const baseurl = buildUrl('https://maps.googleapis.com/maps/api/place/details/json', {
+    queryParams: {
+      place_id: place_id,
+      fields: 'name,reservable,formatted_phone_number',
+      key: API_KEY
+    }
+  });
+  const json = await simpleFetchGet(baseurl);
+  return JSON.parse(json);
+}
+
 
 export async function GoogleIsThisPlaceClosed(name: string, address: string, city: string, state: string): Promise<any> {
   const searchTerm = `${name} ${address} ${city} ${state}`;
@@ -216,5 +218,12 @@ export async function GoogleIsThisPlaceClosed(name: string, address: string, cit
   if (status === 'CLOSED_PERMANENTLY') {
     return true;
   }
+
+  const place_id = result.candidates[0].place_id;
+  const details = await get_google_place_details(place_id);
+  console.log(details);
+  // if (details.result.reservable) {
+  //   return false;
+  // }
   return false;
 }
