@@ -1,4 +1,4 @@
-import { resy_calendar_key, resyLists, newFindReservation, resy_day_key, saveToRedisWithChunking, getRedis } from "yumutil";
+import { resy_calendar_key, resyLists, resy_day_key, saveToRedisWithChunking, getRedis, resyFindReservation } from "yumutil";
 
 const redis = getRedis();
 
@@ -80,7 +80,7 @@ const redis = getRedis();
       const answers: Record<string, any> = {};
       for (const e of groupedAvail[k]) {
         console.log(e);
-        const reservation = await newFindReservation(
+        const reservation = await resyFindReservation(
           e.venue_id,
           e.date,
           e.party_size

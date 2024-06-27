@@ -60,7 +60,7 @@ mutation MyMutation {
   return json;
 }
 
-async function process_for_opentable(
+export async function process_for_opentable(
   saveChanges: boolean,
   key: string,
   name: string,
@@ -84,9 +84,8 @@ async function process_for_opentable(
   }
   return true;
 }
-export { process_for_opentable };
 
-async function opentable_basic_search_and_validate(
+export async function opentable_basic_search_and_validate(
   term: string,
   longitude: number,
   latitude: number,
@@ -97,9 +96,9 @@ async function opentable_basic_search_and_validate(
   for (const entry of result) {
     const opentable_id = entry.id;
 
-    console.log(entry)
-    console.log(longitude, latitude);
-    console.log(address);
+    // console.log(entry)
+    // console.log(longitude, latitude);
+    // console.log(address);
 
     // distance in meters
     const distance = getDistance(
@@ -108,23 +107,23 @@ async function opentable_basic_search_and_validate(
     );
 
     if (distance > 3500) {
-      console.log("got", entry.name, "too far ", distance);
+      // console.log("got", entry.name, "too far ", distance);
       continue;
     }
 
-    console.log("close enough", distance);
+    // console.log("close enough", distance);
 
     if (venueNameSimilar(term, entry.name)) {
-      console.log("name matched for ", term, entry.name);
+      // console.log("name matched for ", term, entry.name);
       if (await validateOpentableId(opentable_id)) {
         return opentable_id;
       }
     }
-    console.log("name not matched for ", term, entry.name);
+    // console.log("name not matched for ", term, entry.name);
 
     // maybe check address
     const appConfig = await opentable_fetchAppConfig(opentable_id);
-    console.log(appConfig?.restaurant?.address);
+    // console.log(appConfig?.restaurant?.address);
     const location = appConfig?.restaurant?.address;
     if (location) {
       if (
@@ -135,7 +134,7 @@ async function opentable_basic_search_and_validate(
           location.state
         )
       ) {
-        console.log("Address matched for ", term, entry.name);
+        // console.log("Address matched for ", term, entry.name);
         if (await validateOpentableId(opentable_id)) {
           return opentable_id;
         }
@@ -146,7 +145,7 @@ async function opentable_basic_search_and_validate(
   return null;
 }
 
-async function opentable_basic_search(
+export async function opentable_basic_search(
   term: string,
   longitude: number,
   latitude: number
@@ -219,7 +218,7 @@ async function opentable_fetchAppConfig(
 
 async function validateOpentableId(opentable_id: string): Promise<boolean> {
   const sevenDaysFromNow = dayjs().add(7, "day").format("YYYY-MM-DD");
-  const result = await opentable_reservation_search(
+  const result = await opentableFindReservation(
     opentable_id,
     sevenDaysFromNow,
     2,
@@ -250,7 +249,7 @@ async function fetchAuthToken(): Promise<string> {
   return opentable_auth_token!;
 }
 
-async function opentable_reservation_search(
+export async function opentableFindReservation(
   businessid: string,
   date: string,
   party_size: number,

@@ -62,7 +62,7 @@ nodes {
   return json.data.allVenues.nodes[0];
 }
 
-export async function newFindReservation(
+export async function resyFindReservation(
   venue_id: string,
   date: string,
   party_size: number

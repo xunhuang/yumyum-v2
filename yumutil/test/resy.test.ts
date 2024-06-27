@@ -1,9 +1,8 @@
 import { describe, expect } from "@jest/globals";
 import dayjs from "dayjs";
 import {
-  newFindReservation,
+  resyFindReservation,
   resy_basic_search_and_validate,
-  yumyumGraphQLCall,
 } from "../src";
 
 const heirloomCafe = {
@@ -65,7 +64,7 @@ describe("resy", () => {
   it("resy API - find reservation", async () => {
     const data = heirloomCafe;
 
-    const result = await newFindReservation(
+    const result = await resyFindReservation(
       data.businessid,
       dayjs().add(1, "day").format("YYYY-MM-DD"),
       2
