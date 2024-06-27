@@ -50,17 +50,11 @@ async function is_this_resy(venue: any): Promise<boolean> {
   return false;
 }
 async function is_this_closed(venue: any): Promise<boolean> {
-  const closed = await GoogleIsThisPlaceClosed(venue.name, venue.address, venue.city, venue.region);
-  if (closed === undefined) {
-    //this means unknown
-    return await checkIfVenueIsClosedAndActOnIt(true, venue.key, venue.name, venue.city, venue.region);
+  const isGoogleClosed = await GoogleIsThisPlaceClosed(venue.name, venue.address, venue.city, venue.region);
+  const isPerplexityClosed = await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
+  if (isGoogleClosed || isPerplexityClosed) {
+    await setVenueToClosed(venue.key, isGoogleClosed ? "google places API" : "perplexity");
   }
-  if (closed) {
-    await setVenueToClosed(venue.key, "google places API");
-  }
-  return closed;
-}
-async function is_this_tbd(venue: any): Promise<boolean> {
   return false;
 }
 
@@ -79,8 +73,6 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   tock: is_this_tock,
   opentable: is_this_opentable,
   resy: is_this_resy,
-  // TBD: is_this_tbd,
-  // closed: is_this_closed,
 };
 
 (async function main(): Promise<void> {
@@ -114,14 +106,13 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   await tock_support_shutdown();
 })();
 
-// reservation: { in: [ "TBD"] }
 async function BayAreaListWithTBD() {
   const query = `
 query MyQuery {
   allVenues(
     filter: {
-      metro: { equalTo: "bayarea" }
       reservation: { in: ["opentable", "resy", "tock", "TBD"] }
+      metro: { equalTo: "bayarea" }
       close: { equalTo: false }
     }
   ) {
