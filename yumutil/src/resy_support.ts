@@ -104,9 +104,6 @@ async function resy_find_location_details(
       },
     })
   );
-  console.log("slug -------------------------------");
-  // console.log("location", location);
-  // console.log(result);
   return result?.location;
 }
 
@@ -258,7 +255,7 @@ export async function resy_basic_search_and_validate(
   const result = await resy_basic_search(term, longitude, latitude);
 
   for (const entry of result) {
-    console.log("checking", entry.name);
+    // console.log("checking", entry.name);
 
     const resy_id = entry.id.resy;
     const entryLongitude = entry._geoloc.lng;
@@ -270,22 +267,22 @@ export async function resy_basic_search_and_validate(
     );
 
     if (distance > 3500) {
-      console.log("got", entry.name, "too far ", distance);
+      // console.log("got", entry.name, "too far ", distance);
       continue;
     }
 
-    console.log("got", entry.name, "close enough", distance);
+    // console.log("got", entry.name, "close enough", distance);
     if (
       venueNameSimilar(term, entry.name) ||
       (await resy_address_matched(entry.url_slug, entry.location.id, address))
     ) {
-      console.log("validating", resy_id);
+      // console.log("validating", resy_id);
       if (await validateResyId(resy_id)) {
-        console.log("validated", resy_id);
+        // console.log("validated", resy_id);
         return makeResult(entry);
       }
     }
-    console.log("neither name nor address matched, passing", term, entry.name);
+    // console.log("neither name nor address matched, passing", term, entry.name);
   }
   return null;
 }
@@ -297,8 +294,8 @@ async function resy_address_matched(
 ): Promise<boolean> {
   const location = await resy_find_location_details(url_slug, location_id);
   if (location) {
-    console.log("location", location.address_1);
-    console.log("compared to location", address);
+    // console.log("location", location.address_1);
+    // console.log("compared to location", address);
     return addressMatch(
       location.address_1,
       address,
@@ -311,7 +308,7 @@ async function resy_address_matched(
 
 async function validateResyId(resy_id: string): Promise<boolean> {
   const calendar = await resy_calendar(resy_id, 2, "any", 30);
-  console.log("calendar", calendar);
+  // console.log("calendar", calendar);
   return calendar && calendar.last_calendar_day !== null;
 }
 
@@ -396,10 +393,10 @@ export async function process_for_resy(
     address
   );
   if (!result) {
-    console.log(name, "resy not found");
+    // console.log(name, "resy not found");
     return false;
   }
-  console.log("resy found", result);
+  // console.log("resy found", result);
   if (saveChanges) {
     await resy_set_venue_reservation(
       key,
@@ -440,7 +437,6 @@ export async function process_for_resy(
 
 async function getKeyInfoByResyVenueID(businessid: string): Promise<any> {
   const result = await resyAPILookupByVenueID(businessid);
-  // console.log(result);
   if (!result || result.results.venues.length === 0) {
     return null;
   }
@@ -489,32 +485,32 @@ async function checkIsValidlityByResyVenueIdLookup(
 
   if (result && venue.urlSlug === result.url_slug) {
     // same slug ---- good, who would use other's companie's slug?
-    console.log("same slug ******************************", venue.name);
+    // console.log("same slug ******************************", venue.name);
     return true;
   }
 
   if (result) {
     // slug is not matching.....
-    console.log(
-      "slug is not matching ******************************",
-      venue.urlSlug,
-      result.url_slug
-    );
+    // console.log(
+    //   "slug is not matching ******************************",
+    //   venue.urlSlug,
+    //   result.url_slug
+    // );
     // needs to update the slugs and city code..
     // XXX TODO...
     // but continue....
   } else {
     result = await getKeyInfoByResyVenueID2(venue.urlSlug, "san-francisco-ca");
     if (!result) {
-      console.log("no result after 2 searches ****************** for", venue);
+      // console.log("no result after 2 searches ****************** for", venue);
       return false;
     }
     if (venue.businessid !== result.businessid) {
-      console.log(
-        "business id is not the same ******************",
-        venue.businessid,
-        result.businessid
-      );
+      // console.log(
+      //   "business id is not the same ******************",
+      //   venue.businessid,
+      //   result.businessid
+      // );
       // XXX TODO...
       return false;
     }
@@ -528,16 +524,16 @@ async function checkIsValidlityByResyVenueIdLookup(
 
   if (physicaldistance > 100000) {
     // 10Km istoo far away
-    console.log("way too far ", venue.name, physicaldistance);
+    // console.log("way too far ", venue.name, physicaldistance);
     return false;
   }
 
   if (venueNameSimilar(venue.name, result.name)) {
-    console.log("name similar ", venue.name, result.name);
+    // console.log("name similar ", venue.name, result.name);
     return true;
   }
   if (venueNameSimilar(venue.name, result.groupname)) {
-    console.log("group name similar ", venue.name, result.groupname);
+    // console.log("group name similar ", venue.name, result.groupname);
     return true;
   }
 
@@ -547,14 +543,14 @@ async function checkIsValidlityByResyVenueIdLookup(
 export async function validateResyVenueInfo(venue: any): Promise<boolean> {
   const valid = await checkIsValidlityByResyVenueIdLookup(venue);
   if (!valid) {
-    console.log("BADBADBAD ******************", venue.name);
+    // console.log("BADBADBAD ******************", venue.name);
     return false;
   }
   const calendar = await resy_calendar(venue.businessid, 2, venue.name, 30);
   if (calendar && calendar.last_calendar_day !== null) {
-    console.log("good ******************", venue.name);
+    // console.log("good ******************", venue.name);
   } else {
-    console.log("bad ******************", venue.name);
+    // console.log("bad ******************", venue.name);
     return false;
   }
   return true;
