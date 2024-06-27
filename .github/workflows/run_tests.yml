@@ -6,8 +6,6 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-
-jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
