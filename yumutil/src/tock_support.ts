@@ -14,10 +14,11 @@ import {
   serializeMsgToProto,
 } from "./tockRequestMsg";
 import { addressMatch, venueNameSimilar } from "./utils";
+import { TockSearchResponse_ResponseRow } from "./TockRequests";
 puppeteer.use(StealthPlugin());
 
-var browser: Browser;
-var browserPage: Page;
+var browser: Browser | undefined;
+var browserPage: Page | undefined;
 
 async function getBrowerPageSingleton(): Promise<Page> {
   if (!browserPage) {
@@ -43,6 +44,8 @@ async function getBrowerPageSingleton(): Promise<Page> {
 export async function tock_support_shutdown(): Promise<void> {
   if (browser) {
     await browser.close();
+    browser = undefined;
+    browserPage = undefined; 
   }
 }
 
@@ -76,6 +79,8 @@ export async function process_for_tock(
   }
   return true;
 }
+
+
 interface TockSearchResult {
   businessid: string;
   slug: string;
@@ -99,7 +104,7 @@ export async function validateTockVenueInfo(venue: any): Promise<boolean> {
   return today < ticketAvailableUntil;
 }
 
-async function tock_basic_search_and_validate(
+export async function tock_basic_search_and_validate(
   venuename: string,
   longitude: number,
   latitude: number,
@@ -107,14 +112,12 @@ async function tock_basic_search_and_validate(
   city: string,
   state: string
 ): Promise<TockSearchResult | null> {
-  const page = await getBrowerPageSingleton();
-  const result = await tock_basic_search(page, venuename, longitude, latitude);
-  console.log(result?.searchResults.map((r) => `${r.name},  ${r.slug},${r.city}`).join("\n"));
-  if (result && result.searchResults && result.searchResults.length > 0) {
-    console.log(
-      `found ${result.searchResults.length} results for ${venuename} ------------------------`
-    );
-    const entries = result.searchResults;
+  const searchResults = await tock_basic_search(venuename, longitude, latitude);
+  if (searchResults && searchResults.length > 0) {
+    // console.log(
+    //   `found ${searchResults.length} results for ${venuename} ------------------------`
+    // );
+    const entries = searchResults;
     for (const entry of entries) {
       const appconfig = await tock_fetch_app_config(entry.slug!);
       if (!appconfig?.app?.config?.business) {
@@ -127,8 +130,8 @@ async function tock_basic_search_and_validate(
       // console.log(appconfig.app.config.business);
       const today = dayjs().format("YYYY-MM-DD");
       if (today < ticketAvailableUntil) {
-        console.log(`ticket available for ${venuename}`);
-        console.log(" tock FOUND real candidate on tock ", entry.name, entry.slug, entry.city);
+        // console.log(`ticket available for ${venuename}`);
+        // console.log(" tock FOUND real candidate on tock ", entry.name, entry.slug, entry.city);
 
         const businessid = appconfig.app.config.business.id;
         const slug = appconfig.app.config.business.domainName;
@@ -178,12 +181,12 @@ async function tock_basic_search_and_validate(
   return null;
 }
 
-async function tock_basic_search(
-  page: Page,
+export async function tock_basic_search(
   term: string,
   longitude: number,
   latitude: number
-) {
+): Promise<TockSearchResponse_ResponseRow[] | undefined> {
+  const page = await getBrowerPageSingleton();
   const requestdata = newTockSearchRequest(term, longitude, latitude);
   const proto = serializeMsgToProto(requestdata);
   const protoBase64 = Buffer.from(proto).toString("base64");
@@ -224,8 +227,9 @@ async function tock_basic_search(
   }, protoBase64);
   const binaryResponse = Buffer.from(response, "base64");
   const final = deserializeTockSearchResponseProtoToMsg(binaryResponse);
-  return final.r1?.r2?.r3;
+  return final.r1?.r2?.r3?.searchResults;
 }
+
 interface AppConfig {
   // Define the structure of AppConfig based on what you expect from $REDUX_STATE
   [key: string]: any; // This is a generic definition, specify more detailed properties as needed
