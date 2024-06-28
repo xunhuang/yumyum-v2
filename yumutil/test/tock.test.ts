@@ -20,7 +20,7 @@ const testcase = {
   "region": "California"
 };
 
-describe("tock", () => {
+describe("tock base API", () => {
   it("tock_basic_entity_search_return_candidates", async () => {
     const data = testcase;
     const search_results = await tock_basic_search(
@@ -43,20 +43,6 @@ describe("tock", () => {
     )).toBe(true);
   }, 10000);
 
-  it("tock_basic_entity_search_and_validate", async () => {
-    const data = testcase;
-    const tock_result = await tock_basic_search_and_validate(
-      data.name,
-      data.longitude,
-      data.latitude,
-      data.address,
-      data.city,
-      data.region
-    );
-    expect(tock_result?.slug).toBe(data.urlSlug);
-    expect(tock_result?.businessid.toString()).toBe(data.businessid);
-  }, 10000);
-
   it("tock_calendar", async () => {
     const data = testcase;
     const tock_result = await tockFindCalendarForVenue(
@@ -71,6 +57,26 @@ describe("tock", () => {
     const bad_result = await tockFindCalendarForVenue("badslug");
     expect(bad_result).toBeUndefined();
   }, 15000);
+
+  afterAll(async () => {
+    await browserPageShutdown();
+  });
+});
+
+describe("tock yumyum app API", () => {
+  it("tock_basic_entity_search_and_validate", async () => {
+    const data = testcase;
+    const tock_result = await tock_basic_search_and_validate(
+      data.name,
+      data.longitude,
+      data.latitude,
+      data.address,
+      data.city,
+      data.region
+    );
+    expect(tock_result?.slug).toBe(data.urlSlug);
+    expect(tock_result?.businessid.toString()).toBe(data.businessid);
+  }, 10000);
 
   afterAll(async () => {
     await browserPageShutdown();

@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
 import dayjs from "dayjs";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
-import { getBrowerPageSingleton, puppeteerFetch } from "./browser_page";
+import { getBrowerPageSingleton, getNewBrowerPage, puppeteerFetch } from "./browser_page";
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
@@ -271,7 +271,7 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
     postProcessingComplete = resolve;
   });
 
-  const page = await getBrowerPageSingleton();
+  const page = await getNewBrowerPage();
   await page.setRequestInterception(true);
   page.on("request", request_processing);
   page.on("response", async (response) => {
