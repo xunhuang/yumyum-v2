@@ -1,10 +1,11 @@
 import { describe, expect } from "@jest/globals";
 import dayjs from "dayjs";
 import {
+  browserPageShutdown,
+  tockFindCalendarForVenue,
   tock_basic_search,
   tock_basic_search_and_validate,
   tock_fetch_app_config,
-  tock_support_shutdown,
   venueNameSimilar,
 } from "../src";
 
@@ -56,24 +57,22 @@ describe("tock", () => {
     expect(tock_result?.businessid.toString()).toBe(data.businessid);
   }, 10000);
 
+  it("tock_calendar", async () => {
+    const data = testcase;
+    const tock_result = await tockFindCalendarForVenue(
+      data.urlSlug,
+    );
+    expect(tock_result).toBeDefined();
+    expect(tock_result).not.toBeNull();
+    expect(() => JSON.parse(tock_result as string)).not.toThrow();
+  }, 10000);
+
+  it("tock_calendar_bad_slug", async () => {
+    const bad_result = await tockFindCalendarForVenue("badslug");
+    expect(bad_result).toBeUndefined();
+  }, 15000);
+
   afterAll(async () => {
-    await tock_support_shutdown();
+    await browserPageShutdown();
   });
-
-  // it("opentable_API_find_reservation", async () => {
-  //   const data = testcase;
-  //   const date = dayjs().add(1, "day").format("YYYY-MM-DD");
-
-  //   const result = await opentableFindReservation(
-  //     data.businessid,
-  //     date,
-  //     2,
-  //     "dinner"
-  //   );
-
-  //   expect(result).not.toBeNull();
-  //   expect(result.availability).toBeDefined();
-  //   expect(result.availability.error).not.toBeDefined();
-  //   expect(result.availability[date]).toBeDefined();
-  // });
 });

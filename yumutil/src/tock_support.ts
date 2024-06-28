@@ -285,16 +285,21 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
   const date = dayjs().format("YYYY-MM-DD");
   const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
 
-  console.log(`going to ${url}`);
+  // console.log(`going to ${url}`);
   try {
     await page.goto(url);
   } catch (e) {
     return undefined;
   }
 
+  const timeoutPromise = new Promise(resolve => {
+    const timer = setTimeout(() => resolve(undefined), 10000);
+    postProcessingPromise.then(() => clearTimeout(timer));
+  });
+
   const result = await Promise.race([
     postProcessingPromise,
-    new Promise(resolve => setTimeout(resolve, 10000))
+    timeoutPromise
   ]);
 
   return result as string | undefined;
