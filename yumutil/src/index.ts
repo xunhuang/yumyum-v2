@@ -2,6 +2,7 @@ export * from "./yumyumGraphQLCall";
 export * from "./tockRequestMsg";
 export * from "./utils";
 export * from "./checkIfVenueIsClosedAndActOnIt";
+export * from "./browser_page";
 export * from "./opentable_support";
 export * from "./resy_support";
 export * from "./tock_support";

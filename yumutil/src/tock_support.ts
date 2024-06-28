@@ -1,8 +1,8 @@
 import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
-import { Browser, Page, executablePath } from "puppeteer";
 import dayjs from "dayjs";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
+import { getBrowerPageSingleton, puppeteerFetch } from "./browser_page";
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
@@ -16,38 +16,6 @@ import {
 import { addressMatch, venueNameSimilar } from "./utils";
 import { TockSearchResponse_ResponseRow } from "./TockRequests";
 puppeteer.use(StealthPlugin());
-
-var browser: Browser | undefined;
-var browserPage: Page | undefined;
-
-async function getBrowerPageSingleton(): Promise<Page> {
-  if (!browserPage) {
-    browser = await puppeteer.launch({
-      executablePath: executablePath(),
-      // headless: false,
-      headless: true,
-    });
-    const page = await browser.newPage();
-    const url = `https://www.exploretock.com`;
-    try { 
-      await page.goto(url);
-    } catch (error) {
-      console.error(`Error fetching URL: ${url}`, error);
-      throw error;
-    }
-    browserPage = page;
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-  }
-  return browserPage;
-}
-
-export async function tock_support_shutdown(): Promise<void> {
-  if (browser) {
-    await browser.close();
-    browser = undefined;
-    browserPage = undefined; 
-  }
-}
 
 export async function process_for_tock(
   saveChanges: boolean,
@@ -235,23 +203,6 @@ interface AppConfig {
   [key: string]: any; // This is a generic definition, specify more detailed properties as needed
 }
 
-async function puppeteerFetch(url: string): Promise<string> {
-  const page = await getBrowerPageSingleton();
-  // const browser = await puppeteer.launch({
-  //   executablePath: executablePath(),
-  //   headless: true,
-  // });
-  try {
-    await page.goto(url);
-  } catch (error) {
-    console.error(`Error fetching URL: ${url}`, error);
-    throw error;
-  }
-  const html = await page.content();
-  // await browser.close();
-  return html;
-}
-
 export async function tock_fetch_app_config(tockslug: string): Promise<AppConfig> {
   const tocklink = `https://www.exploretock.com/${tockslug}`;
   const tockwebsite: string = await puppeteerFetch(tocklink);
@@ -294,4 +245,57 @@ mutation MyMutation {
 `;
   const json = await yumyumGraphQLCall(query);
   return json;
+}
+
+
+export async function tockFindCalendarForVenue(slug: string): Promise<string | undefined> {
+  const request_processing = (request: any): void => {
+    if (request.url().includes("calendar")) {
+      const requestParams: any = {
+        method: request.method(),
+        postData: request.postData(),
+        headers: {
+          ...request.headers(),
+          accept: "application/json",
+        }
+      };
+      request.continue(requestParams);
+      return;
+    }
+    request.continue();
+  };
+
+  // Create a signal to wait for post-processing to complete
+  let postProcessingComplete: (value: unknown) => void;
+  const postProcessingPromise = new Promise(resolve => {
+    postProcessingComplete = resolve;
+  });
+
+  const page = await getBrowerPageSingleton();
+  await page.setRequestInterception(true);
+  page.on("request", request_processing);
+  page.on("response", async (response) => {
+    if (response.url().includes("calendar")) {
+      const text = await response.text();
+      postProcessingComplete(text);
+    }
+  }
+  );
+
+  const date = dayjs().format("YYYY-MM-DD");
+  const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
+
+  console.log(`going to ${url}`);
+  try {
+    await page.goto(url);
+  } catch (e) {
+    return undefined;
+  }
+
+  const result = await Promise.race([
+    postProcessingPromise,
+    new Promise(resolve => setTimeout(resolve, 10000))
+  ]);
+
+  return result as string | undefined;
 }
