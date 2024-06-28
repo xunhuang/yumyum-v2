@@ -252,7 +252,7 @@ async function puppeteerFetch(url: string): Promise<string> {
   return html;
 }
 
-async function tock_fetch_app_config(tockslug: string): Promise<AppConfig> {
+export async function tock_fetch_app_config(tockslug: string): Promise<AppConfig> {
   const tocklink = `https://www.exploretock.com/${tockslug}`;
   const tockwebsite: string = await puppeteerFetch(tocklink);
   const $ = cheerio.load(tockwebsite);

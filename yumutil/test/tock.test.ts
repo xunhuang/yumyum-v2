@@ -3,7 +3,9 @@ import dayjs from "dayjs";
 import {
   tock_basic_search,
   tock_basic_search_and_validate,
+  tock_fetch_app_config,
   tock_support_shutdown,
+  venueNameSimilar,
 } from "../src";
 
 const testcase = {
@@ -28,6 +30,16 @@ describe("tock", () => {
     expect(search_results).toBeDefined();
     expect(search_results).not.toBeNull();
     expect(search_results?.length).toBeGreaterThan(0);
+  }, 10000);
+
+  it("tock_fetch_app_config", async () => {
+    const data = testcase;
+    const appConfig = await tock_fetch_app_config(data.urlSlug);
+    expect(appConfig?.app?.config?.business).toBeDefined();
+    expect(venueNameSimilar(
+      appConfig?.app?.config?.business?.name,
+      data.name
+    )).toBe(true);
   }, 10000);
 
   it("tock_basic_entity_search_and_validate", async () => {
