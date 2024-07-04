@@ -4,22 +4,31 @@ import {
   process_for_resy,
   process_for_tock,
   checkIfVenueIsClosedAndActOnIt,
-  tock_support_shutdown,
   validateResyVenueInfo,
   validateTockVenueInfo,
   validateOpentableVenueInfo,
   GoogleIsThisPlaceClosed,
   setVenueToClosed,
   resy_set_venue_to_tbd,
+  browserPageShutdown,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
   // const found = await process_for_tock(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
-  const found = await process_for_tock(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
+  const found = await process_for_tock(
+    true,
+    venue.key,
+    venue.name,
+    venue.longitude,
+    venue.latitude,
+    venue.address,
+    venue.city,
+    venue.region
+  );
   if (found) {
     return true;
   }
-  // not found via search, let's use existing info to see 
+  // not found via search, let's use existing info to see
   // if it's still tock, functional and same name given the same tock slug
   if (venue.reservation === "tock") {
     return await validateTockVenueInfo(venue);
@@ -27,7 +36,14 @@ async function is_this_tock(venue: any): Promise<boolean> {
   return false;
 }
 async function is_this_opentable(venue: any): Promise<boolean> {
-  const found = await process_for_opentable(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  const found = await process_for_opentable(
+    true,
+    venue.key,
+    venue.name,
+    venue.longitude,
+    venue.latitude,
+    venue.address
+  );
   if (found) {
     return true;
   }
@@ -38,7 +54,14 @@ async function is_this_opentable(venue: any): Promise<boolean> {
 }
 async function is_this_resy(venue: any): Promise<boolean> {
   // first try to find the venue by the name/address/slug via the search system
-  const found = await process_for_resy(true, venue.key, venue.name, venue.longitude, venue.latitude, venue.address);
+  const found = await process_for_resy(
+    true,
+    venue.key,
+    venue.name,
+    venue.longitude,
+    venue.latitude,
+    venue.address
+  );
   if (found) {
     return true;
   }
@@ -50,15 +73,31 @@ async function is_this_resy(venue: any): Promise<boolean> {
   return false;
 }
 async function is_this_closed(venue: any): Promise<boolean> {
-  const isGoogleClosed = await GoogleIsThisPlaceClosed(venue.name, venue.address, venue.city, venue.region);
-  const isPerplexityClosed = await checkIfVenueIsClosedAndActOnIt(false, venue.key, venue.name, venue.city, venue.region);
+  const isGoogleClosed = await GoogleIsThisPlaceClosed(
+    venue.name,
+    venue.address,
+    venue.city,
+    venue.region
+  );
+  const isPerplexityClosed = await checkIfVenueIsClosedAndActOnIt(
+    false,
+    venue.key,
+    venue.name,
+    venue.city,
+    venue.region
+  );
   if (isGoogleClosed || isPerplexityClosed) {
-    await setVenueToClosed(venue.key, isGoogleClosed ? "google places API" : "perplexity");
+    await setVenueToClosed(
+      venue.key,
+      isGoogleClosed ? "google places API" : "perplexity"
+    );
   }
   return false;
 }
 
-async function whichReservationSystemIsthis(venue: any): Promise<string | null> {
+async function whichReservationSystemIsthis(
+  venue: any
+): Promise<string | null> {
   for (const key in functionMap) {
     const func = functionMap[key];
     const found = await func(venue);
@@ -78,19 +117,25 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 (async function main(): Promise<void> {
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
-    console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
+    console.log(
+      `Searching for ${venue.name} - ${venue.address} ****************************************************************`
+    );
     const reservation = venue.reservation;
     const func = functionMap[reservation];
     if (func) {
       const found = await func(venue);
       if (found) {
-        console.log(`Found ${reservation} for ${venue.name} MATCHING ++++++++++++++++++++++++++++++++++`);
+        console.log(
+          `Found ${reservation} for ${venue.name} MATCHING ++++++++++++++++++++++++++++++++++`
+        );
         continue;
       }
     }
     const which = await whichReservationSystemIsthis(venue);
     if (which) {
-      console.log(`updated  ----------------- ${venue.name} to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`);
+      console.log(
+        `updated  ----------------- ${venue.name} to ${which}  YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY`
+      );
       continue;
     }
 
@@ -98,12 +143,14 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
       continue;
     }
 
-    console.log(`out of ideas  ----------------- ${venue.name} to TBD  HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH`);
+    console.log(
+      `out of ideas  ----------------- ${venue.name} to TBD  HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH`
+    );
     await resy_set_venue_to_tbd(venue.key);
   }
 
   console.log("done");
-  await tock_support_shutdown();
+  await browserPageShutdown();
 })();
 
 async function BayAreaListWithTBD() {
