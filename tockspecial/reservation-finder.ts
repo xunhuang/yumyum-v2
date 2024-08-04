@@ -11,6 +11,7 @@ import {
   setVenueToClosed,
   resy_set_venue_to_tbd,
   browserPageShutdown,
+  tock_fetch_app_config,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -115,6 +116,10 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 };
 
 (async function main(): Promise<void> {
+  const appconfig = await tock_fetch_app_config("seventhanddolores");
+  console.log(appconfig.app.config);
+  // process.exit(0);
+  return;
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     console.log(
@@ -160,6 +165,7 @@ query MyQuery {
     filter: {
       reservation: { in: ["opentable", "resy", "tock", "TBD"] }
       metro: { equalTo: "bayarea" }
+      name: { equalTo: "Seventh & Dolores" }
       close: { equalTo: false }
     }
   ) {
