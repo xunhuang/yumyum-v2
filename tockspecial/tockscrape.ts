@@ -74,7 +74,9 @@ const response_processing = async (response: HTTPResponse): Promise<void> => {
       console.log(text.slice(0, 220));
       GlobalResults[slug] = text;
 
-      const calendar: { result: CalendarResult } = JSON.parse(GlobalResults[slug]!);
+      const calendar: { result: CalendarResult } = JSON.parse(
+        GlobalResults[slug]!
+      );
 
       if (
         calendar &&
@@ -110,7 +112,7 @@ const request_processing = (request: HTTPRequest): void => {
       headers: {
         ...request.headers(),
         accept: "application/json",
-      }
+      },
     };
     request.continue(requestParams);
     return;
@@ -123,10 +125,13 @@ const request_processing = (request: HTTPRequest): void => {
     const tockdata = await tockDbData();
     const BayAreaSlugs = tockdata.map((v) => v.urlSlug);
 
-    GlobalSlugMap = tockdata.reduce((acc: GlobalSlugMapType, element: Venue) => {
-      acc[element.urlSlug] = element;
-      return acc;
-    }, {});
+    GlobalSlugMap = tockdata.reduce(
+      (acc: GlobalSlugMapType, element: Venue) => {
+        acc[element.urlSlug] = element;
+        return acc;
+      },
+      {}
+    );
 
     await scrapeTockList(BayAreaSlugs);
     console.log("all done - saving to redis may continue before exiting");
@@ -135,7 +140,10 @@ const request_processing = (request: HTTPRequest): void => {
   }
 })();
 
-async function saveToRedis(slug: string, calendar: { result: CalendarResult }): Promise<void> {
+async function saveToRedis(
+  slug: string,
+  calendar: { result: CalendarResult }
+): Promise<void> {
   const result: Record<string, string> = {};
   for (const d in calendar.result.ticketGroupByBusinessDay) {
     if (calendar.result.ticketGroupByBusinessDay[d].ticketGroupByDate[d]) {
