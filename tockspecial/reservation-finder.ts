@@ -101,6 +101,8 @@ async function whichReservationSystemIsthis(
 ): Promise<string | null> {
   for (const key in functionMap) {
     const func = functionMap[key];
+
+    console.log(`Checking reservation system ${key} for ${venue.name}`);
     const found = await func(venue);
     if (found) {
       return key;
@@ -116,10 +118,6 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 };
 
 (async function main(): Promise<void> {
-  const appconfig = await tock_fetch_app_config("seventhanddolores");
-  console.log(appconfig.app.config);
-  // process.exit(0);
-  return;
   const tbdlist = await BayAreaListWithTBD();
   for (const venue of tbdlist) {
     console.log(

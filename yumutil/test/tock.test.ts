@@ -58,6 +58,11 @@ describe("tock base API", () => {
     expect(bad_result).toBeUndefined();
   }, 15000);
 
+  it("tock_calendar_juni", async () => {
+    const result = await tockFindCalendarForVenue("juni");
+    console.log(JSON.stringify(result, null, 2));
+  }, 15000);
+
   afterAll(async () => {
     await browserPageShutdown();
   });

@@ -46,8 +46,8 @@ puppeteer.use(StealthPlugin());
 
 
 (async function main(): Promise<void> {
-  const result = await tockFindCalendarForVenue("ssal");
-  console.log("all done ...................... ", result);
+  const result = await tockFindCalendarForVenue("juni");
+  console.log(result);
   await browserPageShutdown();
 })();
 
