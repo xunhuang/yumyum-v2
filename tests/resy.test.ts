@@ -9,7 +9,7 @@ const nyc = require("./nyc-tbd.json");
 var resy = new VendorResy();
 describe("Resy System Test", () => {
   const HeirloomData: VenueSearchInput = {
-    name: "Heirloom Cafe",
+    name: "Heirloom Cafe SF",
     city: "San Francisco",
     address: "2500 Folsom St",
     latitude: 37.757116,
