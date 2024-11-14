@@ -6,7 +6,7 @@ import {
 } from "../src";
 
 const heirloomCafe = {
-  name: "Heirloom Cafe",
+  name: "Heirloom Cafe SF",
   city: "San Francisco",
   address: "2500 Folsom St",
   latitude: 37.757116,
