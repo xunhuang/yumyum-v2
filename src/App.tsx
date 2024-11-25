@@ -1,20 +1,28 @@
-import './App.css';
+import "./App.css";
 
-import Disqus from 'disqus-react';
-import React from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { BrowserRouter as Router, Link, Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import Disqus from "disqus-react";
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import {
+  BrowserRouter as Router,
+  Link,
+  Redirect,
+  Route,
+  RouteComponentProps,
+  Switch,
+} from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
-import { AppHeaderSection } from './HeaderFooter/AppHeaderSection';
-import { FullDiv } from './styles/HomeStyles';
-import { MetroListAll } from './USPage/AdminMetro';
-import { AdminNewVenueImport } from './USPage/AdminNewVenueImport';
-import { AdminNewVenuesRepopulate } from './USPage/AdminNewVenuesRepopulate';
-import { MetroListTBD } from './USPage/AdminTBDMetro';
-import { ListsPage } from './USPage/ListsPage';
-import { VenueEditFromURL } from './USPage/VenueEdit';
-import { VenuePage } from './USPage/VenuePage';
+import { AppHeaderSection } from "./HeaderFooter/AppHeaderSection";
+import { FullDiv } from "./styles/HomeStyles";
+import { MetroListAll } from "./USPage/AdminMetro";
+import { AdminNewVenueImport } from "./USPage/AdminNewVenueImport";
+import { AdminNewVenuesRepopulate } from "./USPage/AdminNewVenuesRepopulate";
+import { MetroListTBD } from "./USPage/AdminTBDMetro";
+import { ListsPage } from "./USPage/ListsPage";
+import { VenueEditFromURL } from "./USPage/VenueEdit";
+import { VenuePage } from "./USPage/VenuePage";
+import Clarity from "@microsoft/clarity";
 
 interface IRoute {
   path: string;
@@ -80,6 +88,10 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
 
 export interface IApplicationProps {}
 const App: React.FunctionComponent<IApplicationProps> = (props) => {
+  const projectId = "p2ulb8lwpw";
+  Clarity.init(projectId);
+  console.log("clarity initialized");
+
   return (
     <div className="App">
       <header className="App-header">
@@ -129,4 +141,3 @@ const FooterSection = () => {
 };
 
 export default App;
-
