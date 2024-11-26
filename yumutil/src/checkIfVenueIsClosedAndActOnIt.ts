@@ -9,14 +9,20 @@ const limiter = new RateLimiter({
 });
 
 // return true if it is closed...
-export async function checkIfVenueIsClosedAndActOnIt(saveChanges: boolean, key: string, name: string, city: string, state: string): Promise<boolean> {
+export async function checkIfVenueIsClosedAndActOnIt(
+  saveChanges: boolean,
+  key: string,
+  name: string,
+  city: string,
+  state: string
+): Promise<boolean> {
   const result = await isItClosed(name, city, state);
-  console.log(
-    `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "}`
-  );
   if (!result) {
     return false;
   }
+  console.log(
+    `${name} ${city}, ${state} - ${result.closed === true ? "closed" : "open "}`
+  );
   if (result.closed === true) {
     console.log(`reference: ${JSON.stringify(result)}`);
     if (saveChanges) {
@@ -27,7 +33,10 @@ export async function checkIfVenueIsClosedAndActOnIt(saveChanges: boolean, key: 
   return false;
 }
 
-export async function setVenueToClosed(venue_key: string, reason: string): Promise<any> {
+export async function setVenueToClosed(
+  venue_key: string,
+  reason: string
+): Promise<any> {
   const escapedReason = reason.replace(/"/g, '\\"');
   const query = `
 mutation MyMutation {
@@ -46,7 +55,11 @@ mutation MyMutation {
   const json = await yumyumGraphQLCall(query);
   return json;
 }
-async function isItClosed(name: string, city: string, state: string): Promise<any> {
+async function isItClosed(
+  name: string,
+  city: string,
+  state: string
+): Promise<any> {
   await limiter.removeTokens(1);
 
   const openaiApiKey = process.env.PERPLEXITY_AI_KEY;
