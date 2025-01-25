@@ -124,6 +124,9 @@ export async function tock_basic_search_and_validate(
         if (venueNameSimilar(appconfig.app.config.business.name, venuename)) {
           return candidate;
         }
+        if (venueNameSimilar(appconfig.app.config.business.name, venuename)) {
+          return candidate;
+        }
         if (await addressMatch(
           appconfig.app.config.business.address,
           address,
