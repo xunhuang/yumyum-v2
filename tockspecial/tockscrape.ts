@@ -157,7 +157,10 @@ async function saveToRedis(
 }
 
 async function scrapeTockList(slugsList: string[]): Promise<void> {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   for (let i = 0; i < slugsList.length && i < 2000; i++) {
     const page = await browser.newPage();
     await page.setRequestInterception(true);

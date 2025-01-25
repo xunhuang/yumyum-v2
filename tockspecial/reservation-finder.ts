@@ -11,11 +11,9 @@ import {
   setVenueToClosed,
   resy_set_venue_to_tbd,
   browserPageShutdown,
-  tock_fetch_app_config,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
-  // const found = await process_for_tock(false, venue.key, venue.name, venue.longitude, venue.latitude, venue.address, venue.city, venue.region);
   const found = await process_for_tock(
     true,
     venue.key,

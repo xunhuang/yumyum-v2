@@ -14,7 +14,6 @@ export async function getBrowerPageSingleton(): Promise<Page> {
   if (!browserPage) {
     browser = await puppeteer.launch({
       executablePath: executablePath(),
-      // headless: false,
       headless: true,
     });
     const page = await browser.newPage();
@@ -35,7 +34,6 @@ export async function getNewBrowerPage(): Promise<Page> {
   if (!browser) {
     browser = await puppeteer.launch({
       executablePath: executablePath(),
-      // headless: false,
       headless: true,
     });
   }
