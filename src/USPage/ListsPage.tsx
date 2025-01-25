@@ -11,7 +11,6 @@ import {
   useBayArea2021WithSlotsQuery,
   useBayAreaAllWithSlotsQuery,
   useBayAreaBibWithSlotsQuery,
-  useBayAreaLazyQuery,
   useBayAreaLegacyWithSlotsQuery,
   useBayAreaOfflineQuery,
   useBayAreaPlatesWithSlotsQuery,

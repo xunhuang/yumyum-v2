@@ -119,6 +119,7 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 
 (async function main(): Promise<void> {
   const tbdlist = await BayAreaListWithTBD();
+  console.log(`Found ${tbdlist.length} venues to check`);
   for (const venue of tbdlist) {
     console.log(
       `Searching for ${venue.name} - ${venue.address} ****************************************************************`
@@ -157,13 +158,13 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 })();
 
 async function BayAreaListWithTBD() {
+  // reservation: { in: ["opentable", "resy", "tock", "TBD"] }
   const query = `
 query MyQuery {
   allVenues(
     filter: {
-      reservation: { in: ["opentable", "resy", "tock", "TBD"] }
+      reservation: { in: [ "TBD"] }
       metro: { equalTo: "bayarea" }
-      name: { equalTo: "Seventh & Dolores" }
       close: { equalTo: false }
     }
   ) {
