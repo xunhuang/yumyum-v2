@@ -98,4 +98,5 @@ How to update db
 ## Click "import!" . no GUI feedback
 # run npm test tests/reservation-tbd.test.ts
 
-hopefully the above gets automated some day.
+hopefully the above gets automated some day..
+
