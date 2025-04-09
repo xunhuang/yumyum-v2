@@ -75,7 +75,6 @@ async function repopulateMichelinData() {
   try {
     const dbList = await bayAreaDatabaseList();
     for (const jsonentry of michelinData) {
-      // console.log(jsonentry);
       const venue = dbList.find(
         (dbentry: any, index: number, thisobject: any) => {
           return JsonEntrySameWasDbEntry(jsonentry, dbentry);
@@ -83,7 +82,7 @@ async function repopulateMichelinData() {
       );
 
       if (!venue) {
-        console.log("Not found", jsonentry);
+        console.log("Entry in Michelin data not found in yumyum database", jsonentry.name);
         continue;
       }
 
@@ -100,8 +99,6 @@ async function repopulateMichelinData() {
         jsonentry.images?.map((i: any) => i.url) || []
       );
 
-      console.log(jsonentry);
-
       const v = {
         name: jsonentry.name,
         metro: metro,
@@ -116,7 +113,7 @@ async function repopulateMichelinData() {
         url: `https://guide.michelin.com${jsonentry.url}`,
         michelineOnlineReservation: jsonentry.online_booking === 1,
       };
-      console.log(v);
+      console.log("Updating venue", venue.name);
       await set_venue_data_change(venue.key, v);
     }
   } catch (error) {
@@ -135,9 +132,10 @@ async function importNewMichelinDataToDatabase() {
   try {
     const dbList = await bayAreaDatabaseList();
     const newOnly = michelinDataNewToDbList(michelinData, dbList);
-    // console.log(newOnly);
+    console.log(`New restaurants to import: ${newOnly.length}`);
 
     for (var item of newOnly) {
+      // console.log(JSON.stringify(item, null, 2));
       const v = {
         key: nanoid(),
         vintage: dayjs().year().toString(),
@@ -146,7 +144,7 @@ async function importNewMichelinDataToDatabase() {
         metro: metro,
         michelinslug: item.slug,
         michelinobjectid: item.objectID,
-        address: item._highlightResult.street.value,
+        address: item._highlightResult.street?.value || "",
         city: item.city.name,
         country: item.country.name,
         coverImage: item.main_image?.url || "",
@@ -164,9 +162,8 @@ async function importNewMichelinDataToDatabase() {
         url: item.slug,
         zip: item.slug,
       };
-      console.log(v);
-      const result = await createVenue(v);
-      console.log(result);
+      console.log("Creating venue", item.name);
+      await createVenue(v);
     }
   } catch (error) {
     console.error(error);
@@ -234,13 +231,10 @@ async function findOutdatedEntries(): Promise<any> {
   });
 
   for (var item of outdated) {
-    console.log(item.name, item.stars);
-    if (["BIB_GOURMAND", "MICHELIN_PLATE", "1", "2", "ONE_STAR", "TWO_STAR"].includes(item.stars)) {
-      console.log("Found outdated", item.name, item.key);
-      await set_michelin_former(item.key);
-    } else {
-      console.log("Found outdated", item.name, "********************************");
-    }
+    if (["BIB_GOURMAND", "MICHELIN_PLATE", "1", "2", "ONE_STAR", "TWO_STAR", "selected"].includes(item.stars)) {
+      console.log("Found outdated venue. Setting to MICHELIN_FORMER", item.name, item.key);
+      // await set_michelin_former(item.key);
+    } 
   }
   return outdated;
 
