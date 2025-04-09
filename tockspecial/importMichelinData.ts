@@ -16,21 +16,19 @@ const timezone = "America/Los_Angeles";
 
 export async function bayAreaDatabaseList(): Promise<any> {
   const query = `
-    query MyQuery {
-  allVenues(
-    filter: {metro: {equalTo: "bayarea"}}
-  ) {
-     nodes {
-        name
-        urlSlug
-        businessid
-        michelinobjectid
-        key
-              stars
+  query MyQuery {
+  allVenues(filter: {metro: {equalTo: "bayarea"}, close: {equalTo: false}}) {
+    nodes {
+      name
+      urlSlug
+      businessid
+      michelinobjectid
+      key
+      stars
       reservation
       city
       close
-      }
+    }
   }
 }
 `;
@@ -63,13 +61,6 @@ export function JsonEntrySameWasDbEntry(
   return false;
 }
 
-(async function main() {
-  await importNewMichelinDataToDatabase();
-
-  await findOutdatedEntries();
-
-  await repopulateMichelinData();
-})();
 
 async function repopulateMichelinData() {
   try {
@@ -277,3 +268,9 @@ mutation MyMutation {
   const jsonData = await yumyumGraphQLCall(query);
   return jsonData.data.updateVenueByKey.venue;
 }
+
+(async function main() {
+  await importNewMichelinDataToDatabase();
+  await findOutdatedEntries();
+  await repopulateMichelinData();
+})();
