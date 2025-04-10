@@ -30,7 +30,11 @@ export async function validateOpentableVenueInfo(venue: any): Promise<boolean> {
     return false;
   }
   if (!venueNameSimilar(venue.name, appconfig.restaurant.name)) {
-    console.log("restaurant name not similar for ", venue.name, appconfig.restaurant.name);
+    console.log(
+      "restaurant name not similar for ",
+      venue.name,
+      appconfig.restaurant.name
+    );
     return false;
   }
   return await validateOpentableId(venue.businessid);
@@ -190,7 +194,9 @@ export async function opentable_basic_search(
 async function opentable_fetchAppConfig(
   businessid: string
 ): Promise<AppConfig | undefined> {
-  let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
+  // let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
+  // above URL redirect to below URL
+  let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
   const w = await fetch(url, {
     method: "get",
     headers: {
@@ -225,11 +231,17 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
     "dinner"
   );
   if (!result.availability) {
-    console.log("opentable No longer available/functional when validating", opentable_id);
+    console.log(
+      "opentable No longer available/functional when validating",
+      opentable_id
+    );
     return false;
   }
   if (result.availability?.error?.message === "NOT_AVAILABLE") {
-    console.log("opentable No longer available/functional when validating", opentable_id);
+    console.log(
+      "opentable No longer available/functional when validating",
+      opentable_id
+    );
     return false;
   }
   return true;
