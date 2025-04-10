@@ -194,8 +194,6 @@ export async function opentable_basic_search(
 async function opentable_fetchAppConfig(
   businessid: string
 ): Promise<AppConfig | undefined> {
-  // let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
-  // above URL redirect to below URL
   let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
   const w = await fetch(url, {
     method: "get",
@@ -206,14 +204,15 @@ async function opentable_fetchAppConfig(
   const res = await w.text();
   const $ = cheerio.load(res);
 
-  let scripts = $("#client-initial-state").html();
+  let scripts = $("#primary-window-vars").html();
   if (!scripts) {
     console.log("no scripts found for ", url);
     // no config
     return undefined;
   }
   try {
-    let appconfig = JSON.parse(scripts);
+    let windowVars = JSON.parse(scripts);
+    let appconfig = windowVars.windowVariables.__INITIAL_STATE__;
     return appconfig;
   } catch (error) {
     console.log("opentable_fetchAppConfig error", businessid);
@@ -248,17 +247,75 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
 }
 var opentable_auth_token: string | null = null;
 
-async function fetchAuthToken(): Promise<string> {
+export async function fetchAuthToken(): Promise<string | null> {
+  // don't change this URL lightly. It's from a partner page directly that came from
+  // https://vintnersresort.com/dining/
+  // this page still contains the #client-initial-state  in the HTML.
+  // when you land on this page, and refresh, the #client-initial-state
+  // is will vanish, and you will see the #primary-windows_vars in the HTML and that
+  // does not contain the auth token.
+  // currently this is the only way to get the auth token.
+  // when this breaks, we need to adopt the gql endpoint
+  const url = `https://www.opentable.com/john-ash-and-co-reservations-santa-rosa?restref=1477&lang=en-US&ot_source=Restaurant%20website`;
   if (opentable_auth_token) {
     return opentable_auth_token;
   }
 
-  let config = await opentable_fetchAppConfig("1477");
-  if (!config || !config["authToken"]) {
+  const w = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  });
+  const res = await w.text();
+  const $ = cheerio.load(res);
+
+  let scripts = $("#client-initial-state").html();
+  if (!scripts) {
+    console.log("no initial state in html file found for ", url);
+    return null;
+  }
+  let appConfig = JSON.parse(scripts);
+  if (!appConfig) {
     throw new Error("Unable to fetch auth token for opentable");
   }
-  opentable_auth_token = config["authToken"];
+  opentable_auth_token = appConfig.authToken || null;
   return opentable_auth_token!;
+}
+
+async function fetchPrimaryWindowVars(businessid: string): Promise<any> {
+  let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
+  const w = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  });
+  const res = await w.text();
+  const $ = cheerio.load(res);
+
+  let scripts = $("#primary-window-vars").html();
+  if (!scripts) {
+    console.log("no scripts found for ", url);
+    return undefined;
+  }
+
+  try {
+    let windowVars = JSON.parse(scripts);
+    return windowVars;
+  } catch (error) {
+    console.log("Error fetching Primary WindowsVars", businessid);
+    console.error(error);
+  }
+  return undefined;
+}
+
+async function fetchCSRFToken(): Promise<string> {
+  const windowVars = await fetchPrimaryWindowVars("1477");
+  if (!windowVars) {
+    throw new Error("Unable to fetch CSRF token for opentable");
+  }
+  return windowVars.windowVariables.__CSRF_TOKEN__;
 }
 
 export async function opentableFindReservation(
