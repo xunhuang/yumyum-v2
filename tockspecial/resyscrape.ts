@@ -1,4 +1,11 @@
-import { resy_calendar_key, resyLists, resy_day_key, saveToRedisWithChunking, getRedis, resyFindReservation } from "yumutil";
+import {
+  resy_calendar_key,
+  resyLists,
+  resy_day_key,
+  saveToRedisWithChunking,
+  getRedis,
+  resyFindReservation,
+} from "yumutil";
 
 const redis = getRedis();
 
@@ -12,22 +19,45 @@ const redis = getRedis();
   }
   try {
     const rl = await resyLists();
-    console.log(rl);
     // const l = rl.filter((v) => v.name == "AltoVino");
-    // const l = rl.filter((v) => v.name == "Lord Stanley");
-    const l = rl;
-    // const l = rl.slice(0, 30);
+    const l = rl.slice(0, 5);
 
     const keys = l.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
 
-    console.log(keys);
+    // keys in the form of
+    // [
+    //   "resy-calendar-rich-table-2",
+    //   "resy-calendar-the-morris-2",
+    //   "resy-calendar-outerlands-2",
+    //   "resy-calendar-mama-2",
+    //   "resy-calendar-iyasare-2",
+    // ];
+
     const data = await redis.mget(keys);
-    console.log(data);
+    // data is an array of objects in the form of
+    //
+    // [
+    //  {
+    //   "scheduled": [
+    //             {
+    //     "date": "2025-05-10",
+    //     "inventory": {
+    //       "reservation": "available",
+    //       "event": "not available",
+    //       "walk-in": "available"
+    //     }
+    //   }
+    //  ...
+    //   ],
+    //  }
+    // ]
+
+    // console.log(JSON.stringify(data, null, 2));
     const noavail: any[] = [];
     const avail: any[] = [];
 
     for (let i = 0; i < l.length; i++) {
-      console.log(l[i].urlSlug, l[i].name);
+      // console.log(l[i].urlSlug, l[i].name);
       const entry: any = data[i];
       // eslint-disable-next-line array-callback-return
       entry?.scheduled?.map((entry: any) => {
@@ -54,13 +84,15 @@ const redis = getRedis();
       });
     }
 
-
     const noavailmap: Record<string, any[]> = {};
     // eslint-disable-next-line array-callback-return
     noavail.map((item) => {
       const key = resy_day_key(item.slug, item.date, item.party_size);
       noavailmap[key] = [];
     });
+
+    console.log("These dates have no availability, saving first into Redis");
+    console.log(JSON.stringify(noavailmap, null, 2));
 
     await saveToRedisWithChunking(noavailmap, `no availabilites`);
 
@@ -74,48 +106,61 @@ const redis = getRedis();
       return acc;
     }, {});
 
+    // console.log("These have availability");
+    // console.log(JSON.stringify(groupedAvail, null, 2));
+
     const dates = Object.keys(groupedAvail).sort();
+    // console.log("dates as keys");
+    // console.log(dates);
 
     for (const k of dates) {
       const answers: Record<string, any> = {};
-      for (const e of groupedAvail[k]) {
-        console.log(e);
-        const reservation = await resyFindReservation(
-          e.venue_id,
-          e.date,
-          e.party_size
-        );
-
-        if (!reservation) {
-          console.log(e.slug, e.date, e.party_size, "transport error");
-          continue;
-        }
-
-        if (reservation.status === 429) {
-          console.log(e.slug, e.date, e.party_size, "Rate limiting exceeded");
-          continue;
-        }
-        const key = resy_day_key(e.slug, e.date, e.party_size);
-
-        if (reservation.results.venues[0]) {
-          const slots = reservation.results.venues[0].slots.map(
-            (s: any) => s.date.start
+      try {
+        for (const e of groupedAvail[k]) {
+          console.log(
+            `finding reservation for ${e.slug} ${e.date} ${e.party_size}`
           );
-          if (slots.length === 0) {
-            console.log(
-              "zero length in slots",
-              // JSON.stringify(reservation, null, 2)
-            );
+          const reservation = await resyFindReservation(
+            e.venue_id,
+            e.date,
+            e.party_size
+          );
+
+          if (!reservation) {
+            console.log(e.slug, e.date, e.party_size, "transport error");
+            continue;
           }
-          console.log(slots.length, "slots");
-          answers[key] = slots;
-        } else {
-          console.log(`no answer for  ${key}`);
-          console.log(reservation);
-          answers[key] = null;
+
+          if (reservation.status === 429) {
+            console.log(e.slug, e.date, e.party_size, "Rate limiting exceeded");
+            continue;
+          }
+          const key = resy_day_key(e.slug, e.date, e.party_size);
+
+          if (reservation.results.venues[0]) {
+            const slots = reservation.results.venues[0].slots.map(
+              (s: any) => s.date.start
+            );
+            console.log(
+              `${slots.length} slots for ${e.slug} ${e.date} ${e.party_size}`
+            );
+            answers[key] = slots;
+          } else {
+            console.log(
+              `No answer for  ${key} setting to empty array for slots`
+            );
+            console.log(reservation);
+            answers[key] = [];
+          }
         }
+      } catch (error) {
+        console.error(error);
+        console.log(
+          `catching error here but continue save the results so far for ${k}`
+        );
       }
-      console.log(answers);
+
+      console.log(`Saving answers for ${k}`);
       await saveToRedisWithChunking(answers, `party of ${k}`);
     }
   } catch (error) {
