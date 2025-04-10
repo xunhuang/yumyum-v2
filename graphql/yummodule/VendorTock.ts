@@ -68,7 +68,6 @@ export class VendorTock extends VendorBase {
 
     let slots = response.body;
     if (!slots) {
-      console.log("no data for date: ", date);
       return [];
     }
 

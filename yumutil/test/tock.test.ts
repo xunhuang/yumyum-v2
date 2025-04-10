@@ -10,14 +10,14 @@ import {
 } from "../src";
 
 const testcase = {
-  "name": "Ssal",
-  "urlSlug": "ssal",
-  "businessid": "19093",
-  "longitude": -122.4219651,
-  "latitude": 37.7972584,
-  "address": "2226 Polk St.",
-  "city": "San Francisco",
-  "region": "California"
+  name: "Ssal",
+  urlSlug: "ssal",
+  businessid: "19093",
+  longitude: -122.4219651,
+  latitude: 37.7972584,
+  address: "2226 Polk St.",
+  city: "San Francisco",
+  region: "California",
 };
 
 describe("tock base API", () => {
@@ -26,7 +26,7 @@ describe("tock base API", () => {
     const search_results = await tock_basic_search(
       data.name,
       data.longitude,
-      data.latitude,
+      data.latitude
     );
     expect(search_results).toBeDefined();
     expect(search_results).not.toBeNull();
@@ -37,17 +37,14 @@ describe("tock base API", () => {
     const data = testcase;
     const appConfig = await tock_fetch_app_config(data.urlSlug);
     expect(appConfig?.app?.config?.business).toBeDefined();
-    expect(venueNameSimilar(
-      appConfig?.app?.config?.business?.name,
-      data.name
-    )).toBe(true);
+    expect(
+      venueNameSimilar(appConfig?.app?.config?.business?.name, data.name)
+    ).toBe(true);
   }, 10000);
 
   it("tock_calendar", async () => {
     const data = testcase;
-    const tock_result = await tockFindCalendarForVenue(
-      data.urlSlug,
-    );
+    const tock_result = await tockFindCalendarForVenue(data.urlSlug);
     expect(tock_result).toBeDefined();
     expect(tock_result).not.toBeNull();
     expect(() => JSON.parse(tock_result as string)).not.toThrow();
@@ -60,7 +57,6 @@ describe("tock base API", () => {
 
   it("tock_calendar_juni", async () => {
     const result = await tockFindCalendarForVenue("juni");
-    console.log(JSON.stringify(result, null, 2));
   }, 15000);
 
   afterAll(async () => {
