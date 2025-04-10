@@ -4,6 +4,10 @@ import {
   opentableFindReservation,
   opentable_basic_search,
   opentable_basic_search_and_validate,
+  opentable_fetchAuthToken,
+  opentable_fetchAppConfig,
+  opentable_fetchPrimaryWindowVars,
+  opentable_fetchCSRFToken,
 } from "../src";
 
 const testcase = {
@@ -19,6 +23,28 @@ const testcase = {
 };
 
 describe("opentable", () => {
+  it("opentable_get_auth_token", async () => {
+    const token = await opentable_fetchAuthToken();
+    expect(token).toBeDefined();
+    expect(token).not.toBeNull();
+  });
+  it("opentable_fetch_app_config", async () => {
+    const appConfig = await opentable_fetchAppConfig(testcase.businessid);
+    expect(appConfig).toBeDefined();
+    expect(appConfig).not.toBeNull();
+  });
+  it("opentable_fetch_primary_window_vars", async () => {
+    const primaryWindowVars = await opentable_fetchPrimaryWindowVars(
+      testcase.businessid
+    );
+    expect(primaryWindowVars).toBeDefined();
+    expect(primaryWindowVars).not.toBeNull();
+  });
+  it("opentable_fetch_csrf_token", async () => {
+    const csrfToken = await opentable_fetchCSRFToken();
+    expect(csrfToken).toBeDefined();
+    expect(csrfToken).not.toBeNull();
+  });
   it("opentable_basic_entity_search_return_candidates", async () => {
     const data = testcase;
     const search_results = await opentable_basic_search(

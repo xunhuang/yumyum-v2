@@ -191,7 +191,7 @@ export async function opentable_basic_search(
   return [];
 }
 
-async function opentable_fetchAppConfig(
+export async function opentable_fetchAppConfig(
   businessid: string
 ): Promise<AppConfig | undefined> {
   let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
@@ -247,7 +247,7 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
 }
 var opentable_auth_token: string | null = null;
 
-export async function fetchAuthToken(): Promise<string | null> {
+export async function opentable_fetchAuthToken(): Promise<string | null> {
   // don't change this URL lightly. It's from a partner page directly that came from
   // https://vintnersresort.com/dining/
   // this page still contains the #client-initial-state  in the HTML.
@@ -283,7 +283,9 @@ export async function fetchAuthToken(): Promise<string | null> {
   return opentable_auth_token!;
 }
 
-async function fetchPrimaryWindowVars(businessid: string): Promise<any> {
+export async function opentable_fetchPrimaryWindowVars(
+  businessid: string
+): Promise<any> {
   let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
   const w = await fetch(url, {
     method: "get",
@@ -310,8 +312,8 @@ async function fetchPrimaryWindowVars(businessid: string): Promise<any> {
   return undefined;
 }
 
-async function fetchCSRFToken(): Promise<string> {
-  const windowVars = await fetchPrimaryWindowVars("1477");
+export async function opentable_fetchCSRFToken(): Promise<string> {
+  const windowVars = await opentable_fetchPrimaryWindowVars("1477");
   if (!windowVars) {
     throw new Error("Unable to fetch CSRF token for opentable");
   }
@@ -324,7 +326,7 @@ export async function opentableFindReservation(
   party_size: number,
   timeOption: string
 ): Promise<any> {
-  let token = await fetchAuthToken();
+  let token = await opentable_fetchAuthToken();
   let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
   let datetime =
     timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
