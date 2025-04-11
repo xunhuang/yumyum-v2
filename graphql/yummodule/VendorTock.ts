@@ -12,8 +12,10 @@ import {
   VenueReservationInfo,
   VenueVendorInfo,
 } from "./VendorBase";
+
 import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
+import { tock_basic_search_and_validate } from "../../yumutil/src";
 
 const buildUrl = require("build-url");
 const moment = require("moment-timezone");
@@ -176,176 +178,25 @@ export class VendorTock extends VendorBase {
     };
   }
 
-  async entitySearchViaScrapedData(
-    term: string,
-    longitude: number,
-    latitude: number,
-    extra: VenueSearchInput
-  ): Promise<any> {
-    if (longitude == null) {
-      return null;
-    }
-
-    // sort results by distance
-    const sorted = tock.sort((a: any, b: any) => {
-      let a_d = getDistance(
-        { latitude: a?.latitude || 0, longitude: a?.longitude || 0 },
-        { latitude: latitude, longitude: longitude }
-      );
-      let b_d = getDistance(
-        { latitude: b?.latitude || 0, longitude: b?.longitude || 0 },
-        { latitude: latitude, longitude: longitude }
-      );
-      return a_d - b_d;
-    });
-
-    const makeResult = (candidate: any) => {
-      return {
-        name: candidate.name,
-        reservation: this.vendorID(),
-        businessid: candidate.businessid.toString(),
-        address: candidate.address,
-        urlSlug: candidate.slug,
-      };
-    };
-
-    for (const best of sorted.slice(0, 10)) {
-      // console.log(JSON.stringify(best, null, 2));
-      // distance in meters
-      if (best.latitude != null && best.longitude != null) {
-        const distance = getDistance(
-          { latitude: latitude, longitude: longitude },
-          { latitude: best.latitude, longitude: best.longitude }
-        );
-        if (distance > 150) {
-          return null;
-        }
-      }
-
-      if (venueNameMatched(term, best.name)) {
-        return makeResult(best);
-      }
-      if (
-        await addressMatch(extra.address, best.address, extra.city, extra.state)
-      ) {
-        return makeResult(best);
-      }
-    }
-    return null;
-  }
-
   async entitySearchExactTerm(
     term: string,
     longitude: number,
     latitude: number,
     extra: VenueSearchInput
   ): Promise<VenueReservationInfo | null> {
-    const tocksystem = await this.entitySearchViaTockSearchSystem(
+    const result1 = await tock_basic_search_and_validate(
       term,
       longitude,
       latitude,
-      extra
+      extra.address,
+      extra.city,
+      extra.state
     );
-    if (tocksystem != null) {
-      return tocksystem;
-    }
-    return await this.entitySearchViaScrapedData(
-      term,
-      longitude,
-      latitude,
-      extra
-    );
-  }
 
-  async entitySearchViaTockSearchSystem(
-    term: string,
-    longitude: number,
-    latitude: number,
-    extra: any
-  ): Promise<any> {
-    const request = newTockSearchRequest(term, longitude, latitude);
-    const proto = serializeMsgToProto(request);
-
-    const url = "https://www.exploretock.com/api/consumer/suggest/nav";
-
-    const yo: any = await gotScraping.post({
-      url: url,
-      headers: {
-        accept: "application/octet-stream",
-        "content-type": "application/octet-stream",
-        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-        "x-tock-stream-format": "proto2",
-        "Accept-Encoding": "identity",
-      },
-      body: proto,
-      method: "POST",
-      responseType: "buffer",
-      headerGeneratorOptions: {
-        browsers: [
-          {
-            name: "chrome",
-            minVersion: 87,
-            maxVersion: 89,
-          },
-        ],
-        devices: ["desktop"],
-        locales: ["de-DE", "en-US"],
-        operatingSystems: ["windows", "linux"],
-      },
-    });
-
-    const buffer = yo.body;
-    const response = deserializeTockSearchResponseProtoToMsg(
-      new Uint8Array(buffer)
-    );
-    const searchResults = response?.r1!.r2!.r3!.searchResults;
-    if (!searchResults) {
-      return null;
-    }
-
-    const makeResult = (candidate: any) => {
-      return {
-        name: candidate.name,
-        reservation: this.vendorID(),
-        businessid: candidate.id.toString(),
-        address: candidate.address,
-        urlSlug: candidate.domainName,
-      };
+    return {
+      businessid: result1?.businessid?.toString(),
+      reservation: this.vendorID(),
+      urlSlug: result1?.slug,
     };
-
-    for (const entry of searchResults) {
-      const slug = entry.slug;
-
-      if (!slug) {
-        continue;
-      }
-
-      const appconfig = await this._fetchAppConfigFromURL(
-        `https://www.exploretock.com/${slug}`
-      );
-      if (!appconfig) {
-        console.log(`can't read appconfig from tock for ${slug} `);
-        continue;
-      }
-
-      const business = appconfig.app.config.business;
-      const name = business.name;
-      const address = business.address;
-      const city = business.city;
-      const state = business.state;
-
-      if (venueNameMatched(term, name)) {
-        // console.log("name matched ----------------------------, term: ", term, "name: ", name);
-        return makeResult(business);
-      }
-      const country = business.country;
-      if (country === "US") {
-        if (await addressMatch(extra.address, address, city, state)) {
-          // console.log("address matched ----------------------------, address: ", address, "extra.address: ", extra.address);
-          return makeResult(business);
-        }
-      }
-    }
-    return null;
   }
 }

@@ -50,7 +50,14 @@ describe("Tock System Test", () => {
           entity.name,
           entity.longitude,
           entity.latitude,
-          entity
+          {
+            longitude: entity.longitude,
+            latitude: entity.latitude,
+            name: entity.name,
+            address: entity.address,
+            city: entity.city,
+            state: entity.region,
+          }
         );
         expect(search_result).not.toBeNull();
         expect(search_result?.businessid).toEqual(entity.businessid);
