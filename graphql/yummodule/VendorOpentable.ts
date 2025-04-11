@@ -16,7 +16,7 @@ import {
   opentable_basic_search,
   opentable_basic_search_and_validate,
   opentableFindReservation,
-} from "../../yumutil/src";
+} from "../yumutil/src";
 
 const nodefetch = require("node-fetch");
 const buildUrl = require("build-url");

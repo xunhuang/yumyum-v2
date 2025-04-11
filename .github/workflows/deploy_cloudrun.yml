@@ -36,6 +36,9 @@ jobs:
       - name: move module over something
         run: cd graphql ; mv ../src/generated .; cd ..
 
+      - name: move yumutil module over something
+        run: cd graphql ; mv ../yumutil .; cd ..
+
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |

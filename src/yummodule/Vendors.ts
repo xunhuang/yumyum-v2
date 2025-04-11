@@ -1,66 +1,23 @@
-import { VendorBase } from './VendorBase';
-import { VendorBookarestaurant } from './VendorBookarestaurant';
-import { VendorBookatable } from './VendorBookatable';
-import { VendorChope } from './VendorChope';
-import { VendorCovermanager } from './VendorCovermanager';
-import { VendorDineout } from './VendorDineout';
-import { VendorDinesuperb } from './VendorDinesuperb';
-import { VendorEat2Eat } from './VendorEat2Eat';
-import { VendorEztable } from './VendorEztable';
-import { VendorFunNow } from './VendorFunNow';
-import { VendorIkyu } from './VendorIkyu';
-import { VendorInlineApp } from './VendorInlineApp';
-import { VendorLafourchette } from './VendorLafourchette';
-import { VendorOmakase } from './VendorOmakase';
-import { VendorOpentable } from './VendorOpentable';
-import { VendorPocketConcierge } from './VendorPocketConcierge';
-import { VendorQuandoo } from './VendorQuandoo';
-import { VendorResdiary } from './VendorResdiary';
-import { VendorResengo } from './VendorResengo';
-import { VendorRestaurantes } from './VendorRestaurantes';
-import { VendorResy } from './VendorResy';
-import { VendorSevenrooms } from './VendorSevenrooms';
-import { VendorTabelog } from './VendorTabelog';
-import { VendorTock } from './VendorTock';
-import { VendorToreta } from './VendorToreta';
-import { VendorYelp } from './VendorYelp';
-import { VendorZenchef } from './VendorZenchef';
+import { VendorBase } from "./VendorBase";
+import { VendorOpentable } from "./VendorOpentable";
+import { VendorResy } from "./VendorResy";
+import { VendorSevenrooms } from "./VendorSevenrooms";
+import { VendorTock } from "./VendorTock";
+import { VendorYelp } from "./VendorYelp";
 
 type tplotOptions = {
-    [key: string]: VendorBase
+  [key: string]: VendorBase;
 };
 
 export const VendorMap: tplotOptions = {
-    opentable: new VendorOpentable(),
-    resy: new VendorResy(),
-    tock: new VendorTock(),
-    bookarestaurant: new VendorBookarestaurant(),
-    bookatable: new VendorBookatable(),
-    dinesuperb: new VendorDinesuperb(),
-    resdiary: new VendorResdiary(),
-    sevenrooms: new VendorSevenrooms(),
-    yelp: new VendorYelp(),
-    // tablecheck: new VendorTablecheck(),
-    "pocket-concierge": new VendorPocketConcierge(),
-    toreta: new VendorToreta(),
-    omakase: new VendorOmakase(),
-    ikyu: new VendorIkyu(),
-    chope: new VendorChope(),
-    funnow: new VendorFunNow(),
-    dineout: new VendorDineout(),
-    tabelog: new VendorTabelog(),
-    eat2eat: new VendorEat2Eat(),
-    quandoo: new VendorQuandoo(),
-    inline: new VendorInlineApp(),
-    eztable: new VendorEztable(),
-    lafourchette: new VendorLafourchette(),
-    zenchef: new VendorZenchef(),
-    covermanager: new VendorCovermanager(),
-    restaurantes: new VendorRestaurantes(),
-    spotonreserve: new VendorRestaurantes(), // SpotOnReserve, using Restaurantes as placeholder
-    "resengo.com": new VendorResengo(),
-}
+  opentable: new VendorOpentable(),
+  resy: new VendorResy(),
+  tock: new VendorTock(),
+  sevenrooms: new VendorSevenrooms(),
+  yelp: new VendorYelp(),
+  // tablecheck: new VendorTablecheck(),
+};
 
 export const getVendor = (type: string): VendorBase => {
-    return VendorMap[type];
-}
+  return VendorMap[type];
+};

@@ -15,7 +15,7 @@ import {
 
 import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
-import { tock_basic_search_and_validate } from "../../yumutil/src";
+import { tock_basic_search_and_validate } from "../yumutil/src";
 
 const buildUrl = require("build-url");
 const moment = require("moment-timezone");
