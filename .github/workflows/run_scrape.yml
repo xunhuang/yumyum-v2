@@ -63,7 +63,5 @@ jobs:
         run: cd data/11-05-2022; sh runme.sh
 
       - name: "import data"
-        env:
-          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-          GCP_EMAIL: ${{ secrets.GCP_EMAIL }}
+        env: ${{ secrets }}
         run: cd tockspecial; npx ts-node importMichelinData.ts
