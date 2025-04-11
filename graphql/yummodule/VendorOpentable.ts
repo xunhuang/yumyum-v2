@@ -37,40 +37,40 @@ export class VendorOpentable extends VendorBase {
     return ["businessid"];
   }
 
-  async venueSearchInternal(
-    businessid: string,
-    date: string,
-    party_size: number,
-    timeOption: string
-  ): Promise<any> {
-    return await opentableFindReservation(
-      businessid,
-      date,
-      party_size,
-      timeOption
-    );
-    // let token = await VendorOpentable.fetchAuthToken();
-    // let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
-    // let datetime =
-    //   timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
-    // let data = {
-    //   rid: businessid,
-    //   partySize: party_size,
-    //   dateTime: datetime,
-    //   enableFutureAvailability: false,
-    // };
-    // const w = await nodefetch(url, {
-    //   method: "post",
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     "Content-Type": "application/json;charset=UTF-8",
-    //     authorization: `Bearer ${token}`,
-    //   },
-    // });
+  // async venueSearchInternal(
+  //   businessid: string,
+  //   date: string,
+  //   party_size: number,
+  //   timeOption: string
+  // ): Promise<any> {
+  //   return await opentableFindReservation(
+  //     businessid,
+  //     date,
+  //     party_size,
+  //     timeOption
+  //   );
+  // let token = await VendorOpentable.fetchAuthToken();
+  // let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
+  // let datetime =
+  //   timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
+  // let data = {
+  //   rid: businessid,
+  //   partySize: party_size,
+  //   dateTime: datetime,
+  //   enableFutureAvailability: false,
+  // };
+  // const w = await nodefetch(url, {
+  //   method: "post",
+  //   body: JSON.stringify(data),
+  //   headers: {
+  //     "Content-Type": "application/json;charset=UTF-8",
+  //     authorization: `Bearer ${token}`,
+  //   },
+  // });
 
-    // const json = await w.json();
-    // return json;
-  }
+  // const json = await w.json();
+  // return json;
+  // }
 
   async venueSearch(
     venue: VenueVendorInfo,
@@ -79,7 +79,7 @@ export class VendorOpentable extends VendorBase {
     timeOption: string
   ): Promise<TimeSlots[]> {
     await limiter.removeTokens(1);
-    let resbody = await this.venueSearchInternal(
+    let resbody = await opentableFindReservation(
       venue.businessid!,
       date,
       party_size,
@@ -216,37 +216,37 @@ export class VendorOpentable extends VendorBase {
     return finalResult;
   }
 
-  async _APIfetchAppConfig(url: string): Promise<any | null> {
-    console.log("opentable: fetching app config", url);
-    // URL should be like this:
-    // `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
-    const w = await nodefetch(url, {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-    });
-    const res = await w.text();
-    const $ = cheerio.load(res);
+  // async _APIfetchAppConfig(url: string): Promise<any | null> {
+  //   console.log("opentable: fetching app config", url);
+  //   // URL should be like this:
+  //   // `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
+  //   const w = await nodefetch(url, {
+  //     method: "get",
+  //     headers: {
+  //       "Content-Type": "application/json;charset=UTF-8",
+  //     },
+  //   });
+  //   const res = await w.text();
+  //   const $ = cheerio.load(res);
 
-    let scripts = $("#primary-window-vars").html();
-    let windowVars = JSON.parse(scripts!);
-    let appconfig = windowVars.windowVariables.__INITIAL_STATE__;
-    // console.log(appconfig);
-    return appconfig;
-  }
+  //   let scripts = $("#primary-window-vars").html();
+  //   let windowVars = JSON.parse(scripts!);
+  //   let appconfig = windowVars.windowVariables.__INITIAL_STATE__;
+  //   // console.log(appconfig);
+  //   return appconfig;
+  // }
 
-  async _APIVenueLookup(businessid: string): Promise<any> {
-    // let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
-    let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
-    const appconfig = await this._APIfetchAppConfig(url);
-    if (appconfig) {
-      return {
-        address: appconfig?.restaurant?.address?.line1,
-        city: appconfig?.restaurant?.address?.city,
-        state: appconfig?.restaurant?.address?.state,
-      };
-    }
-    return null;
-  }
+  // async _APIVenueLookup(businessid: string): Promise<any> {
+  //   // let url = `https://www.opentable.com/restref/client?rid=${businessid}&restref=${businessid}`;
+  //   let url = `https://www.opentable.com/booking/restref/availability?rid=${businessid}&restref=${businessid}`;
+  //   const appconfig = await this._APIfetchAppConfig(url);
+  //   if (appconfig) {
+  //     return {
+  //       address: appconfig?.restaurant?.address?.line1,
+  //       city: appconfig?.restaurant?.address?.city,
+  //       state: appconfig?.restaurant?.address?.state,
+  //     };
+  //   }
+  //   return null;
+  // }
 }
