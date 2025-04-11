@@ -31,6 +31,7 @@
     "git": "^0.1.5",
     "got-scraping": "^3.2.15",
     "install": "^0.13.0",
+    "jaro-winkler": "^0.2.8",
     "limiter": "^2.1.0",
     "moment-timezone": "^0.5.33",
     "node-cache": "^5.1.2",
