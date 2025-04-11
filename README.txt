@@ -13,6 +13,7 @@ Running server locally
 
 cd graphql
 npm install
+ln -s ../yumutil . 
 
 export PGHOST=35.188.171.*** # lookup from console.cloud.google.com yumyum-v2
 export PGPASSWORD=3DdeM*****  # look it up 
