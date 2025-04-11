@@ -15,6 +15,7 @@ import { VenueSearchInput } from "./VenueSearchInput";
 import {
   opentable_basic_search,
   opentable_basic_search_and_validate,
+  opentableFindReservation,
 } from "../../yumutil/src";
 
 const nodefetch = require("node-fetch");
@@ -42,27 +43,33 @@ export class VendorOpentable extends VendorBase {
     party_size: number,
     timeOption: string
   ): Promise<any> {
-    let token = await VendorOpentable.fetchAuthToken();
-    let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
-    let datetime =
-      timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
-    let data = {
-      rid: businessid,
-      partySize: party_size,
-      dateTime: datetime,
-      enableFutureAvailability: false,
-    };
-    const w = await nodefetch(url, {
-      method: "post",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        authorization: `Bearer ${token}`,
-      },
-    });
+    return await opentableFindReservation(
+      businessid,
+      date,
+      party_size,
+      timeOption
+    );
+    // let token = await VendorOpentable.fetchAuthToken();
+    // let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
+    // let datetime =
+    //   timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
+    // let data = {
+    //   rid: businessid,
+    //   partySize: party_size,
+    //   dateTime: datetime,
+    //   enableFutureAvailability: false,
+    // };
+    // const w = await nodefetch(url, {
+    //   method: "post",
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     "Content-Type": "application/json;charset=UTF-8",
+    //     authorization: `Bearer ${token}`,
+    //   },
+    // });
 
-    const json = await w.json();
-    return json;
+    // const json = await w.json();
+    // return json;
   }
 
   async venueSearch(
