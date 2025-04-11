@@ -12,6 +12,10 @@ import {
 } from "./VendorBase";
 import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
+import {
+  opentable_basic_search,
+  opentable_basic_search_and_validate,
+} from "../../yumutil/src";
 
 const nodefetch = require("node-fetch");
 const buildUrl = require("build-url");
@@ -174,7 +178,6 @@ export class VendorOpentable extends VendorBase {
     let json = cheerio(scripts).html();
     let config = JSON.parse(json!);
     if (!config) {
-      console.log(res);
       throw new Error("No auth token found");
     }
     let token = config["authToken"];
@@ -190,149 +193,20 @@ export class VendorOpentable extends VendorBase {
     latitude: number,
     extra: VenueSearchInput
   ): Promise<VenueReservationInfo | null> {
-    // note that this is the built-in version and not the same as the node-fetch API
-    const result = await fetch(
-      "https://www.opentable.com/dapi/fe/gql?optype=query&opname=Autocomplete",
-      {
-        headers: {
-          // don't uncomment this.... it will fail
-          // 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
-          "content-type": "application/json",
-          // "x-csrf-token": "eda2a880-4591-44e3-b7e0-9f7f03079bd3",
-          "x-csrf-token": "ec7cfeef-a047-461c-960d-4ab44ce2688a",
-        },
-        body: JSON.stringify({
-          operationName: "Autocomplete",
-          variables: {
-            term: term,
-            latitude: latitude,
-            longitude: longitude,
-            useNewVersion: true,
-          },
-          extensions: {
-            persistedQuery: {
-              version: 1,
-              // sha256Hash: "3cabca79abcb0db395d3cbebb4d47d41f3ddd69442eba3a57f76b943cceb8cf4"
-              // below updated on 2025-04-10
-              sha256Hash:
-                "fe1d118abd4c227750693027c2414d43014c2493f64f49bcef5a65274ce9c3c3",
-            },
-          },
-        }),
-        method: "POST",
-      }
+    const result1 = await opentable_basic_search_and_validate(
+      term,
+      longitude,
+      latitude,
+      ""
     );
-
-    var response: any;
-    try {
-      response = (await result.json()).data.autocomplete.autocompleteResults;
-    } catch (e) {
-      console.log("Opentable: error parsing response from search API", e);
+    if (!result1) {
       return null;
     }
-
-    console.log(response);
-
-    if (response.length === 0) {
-      return null;
-    }
-
-    // sort results by distance
-    const sorted = response.sort((a: any, b: any) => {
-      let a_d = getDistance(
-        { latitude: a?.latitude || 0, longitude: a?.longitude || 0 },
-        { latitude: latitude, longitude: longitude }
-      );
-      let b_d = getDistance(
-        { latitude: b?.latitude || 0, longitude: b?.longitude || 0 },
-        { latitude: latitude, longitude: longitude }
-      );
-      return a_d - b_d;
-    });
-
-    const validateResult = async (businessid: string): Promise<boolean> => {
-      try {
-        const result = await this.venueSearchInternal(
-          businessid,
-          dayjs().add(7, "day").format("YYYY-MM-DD"),
-          2,
-          "dinner"
-        );
-        if (result.availability?.error?.message === "NOT_AVAILABLE") {
-          console.log("opentable No longer available", businessid);
-          return false;
-        }
-      } catch (e) {
-        console.log("opentable validation exception.....", businessid);
-        console.log(e);
-        return false;
-      }
-      return true;
+    const finalResult: VenueReservationInfo | null = {
+      reservation: this.vendorID(),
+      businessid: result1!,
     };
-
-    const makeResult = (candidate: any) => {
-      return {
-        name: candidate.name,
-        reservation: this.vendorID(),
-        businessid: candidate.id,
-      };
-    };
-
-    for (const entry of sorted.slice(0, 10)) {
-      // distance in meters
-      const distance = getDistance(
-        { latitude: latitude, longitude: longitude },
-        { latitude: entry.latitude, longitude: entry.longitude }
-      );
-
-      if (distance > 3500) {
-        console.log("opentable: distance too far", distance);
-        continue;
-      }
-
-      if (venueNameMatched(term, entry.name)) {
-        if (await validateResult(entry.id)) {
-          return makeResult(entry);
-        } else {
-          console.log(
-            "opentable: can't avalidate entry - keep working ",
-            entry.id
-          );
-        }
-      } else {
-        console.log(
-          "opentable: name not matched, continue to working",
-          entry.name
-        );
-      }
-
-      const location = await this._APIVenueLookup(entry.id);
-      if (
-        location &&
-        (await addressMatch(
-          location.address,
-          extra.address,
-          location.city,
-          location.state
-        ))
-      ) {
-        if (await validateResult(entry.id)) {
-          return makeResult(entry);
-        }
-      } else {
-        if (!location) {
-          console.log("opentable: location not found", entry.id);
-        } else {
-          console.log(
-            "opentable: location found but address not matched",
-            location.address,
-            extra.address
-          );
-        }
-      }
-      console.log("giving up on this entry", entry.name);
-    }
-    return null;
+    return finalResult;
   }
 
   async _APIfetchAppConfig(url: string): Promise<any | null> {
