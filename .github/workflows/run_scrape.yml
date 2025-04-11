@@ -38,20 +38,20 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - run: npm install -g ts-node
       - run: cd yumutil; npm ci; npm install; npm run build; npm link
       - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
       - name: backup yumyum db
-        run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
+        run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{ steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
 
       - name: "create-json-file"
-        run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
+        run: cd data/11-05-2022; npx ts-node src/index.ts >> ${{ steps.date.outputs.date }}.json
 
       - name: "compressing into gz file"
-        run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
+        run: cd data/11-05-2022; gzip ${{ steps.date.outputs.date }}.json
 
       - id: "upload-folder"
         uses: "google-github-actions/upload-cloud-storage@v2"
@@ -63,5 +63,7 @@ jobs:
         run: cd data/11-05-2022; sh runme.sh
 
       - name: "import data"
-        env: ${{ secrets }}
+        env:
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+          GCP_EMAIL: ${{ secrets.GCP_EMAIL }}
         run: cd tockspecial; npx ts-node importMichelinData.ts
