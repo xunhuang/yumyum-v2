@@ -245,8 +245,8 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
   }
   return true;
 }
-var opentable_auth_token: string | null = null;
 
+ @Cache(userCache, { ttl: 60 * 60 })
 export async function opentable_fetchAuthToken(): Promise<string | null> {
   // don't change this URL lightly. It's from a partner page directly that came from
   // https://vintnersresort.com/dining/
@@ -257,9 +257,6 @@ export async function opentable_fetchAuthToken(): Promise<string | null> {
   // currently this is the only way to get the auth token.
   // when this breaks, we need to adopt the gql endpoint
   const url = `https://www.opentable.com/john-ash-and-co-reservations-santa-rosa?restref=1477&lang=en-US&ot_source=Restaurant%20website`;
-  if (opentable_auth_token) {
-    return opentable_auth_token;
-  }
 
   const w = await fetch(url, {
     method: "get",
@@ -279,7 +276,8 @@ export async function opentable_fetchAuthToken(): Promise<string | null> {
   if (!appConfig) {
     throw new Error("Unable to fetch auth token for opentable");
   }
-  opentable_auth_token = appConfig.authToken || null;
+  const opentable_auth_token = appConfig.authToken || null;
+  console.log("fetch opentable_auth_token", opentable_auth_token);
   return opentable_auth_token!;
 }
 
