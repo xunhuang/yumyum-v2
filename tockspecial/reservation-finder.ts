@@ -67,7 +67,7 @@ async function is_this_resy(venue: any): Promise<boolean> {
   // if the venue is already resy(per input), then we need to validate the venue info
   // by directly fetching the info via business id/slug and see if it matches
   if (venue.reservation === "resy") {
-    return validateResyVenueInfo(venue);
+    return await validateResyVenueInfo(venue);
   }
   return false;
 }
