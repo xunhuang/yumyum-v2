@@ -268,7 +268,6 @@ export async function opentable_fetchAuthToken(): Promise<string | null> {
     },
   });
   const res = await w.text();
-  console.log(cheerio);
   const $ = cheerio.load(res);
 
   let scripts = $("#client-initial-state").html();
