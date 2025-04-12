@@ -322,11 +322,19 @@ export async function opentable_fetchPrimaryWindowVars(
 }
 
 export async function opentable_fetchCSRFToken(): Promise<string> {
+  const cacheKey = "opentable_csrf_token";
+  const cached_token = myCache.get(cacheKey);
+  if (cached_token) {
+    return cached_token;
+  }
+
   const windowVars = await opentable_fetchPrimaryWindowVars("1477");
   if (!windowVars) {
     throw new Error("Unable to fetch CSRF token for opentable");
   }
-  return windowVars.windowVariables.__CSRF_TOKEN__;
+  const csrf_token = windowVars.windowVariables.__CSRF_TOKEN__;
+  myCache.set(cacheKey, csrf_token, 60 * 60);
+  return csrf_token;
 }
 
 export async function opentableFindReservation(
