@@ -4,6 +4,9 @@ import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 import { addressMatch, venueNameSimilar } from "./utils";
 import { getDistance } from "geolib";
 
+const NodeCache = require("node-cache");
+const myCache = new NodeCache({ stdTTL: 60 * 60, checkperiod: 120 });
+
 interface Entry {
   id: string;
   name: string;
@@ -246,9 +249,14 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
   return true;
 }
 
-var opentable_auth_token: string | null = null;
-
 export async function opentable_fetchAuthToken(): Promise<string | null> {
+  const cacheKey = "opentable_auth_token";
+  const cached_token = myCache.get(cacheKey);
+  if (cached_token) {
+    // console.log("opentable_fetchAuthToken cache hit");
+    return cached_token;
+  }
+
   // don't change this URL lightly. It's from a partner page directly that came from
   // https://vintnersresort.com/dining/
   // this page still contains the #client-initial-state  in the HTML.
@@ -258,9 +266,6 @@ export async function opentable_fetchAuthToken(): Promise<string | null> {
   // currently this is the only way to get the auth token.
   // when this breaks, we need to adopt the gql endpoint
   const url = `https://www.opentable.com/john-ash-and-co-reservations-santa-rosa?restref=1477&lang=en-US&ot_source=Restaurant%20website`;
-  if (opentable_auth_token) {
-    return opentable_auth_token;
-  }
 
   const w = await fetch(url, {
     method: "get",
@@ -280,8 +285,11 @@ export async function opentable_fetchAuthToken(): Promise<string | null> {
   if (!appConfig) {
     throw new Error("Unable to fetch auth token for opentable");
   }
-  opentable_auth_token = appConfig.authToken || null;
-  return opentable_auth_token!;
+  const opentable_auth_token = appConfig.authToken || null;
+  if (opentable_auth_token) {
+    myCache.set(cacheKey, opentable_auth_token, 60 * 60);
+  }
+  return opentable_auth_token;
 }
 
 export async function opentable_fetchPrimaryWindowVars(
