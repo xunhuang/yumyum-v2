@@ -2,7 +2,11 @@ import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
 import dayjs from "dayjs";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
-import { getBrowerPageSingleton, getNewBrowerPage, puppeteerFetch } from "./browser_page";
+import {
+  getBrowerPageSingleton,
+  getNewBrowerPage,
+  puppeteerFetch,
+} from "./browser_page";
 
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
@@ -39,15 +43,10 @@ export async function process_for_tock(
     return false;
   }
   if (saveChanges) {
-    await tock_set_venue_reservation(
-      venuekey,
-      result.slug,
-      result.businessid
-    );
+    await tock_set_venue_reservation(venuekey, result.slug, result.businessid);
   }
   return true;
 }
-
 
 interface TockSearchResult {
   businessid: string;
@@ -61,9 +60,11 @@ export async function validateTockVenueInfo(venue: any): Promise<boolean> {
     console.log(`Tock Slug ${venue.urlSlug} has no proper appconfig`);
     return false;
   }
-  // check if name matches, and if it's operational 
+  // check if name matches, and if it's operational
   if (!venueNameSimilar(appconfig.app.config.business.name, venue.name)) {
-    console.log(`Tock Slug ${venue.urlSlug} has name mismatch : ${appconfig.app.config.business.name} !== ${venue.name}`);
+    console.log(
+      `Tock Slug ${venue.urlSlug} has name mismatch : ${appconfig.app.config.business.name} !== ${venue.name}`
+    );
     return false;
   }
   const ticketAvailableUntil =
@@ -115,25 +116,32 @@ export async function tock_basic_search_and_validate(
           continue;
         }
 
-        if (!(appconfig.app.config.business.state === "CA" &&
-          state === "California")) {
+        if (
+          !(
+            appconfig.app.config.business.state === "CA" &&
+            state === "California"
+          )
+        ) {
           // XXX:TODO make a better state match
           console.log("state mismatch, continue");
+          continue;
+        }
+
+        if (appconfig.app.config.business.city !== city) {
           continue;
         }
         if (venueNameSimilar(appconfig.app.config.business.name, venuename)) {
           return candidate;
         }
-        if (venueNameSimilar(appconfig.app.config.business.name, venuename)) {
+        if (
+          await addressMatch(
+            appconfig.app.config.business.address,
+            address,
+            city,
+            state
+          )
+        ) {
           return candidate;
-        }
-        if (await addressMatch(
-          appconfig.app.config.business.address,
-          address,
-          city,
-          state
-        )) {
-          return candidate
         }
 
         console.log(
@@ -206,7 +214,9 @@ interface AppConfig {
   [key: string]: any; // This is a generic definition, specify more detailed properties as needed
 }
 
-export async function tock_fetch_app_config(tockslug: string): Promise<AppConfig> {
+export async function tock_fetch_app_config(
+  tockslug: string
+): Promise<AppConfig> {
   const tocklink = `https://www.exploretock.com/${tockslug}`;
   const tockwebsite: string = await puppeteerFetch(tocklink);
   const $ = cheerio.load(tockwebsite);
@@ -250,8 +260,9 @@ mutation MyMutation {
   return json;
 }
 
-
-export async function tockFindCalendarForVenue(slug: string): Promise<string | undefined> {
+export async function tockFindCalendarForVenue(
+  slug: string
+): Promise<string | undefined> {
   const request_processing = (request: any): void => {
     if (request.url().includes("calendar")) {
       const requestParams: any = {
@@ -260,7 +271,7 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
         headers: {
           ...request.headers(),
           accept: "application/json",
-        }
+        },
       };
       request.continue(requestParams);
       return;
@@ -270,7 +281,7 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
 
   // Create a signal to wait for post-processing to complete
   let postProcessingComplete: (value: unknown) => void;
-  const postProcessingPromise = new Promise(resolve => {
+  const postProcessingPromise = new Promise((resolve) => {
     postProcessingComplete = resolve;
   });
 
@@ -282,8 +293,7 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
       const text = await response.text();
       postProcessingComplete(text);
     }
-  }
-  );
+  });
 
   const date = dayjs().format("YYYY-MM-DD");
   const url = `https://www.exploretock.com/${slug}/search?date=${date}&size=2&time=20%3A00`;
@@ -295,15 +305,12 @@ export async function tockFindCalendarForVenue(slug: string): Promise<string | u
     return undefined;
   }
 
-  const timeoutPromise = new Promise(resolve => {
+  const timeoutPromise = new Promise((resolve) => {
     const timer = setTimeout(() => resolve(undefined), 10000);
     postProcessingPromise.then(() => clearTimeout(timer));
   });
 
-  const result = await Promise.race([
-    postProcessingPromise,
-    timeoutPromise
-  ]);
+  const result = await Promise.race([postProcessingPromise, timeoutPromise]);
 
   return result as string | undefined;
 }

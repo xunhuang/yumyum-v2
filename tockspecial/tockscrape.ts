@@ -120,26 +120,6 @@ const request_processing = (request: HTTPRequest): void => {
   request.continue();
 };
 
-(async function main(): Promise<void> {
-  try {
-    const tockdata = await tockDbData();
-    const BayAreaSlugs = tockdata.map((v) => v.urlSlug);
-
-    GlobalSlugMap = tockdata.reduce(
-      (acc: GlobalSlugMapType, element: Venue) => {
-        acc[element.urlSlug] = element;
-        return acc;
-      },
-      {}
-    );
-
-    await scrapeTockList(BayAreaSlugs);
-    console.log("all done - saving to redis may continue before exiting");
-  } catch (error) {
-    console.error(error);
-  }
-})();
-
 async function saveToRedis(
   slug: string,
   calendar: { result: CalendarResult }
@@ -186,3 +166,23 @@ async function scrapeTockList(slugsList: string[]): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 5000));
   await browser.close();
 }
+
+(async function main(): Promise<void> {
+  try {
+    const tockdata = await tockDbData();
+    const BayAreaSlugs = tockdata.map((v) => v.urlSlug);
+
+    GlobalSlugMap = tockdata.reduce(
+      (acc: GlobalSlugMapType, element: Venue) => {
+        acc[element.urlSlug] = element;
+        return acc;
+      },
+      {}
+    );
+
+    await scrapeTockList(BayAreaSlugs);
+    console.log("all done - saving to redis may continue before exiting");
+  } catch (error) {
+    console.error(error);
+  }
+})();

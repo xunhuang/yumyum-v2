@@ -21,8 +21,8 @@ const Ssal_TestCase = {
 
 const TheWild_TestCase = {
   name: "The Wild",
-  urlSlug: "thewildchive",
-  businessid: "23691",
+  urlSlug: "thewild",
+  businessid: "7656",
   longitude: -122.3921198,
   latitude: 37.7911695,
   // address: "1198 Howard St",
@@ -73,6 +73,7 @@ describe("tock search API", () => {
       data.longitude,
       data.latitude
     );
+    console.log(search_results);
     expect(search_results).toBeDefined();
     expect(search_results).not.toBeNull();
     expect(search_results?.length).toBeGreaterThan(0);
