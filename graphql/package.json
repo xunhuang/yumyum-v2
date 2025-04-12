@@ -17,11 +17,13 @@
   "dependencies": {
     "@google-cloud/logging-bunyan": "^4.2.1",
     "@google-cloud/storage": "^6.7.0",
+    "@types/cheerio": "^0.22.35",
     "@types/superagent": "^4.1.13",
     "@types/ws": "^8.18.1",
     "@upstash/redis": "^1.34.7",
     "build-url": "^6.0.1",
     "bunyan": "^1.8.15",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dataloader": "^2.0.0",
     "dayjs": "^1.11.13",
