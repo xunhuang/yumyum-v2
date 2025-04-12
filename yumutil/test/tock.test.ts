@@ -1,5 +1,4 @@
 import { describe, expect } from "@jest/globals";
-import dayjs from "dayjs";
 import {
   browserPageShutdown,
   tockFindCalendarForVenue,
@@ -9,7 +8,7 @@ import {
   venueNameSimilar,
 } from "../src";
 
-const testcase = {
+const Ssal_TestCase = {
   name: "Ssal",
   urlSlug: "ssal",
   businessid: "19093",
@@ -20,19 +19,21 @@ const testcase = {
   region: "California",
 };
 
-describe("tock base API", () => {
-  it("tock_basic_entity_search_return_candidates", async () => {
-    const data = testcase;
-    const search_results = await tock_basic_search(
-      data.name,
-      data.longitude,
-      data.latitude
-    );
-    expect(search_results).toBeDefined();
-    expect(search_results).not.toBeNull();
-    expect(search_results?.length).toBeGreaterThan(0);
-  }, 10000);
+const TheWild_TestCase = {
+  name: "The Wild",
+  urlSlug: "thewildchive",
+  businessid: "23691",
+  longitude: -122.3921198,
+  latitude: 37.7911695,
+  // address: "1198 Howard St",
+  address: "",
+  city: "San Francisco",
+  region: "California",
+};
 
+const testcase = TheWild_TestCase;
+
+describe("tock base API", () => {
   it("tock_fetch_app_config", async () => {
     const data = testcase;
     const appConfig = await tock_fetch_app_config(data.urlSlug);
@@ -64,7 +65,18 @@ describe("tock base API", () => {
   });
 });
 
-describe("tock yumyum app API", () => {
+describe("tock search API", () => {
+  it("tock_basic_entity_search_return_candidates", async () => {
+    const data = testcase;
+    const search_results = await tock_basic_search(
+      data.name,
+      data.longitude,
+      data.latitude
+    );
+    expect(search_results).toBeDefined();
+    expect(search_results).not.toBeNull();
+    expect(search_results?.length).toBeGreaterThan(0);
+  }, 10000);
   it("tock_basic_entity_search_and_validate", async () => {
     const data = testcase;
     const tock_result = await tock_basic_search_and_validate(
