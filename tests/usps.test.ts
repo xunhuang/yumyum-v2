@@ -1,11 +1,7 @@
 import { describe } from "@jest/globals";
 
 import { uspsLookupStreet } from "../graphql/yummodule/uspsLookupStreet";
-import { VendorTock } from "../graphql/yummodule/VendorTock";
 
-const bayarea = require("./bayarea.tock.json");
-
-var tock = new VendorTock();
 describe("USPS System Test", () => {
   beforeAll(async () => {
     return;
@@ -24,7 +20,7 @@ describe("USPS System Test", () => {
       expect(address).toEqual("1735 POLK ST");
     });
 
-    it("USPS API should work", async () => {
+    it("USPS_API_should_rewrite_suffix", async () => {
       let address = await uspsLookupStreet(
         "239 Bannister Court",
         "Alameda",
@@ -33,6 +29,7 @@ describe("USPS System Test", () => {
       expect(address).toEqual("239 BANNISTER CT");
     });
 
+    // this test is failing because the API is not working
     // it("USPS API should work", async () => {
     //   let address = await uspsLookupStreet(
     //     // "7th avenue and, Dolores Street",
