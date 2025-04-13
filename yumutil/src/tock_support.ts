@@ -144,8 +144,23 @@ export async function tock_basic_search_and_validate(
           return candidate;
         }
 
+        // special case for Seventh & Dolores
+        // name severely not match, and address match failed USPS and Googgle API
+        if (
+          venuename == "Seventh & Dolores" &&
+          appconfig.app.config.business.name.includes("Seventh")
+        ) {
+          return candidate;
+        }
+
         console.log(
-          " unfornately neither name not match or address not match ----"
+          "Unfornately neither name not match or address not match ----"
+        );
+        console.log(
+          `mismatch name for ${venuename} and ${appconfig.app.config.business.name}`
+        );
+        console.log(
+          `mismatch address for ${address} and ${appconfig.app.config.business.address}`
         );
       } else {
         // this means last day ticket available was in the past

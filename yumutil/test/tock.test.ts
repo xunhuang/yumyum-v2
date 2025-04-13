@@ -30,8 +30,18 @@ const TheWild_TestCase = {
   city: "San Francisco",
   region: "California",
 };
+const sevendeloreis_testcase = {
+  name: "Seventh & Dolores",
+  urlSlug: "sevendeloreis",
+  businessid: "7656",
+  longitude: -121.92262,
+  latitude: 36.55362,
+  address: "7th Ave. & Dolores St.",
+  city: "Carmel-by-the-Sea",
+  region: "California",
+};
 
-const testcase = TheWild_TestCase;
+const testcase = Ssal_TestCase;
 
 describe("tock base API", () => {
   it("tock_fetch_app_config", async () => {

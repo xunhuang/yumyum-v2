@@ -2,25 +2,17 @@ import cheerio from "cheerio";
 import { gotScraping } from "got-scraping";
 
 import {
-  deserializeTockSearchResponseProtoToMsg,
-  newTockSearchRequest,
-  serializeMsgToProto,
-} from "./tockRequestMsg";
-import {
   TimeSlots,
   VendorBase,
   VenueReservationInfo,
   VenueVendorInfo,
 } from "./VendorBase";
 
-import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
 import { tock_basic_search_and_validate } from "../yumutil/src";
 
 const buildUrl = require("build-url");
 const moment = require("moment-timezone");
-const getDistance = require("geolib").getDistance;
-const tock = require("./tock-trimmed.json");
 
 export class VendorTock extends VendorBase {
   vendorID() {

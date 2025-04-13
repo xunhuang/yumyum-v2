@@ -117,8 +117,10 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 
 (async function main(): Promise<void> {
   const tbdlist = await BayAreaListWithTBD();
-  console.log(`Found ${tbdlist.length} venues to check`);
-  for (const venue of tbdlist) {
+  const worklist = tbdlist;
+
+  console.log(`Found ${worklist.length} venues to check`);
+  for (const venue of worklist) {
     console.log(
       `Searching for ${venue.name} - ${venue.address} ****************************************************************`
     );
