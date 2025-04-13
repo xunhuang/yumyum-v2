@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { gotScraping } from "got-scraping";
 
 import {
@@ -124,43 +124,57 @@ export class VendorTock extends VendorBase {
   }
 
   async _fetchAppConfigFromURL(url: any): Promise<any> {
-    const response = await gotScraping.get({
-      url: url,
-      headerGeneratorOptions: {
-        browsers: [
-          {
-            name: "chrome",
-            minVersion: 87,
-            maxVersion: 89,
-          },
-        ],
-        devices: ["desktop"],
-        locales: ["de-DE", "en-US"],
-        operatingSystems: ["windows", "linux"],
-      },
-      headers: {
-        "Accept-Language": "en-US,en;q=0.9",
-      },
-    });
+    try {
+      const response = await gotScraping.get({
+        url: url,
+        headerGeneratorOptions: {
+          browsers: [
+            {
+              name: "chrome",
+              minVersion: 87,
+              maxVersion: 89,
+            },
+          ],
+          devices: ["desktop"],
+          locales: ["de-DE", "en-US"],
+          operatingSystems: ["windows", "linux"],
+        },
+        headers: {
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+        responseType: 'text'
+      });
 
-    var appconfig: any = null;
-    const $ = cheerio.load(response.body);
-    $("script").map((i: any, el: any) => {
-      let text = cheerio(el).html();
-      if (text?.includes("window.$REDUX_STATE = ")) {
-        const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-        // eslint-disable-next-line
-        eval(toeval);
+      if (!response.body) {
+        console.error('No response body received from gotScraping');
+        return null;
       }
+
+      var appconfig: any = null;
+      const $ = cheerio.load(response.body);
+      $("script").each((i: number, el: cheerio.Element) => {
+        let text = $(el).html();
+        if (text?.includes("window.$REDUX_STATE = ")) {
+          const toeval = text.replace("window.$REDUX_STATE", "appconfig");
+          // eslint-disable-next-line
+          eval(toeval);
+        }
+      });
+      return appconfig;
+    } catch (error) {
+      console.error('Error in _fetchAppConfigFromURL:', error);
       return null;
-    });
-    return appconfig;
+    }
   }
 
   async fetchReservationInfoFromURL(
     url: string
   ): Promise<VenueReservationInfo | null> {
     const appconfig = await this._fetchAppConfigFromURL(url);
+    if (!appconfig?.app?.config?.business) {
+      console.error('Invalid appconfig received:', appconfig);
+      return null;
+    }
     return {
       reservation: this.vendorID(),
       businessid: appconfig.app.config.business.id,

@@ -1,8 +1,5 @@
 import cheerio from "cheerio";
-import dayjs from "dayjs";
 import { RateLimiter } from "limiter";
-import { Cache, CacheContainer } from "node-ts-cache";
-import { MemoryStorage } from "node-ts-cache-storage-memory";
 
 import {
   TimeSlots,
@@ -10,10 +7,8 @@ import {
   VenueReservationInfo,
   VenueVendorInfo,
 } from "./VendorBase";
-import { addressMatch, venueNameMatched } from "./venueNameMatched";
 import { VenueSearchInput } from "./VenueSearchInput";
 import {
-  opentable_basic_search,
   opentable_basic_search_and_validate,
   opentableFindReservation,
 } from "../yumutil/src";
@@ -21,9 +16,6 @@ import {
 const nodefetch = require("node-fetch");
 const buildUrl = require("build-url");
 const moment = require("moment-timezone");
-// eslint-disable-next-line
-const userCache = new CacheContainer(new MemoryStorage());
-const getDistance = require("geolib").getDistance;
 
 // 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 });
