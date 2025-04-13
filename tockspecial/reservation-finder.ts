@@ -67,7 +67,7 @@ async function is_this_resy(venue: any): Promise<boolean> {
   // if the venue is already resy(per input), then we need to validate the venue info
   // by directly fetching the info via business id/slug and see if it matches
   if (venue.reservation === "resy") {
-    return validateResyVenueInfo(venue);
+    return await validateResyVenueInfo(venue);
   }
   return false;
 }
@@ -117,8 +117,10 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 
 (async function main(): Promise<void> {
   const tbdlist = await BayAreaListWithTBD();
-  console.log(`Found ${tbdlist.length} venues to check`);
-  for (const venue of tbdlist) {
+  const worklist = tbdlist;
+
+  console.log(`Found ${worklist.length} venues to check`);
+  for (const venue of worklist) {
     console.log(
       `Searching for ${venue.name} - ${venue.address} ****************************************************************`
     );

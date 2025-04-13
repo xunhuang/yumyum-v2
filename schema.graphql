@@ -116,10 +116,10 @@ type Venue implements Node {
   guide: String
   imageList: String
   key: String!
-  latitude: Float
+  latitude: Float!
   localarea: String
   localname: String
-  longitude: Float
+  longitude: Float!
   menuurl: String
   metro: String
   michelinId: String
@@ -1056,10 +1056,10 @@ input VenueInput {
   guide: String
   imageList: String
   key: String!
-  latitude: Float
+  latitude: Float!
   localarea: String
   localname: String
-  longitude: Float
+  longitude: Float!
   menuurl: String
   metro: String
   michelinId: String

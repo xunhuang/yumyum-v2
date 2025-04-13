@@ -16,12 +16,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@v0
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
         with:
-          service_account_email: ${{ secrets.GCP_EMAIL }}
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-          export_default_credentials: true
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+      - uses: google-github-actions/setup-gcloud@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -32,23 +33,23 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
-      - run:  npm install -g ts-node
+      - run: npm install -g ts-node
       - run: cd yumutil; npm ci; npm install; npm run build; npm link
       - run: cd tockspecial; npm ci; npm install; npm link yumutil
 
       - name: backup yumyum db
-        run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
+        run: gcloud sql export sql yumyumdb gs://yumyumbackup/yumyumdb/yumyum-${{ steps.date.outputs.date }}.gz --database=yumyum --project yumyum-v2
 
       - name: "create-json-file"
-        run: cd data/11-05-2022; npx ts-node src/index.ts >>  ${{steps.date.outputs.date }}.json
+        run: cd data/11-05-2022; npx ts-node src/index.ts >> ${{ steps.date.outputs.date }}.json
 
       - name: "compressing into gz file"
-        run: cd data/11-05-2022; gzip ${{steps.date.outputs.date}}.json
+        run: cd data/11-05-2022; gzip ${{ steps.date.outputs.date }}.json
 
       - id: "upload-folder"
-        uses: "google-github-actions/upload-cloud-storage@v0"
+        uses: "google-github-actions/upload-cloud-storage@v2"
         with:
           path: data/11-05-2022/${{ steps.date.outputs.date }}.json.gz
           destination: "yumyum-v2_cloudbuild/yumyum_import"

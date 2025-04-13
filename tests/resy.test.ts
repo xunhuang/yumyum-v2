@@ -49,18 +49,6 @@ describe("Resy System Test", () => {
       expect(search_result).toBeNull();
     });
 
-    // disableing these two tests. becuase we are doing exact matchings now, validating
-    // the name or address are needed.
-    // it('should find an entity with fuzzzy match', async () => {
-    //     const search_result = await resy.entitySearchExactTerm("Au", -122.1156105, 37.3801255, AurumData);
-    //     expect(search_result.urlSlug).toEqual("aurum");
-    // })
-
-    // it('should find an entity with fuzzzy match, case not match', async () => {
-    //     const search_result = await resy.entitySearchExactTerm("au", -122.1156105, 37.3801255, AurumData);
-    //     expect(search_result.urlSlug).toEqual("aurum");
-    // })
-
     it("list of entity (like fail because 5 second limit)", async () => {
       for (const entity of nyc) {
         const search_result = await resy.entitySearchExactTerm(
@@ -78,10 +66,12 @@ describe("Resy System Test", () => {
 
   describe("reservation search", () => {
     it("Testing for Resy API functioning ok", async () => {
-      // Heirloom Cafe
       const search_result = await venueReservationSearchByKey(
-        "YUNn5L0CP1HjttnY7NU6"
+        // "YUNn5L0CP1HjttnY7NU6" // heirloom cafe // not ok
+        "2uTcvTYbn6lrFicXDhao" // the morris - OK....  what?
+        // "aDjNTCZmZ9XMgJXPEAJo" // Utzutzu // not ok
       );
+
       // null means API error
       expect(search_result).not.toBeNull();
     });

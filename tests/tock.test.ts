@@ -1,54 +1,68 @@
-import { describe } from '@jest/globals';
-import dayjs from 'dayjs';
+import { describe } from "@jest/globals";
+import dayjs from "dayjs";
 
-import { VendorTock } from '../graphql/yummodule/VendorTock';
-import { venueReservationSearchByKey, venueToVendorInfo, yumyumVenueByKey } from './getYumYumGraphQLClient';
+import { VendorTock } from "../graphql/yummodule/VendorTock";
+import {
+  venueReservationSearchByKey,
+  venueToVendorInfo,
+  yumyumVenueByKey,
+} from "./getYumYumGraphQLClient";
 
 const smallset = require("./tock.json");
 
 var tock = new VendorTock();
 
-describe('Tock System Test', () => {
-
-  it('fetch entity info via Url', async () => {
-    const info = await tock.fetchReservationInfoFromURL("https://www.exploretock.com/theshotasf/");
-    console.log(info);
-    expect(info?.reservation).toBe("tock")
+describe("Tock System Test", () => {
+  it("fetch entity info via Url", async () => {
+    const info = await tock.fetchReservationInfoFromURL(
+      "https://www.exploretock.com/theshotasf/"
+    );
+    expect(info?.reservation).toBe("tock");
     expect(info?.businessid).toBe(13420);
     expect(info?.urlSlug).toBe("theshotasf");
   });
 
   // this one has a strange communal flag...
-  it('investigate Osito', async () => {
+  it("investigate Osito", async () => {
     const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");
     const search_result = await tock.venueSearchSafe(
       venueToVendorInfo(result?.data?.venueByKey!),
-      dayjs().add(7, 'day').format('YYYY-MM-DD'),
-      // "2024-02-10",
-      2, "dinner", true,
+      dayjs().add(7, "day").format("YYYY-MM-DD"),
+      2,
+      "dinner",
+      true
     );
-    console.log(search_result);
     expect(search_result).not.toBeNull();
-  })
+  });
 
   // this one has a take-out order
-  it('investigate omakase', async () => {
-    const search_result = await venueReservationSearchByKey("2VZHquW1dA6Gdv7m868O");
-    console.log(search_result);
+  it("investigate omakase", async () => {
+    const search_result = await venueReservationSearchByKey(
+      "2VZHquW1dA6Gdv7m868O"
+    );
     expect(search_result).not.toBeNull();
-  })
+  });
 
-  describe('Search entity by name and long/lat', () => {
-    it('A small set that should find exact match, using dual systems)', async () => {
+  describe("Search entity by name and long/lat", () => {
+    it("A small set that should find exact match, using dual systems)", async () => {
       for (const entity of smallset) {
         const search_result = await tock.entitySearchExactTerm(
-          entity.name, entity.longitude, entity.latitude, entity);
-        console.log(entity.name, search_result);
+          entity.name,
+          entity.longitude,
+          entity.latitude,
+          {
+            longitude: entity.longitude,
+            latitude: entity.latitude,
+            name: entity.name,
+            address: entity.address,
+            city: entity.city,
+            state: entity.region,
+          }
+        );
         expect(search_result).not.toBeNull();
         expect(search_result?.businessid).toEqual(entity.businessid);
         expect(search_result?.urlSlug).toEqual(entity.urlSlug);
       }
-    }, 100000)
-  })
-
-})
+    }, 100000);
+  });
+});
