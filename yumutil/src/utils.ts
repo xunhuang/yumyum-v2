@@ -167,6 +167,29 @@ mutation MyMutation {
   return json;
 }
 
+export async function setVenueAddress(
+  venue_key: string,
+  address: string
+): Promise<any> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    address: "${address}"
+  }, key: "${venue_key}"}) {
+    venue {
+      name
+      address
+      key
+    }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}
+
+
 export async function get_standardized_US_address_from_google(
   address: string,
   city: string,
@@ -213,7 +236,7 @@ export async function GoogleFindPlaceFromText(input: string): Promise<any> {
 }
 
 
-export async function GoogleFindStreetAddressFromText(input: string): Promise<string> {
+export async function GoogleFindStreetAddressFromText(input: string): Promise<string | undefined> {
   const baseurl = buildUrl(
     "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
     {
@@ -228,6 +251,10 @@ export async function GoogleFindStreetAddressFromText(input: string): Promise<st
   );
   const json = await simpleFetchGet(baseurl);
   const result = JSON.parse(json);
+  if (result.candidates.length !== 1) {
+    console.log("GoogleFindStreetAddressFromText found multiple candidates for input ", input, " returning undefined ", result);
+    return undefined;
+  }
   return result.candidates[0].formatted_address.split(",")[0];
 }
 

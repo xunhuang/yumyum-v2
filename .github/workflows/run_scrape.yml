@@ -60,3 +60,7 @@ jobs:
       - name: "import data"
         env: ${{ secrets }}
         run: cd tockspecial; npx ts-node importMichelinData.ts
+
+      - name: "fix missing address"
+        env: ${{ secrets }}
+        run: cd tockspecial; npx ts-node fix-missing-address.ts

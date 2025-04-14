@@ -5,10 +5,9 @@ import {
 } from "yumutil";
 
 (async function main(): Promise<void> {
-  console.log("hello");
 
-  const tbdlist = await BayAreaListWithTBD();
-  for (const venue of tbdlist) {
+  const missinglist = await BayAreaListWithMissingLongLat();
+  for (const venue of missinglist) {
     console.log(`Searching for ${venue.name} - ${venue.address} ****************************************************************`);
     if (!venue.address) {
       continue;
@@ -21,7 +20,7 @@ import {
   console.log("done");
 })();
 
-async function BayAreaListWithTBD() {
+async function BayAreaListWithMissingLongLat() {
   const query = `
   query MyQuery {
   allVenues(
