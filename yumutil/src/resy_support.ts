@@ -12,7 +12,6 @@ export function resy_calendar_key(slug: string, party_size: number): string {
 }
 
 export async function resyLists(): Promise<any> {
-  // name: { equalTo: "Delage" },
   const query = `
   query MyQuery {
   allVenues(
@@ -100,7 +99,6 @@ async function resy_find_location_details(
       queryParams: {
         url_slug: slug,
         location: location,
-        // location: "mrn",
       },
     })
   );

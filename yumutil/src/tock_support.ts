@@ -185,7 +185,6 @@ export async function tock_basic_search(
   const proto = serializeMsgToProto(requestdata);
   const protoBase64 = Buffer.from(proto).toString("base64");
   const response = await page.evaluate((data: any) => {
-    console.log(data);
 
     // decode the base64-encoded binary data back to binary
     const binarystring = atob(data);
