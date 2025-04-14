@@ -212,6 +212,26 @@ export async function GoogleFindPlaceFromText(input: string): Promise<any> {
   return JSON.parse(json);
 }
 
+
+export async function GoogleFindStreetAddressFromText(input: string): Promise<string> {
+  const baseurl = buildUrl(
+    "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
+    {
+      queryParams: {
+        input: input,
+        inputtype: "textquery",
+        fields:
+          "formatted_address,name,rating,opening_hours,geometry,place_id,business_status",
+        key: API_KEY,
+      },
+    }
+  );
+  const json = await simpleFetchGet(baseurl);
+  const result = JSON.parse(json);
+  return result.candidates[0].formatted_address.split(",")[0];
+}
+
+
 export async function get_google_place_details(place_id: string): Promise<any> {
   const baseurl = buildUrl(
     "https://maps.googleapis.com/maps/api/place/details/json",
@@ -264,3 +284,4 @@ export async function GoogleIsThisPlaceClosed(
   console.log("Google Place Details", details);
   return undefined; // unsure
 }
+
