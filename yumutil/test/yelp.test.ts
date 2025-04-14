@@ -4,8 +4,8 @@ import {
   yelp_basic_search,
 } from "../src";
 
-describe("resy", () => {
-  it("resy basic search heirloom cafe", async () => {
+describe("Yelp", () => {
+  it("yelp_basic_search", async () => {
     const result = await yelp_basic_search(
       "trabocco",
       "Alameda",

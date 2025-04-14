@@ -62,14 +62,3 @@ export async function yelp_basic_search(searchTerm: string, city: string, state:
     throw error;
   }
 }
-
-async function main(): Promise<void> {
-  try {
-    const result = await yelp_basic_search("trabocco", "Alameda", "CA");
-    // console.log("Search results:", result);
-  } catch (err) {
-    console.error("Error in main:", err);
-  }
-}
-
-main();
