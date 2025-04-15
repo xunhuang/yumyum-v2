@@ -36,6 +36,7 @@ export class VendorOpentable extends VendorBase {
       timeOption
     );
     if (typeof resbody.availability == "undefined") {
+      console.log("no avail response for resbody availability");
       return [];
     }
     let slots = resbody.availability[date].timeSlots;
@@ -47,7 +48,9 @@ export class VendorOpentable extends VendorBase {
       total.push({
         time: datestr,
       });
+      console.log("inner loop", datestr);
     });
+    console.log("outer loop, num items ", total.length);
     return total;
   }
 
