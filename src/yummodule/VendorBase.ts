@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
-import { VenueSearchInput } from './VenueSearchInput';
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -93,10 +91,6 @@ export class VendorBase {
 
     async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
         throw new Error("fetchReservationInfoFromURL() not implemented");
-    }
-
-    async entitySearchExactTerm(term: string, longitude: number, latitude: number, extra: VenueSearchInput): Promise<VenueReservationInfo | null> {
-        throw new Error("entitySearchExactTerm() not implemented");
     }
 };
 

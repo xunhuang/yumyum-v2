@@ -1,6 +1,4 @@
-import cheerio from 'cheerio';
-import { VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
-const nodefetch = require('node-fetch');
+import { VendorBase, VenueVendorInfo } from './VendorBase';
 const buildUrl = require('build-url');
 
 export class VendorOpentable extends VendorBase {
@@ -24,39 +22,5 @@ export class VendorOpentable extends VendorBase {
             }
         });
         return reservationUrl;
-    }
-
-    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
-        const w = await nodefetch(url, {
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-            }
-        });
-        const res = await w.text();
-        const $ = cheerio.load(res);
-
-        let scripts = $("script").map(function (i, el) {
-            let text = cheerio(el).html();
-            if (text?.includes("window.__INITIAL_STATE__=")) {
-                let texts = text.split("\n");
-                return texts.map(function (t) {
-                    if (t.includes("window.__INITIAL_STATE__=")) {
-                        const a = t.replace("window.__INITIAL_STATE__=", "").replace(/;$/g, "");
-                        // console.log(a);
-                        return a;
-                    }
-                    return "";
-                }).join("");
-            }
-            return "";
-        }).get().join(' ');
-
-        const clean = scripts.replace(/;$/g, '');
-        let appconfig = JSON.parse(clean);
-        return {
-            reservation: this.vendorID(),
-            businessid: appconfig.restaurantProfile.restaurant.restaurantId,
-        }
     }
 }
