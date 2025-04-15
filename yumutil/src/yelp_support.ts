@@ -3,6 +3,8 @@ import { venueNameSimilar, addressMatch } from "./utils";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { resy_set_venue_reservation } from "./resy_support";
+import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -63,10 +65,10 @@ export async function yelp_basic_search(searchTerm: string, city: string, state:
       name: suggestion.title,
       address: suggestion.subtitle,
       redirectUrl: suggestion.redirectUrl,
-      slug: suggestion.redirectUrl.replace(/^\/biz\//, ""),
+      slug: suggestion.redirectUrl?.replace(/^\/biz\//, ""),
     }));
 
-    return results;
+    return results.filter(result => result.slug);
 
   } catch (error) {
     console.error('Error:', error);
@@ -95,8 +97,8 @@ export async function getYelpBusinessDetails(businessId: string): Promise<any> {
 
     return await response.json();
   } catch (error) {
-    console.error('Error fetching Yelp business details:', error);
-    throw error;
+    console.error('Error fetching Yelp business details, likely no such business:', error);
+    return null;
   }
 }
 
@@ -112,6 +114,10 @@ export async function yelp_basic_search_and_validate(
   const results = await yelp_basic_search(term, city, state);
   for (const entry of results) {
     const details = await getYelpBusinessDetails(entry.slug);
+    if (!details) {
+      continue;
+    }
+
     const entryLongitude = details.coordinates.longitude;
     const entryLatitude = details.coordinates.latitude;
 
@@ -195,4 +201,82 @@ export async function yelp_find_reservation(
   // console.log(html);
   const res = await response.json();
   return res;
+}
+
+
+export async function process_for_yelp(
+  saveChanges: boolean,
+  key: string,
+  name: string,
+  longitude: number,
+  latitude: number,
+  address: string,
+  city: string,
+  state: string
+): Promise<boolean> {
+  const result = await yelp_basic_search_and_validate(
+    name,
+    longitude,
+    latitude,
+    address,
+    city,
+    state
+  );
+  if (!result) {
+    return false;
+  }
+  if (saveChanges) {
+    await yelp_set_venue_reservation(
+      key,
+      result.urlSlug,
+      result.businessid
+    );
+  } else {
+    console.log("found yelp venue but not saving ", result);
+  }
+  return true;
+}
+
+export async function yelp_set_venue_reservation(
+  venue_key: string,
+  urlSlug: string,
+  businessid: string,
+): Promise<void> {
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    urlSlug: "${urlSlug}",
+    reservation: "yelp",
+    businessid: "${businessid}",
+    withOnlineReservation: "true",
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+    closehours
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}
+
+export async function validateYelpVenueInfo(venue: any): Promise<boolean> {
+  const yelp_entity = await getYelpBusinessDetails(venue.businessid);
+  if (!yelp_entity) {
+    return false;
+  }
+  if (!venueNameSimilar(venue.name, yelp_entity.name)) {
+    return false;
+  }
+  if (!addressMatch(yelp_entity.location.address1, venue.address, yelp_entity.location.city, yelp_entity.location.state)) {
+    return false;
+  }
+  const reservation_data = await yelp_find_reservation(venue.urlSlug, venue.businessid, venue.longitude, venue.latitude, dayjs().add(-1, 'day').format('YYYY-MM-DD'), 2, "dinner");
+  if (reservation_data.availability_profile === "no_avail") {
+    return false;
+  }
+  return true;
 }

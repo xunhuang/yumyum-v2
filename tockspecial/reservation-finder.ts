@@ -11,6 +11,8 @@ import {
   setVenueToClosed,
   resy_set_venue_to_tbd,
   browserPageShutdown,
+  process_for_yelp,
+  validateYelpVenueInfo,
 } from "yumutil";
 
 async function is_this_tock(venue: any): Promise<boolean> {
@@ -71,6 +73,27 @@ async function is_this_resy(venue: any): Promise<boolean> {
   }
   return false;
 }
+async function is_this_yelp(venue: any): Promise<boolean> {
+  const found = await process_for_yelp(
+    true,
+    venue.key,
+    venue.name,
+    venue.longitude,
+    venue.latitude,
+    venue.address,
+    venue.city,
+    venue.region
+  );
+  if (found) {
+    return true;
+  }
+  // not found via search, let's use existing info to see
+  // if it's still tock, functional and same name given the same tock slug
+  if (venue.reservation === "yelp") {
+    return await validateYelpVenueInfo(venue);
+  }
+  return false;
+}
 async function is_this_closed(venue: any): Promise<boolean> {
   const isGoogleClosed = await GoogleIsThisPlaceClosed(
     venue.name,
@@ -113,6 +136,7 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
   tock: is_this_tock,
   opentable: is_this_opentable,
   resy: is_this_resy,
+  yelp: is_this_yelp,
 };
 
 (async function main(): Promise<void> {
