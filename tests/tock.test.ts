@@ -13,15 +13,6 @@ const smallset = require("./tock.json");
 var tock = new VendorTock();
 
 describe("Tock System Test", () => {
-  it("fetch entity info via Url", async () => {
-    const info = await tock.fetchReservationInfoFromURL(
-      "https://www.exploretock.com/theshotasf/"
-    );
-    expect(info?.reservation).toBe("tock");
-    expect(info?.businessid).toBe(13420);
-    expect(info?.urlSlug).toBe("theshotasf");
-  });
-
   // this one has a strange communal flag...
   it("investigate Osito", async () => {
     const result = await yumyumVenueByKey("4vC2zTU1hBOBNnyyEReU4");

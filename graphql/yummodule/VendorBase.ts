@@ -109,19 +109,4 @@ export class VendorBase {
   requiedFieldsForReservation(): Array<string> {
     throw new Error("requiedFieldsForReservation not implemented");
   }
-
-  async fetchReservationInfoFromURL(
-    url: string
-  ): Promise<VenueReservationInfo | null> {
-    throw new Error("fetchReservationInfoFromURL() not implemented");
-  }
-
-  async entitySearchExactTerm(
-    term: string,
-    longitude: number,
-    latitude: number,
-    extra: VenueSearchInput
-  ): Promise<VenueReservationInfo | null> {
-    throw new Error("entitySearchExactTerm() not implemented");
-  }
 }
