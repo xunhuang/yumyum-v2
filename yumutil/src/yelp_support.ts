@@ -3,7 +3,6 @@ import { venueNameSimilar, addressMatch } from "./utils";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { resy_set_venue_reservation } from "./resy_support";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 
 dayjs.extend(timezone);
@@ -228,7 +227,7 @@ export async function process_for_yelp(
   if (saveChanges) {
     await yelp_set_venue_reservation(
       key,
-      result.urlSlug,
+      result.slug,
       result.businessid
     );
   } else {

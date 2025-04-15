@@ -1,10 +1,11 @@
 import cheerio from 'cheerio';
 
 import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { yelp_find_reservation } from '../yumutil/src/yelp_support';
+import dayjs from 'dayjs';
 
 const buildUrl = require('build-url');
 const superagent = require('superagent');
-const moment = require('moment-timezone');
 const urlparse = require('url');
 
 export class VendorYelp extends VendorBase {
@@ -17,49 +18,33 @@ export class VendorYelp extends VendorBase {
     }
 
     async venueSearch(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): Promise<TimeSlots[]> {
-        let url = `https://www.yelp.com/reservations/${venue.url_slug}/search_availability`;
+        if (!venue.url_slug || !venue.businessid || !venue.longitude || !venue.latitude) {
+            console.log("missing required fields for yelp venue", venue);
+            return [];
+        }
 
-        let datetime = (timeOption === "dinner") ? "19:00:00" : "12:00:00";
+        const results = await yelp_find_reservation(venue.url_slug, venue.businessid, Number(venue.longitude), Number(venue.latitude), date, party_size, timeOption);
 
-        let data = {
-            append_request: "false",
-            biz_id: venue.businessid,
-            biz_lat: venue.latitude,
-            biz_long: venue.longitude,
-            covers: party_size,
-            date: date,
-            days_after: 0,
-            days_before: 0,
-            num_results_after: 3,
-            num_results_before: 3,
-            search_type: "URL_INITIATE_SEARCH",
-            time: datetime,
-            weekly_search_enabled: "true",
-        };
+        let total: any = [];
 
-        return await superagent.get(url)
-            .set('x-requested-with', "XMLHttpRequest")
-            .query(data)
-            .then((res: any) => {
-                let total: any = [];
-                if (res.body.availability_data.length === 0) {
+        console.log("results", results);
+
+        if (results.availability_data.length === 0) {
                     return [];
                 }
-                let list = res.body.availability_data[0].availability_list;
+        let list = results.availability_data[0].availability_list;
 
-                if (list.length === 0) {
-                    return [];
-                }
-                let slots = list;
+        if (list.length === 0) {
+            return [];
+        }
+        let slots = list;
                 slots.forEach(function (slot: any) {
-                    let datestr =
-                        moment.tz(slot.isodate, venue.timezone).format();
+                    let datestr = dayjs(slot.isodate).tz(venue.timezone).format();
                     total.push({
                         time: datestr,
                     });
                 });
-                return total;
-            });
+        return total;
     }
 
     getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {
@@ -102,7 +87,6 @@ export class VendorYelp extends VendorBase {
             latitude: config.mapData.latitude,
             longitude: config.mapData.longitude
         }
-
     }
 
 }
