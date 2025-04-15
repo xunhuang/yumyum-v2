@@ -11,7 +11,7 @@ export async function uspsLookupStreet(
   state: string
 ): Promise<any> {
   return new Promise((resolve, reject) => {
-    console.log(`uspsLookupStreet: ${street1}, ${city}, ${state}`);
+    // console.log(`uspsLookupStreet: ${street1}, ${city}, ${state}`);
     let fixedState = state;
     if (fixedState === "New York State") {
       fixedState = "NY";

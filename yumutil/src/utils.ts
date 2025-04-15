@@ -53,8 +53,6 @@ export async function addressMatch(
   const usps_street_a = await uspsLookupStreet(street_a, city, state);
   const usps_street_b = await uspsLookupStreet(street_b, city, state);
 
-  console.log(usps_street_a, usps_street_b, city, state);
-
   if (!usps_street_a || !usps_street_b) {
     const standardized_address_a =
       await get_standardized_US_address_from_google(street_a, city, state);
