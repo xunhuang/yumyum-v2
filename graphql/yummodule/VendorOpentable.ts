@@ -48,7 +48,7 @@ export class VendorOpentable extends VendorBase {
     let total: TimeSlots[] = [];
     slots.forEach(function (slot: any) {
       console.log("slot", slot.dateTime);
-      let datestr = dayjs.tz(slot.dataTime, venue.timezone)
+      let datestr = dayjs.tz(slot.dateTime, venue.timezone)
         .format();
       total.push({
         time: datestr,
