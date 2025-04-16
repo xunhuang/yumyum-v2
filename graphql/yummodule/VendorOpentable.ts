@@ -47,15 +47,12 @@ export class VendorOpentable extends VendorBase {
     let slots = resbody.availability[date].timeSlots;
     let total: TimeSlots[] = [];
     slots.forEach(function (slot: any) {
-      console.log("slot", slot.dateTime);
       let datestr = dayjs.tz(slot.dateTime, venue.timezone)
         .format();
       total.push({
         time: datestr,
       });
-      console.log("inner loop", datestr);
     });
-    console.log("outer loop, num items ", total.length);
     return total;
   }
 
