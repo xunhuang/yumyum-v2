@@ -7,6 +7,11 @@ import {
 } from "./VendorBase";
 
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const buildUrl = require("build-url");
 
@@ -81,10 +86,7 @@ export class VendorTock extends VendorBase {
           slot.minPurchaseSize <= party_size &&
           slot.maxPurchaseSize >= party_size
         ) {
-          let datestr = dayjs(date + " " + slot.time)
-            .tz(venue.timezone)
-            .format();
-
+          let datestr = dayjs.tz(date + "T" + slot.time, venue.timezone).format();
           let ret: any = {
             time: datestr,
           };
