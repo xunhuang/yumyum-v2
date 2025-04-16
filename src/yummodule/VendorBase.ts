@@ -81,16 +81,8 @@ export class VendorBase {
         return null;
     }
 
-    getReservationUrl(venue: any, date: string, party_size: number, timeOption: string): string | null {
-        return null;
-    }
-
     requiedFieldsForReservation(): Array<string> {
         throw new Error("requiedFieldsForReservation not implemented");
-    }
-
-    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
-        throw new Error("fetchReservationInfoFromURL() not implemented");
     }
 };
 
