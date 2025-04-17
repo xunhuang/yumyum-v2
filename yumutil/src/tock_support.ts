@@ -83,9 +83,9 @@ export async function tock_basic_search_and_validate(
 ): Promise<TockSearchResult | null> {
   const searchResults = await tock_basic_search(venuename, longitude, latitude);
   if (searchResults && searchResults.length > 0) {
-    console.log(
-      `found ${searchResults.length} results for ${venuename} ------------------------`
-    );
+    // console.log(
+    //   `found ${searchResults.length} results for ${venuename} ------------------------`
+    // );
     const entries = searchResults;
     for (const entry of entries) {
       const appconfig = await tock_fetch_app_config(entry.slug!);
@@ -185,7 +185,6 @@ export async function tock_basic_search(
   const proto = serializeMsgToProto(requestdata);
   const protoBase64 = Buffer.from(proto).toString("base64");
   const response = await page.evaluate((data: any) => {
-
     // decode the base64-encoded binary data back to binary
     const binarystring = atob(data);
     const len = binarystring.length;
