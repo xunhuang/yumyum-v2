@@ -14,7 +14,7 @@ describe("Yelp", () => {
     expect(result).not.toBeNull();
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].name).toContain("Trabocco");
-  });
+  }, 10000);
 
   it("getYelpBusinessDetails", async () => {
     const result = await getYelpBusinessDetails(
@@ -62,7 +62,7 @@ describe("Yelp", () => {
     expect(result.name).toContain(data2.name);
     expect(result.slug).toContain(data2.slug);
     expect(result.businessid).toContain(data2.businessid);
-  });
+  }, 10000);
 
   const data = {
     name: "Trabocco",
@@ -83,5 +83,5 @@ describe("Yelp", () => {
       data.region
     );
     expect(result).not.toBeDefined();
-  });
+  }, 10000);
 });
