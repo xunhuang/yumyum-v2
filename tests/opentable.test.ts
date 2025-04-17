@@ -1,9 +1,7 @@
 import { describe } from "@jest/globals";
 
-import { VendorOpentable } from "../graphql/yummodule/VendorOpentable";
 import { venueReservationSearchByKey } from "./getYumYumGraphQLClient";
 
-var opentable = new VendorOpentable();
 describe("Opentable System Test", () => {
   describe("reservation search", () => {
     it("Testing for Opentable API functioning ok", async () => {
