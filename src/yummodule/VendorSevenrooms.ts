@@ -51,10 +51,4 @@ export class VendorSevenrooms extends VendorBase {
 
             });
     }
-
-    getReservationUrl(venue: VenueVendorInfo, date: string, party_size: number, timeOption: string): string | null {
-        let url = `https://www.sevenrooms.com/reservations/${venue.url_slug}`;
-        // SAD: there is no date/party link here... :(
-        return url;
-    }
 }

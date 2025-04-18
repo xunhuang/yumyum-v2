@@ -1,21 +1,19 @@
-import cheerio from "cheerio";
 import { RateLimiter } from "limiter";
 
 import {
   TimeSlots,
   VendorBase,
-  VenueReservationInfo,
   VenueVendorInfo,
 } from "./VendorBase";
-import { VenueSearchInput } from "./VenueSearchInput";
-import {
-  opentable_basic_search_and_validate,
-  opentableFindReservation,
-} from "../yumutil/src";
+import { opentableFindReservation } from "../yumutil/src";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
-const nodefetch = require("node-fetch");
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 const buildUrl = require("build-url");
-const moment = require("moment-timezone");
 
 // 5 requests per second so we don't overwhelm opentable's server
 const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 });
@@ -43,13 +41,13 @@ export class VendorOpentable extends VendorBase {
       timeOption
     );
     if (typeof resbody.availability == "undefined") {
+      console.log("no avail response for resbody availability");
       return [];
     }
     let slots = resbody.availability[date].timeSlots;
     let total: TimeSlots[] = [];
     slots.forEach(function (slot: any) {
-      let datestr = moment
-        .tz(slot.dateTime.substr(0, 19), venue.timezone)
+      let datestr = dayjs.tz(slot.dateTime, venue.timezone)
         .format();
       total.push({
         time: datestr,
@@ -75,70 +73,5 @@ export class VendorOpentable extends VendorBase {
       },
     });
     return reservationUrl;
-  }
-
-  async fetchReservationInfoFromURL(
-    url: string
-  ): Promise<VenueReservationInfo | null> {
-    const w = await nodefetch(url, {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-    });
-    const res = await w.text();
-    const $ = cheerio.load(res);
-
-    let scripts = $("script")
-      .map(function (i, el) {
-        let text = cheerio(el).html();
-        if (text?.includes("window.__INITIAL_STATE__=")) {
-          let texts = text.split("\n");
-          return texts
-            .map(function (t) {
-              if (t.includes("window.__INITIAL_STATE__=")) {
-                const a = t
-                  .replace("window.__INITIAL_STATE__=", "")
-                  .replace(/;$/g, "");
-                // console.log(a);
-                return a;
-              }
-              return "";
-            })
-            .join("");
-        }
-        return "";
-      })
-      .get()
-      .join(" ");
-
-    const clean = scripts.replace(/;$/g, "");
-    let appconfig = JSON.parse(clean);
-    return {
-      reservation: this.vendorID(),
-      businessid: appconfig.restaurantProfile.restaurant.restaurantId,
-    };
-  }
-
-  async entitySearchExactTerm(
-    term: string,
-    longitude: number,
-    latitude: number,
-    extra: VenueSearchInput
-  ): Promise<VenueReservationInfo | null> {
-    const result1 = await opentable_basic_search_and_validate(
-      term,
-      longitude,
-      latitude,
-      ""
-    );
-    if (!result1) {
-      return null;
-    }
-    const finalResult: VenueReservationInfo | null = {
-      reservation: this.vendorID(),
-      businessid: result1!,
-    };
-    return finalResult;
   }
 }

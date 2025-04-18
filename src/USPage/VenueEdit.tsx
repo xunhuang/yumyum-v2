@@ -6,9 +6,12 @@ import React, { useState } from 'react';
 import { Link as ReactLink, useParams } from 'react-router-dom';
 
 import { Loading } from '../components/Loading';
-import { useLookupReservationInfoLazyQuery, useUpdateVenueInfoMutation, useVenueByKeyQuery } from '../generated/graphql';
-import { getVendor, VendorMap } from '../yummodule/Vendors';
-import { VenueDescription } from './VenueItems';
+import {
+  useUpdateVenueInfoMutation,
+  useVenueByKeyQuery,
+} from "../generated/graphql";
+import { getVendor, VendorMap } from "../yummodule/Vendors";
+import { VenueDescription } from "./VenueItems";
 
 const snakeToCamel = (str: string) =>
   str
@@ -49,15 +52,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
     variables: {
       key: venue_id,
     },
-  });
-
-  const [LookupReservation, result] = useLookupReservationInfoLazyQuery({
-    onCompleted: (data: any) => {
-      var reservationInfo = { ...data.reservationInfo };
-      reservationInfo.withOnlineReservation = true;
-      form.setFieldsValue(reservationInfo);
-      setReservation(reservationInfo.reservation);
-    }
   });
 
   const venue = data?.venueByKey;
@@ -208,43 +202,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
         >
           <Switch />
         </Form.Item>
-        <Form.Item
-          name={"reservationUrl"}
-          label={"Reservation URL"}
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Input
-            onChange={(e) => {
-              console.log(e.target.value);
-              LookupReservation({
-                variables: { url: e.target.value },
-              });
-            }}
-          />
-          {result.data?.reservationInfo === undefined && (
-            <div>
-              Examples:
-              <ul>
-                <li>
-                  https://resy.com/cities/sf/mourad?date=2022-01-03&seats=5
-                </li>
-                <li>
-                  https://www.yelp.com/reservations/top-hatters-kitchen-and-bar-san-leandro
-                </li>
-                <li>
-                  https://www.exploretock.com/theshotasf/experience/282076/omakase-bar?cameFrom=search_modal&date=2022-01-27&showExclusives=true&size=3&time=20%3A00
-                </li>
-                <li>
-                  https://www.opentable.com/r/alderwood-santa-cruz?ref=18490
-                </li>
-              </ul>
-            </div>
-          )}
-        </Form.Item>
         <Form.Item {...tailLayout}>
           Test Link:
           <ReactLink to={`/metro/${metro}/venue/${venue?.key}`}>
@@ -255,9 +212,6 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </Form.Item>
-        <Form.Item {...tailLayout}>
-          <pre>{JSON.stringify(result.data?.reservationInfo, null, 2)}</pre>
         </Form.Item>
       </Form>
     </div>

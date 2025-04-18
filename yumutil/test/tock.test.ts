@@ -83,7 +83,6 @@ describe("tock search API", () => {
       data.longitude,
       data.latitude
     );
-    console.log(search_results);
     expect(search_results).toBeDefined();
     expect(search_results).not.toBeNull();
     expect(search_results?.length).toBeGreaterThan(0);

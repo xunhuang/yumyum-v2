@@ -1,5 +1,5 @@
 import { myCache } from './myCache';
-import { VenueReservationInfo, VenueVendorInfo } from './yummodule/VendorBase';
+import { VenueVendorInfo } from './yummodule/VendorBase';
 import { getVendor } from './yummodule/Vendors';
 
 
@@ -42,32 +42,6 @@ const getReservationUrl = (_query: any, args: any): string | null => {
     }
 }
 
-const getReservationInfo = async (_query: any, args: any): Promise<VenueReservationInfo | null> => {
-    const url: string = args.url;
-    try {
-        let reservation: string;
-        if (url.includes("opentable.com")) {
-            reservation = "opentable";
-        } else if (url.includes("yelp.com")) {
-            reservation = "yelp";
-        } else if (url.includes("resy.com")) {
-            reservation = "resy";
-        } else if (url.includes("exploretock.com")) {
-            reservation = "tock";
-        }
-
-        const vendor = getVendor(reservation!);
-        const info = await vendor.fetchReservationInfoFromURL(url);
-        console.log(info);
-        return info;
-
-
-    } catch (err) {
-        console.error(`Error injesting for ${url} ${err}`);
-        console.error(err);
-        return null;
-    }
-}
 
 export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any) => {
     return {
@@ -85,19 +59,6 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
         ${slot_required_fields}
         myReservationUrl (date:String!, party_size:Int=2, timeOption:String = "dinner" ): String
         ${slot_required_fields}
-      }
-
-      type ReservationInfo {
-          reservation:String
-          businessid:String
-          urlSlug:String
-          resyCityCode:String
-          longitude:Float
-          latitude:Float
-      }
-
-      extend type Query {
-          reservationInfo(url:String!): ReservationInfo
       }
     `,
         resolvers: {
@@ -140,14 +101,6 @@ export const YumYumVenueAvailabilityPlugin = makeExtendSchemaPlugin((build: any)
                     return getReservationUrl(_query, args);
                 },
             },
-            Query: {
-                reservationInfo: (_query: any, args: any, context: any, resolveInfo: any) => {
-                    const ret = getReservationInfo(_query, args);
-                    console.log(ret);
-                    return ret;
-                },
-
-            }
         },
     };
 });

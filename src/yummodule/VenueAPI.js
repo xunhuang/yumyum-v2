@@ -11,14 +11,6 @@ class VenueClass {
         return null;
     }
 
-    getReservationUrlAction(datestr, party_size, timeOption, slot) {
-        let vendor = getVendor(this.reservation);
-        if (vendor) {
-            return vendor.getReservationUrlAction(this, datestr, party_size, timeOption, slot);
-        }
-        return null;
-    }
-
     isReservationSupported() {
         let vendor = getVendor(this.reservation);
         if (vendor) {

@@ -1,18 +1,19 @@
-import * as cheerio from "cheerio";
 import { gotScraping } from "got-scraping";
 
 import {
   TimeSlots,
   VendorBase,
-  VenueReservationInfo,
   VenueVendorInfo,
 } from "./VendorBase";
 
-import { VenueSearchInput } from "./VenueSearchInput";
-import { tock_basic_search_and_validate } from "../yumutil/src";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const buildUrl = require("build-url");
-const moment = require("moment-timezone");
 
 export class VendorTock extends VendorBase {
   vendorID() {
@@ -85,10 +86,7 @@ export class VendorTock extends VendorBase {
           slot.minPurchaseSize <= party_size &&
           slot.maxPurchaseSize >= party_size
         ) {
-          let datestr = moment
-            .tz(date + " " + slot.time, venue.timezone)
-            .format();
-
+          let datestr = dayjs.tz(date + "T" + slot.time, venue.timezone).format();
           let ret: any = {
             time: datestr,
           };
@@ -123,86 +121,4 @@ export class VendorTock extends VendorBase {
     return reservationUrl;
   }
 
-  async _fetchAppConfigFromURL(url: any): Promise<any> {
-    try {
-      const response = await gotScraping.get({
-        url: url,
-        headerGeneratorOptions: {
-          browsers: [
-            {
-              name: "chrome",
-              minVersion: 87,
-              maxVersion: 89,
-            },
-          ],
-          devices: ["desktop"],
-          locales: ["de-DE", "en-US"],
-          operatingSystems: ["windows", "linux"],
-        },
-        headers: {
-          "Accept-Language": "en-US,en;q=0.9",
-        },
-        responseType: 'text'
-      });
-
-      if (!response.body) {
-        console.error('No response body received from gotScraping');
-        return null;
-      }
-
-      var appconfig: any = null;
-      const $ = cheerio.load(response.body);
-      $("script").each((i: number, el: cheerio.Element) => {
-        let text = $(el).html();
-        if (text?.includes("window.$REDUX_STATE = ")) {
-          const toeval = text.replace("window.$REDUX_STATE", "appconfig");
-          // eslint-disable-next-line
-          eval(toeval);
-        }
-      });
-      return appconfig;
-    } catch (error) {
-      console.error('Error in _fetchAppConfigFromURL:', error);
-      return null;
-    }
-  }
-
-  async fetchReservationInfoFromURL(
-    url: string
-  ): Promise<VenueReservationInfo | null> {
-    const appconfig = await this._fetchAppConfigFromURL(url);
-    if (!appconfig?.app?.config?.business) {
-      console.error('Invalid appconfig received:', appconfig);
-      return null;
-    }
-    return {
-      reservation: this.vendorID(),
-      businessid: appconfig.app.config.business.id,
-      // name: appconfig.app.config.business.name,
-      // address: appconfig.app.config.business.address,
-      urlSlug: appconfig.app.config.business.domainName,
-    };
-  }
-
-  async entitySearchExactTerm(
-    term: string,
-    longitude: number,
-    latitude: number,
-    extra: VenueSearchInput
-  ): Promise<VenueReservationInfo | null> {
-    const result1 = await tock_basic_search_and_validate(
-      term,
-      longitude,
-      latitude,
-      extra.address,
-      extra.city,
-      extra.state
-    );
-
-    return {
-      businessid: result1?.businessid?.toString(),
-      reservation: this.vendorID(),
-      urlSlug: result1?.slug,
-    };
-  }
 }

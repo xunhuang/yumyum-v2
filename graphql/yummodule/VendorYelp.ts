@@ -1,12 +1,8 @@
-import cheerio from 'cheerio';
-
-import { TimeSlots, VendorBase, VenueReservationInfo, VenueVendorInfo } from './VendorBase';
+import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
 import { yelp_find_reservation } from '../yumutil/src/yelp_support';
 import dayjs from 'dayjs';
 
 const buildUrl = require('build-url');
-const superagent = require('superagent');
-const urlparse = require('url');
 
 export class VendorYelp extends VendorBase {
     vendorID() {
@@ -59,34 +55,4 @@ export class VendorYelp extends VendorBase {
         });
         return reservationUrl;
     }
-
-    async fetchReservationInfoFromURL(url: string): Promise<VenueReservationInfo | null> {
-        const res = await superagent.get(url);
-
-        var url_parts = urlparse.parse(url, true);
-        var path_parts = url_parts.pathname.split("/");
-        const url_slug = path_parts[path_parts.length - 1];
-
-        const $ = cheerio.load(res.text);
-        let scriptText = $("script").map(function (i, el) {
-            let text = cheerio(el).html();
-            if (text?.includes('window.yr_search_widget_data')) {
-                text = text?.replace(/\n/g, '')!;
-                return text.replace(/.*window.yr_landing_data = "/, "")
-                    .replace(/";/g, "")
-                    .replace(/\\"/g, '"');
-            }
-            return "";
-        }).get().join(' ');
-        scriptText = scriptText.trim();
-        const config = JSON.parse(scriptText);
-        return {
-            reservation: this.vendorID(),
-            businessid: config.businessId,
-            urlSlug: url_slug,
-            latitude: config.mapData.latitude,
-            longitude: config.mapData.longitude
-        }
-    }
-
 }
