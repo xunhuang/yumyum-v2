@@ -1,5 +1,5 @@
 import { TimeSlots, VendorBase, VenueVendorInfo } from './VendorBase';
-import { sevenrooms_find_reservation } from '../yumutil';
+import { sevenrooms_find_reservation } from '../yumutil/src';
 
 export class VendorSevenrooms extends VendorBase {
     vendorID() {
