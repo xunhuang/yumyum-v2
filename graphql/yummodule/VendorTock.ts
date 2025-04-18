@@ -73,15 +73,6 @@ export class VendorTock extends VendorBase {
           return;
         }
 
-        // Omakase is has extra non-dining experience that we don't want
-        if (venue.name === "Omakase" && venue.key === "2VZHquW1dA6Gdv7m868O") {
-          const ticketTypeId = slot.ticketTypePrice[0]?.ticketTypeId;
-          // pickup or delivery experience not dine in experience
-          if (ticketTypeId === 129690 || ticketTypeId === 275864) {
-            return;
-          }
-        }
-
         if (
           slot.minPurchaseSize <= party_size &&
           slot.maxPurchaseSize >= party_size
