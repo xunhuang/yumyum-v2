@@ -10,7 +10,10 @@ import {
   useUpdateVenueInfoMutation,
   useVenueByKeyQuery,
 } from "../generated/graphql";
-import { getVendor, VendorMap } from "../yummodule/Vendors";
+import {
+  getVendorRequiredFields,
+  VendorRequiredFields,
+} from "../yummodule/Vendors";
 import { VenueDescription } from "./VenueItems";
 
 const snakeToCamel = (str: string) =>
@@ -85,7 +88,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
     });
   };
 
-  const vendor = getVendor(reservation ? reservation : venue?.reservation!);
+  const vendorReservation = reservation ? reservation : venue?.reservation!;
 
   function prefillbutton(res: string, withOnlineReservation: boolean) {
     return (
@@ -147,7 +150,7 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
             allowClear
             defaultValue={venue?.reservation!}
           >
-            {Object.keys(VendorMap)
+            {Object.keys(VendorRequiredFields)
               .concat("TBD", "none", "Call/Email")
               .map((k: string) => (
                 <Option value={k} key={k}>
@@ -169,8 +172,8 @@ export const VenueEdit = ({ venue_id }: VenueEditProps) => {
           {prefillbutton("TBD", false)}
         </Form.Item>
 
-        {vendor &&
-          vendor.requiedFieldsForReservation().map((field) => {
+        {vendorReservation &&
+          getVendorRequiredFields(vendorReservation).map((field) => {
             return (
               <Form.Item
                 name={snakeToCamel(field)}
