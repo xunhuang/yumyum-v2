@@ -129,6 +129,7 @@ const redis = getRedis();
 
           if (!reservation) {
             console.log(e.slug, e.date, e.party_size, "transport error");
+            await new Promise(resolve => setTimeout(resolve, 5000));
             continue;
           }
 
