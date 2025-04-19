@@ -152,6 +152,7 @@ const redis = getRedis();
             console.log(reservation);
             answers[key] = [];
           }
+          await new Promise(resolve => setTimeout(resolve, 1000));
         }
       } catch (error) {
         console.error(error);

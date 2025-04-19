@@ -11,9 +11,11 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
     const rl = await resyLists();
     const answers: Record<string, any> = {};
     const l = rl;
-    console.log(l);
+    console.log("list to fetch with ", l.length, " items");
+    l.map((v: any) => { console.log(v.name); });
     for (let i = 0; i < l.length && i < 1000; i++) {
       const v = l[i];
+      console.log(`${i}. getting calendar for ${v.name}`);
       const calendar = await resy_calendar_ratelimited(
         v.businessid,
         party_size,
@@ -26,9 +28,9 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
         }
         answers[resy_calendar_key(v.urlSlug, party_size)] = calendar;
         console.log(v.name, party_size, "done");
-      }
-      console.log(answers);
+    }
     await saveToRedisWithChunking(answers, `party of ${party_size}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
   } catch (error) {
     console.error(error);
   }
