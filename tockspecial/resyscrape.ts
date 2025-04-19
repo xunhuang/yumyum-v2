@@ -18,11 +18,12 @@ const redis = getRedis();
     process.exit(1);
   }
   try {
-    const rl = await resyLists();
+    const resy_full_list = await resyLists();
     // const l = rl.filter((v) => v.name == "AltoVino");
-    const l = rl.slice(0, 5);
+    // const workingList = resy_full_list.slice(0, 5);
+    const workingList = [...resy_full_list].sort(() => Math.random() - 0.5);
 
-    const keys = l.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
+    const keys = workingList.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
 
     // keys in the form of
     // [
@@ -56,27 +57,27 @@ const redis = getRedis();
     const noavail: any[] = [];
     const avail: any[] = [];
 
-    for (let i = 0; i < l.length; i++) {
+    for (let i = 0; i < workingList.length; i++) {
       // console.log(l[i].urlSlug, l[i].name);
       const entry: any = data[i];
       // eslint-disable-next-line array-callback-return
       entry?.scheduled?.map((entry: any) => {
-        if (!l[i].urlSlug) {
-          console.log(l[i], "is null  xxxxxxxxxxxxxx");
+        if (!workingList[i].urlSlug) {
+          console.log(workingList[i], "is null  xxxxxxxxxxxxxx");
           return null;
         }
         if (entry.inventory.reservation !== "available") {
           noavail.push({
-            slug: l[i].urlSlug,
-            venue_id: l[i].businessid,
+            slug: workingList[i].urlSlug,
+            venue_id: workingList[i].businessid,
             party_size: party_size,
             date: entry.date,
             note: entry.inventory.reservation,
           });
         } else {
           avail.push({
-            slug: l[i].urlSlug,
-            venue_id: l[i].businessid,
+            slug: workingList[i].urlSlug,
+            venue_id: workingList[i].businessid,
             party_size: party_size,
             date: entry.date,
           });
