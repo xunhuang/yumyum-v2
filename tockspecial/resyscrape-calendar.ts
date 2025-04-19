@@ -30,7 +30,7 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
         console.log(v.name, party_size, "done");
     }
     await saveToRedisWithChunking(answers, `party of ${party_size}`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
   } catch (error) {
     console.error(error);
   }
