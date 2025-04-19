@@ -116,7 +116,8 @@ const redis = getRedis();
     for (const k of dates) {
       const answers: Record<string, any> = {};
       try {
-        for (const e of groupedAvail[k]) {
+        const randomized_avail = [...groupedAvail[k]].sort(() => Math.random() - 0.5);
+        for (const e of randomized_avail) {
           console.log(
             `finding reservation for ${e.slug} ${e.date} ${e.party_size}`
           );
@@ -152,7 +153,7 @@ const redis = getRedis();
             console.log(reservation);
             answers[key] = [];
           }
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
         }
       } catch (error) {
         console.error(error);

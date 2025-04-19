@@ -34,6 +34,7 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 3000 });
         answers[resy_calendar_key(v.urlSlug, party_size)] = calendar;
         console.log(v.name, party_size, "done");
       }
+      await new Promise(resolve => setTimeout(resolve, 5000));
     } catch (error) {
       console.error(error);
     }
