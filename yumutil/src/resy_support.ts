@@ -192,7 +192,8 @@ mutation MyMutation {
 //   }
 // }
 
-const proxylist = [
+// List of available proxies
+const initialProxyList = [
   "38.153.152.244:9594:twdstpvx:sgawibu43v6a",
   "86.38.234.176:6630:twdstpvx:sgawibu43v6a",
   "173.211.0.148:6641:twdstpvx:sgawibu43v6a",
@@ -205,45 +206,84 @@ const proxylist = [
   "185.199.231.45:8382:twdstpvx:sgawibu43v6a",
 ];
 
+// Maintain a working proxy list at runtime
+let workingProxyList = [...initialProxyList];
+
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
-  const random = proxylist[Math.floor(Math.random() * proxylist.length)];
-  const [host, port, username, password] = random.split(":");
-  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-  console.log("proxyUrl", proxyUrl);
-  const agent = new HttpsProxyAgent(proxyUrl);
 
-  const response = await fetch(url, {
-    headers: {
-      accept: "application/json, text/plain, */*",
-      authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-      "cache-control": "no-cache",
-      "sec-ch-ua":
-        '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"macOS"',
-      "x-origin": "https://resy.com",
-      "user-agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    },
-    // referrer: "https://resy.com/",
-    // referrerPolicy: "strict-origin-when-cross-origin",
-    // body: null,
-    method: "GET",
-    // mode: "cors",
-    // credentials: "include",
-    agent: agent
-  });
-  if (response.status !== 200) {
-    console.log("resyAPIFetch error", url, response.status);
-    return null;
+  // If no working proxies left, reset the list
+  if (workingProxyList.length === 0) {
+    console.log("All proxies failed, resetting proxy list");
+    workingProxyList = [...initialProxyList];
   }
 
+  const randomIndex = Math.floor(Math.random() * workingProxyList.length);
+  const random = workingProxyList[randomIndex];
+  const [host, port, username, password] = random.split(":");
+  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+  console.log(
+    "proxyUrl",
+    proxyUrl,
+    `(${workingProxyList.length} proxies available)`
+  );
+  const agent = new HttpsProxyAgent(proxyUrl);
+
   try {
-    const json = await response.json();
-    return json;
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+        "cache-control": "no-cache",
+        "sec-ch-ua":
+          '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "x-origin": "https://resy.com",
+        "user-agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+      },
+      // referrer: "https://resy.com/",
+      // referrerPolicy: "strict-origin-when-cross-origin",
+      // body: null,
+      method: "GET",
+      // mode: "cors",
+      // credentials: "include",
+      agent: agent,
+      timeout: 10000, // 10 second timeout
+    });
+
+    if (response.status !== 200) {
+      console.log(
+        "resyAPIFetch error",
+        url,
+        response.status,
+        "removing proxy",
+        random
+      );
+      // Remove failed proxy from the working list
+      workingProxyList.splice(randomIndex, 1);
+      return null;
+    }
+
+    try {
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(
+        "resyAPIFetch JSON parse error",
+        url,
+        "removing proxy",
+        random
+      );
+      // Remove failed proxy from the working list
+      workingProxyList.splice(randomIndex, 1);
+      return null;
+    }
   } catch (error) {
-    console.log("resyAPIFetch error", url, response.status);
+    console.log("resyAPIFetch fetch error", error, "removing proxy", random);
+    // Remove failed proxy from the working list
+    workingProxyList.splice(randomIndex, 1);
     return null;
   }
 }
