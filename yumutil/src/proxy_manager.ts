@@ -225,7 +225,7 @@ export async function proxyFetch(
       },
       method: "GET",
       agent: agent,
-      signal: controller.signal as AbortSignal,
+      signal: controller.signal as any,
     });
 
     clearTimeout(timeoutId);
