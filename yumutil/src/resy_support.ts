@@ -7,6 +7,11 @@ import { addressMatch, venueNameSimilar } from "./utils";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
 
+const webshareProxiesJson = process.env.WEBSHARE_IO_PROXIES;
+if (!webshareProxiesJson) {
+  throw new Error("WEBSHARE_IO_PROXIES is not set");
+}
+
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
 export function resy_calendar_key(slug: string, party_size: number): string {
@@ -155,67 +160,96 @@ mutation MyMutation {
   return json;
 }
 
-// async function resyAPIFetch(url: string): Promise<any> {
-//   await limiter.removeTokens(1);
-//   const response = await fetch(url, {
-//     headers: {
-//       accept: "application/json, text/plain, */*",
-//       authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-//       "cache-control": "no-cache",
-//       "sec-ch-ua":
-//         '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-//       "sec-ch-ua-mobile": "?0",
-//       "sec-ch-ua-platform": '"macOS"',
-//       "x-origin": "https://resy.com",
-//       "user-agent":
-//         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-//     },
-//     referrer: "https://resy.com/",
-//     referrerPolicy: "strict-origin-when-cross-origin",
-//     body: undefined,
-//     method: "GET",
-//     mode: "cors",
-//     credentials: "include",
-//   });
-
-//   if (response.status !== 200) {
-//     console.log("resyAPIFetch error", url, response.status);
-//     return null;
-//   }
-
-//   try {
-//     const json = await response.json();
-//     return json;
-//   } catch (error) {
-//     console.log("resyAPIFetch error", url, response.status);
-//     return null;
-//   }
-// }
-
-// List of available proxies
-const initialProxyList = [
-  "38.153.152.244:9594:twdstpvx:sgawibu43v6a",
-  "86.38.234.176:6630:twdstpvx:sgawibu43v6a",
-  "173.211.0.148:6641:twdstpvx:sgawibu43v6a",
-  "161.123.152.115:6360:twdstpvx:sgawibu43v6a",
-  "216.10.27.159:6837:twdstpvx:sgawibu43v6a",
-  "154.36.110.199:6853:twdstpvx:sgawibu43v6a",
-  "45.151.162.198:6600:twdstpvx:sgawibu43v6a",
-  "185.199.229.156:7492:twdstpvx:sgawibu43v6a",
-  "185.199.228.220:7300:twdstpvx:sgawibu43v6a",
-  "185.199.231.45:8382:twdstpvx:sgawibu43v6a",
-];
-
+const initialProxyList = JSON.parse(webshareProxiesJson);
 // Maintain a working proxy list at runtime
 let workingProxyList = [...initialProxyList];
+
+/**
+ * Tests and filters the proxy list to only keep working proxies
+ * @returns Array of working proxy strings
+ */
+export async function rinseProxyList(): Promise<string[]> {
+  const testUrl: string = `https://api.resy.com/4/find?lat=0&long=0&day=${dayjs()
+    .add(7, "days")
+    .format("YYYY-MM-DD")}&party_size=2&venue_id=7074`;
+  console.log(`Testing ${initialProxyList.length} proxies for reliability...`);
+
+  // Reset to initial list before testing
+  const proxyListToTest = [...initialProxyList];
+  const workingProxies: string[] = [];
+
+  // Test each proxy in parallel with a concurrency limit
+  const concurrencyLimit = 5;
+  const chunks = [];
+
+  // Split into chunks for concurrent processing
+  for (let i = 0; i < proxyListToTest.length; i += concurrencyLimit) {
+    chunks.push(proxyListToTest.slice(i, i + concurrencyLimit));
+  }
+
+  for (const chunk of chunks) {
+    const proxyTests = chunk.map(async (proxyString) => {
+      const [host, port, username, password] = proxyString.split(":");
+      const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+      const agent = new HttpsProxyAgent(proxyUrl);
+
+      try {
+        const response = await fetch(testUrl, {
+          headers: {
+            accept: "application/json, text/plain, */*",
+            authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+            "user-agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          },
+          method: "GET",
+          agent: agent,
+        });
+
+        if (response.status === 200 || response.status === 400) {
+          // 400 is okay for Resy API as it might mean missing params but proxy worked
+          console.log(`Proxy working: ${proxyString}`);
+          return proxyString;
+        } else {
+          console.log(
+            `Proxy failed with status ${response.status}: ${proxyString}`
+          );
+          return null;
+        }
+      } catch (error) {
+        console.log(`Proxy failed with error: ${proxyString} - ${error}`);
+        return null;
+      }
+    });
+
+    const results = await Promise.all(proxyTests);
+    workingProxies.push(...results.filter(Boolean));
+  }
+
+  console.log(
+    `Found ${workingProxies.length} working proxies out of ${initialProxyList.length}`
+  );
+
+  // Update the working proxy list
+  workingProxyList = [...workingProxies];
+
+  return workingProxies;
+}
 
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
 
-  // If no working proxies left, reset the list
+  // If no working proxies left, try to rinse the list to find working ones
   if (workingProxyList.length === 0) {
-    console.log("All proxies failed, resetting proxy list");
-    workingProxyList = [...initialProxyList];
+    console.log("All proxies failed, rinsing proxy list to find working ones");
+    const rinseResult = await rinseProxyList();
+
+    // If rinsing didn't find any working proxies, fall back to initial list
+    if (rinseResult.length === 0) {
+      console.log(
+        "No working proxies found after rinsing, resetting to initial list"
+      );
+      workingProxyList = [...initialProxyList];
+    }
   }
 
   const randomIndex = Math.floor(Math.random() * workingProxyList.length);
@@ -464,6 +498,29 @@ export async function resy_calendar(
   return await resyAPIFetch(url);
 }
 
+/**
+ * Rinses the proxy list and sets the working proxy list to only include reliable proxies
+ * @param forceRefresh - Whether to force a refresh even if working proxies exist
+ * @returns The number of working proxies
+ */
+export async function ensureReliableProxies(
+  forceRefresh: boolean = false
+): Promise<number> {
+  if (forceRefresh || workingProxyList.length === 0) {
+    console.log("Refreshing proxy list...");
+    const rinseResult = await rinseProxyList();
+    if (rinseResult.length > 0) {
+      workingProxyList = rinseResult;
+      return workingProxyList.length;
+    } else {
+      console.log("No working proxies found, using initial list");
+      workingProxyList = [...initialProxyList];
+      return workingProxyList.length;
+    }
+  }
+  return workingProxyList.length;
+}
+
 export async function process_for_resy(
   saveChanges: boolean,
   key: string,
@@ -576,10 +633,7 @@ async function checkIsValidlityByResyVenueIdLookup(
 }
 
 export async function validateResyVenueInfo(venue: any): Promise<boolean> {
-  console.log(
-    "validateResyVenueInfo *******************************************",
-    venue.name
-  );
+  console.log("validateResyVenueInfo", venue.name);
   const valid = await checkIsValidlityByResyVenueIdLookup(venue);
   if (!valid) {
     return false;

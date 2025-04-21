@@ -5,6 +5,7 @@ import {
   saveToRedisWithChunking,
   getRedis,
   resyFindReservation,
+  ensureReliableProxies,
 } from "yumutil";
 
 const redis = getRedis();
@@ -18,6 +19,7 @@ const redis = getRedis();
     process.exit(1);
   }
   try {
+    await ensureReliableProxies(true);
     const resy_full_list = await resyLists();
     // const l = rl.filter((v) => v.name == "AltoVino");
     // const workingList = resy_full_list.slice(0, 5);
@@ -109,7 +111,18 @@ const redis = getRedis();
       return acc;
     }, {});
 
-    const dates = Object.keys(groupedAvail).sort();
+    // Include today and filter out dates in the past
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set to beginning of day for accurate comparison
+
+    const dates = Object.keys(groupedAvail)
+      .filter((date) => {
+        // Create date with YYYY-MM-DD format to avoid timezone issues
+        const [year, month, day] = date.split("-").map(Number);
+        const dateToProcess = new Date(year, month - 1, day); // month is 0-indexed in JS Date
+        return dateToProcess >= currentDate; // This already includes today since we're using >= comparison
+      })
+      .sort();
 
     let totalEntries = 0;
     for (const k of dates) {
@@ -118,6 +131,7 @@ const redis = getRedis();
     console.log(`Total number of entries to process: ${totalEntries}`);
 
     for (const k of dates) {
+      console.log(`Processing reservations for date: ${k}`);
       const answers: Record<string, any> = {};
       try {
         const randomized_avail = [...groupedAvail[k]].sort(
@@ -159,7 +173,6 @@ const redis = getRedis();
             console.log(reservation);
             answers[key] = [];
           }
-          await new Promise((resolve) => setTimeout(resolve, 5000));
         }
       } catch (error) {
         console.error(error);

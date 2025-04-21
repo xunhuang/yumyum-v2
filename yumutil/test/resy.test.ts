@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import {
   resyFindReservation,
   resy_basic_search_and_validate,
+  ensureReliableProxies,
 } from "../src";
 
 const heirloomCafe = {
@@ -19,6 +20,9 @@ const heirloomCafe = {
 };
 
 describe("resy", () => {
+  beforeAll(async () => {
+    await ensureReliableProxies(true);
+  });
   it("resy basic search heirloom cafe", async () => {
     const data = heirloomCafe;
 
