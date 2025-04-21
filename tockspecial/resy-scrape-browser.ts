@@ -58,7 +58,7 @@ const response_processing = async (response: HTTPResponse): Promise<void> => {
         console.error(error);
       }
     } else {
-      // console.log("<<", response.url());
+      console.log("<<", status, response.url());
     }
   };
 }

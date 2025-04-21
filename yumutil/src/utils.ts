@@ -8,6 +8,31 @@ dotenv.config();
 
 const API_KEY = process.env.GOOGLE_CLOUD_API;
 
+export function JsonEntrySameWasDbEntry(
+  jsonentry: any,
+  dbentry: any
+): boolean {
+  if (jsonentry.objectID === dbentry.michelinobjectid) {
+    // console.log("Found by objectid", jsonentry.name, dbentry.michelinobjectid);
+    return true;
+  }
+  if (jsonentry.slug === dbentry.michelinslug) {
+    // console.log("Found by slug", jsonentry.name);
+    return true;
+  }
+  if (dbentry.name === jsonentry.name) {
+    // console.log("Found by name", jsonentry.name);
+    return true;
+  }
+  // there are many restaurants with the same address, especially over the years
+  // when some places close and new ones open
+  // if (jsonentry._highlightResult.street.value === dbentry.address) {
+  //   // console.log("Found by address", jsonentry.name, dbentry.address);
+  //   return true;
+  // }
+  return false;
+}
+
 export function venueNameMatched(a: string, b: string): boolean {
   a = a.toLowerCase();
   b = b.toLowerCase();

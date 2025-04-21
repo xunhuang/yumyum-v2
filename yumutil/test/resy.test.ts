@@ -69,6 +69,7 @@ describe("resy", () => {
       dayjs().add(1, "day").format("YYYY-MM-DD"),
       2
     );
+    console.log(result);
 
     expect(result).not.toBeNull();
     expect(result.results?.venues?.length).not.toBeNull();

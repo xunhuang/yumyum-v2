@@ -4,6 +4,8 @@ import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
 import { addressMatch, venueNameSimilar } from "./utils";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import fetch from "node-fetch";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
@@ -153,8 +155,48 @@ mutation MyMutation {
   return json;
 }
 
+// async function resyAPIFetch(url: string): Promise<any> {
+//   await limiter.removeTokens(1);
+//   const response = await fetch(url, {
+//     headers: {
+//       accept: "application/json, text/plain, */*",
+//       authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+//       "cache-control": "no-cache",
+//       "sec-ch-ua":
+//         '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+//       "sec-ch-ua-mobile": "?0",
+//       "sec-ch-ua-platform": '"macOS"',
+//       "x-origin": "https://resy.com",
+//       "user-agent":
+//         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+//     },
+//     referrer: "https://resy.com/",
+//     referrerPolicy: "strict-origin-when-cross-origin",
+//     body: undefined,
+//     method: "GET",
+//     mode: "cors",
+//     credentials: "include",
+//   });
+
+//   if (response.status !== 200) {
+//     console.log("resyAPIFetch error", url, response.status);
+//     return null;
+//   }
+
+//   try {
+//     const json = await response.json();
+//     return json;
+//   } catch (error) {
+//     console.log("resyAPIFetch error", url, response.status);
+//     return null;
+//   }
+// }
+
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
+  const proxyUrl = `http://twdstpvx:sgawibu43v6a@38.153.152.244:9594`;
+  const agent = new HttpsProxyAgent(proxyUrl);
+
   const response = await fetch(url, {
     headers: {
       accept: "application/json, text/plain, */*",
@@ -168,14 +210,14 @@ async function resyAPIFetch(url: string): Promise<any> {
       "user-agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     },
-    referrer: "https://resy.com/",
-    referrerPolicy: "strict-origin-when-cross-origin",
-    body: null,
+    // referrer: "https://resy.com/",
+    // referrerPolicy: "strict-origin-when-cross-origin",
+    // body: null,
     method: "GET",
-    mode: "cors",
-    credentials: "include",
+    // mode: "cors",
+    // credentials: "include",
+    agent: agent
   });
-
   if (response.status !== 200) {
     console.log("resyAPIFetch error", url, response.status);
     return null;
