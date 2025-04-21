@@ -20,9 +20,6 @@ const heirloomCafe = {
 };
 
 describe("resy", () => {
-  beforeAll(async () => {
-    await ensureReliableProxies(true);
-  });
   it("resy basic search heirloom cafe", async () => {
     const data = heirloomCafe;
 

@@ -1,15 +1,58 @@
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
 import dayjs from "dayjs";
-// Load proxy configuration from environment variables
-const webshareProxiesJson = process.env.WEBSHARE_IO_PROXIES;
-if (!webshareProxiesJson) {
-  throw new Error("WEBSHARE_IO_PROXIES is not set");
+
+const webshareToken = process.env.WEBSHARE_IO_TOKEN;
+if (!webshareToken) {
+  throw new Error("WEBSHARE_IO_TOKEN is not set");
 }
 
-const initialProxyList = JSON.parse(webshareProxiesJson);
 // Maintain a working proxy list at runtime
-let workingProxyList = [...initialProxyList];
+let workingProxyList: string[] = [];
+let isInitialized = false;
+
+async function listProxiesFromWebshare() {
+  const url = new URL("https://proxy.webshare.io/api/v2/proxy/list/");
+  url.searchParams.append("mode", "direct");
+  url.searchParams.append("page", "1");
+  url.searchParams.append("page_size", "100");
+
+  const req = await fetch(url.href, {
+    method: "GET",
+    headers: {
+      Authorization: `Token ${webshareToken}`,
+    },
+  });
+
+  const res = await req.json();
+  return res.results.map(
+    (p: any) => `${p.proxy_address}:${p.port}:${p.username}:${p.password}`
+  ); // Assuming the API returns results in a results field
+}
+
+// Initialize proxy list at startup
+async function initializeProxyList() {
+  try {
+    const proxies = await listProxiesFromWebshare();
+    if (!proxies || proxies.length === 0) {
+      console.error("No proxies returned from Webshare API");
+      process.exit(1);
+    }
+    workingProxyList = proxies;
+    isInitialized = true;
+    console.log(
+      "Successfully initialized proxy list with",
+      proxies.length,
+      "proxies"
+    );
+  } catch (error) {
+    console.error("Failed to initialize proxy list:", error);
+    process.exit(1);
+  }
+}
+
+// Initialize immediately and export the promise
+export const initializationPromise = initializeProxyList();
 
 /**
  * Tests and filters the proxy list to only keep working proxies
@@ -24,10 +67,10 @@ export async function rinseProxyList(
     .add(7, "days")
     .format("YYYY-MM-DD")}&party_size=2&venue_id=7074`;
 
-  console.log(`Testing ${initialProxyList.length} proxies for reliability...`);
+  console.log(`Testing ${workingProxyList.length} proxies for reliability...`);
 
   // Reset to initial list before testing
-  const proxyListToTest = [...initialProxyList];
+  const proxyListToTest = [...workingProxyList];
   const workingProxies: string[] = [];
 
   // Test each proxy in parallel with a concurrency limit
@@ -79,11 +122,11 @@ export async function rinseProxyList(
     });
 
     const results = await Promise.all(proxyTests);
-    workingProxies.push(...results.filter(Boolean));
+    workingProxies.push(...results.filter((r): r is string => r !== null));
   }
 
   console.log(
-    `Found ${workingProxies.length} working proxies out of ${initialProxyList.length}`
+    `Found ${workingProxies.length} working proxies out of ${workingProxyList.length}`
   );
 
   // Update the working proxy list
@@ -108,23 +151,21 @@ export async function ensureReliableProxies(
       return workingProxyList.length;
     } else {
       console.log("No working proxies found, using initial list");
-      workingProxyList = [...initialProxyList];
+      workingProxyList = await listProxiesFromWebshare();
       return workingProxyList.length;
     }
   }
   return workingProxyList.length;
 }
 
-/**
- * Gets a random working proxy
- * @returns A proxy string in host:port:username:password format
- */
-export function getRandomProxy(): string {
-  if (workingProxyList.length === 0) {
-    // If no working proxies, reset to initial list
-    workingProxyList = [...initialProxyList];
+// Modify getRandomProxy to wait for initialization if needed
+export async function getRandomProxy(): Promise<string> {
+  if (!isInitialized) {
+    await initializationPromise;
   }
-
+  if (workingProxyList.length === 0) {
+    throw new Error("No proxies available");
+  }
   const randomIndex = Math.floor(Math.random() * workingProxyList.length);
   return workingProxyList[randomIndex];
 }
@@ -164,7 +205,7 @@ export async function proxyFetch(
   url: string,
   options: { headers?: any; timeout?: number } = {}
 ): Promise<any> {
-  const randomProxy = getRandomProxy();
+  const randomProxy = await getRandomProxy();
   const agent = createProxyAgent(randomProxy);
 
   const timeout = options.timeout || 10000;
@@ -172,6 +213,9 @@ export async function proxyFetch(
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
+    console.log(
+      `ProxyURL:  ${randomProxy}, (${workingProxyList.length} working proxies)`
+    );
     const response = await fetch(url, {
       headers: {
         accept: "application/json, text/plain, */*",
@@ -181,7 +225,7 @@ export async function proxyFetch(
       },
       method: "GET",
       agent: agent,
-      signal: controller.signal,
+      signal: controller.signal as AbortSignal,
     });
 
     clearTimeout(timeoutId);
@@ -230,7 +274,7 @@ export async function proxyFetch(
         console.log(
           "No working proxies found after rinsing, resetting to initial list"
         );
-        workingProxyList = [...initialProxyList];
+        workingProxyList = await listProxiesFromWebshare();
       }
     }
 
