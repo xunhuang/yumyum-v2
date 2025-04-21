@@ -192,9 +192,25 @@ mutation MyMutation {
 //   }
 // }
 
+const proxylist = [
+  "38.153.152.244:9594:twdstpvx:sgawibu43v6a",
+  "86.38.234.176:6630:twdstpvx:sgawibu43v6a",
+  "173.211.0.148:6641:twdstpvx:sgawibu43v6a",
+  "161.123.152.115:6360:twdstpvx:sgawibu43v6a",
+  "216.10.27.159:6837:twdstpvx:sgawibu43v6a",
+  "154.36.110.199:6853:twdstpvx:sgawibu43v6a",
+  "45.151.162.198:6600:twdstpvx:sgawibu43v6a",
+  "185.199.229.156:7492:twdstpvx:sgawibu43v6a",
+  "185.199.228.220:7300:twdstpvx:sgawibu43v6a",
+  "185.199.231.45:8382:twdstpvx:sgawibu43v6a",
+];
+
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
-  const proxyUrl = `http://twdstpvx:sgawibu43v6a@38.153.152.244:9594`;
+  const random = proxylist[Math.floor(Math.random() * proxylist.length)];
+  const [host, port, username, password] = random.split(":");
+  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+  console.log("proxyUrl", proxyUrl);
   const agent = new HttpsProxyAgent(proxyUrl);
 
   const response = await fetch(url, {

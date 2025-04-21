@@ -31,5 +31,5 @@ jobs:
 
       - name: Run Resy day level scraping
         env: ${{ secrets }}
-        run: cd tockspecial; ts-node resy-scrape-browser.ts
-        #run: cd tockspecial; ts-node resyscrape.ts
+        run: cd tockspecial; ts-node resyscrape.ts
+        #run: cd tockspecial; ts-node resy-scrape-browser.ts
