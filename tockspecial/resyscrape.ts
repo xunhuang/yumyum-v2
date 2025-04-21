@@ -23,7 +23,9 @@ const redis = getRedis();
     // const workingList = resy_full_list.slice(0, 5);
     const workingList = [...resy_full_list].sort(() => Math.random() - 0.5);
 
-    const keys = workingList.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
+    const keys = workingList.map((v: any) =>
+      resy_calendar_key(v.urlSlug, party_size)
+    );
 
     // keys in the form of
     // [
@@ -118,7 +120,9 @@ const redis = getRedis();
     for (const k of dates) {
       const answers: Record<string, any> = {};
       try {
-        const randomized_avail = [...groupedAvail[k]].sort(() => Math.random() - 0.5);
+        const randomized_avail = [...groupedAvail[k]].sort(
+          () => Math.random() - 0.5
+        );
         for (const e of randomized_avail) {
           console.log(
             `finding reservation for ${e.slug} ${e.date} ${e.party_size}`
@@ -131,7 +135,7 @@ const redis = getRedis();
 
           if (!reservation) {
             console.log(e.slug, e.date, e.party_size, "transport error");
-            break;
+            continue;
           }
 
           if (reservation.status === 429) {
@@ -155,7 +159,7 @@ const redis = getRedis();
             console.log(reservation);
             answers[key] = [];
           }
-          await new Promise(resolve => setTimeout(resolve, 5000));
+          await new Promise((resolve) => setTimeout(resolve, 5000));
         }
       } catch (error) {
         console.error(error);
