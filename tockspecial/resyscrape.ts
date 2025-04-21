@@ -115,7 +115,6 @@ const redis = getRedis();
     // console.log(dates);
 
     for (const k of dates) {
-      let bool_transport_error = false;
       const answers: Record<string, any> = {};
       try {
         const randomized_avail = [...groupedAvail[k]].sort(() => Math.random() - 0.5);
@@ -131,7 +130,6 @@ const redis = getRedis();
 
           if (!reservation) {
             console.log(e.slug, e.date, e.party_size, "transport error");
-            bool_transport_error = true;
             break;
           }
 
@@ -167,9 +165,6 @@ const redis = getRedis();
 
       console.log(`Saving answers for ${k}`);
       await saveToRedisWithChunking(answers, `party of ${k}`);
-      if (bool_transport_error) {
-        break;
-      }
     }
   } catch (error) {
     console.error(error);
