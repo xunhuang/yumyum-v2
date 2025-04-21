@@ -2,7 +2,7 @@ import {
     deserializeTockSearchResponseProtoToMsg,
     newTockSearchRequest,
     serializeMsgToProto,
-} from '../graphql/yummodule/tockRequestMsg';
+} from '../yumutil/src';
 import { gotScraping } from 'got-scraping';
 
 describe('Tock search API with protobuf', () => {

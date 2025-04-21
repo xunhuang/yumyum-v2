@@ -1,6 +1,6 @@
 import { describe } from "@jest/globals";
 
-import { uspsLookupStreet } from "../graphql/yummodule/uspsLookupStreet";
+import { uspsLookupStreet } from "../yumutil/src";
 
 describe("USPS System Test", () => {
   beforeAll(async () => {
