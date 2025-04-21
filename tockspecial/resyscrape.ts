@@ -107,12 +107,13 @@ const redis = getRedis();
       return acc;
     }, {});
 
-    // console.log("These have availability");
-    // console.log(JSON.stringify(groupedAvail, null, 2));
-
     const dates = Object.keys(groupedAvail).sort();
-    // console.log("dates as keys");
-    // console.log(dates);
+
+    let totalEntries = 0;
+    for (const k of dates) {
+      totalEntries += groupedAvail[k].length;
+    }
+    console.log(`Total number of entries to process: ${totalEntries}`);
 
     for (const k of dates) {
       const answers: Record<string, any> = {};
