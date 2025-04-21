@@ -4,13 +4,8 @@ import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
 import { addressMatch, venueNameSimilar } from "./utils";
-import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
-
-const webshareProxiesJson = process.env.WEBSHARE_IO_PROXIES;
-if (!webshareProxiesJson) {
-  throw new Error("WEBSHARE_IO_PROXIES is not set");
-}
+import { proxyFetch } from "./proxy_manager";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
@@ -160,166 +155,24 @@ mutation MyMutation {
   return json;
 }
 
-const initialProxyList = JSON.parse(webshareProxiesJson);
-// Maintain a working proxy list at runtime
-let workingProxyList = [...initialProxyList];
-
 /**
- * Tests and filters the proxy list to only keep working proxies
- * @returns Array of working proxy strings
+ * Fetch data from Resy API using a proxy
  */
-export async function rinseProxyList(): Promise<string[]> {
-  const testUrl: string = `https://api.resy.com/4/find?lat=0&long=0&day=${dayjs()
-    .add(7, "days")
-    .format("YYYY-MM-DD")}&party_size=2&venue_id=7074`;
-  console.log(`Testing ${initialProxyList.length} proxies for reliability...`);
-
-  // Reset to initial list before testing
-  const proxyListToTest = [...initialProxyList];
-  const workingProxies: string[] = [];
-
-  // Test each proxy in parallel with a concurrency limit
-  const concurrencyLimit = 5;
-  const chunks = [];
-
-  // Split into chunks for concurrent processing
-  for (let i = 0; i < proxyListToTest.length; i += concurrencyLimit) {
-    chunks.push(proxyListToTest.slice(i, i + concurrencyLimit));
-  }
-
-  for (const chunk of chunks) {
-    const proxyTests = chunk.map(async (proxyString) => {
-      const [host, port, username, password] = proxyString.split(":");
-      const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-      const agent = new HttpsProxyAgent(proxyUrl);
-
-      try {
-        const response = await fetch(testUrl, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-            "user-agent":
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-          },
-          method: "GET",
-          agent: agent,
-        });
-
-        if (response.status === 200 || response.status === 400) {
-          // 400 is okay for Resy API as it might mean missing params but proxy worked
-          console.log(`Proxy working: ${proxyString}`);
-          return proxyString;
-        } else {
-          console.log(
-            `Proxy failed with status ${response.status}: ${proxyString}`
-          );
-          return null;
-        }
-      } catch (error) {
-        console.log(`Proxy failed with error: ${proxyString} - ${error}`);
-        return null;
-      }
-    });
-
-    const results = await Promise.all(proxyTests);
-    workingProxies.push(...results.filter(Boolean));
-  }
-
-  console.log(
-    `Found ${workingProxies.length} working proxies out of ${initialProxyList.length}`
-  );
-
-  // Update the working proxy list
-  workingProxyList = [...workingProxies];
-
-  return workingProxies;
-}
-
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
 
-  // If no working proxies left, try to rinse the list to find working ones
-  if (workingProxyList.length === 0) {
-    console.log("All proxies failed, rinsing proxy list to find working ones");
-    const rinseResult = await rinseProxyList();
-
-    // If rinsing didn't find any working proxies, fall back to initial list
-    if (rinseResult.length === 0) {
-      console.log(
-        "No working proxies found after rinsing, resetting to initial list"
-      );
-      workingProxyList = [...initialProxyList];
-    }
-  }
-
-  const randomIndex = Math.floor(Math.random() * workingProxyList.length);
-  const random = workingProxyList[randomIndex];
-  const [host, port, username, password] = random.split(":");
-  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-  console.log(
-    "proxyUrl",
-    proxyUrl,
-    `(${workingProxyList.length} proxies available)`
-  );
-  const agent = new HttpsProxyAgent(proxyUrl);
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-        "cache-control": "no-cache",
-        "sec-ch-ua":
-          '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"macOS"',
-        "x-origin": "https://resy.com",
-        "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-      },
-      // referrer: "https://resy.com/",
-      // referrerPolicy: "strict-origin-when-cross-origin",
-      // body: null,
-      method: "GET",
-      // mode: "cors",
-      // credentials: "include",
-      agent: agent,
-      timeout: 10000, // 10 second timeout
-    });
-
-    if (response.status !== 200) {
-      console.log(
-        "resyAPIFetch error",
-        url,
-        response.status,
-        "removing proxy",
-        random
-      );
-      // Remove failed proxy from the working list
-      workingProxyList.splice(randomIndex, 1);
-      return null;
-    }
-
-    try {
-      const json = await response.json();
-      return json;
-    } catch (error) {
-      console.log(
-        "resyAPIFetch JSON parse error",
-        url,
-        "removing proxy",
-        random
-      );
-      // Remove failed proxy from the working list
-      workingProxyList.splice(randomIndex, 1);
-      return null;
-    }
-  } catch (error) {
-    console.log("resyAPIFetch fetch error", error, "removing proxy", random);
-    // Remove failed proxy from the working list
-    workingProxyList.splice(randomIndex, 1);
-    return null;
-  }
+  return await proxyFetch(url, {
+    headers: {
+      authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+      "cache-control": "no-cache",
+      "sec-ch-ua":
+        '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "x-origin": "https://resy.com",
+    },
+    timeout: 10000, // 10 second timeout
+  });
 }
 
 export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
@@ -438,7 +291,12 @@ async function resy_basic_search(
   latitude: number
 ): Promise<any[]> {
   try {
-    const result = await fetch("https://api.resy.com/3/venuesearch/search", {
+    await limiter.removeTokens(1);
+
+    // Use direct fetch for this one since proxyFetch doesn't support POST method yet
+    const searchUrl = "https://api.resy.com/3/venuesearch/search";
+
+    const result = await fetch(searchUrl, {
       headers: {
         accept: "application/json, text/plain, */*",
         "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
@@ -450,12 +308,8 @@ async function resy_basic_search(
           '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-site",
         "x-origin": "https://resy.com",
         Referer: "https://resy.com/",
-        "Referrer-Policy": "strict-origin-when-cross-origin",
         "user-agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
       },
@@ -496,29 +350,6 @@ export async function resy_calendar(
     },
   });
   return await resyAPIFetch(url);
-}
-
-/**
- * Rinses the proxy list and sets the working proxy list to only include reliable proxies
- * @param forceRefresh - Whether to force a refresh even if working proxies exist
- * @returns The number of working proxies
- */
-export async function ensureReliableProxies(
-  forceRefresh: boolean = false
-): Promise<number> {
-  if (forceRefresh || workingProxyList.length === 0) {
-    console.log("Refreshing proxy list...");
-    const rinseResult = await rinseProxyList();
-    if (rinseResult.length > 0) {
-      workingProxyList = rinseResult;
-      return workingProxyList.length;
-    } else {
-      console.log("No working proxies found, using initial list");
-      workingProxyList = [...initialProxyList];
-      return workingProxyList.length;
-    }
-  }
-  return workingProxyList.length;
 }
 
 export async function process_for_resy(
