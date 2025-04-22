@@ -1,14 +1,15 @@
 import { RateLimiter } from "limiter";
 
-import {
-  TimeSlots,
-  VendorBase,
-  VenueVendorInfo,
-} from "./VendorBase";
+import { TimeSlots, VendorBase, VenueVendorInfo } from "./VendorBase";
+import { resyFindReservation } from "../yumutil/src";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const buildUrl = require("build-url");
-
-const limiter = new RateLimiter({ tokensPerInterval: 5, interval: 1000 }); // 1 request per second;
 
 export class VendorResy extends VendorBase {
   vendorID() {
@@ -25,20 +26,18 @@ export class VendorResy extends VendorBase {
     party_size: number,
     timeOption: string
   ): Promise<TimeSlots[]> {
-    await limiter.removeTokens(1);
+    const data = await resyFindReservation(venue.businessid!, date, party_size);
+    if (data && data.results.venues[0]) {
+      const slots = data.results.venues[0].slots.map((s: any) => s.date.start);
+      const uniqueSlots = [...new Set(slots)];
 
-    const url = new URL("https://us-west1-yumyum-v2.cloudfunctions.net/resy_1");
-    url.searchParams.append("businessid", venue.businessid!);
-    url.searchParams.append("party_size", party_size.toString());
-    url.searchParams.append("date", date);
-    url.searchParams.append("timezone", venue.timezone!);
-    url.searchParams.append("url_slug", venue.url_slug!);
-
-    console.log(url.toString());
-    const response = await fetch(url.toString());
-    const data = await response.json();
-    console.log(data);
-    return data;
+      const timeSlots: TimeSlots[] = uniqueSlots.map((slot) => ({
+        time: dayjs.tz(slot as string, venue.timezone).format(),
+      }));
+      return timeSlots;
+    } else {
+      return [] as TimeSlots[];
+    }
   }
 
   getReservationUrl(
