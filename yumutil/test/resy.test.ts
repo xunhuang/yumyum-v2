@@ -1,9 +1,6 @@
 import { describe, expect } from "@jest/globals";
 import dayjs from "dayjs";
-import {
-  resyFindReservation,
-  resy_basic_search_and_validate,
-} from "../src";
+import { resyFindReservation, resy_basic_search_and_validate } from "../src";
 
 const heirloomCafe = {
   name: "Heirloom Cafe SF",

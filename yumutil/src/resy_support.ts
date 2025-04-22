@@ -4,8 +4,8 @@ import { RateLimiter } from "limiter";
 import dayjs from "dayjs";
 import { getDistance } from "geolib";
 import { addressMatch, venueNameSimilar } from "./utils";
-import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
+import { proxyFetch } from "./proxy_manager";
 
 const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 2000 });
 
@@ -155,67 +155,14 @@ mutation MyMutation {
   return json;
 }
 
-// async function resyAPIFetch(url: string): Promise<any> {
-//   await limiter.removeTokens(1);
-//   const response = await fetch(url, {
-//     headers: {
-//       accept: "application/json, text/plain, */*",
-//       authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-//       "cache-control": "no-cache",
-//       "sec-ch-ua":
-//         '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-//       "sec-ch-ua-mobile": "?0",
-//       "sec-ch-ua-platform": '"macOS"',
-//       "x-origin": "https://resy.com",
-//       "user-agent":
-//         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-//     },
-//     referrer: "https://resy.com/",
-//     referrerPolicy: "strict-origin-when-cross-origin",
-//     body: undefined,
-//     method: "GET",
-//     mode: "cors",
-//     credentials: "include",
-//   });
-
-//   if (response.status !== 200) {
-//     console.log("resyAPIFetch error", url, response.status);
-//     return null;
-//   }
-
-//   try {
-//     const json = await response.json();
-//     return json;
-//   } catch (error) {
-//     console.log("resyAPIFetch error", url, response.status);
-//     return null;
-//   }
-// }
-
-const proxylist = [
-  "38.153.152.244:9594:twdstpvx:sgawibu43v6a",
-  "86.38.234.176:6630:twdstpvx:sgawibu43v6a",
-  "173.211.0.148:6641:twdstpvx:sgawibu43v6a",
-  "161.123.152.115:6360:twdstpvx:sgawibu43v6a",
-  "216.10.27.159:6837:twdstpvx:sgawibu43v6a",
-  "154.36.110.199:6853:twdstpvx:sgawibu43v6a",
-  "45.151.162.198:6600:twdstpvx:sgawibu43v6a",
-  "185.199.229.156:7492:twdstpvx:sgawibu43v6a",
-  "185.199.228.220:7300:twdstpvx:sgawibu43v6a",
-  "185.199.231.45:8382:twdstpvx:sgawibu43v6a",
-];
-
+/**
+ * Fetch data from Resy API using a proxy
+ */
 async function resyAPIFetch(url: string): Promise<any> {
   await limiter.removeTokens(1);
-  const random = proxylist[Math.floor(Math.random() * proxylist.length)];
-  const [host, port, username, password] = random.split(":");
-  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-  console.log("proxyUrl", proxyUrl);
-  const agent = new HttpsProxyAgent(proxyUrl);
 
-  const response = await fetch(url, {
+  return await proxyFetch(url, {
     headers: {
-      accept: "application/json, text/plain, */*",
       authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
       "cache-control": "no-cache",
       "sec-ch-ua":
@@ -223,29 +170,9 @@ async function resyAPIFetch(url: string): Promise<any> {
       "sec-ch-ua-mobile": "?0",
       "sec-ch-ua-platform": '"macOS"',
       "x-origin": "https://resy.com",
-      "user-agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     },
-    // referrer: "https://resy.com/",
-    // referrerPolicy: "strict-origin-when-cross-origin",
-    // body: null,
-    method: "GET",
-    // mode: "cors",
-    // credentials: "include",
-    agent: agent
+    timeout: 10000, // 10 second timeout
   });
-  if (response.status !== 200) {
-    console.log("resyAPIFetch error", url, response.status);
-    return null;
-  }
-
-  try {
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    console.log("resyAPIFetch error", url, response.status);
-    return null;
-  }
 }
 
 export async function resyAPILookupByVenueID(venue_id: string): Promise<any> {
@@ -364,7 +291,12 @@ async function resy_basic_search(
   latitude: number
 ): Promise<any[]> {
   try {
-    const result = await fetch("https://api.resy.com/3/venuesearch/search", {
+    await limiter.removeTokens(1);
+
+    // Use direct fetch for this one since proxyFetch doesn't support POST method yet
+    const searchUrl = "https://api.resy.com/3/venuesearch/search";
+
+    const result = await fetch(searchUrl, {
       headers: {
         accept: "application/json, text/plain, */*",
         "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
@@ -376,12 +308,8 @@ async function resy_basic_search(
           '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": '"macOS"',
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-site",
         "x-origin": "https://resy.com",
         Referer: "https://resy.com/",
-        "Referrer-Policy": "strict-origin-when-cross-origin",
         "user-agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
       },
@@ -536,10 +464,7 @@ async function checkIsValidlityByResyVenueIdLookup(
 }
 
 export async function validateResyVenueInfo(venue: any): Promise<boolean> {
-  console.log(
-    "validateResyVenueInfo *******************************************",
-    venue.name
-  );
+  console.log("validateResyVenueInfo", venue.name);
   const valid = await checkIsValidlityByResyVenueIdLookup(venue);
   if (!valid) {
     return false;

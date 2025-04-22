@@ -1,17 +1,12 @@
-import { gotScraping } from "got-scraping";
-
-import {
-  TimeSlots,
-  VendorBase,
-  VenueVendorInfo,
-} from "./VendorBase";
+import { TimeSlots, VendorBase, VenueVendorInfo } from "./VendorBase";
 
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { getRedis } from "../yumutil/src/saveToRedisWithChunking";
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const buildUrl = require("build-url");
 
@@ -29,39 +24,12 @@ export class VendorTock extends VendorBase {
     party_size: number,
     timeOption: string
   ): Promise<TimeSlots[]> {
-    const response: any = await gotScraping.get({
-      url: "https://us-west1-yumyum-v2.cloudfunctions.net/tock_redis",
-      responseType: "json",
-      headerGeneratorOptions: {
-        browsers: [
-          {
-            name: "chrome",
-            minVersion: 100, // 87
-            maxVersion: 120, // 89
-          },
-        ],
-        devices: ["desktop"],
-        locales: ["de-DE", "en-US"],
-        operatingSystems: ["windows", "linux"],
-      },
-      headers: {
-        Accept: "application/json",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Content-Type": "application/json",
-      },
-      searchParams: {
-        date: date,
-        party_size: party_size,
-        venuetimezone: venue.timezone,
-        businessId: venue.businessid,
-        businessGroupId: venue.businessgroupid,
-        urlSlug: venue.url_slug,
-      },
-    });
+    const redis = getRedis();
+    const response: any = await redis.get(`${venue.url_slug}-${date}`);
 
     let total: any = [];
 
-    let slots = response.body;
+    let slots = response;
     if (!slots) {
       return [];
     }
@@ -77,7 +45,9 @@ export class VendorTock extends VendorBase {
           slot.minPurchaseSize <= party_size &&
           slot.maxPurchaseSize >= party_size
         ) {
-          let datestr = dayjs.tz(date + "T" + slot.time, venue.timezone).format();
+          let datestr = dayjs
+            .tz(date + "T" + slot.time, venue.timezone)
+            .format();
           let ret: any = {
             time: datestr,
           };
@@ -85,7 +55,6 @@ export class VendorTock extends VendorBase {
           if (slot.ticketTypePrice && slot.ticketTypePrice.length > 0) {
             ret.priceInCents = slot.ticketTypePrice[0].priceCents;
           }
-
           total.push(ret);
         }
       }
@@ -111,5 +80,4 @@ export class VendorTock extends VendorBase {
     });
     return reservationUrl;
   }
-
 }
