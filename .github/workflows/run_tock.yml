@@ -23,7 +23,7 @@ jobs:
 
       - run: cd yumutil; npm ci; npm install; npm install -g ts-node; npm run build; npm link
 
-      - run: cd tockspecial; npm ci; npm install; npm link yumutil
+      - run: cd tockspecial; npm ci; npm install --force; npm link yumutil
 
       - name: Run tock scraping
         id: runtockscrape
