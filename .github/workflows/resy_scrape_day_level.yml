@@ -2,8 +2,6 @@ name: Resy Day Level scraping
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0/60 * * * *"
 
 jobs:
   setup-build-publish-deploy:
@@ -32,3 +30,4 @@ jobs:
       - name: Run Resy day level scraping
         env: ${{ secrets }}
         run: cd tockspecial; ts-node resyscrape.ts
+        #run: cd tockspecial; ts-node resy-scrape-browser.ts

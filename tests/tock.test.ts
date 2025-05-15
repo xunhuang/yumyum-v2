@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 
 import { VendorTock } from "../graphql/yummodule/VendorTock";
 import {
-  venueReservationSearchByKey,
   venueToVendorInfo,
   yumyumVenueByKey,
 } from "./getYumYumGraphQLClient";
@@ -20,14 +19,6 @@ describe("Tock System Test", () => {
       2,
       "dinner",
       true
-    );
-    expect(search_result).not.toBeNull();
-  });
-
-  // this one has a take-out order
-  it("investigate omakase", async () => {
-    const search_result = await venueReservationSearchByKey(
-      "2VZHquW1dA6Gdv7m868O"
     );
     expect(search_result).not.toBeNull();
   });

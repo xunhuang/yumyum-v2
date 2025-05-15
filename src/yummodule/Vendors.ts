@@ -1,23 +1,17 @@
-import { VendorBase } from "./VendorBase";
-import { VendorOpentable } from "./VendorOpentable";
-import { VendorResy } from "./VendorResy";
-import { VendorSevenrooms } from "./VendorSevenrooms";
-import { VendorTock } from "./VendorTock";
-import { VendorYelp } from "./VendorYelp";
 
-type tplotOptions = {
-  [key: string]: VendorBase;
+export const VendorRequiredFields: Record<string, Array<string>> = {
+  opentable: ["businessid"],
+  resy: ["businessid", "url_slug", "resy_city_code"],
+  tock: ["businessid", "url_slug"],
+  sevenrooms: ["url_slug"],
+  yelp: ["businessid", "url_slug"],
 };
 
-export const VendorMap: tplotOptions = {
-  opentable: new VendorOpentable(),
-  resy: new VendorResy(),
-  tock: new VendorTock(),
-  sevenrooms: new VendorSevenrooms(),
-  yelp: new VendorYelp(),
-  // tablecheck: new VendorTablecheck(),
-};
-
-export const getVendor = (type: string): VendorBase => {
-  return VendorMap[type];
-};
+export const getVendorRequiredFields = (reservation: string): Array<string> => {
+  const vendor = VendorRequiredFields[reservation];
+  if (!vendor) {
+    return [];
+  }
+  console.log(vendor);
+  return vendor;
+}

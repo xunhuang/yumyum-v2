@@ -1,9 +1,6 @@
 import { describe, expect } from "@jest/globals";
 import dayjs from "dayjs";
-import {
-  resyFindReservation,
-  resy_basic_search_and_validate,
-} from "../src";
+import { resyFindReservation, resy_basic_search_and_validate } from "../src";
 
 const heirloomCafe = {
   name: "Heirloom Cafe SF",
@@ -69,6 +66,7 @@ describe("resy", () => {
       dayjs().add(1, "day").format("YYYY-MM-DD"),
       2
     );
+    console.log(result);
 
     expect(result).not.toBeNull();
     expect(result.results?.venues?.length).not.toBeNull();

@@ -5,6 +5,7 @@ import {
   saveToRedisWithChunking,
   getRedis,
   resyFindReservation,
+  ensureReliableProxies,
 } from "yumutil";
 
 const redis = getRedis();
@@ -18,11 +19,15 @@ const redis = getRedis();
     process.exit(1);
   }
   try {
-    const rl = await resyLists();
+    await ensureReliableProxies(true);
+    const resy_full_list = await resyLists();
     // const l = rl.filter((v) => v.name == "AltoVino");
-    const l = rl.slice(0, 5);
+    // const workingList = resy_full_list.slice(0, 5);
+    const workingList = [...resy_full_list].sort(() => Math.random() - 0.5);
 
-    const keys = l.map((v: any) => resy_calendar_key(v.urlSlug, party_size));
+    const keys = workingList.map((v: any) =>
+      resy_calendar_key(v.urlSlug, party_size)
+    );
 
     // keys in the form of
     // [
@@ -56,27 +61,27 @@ const redis = getRedis();
     const noavail: any[] = [];
     const avail: any[] = [];
 
-    for (let i = 0; i < l.length; i++) {
+    for (let i = 0; i < workingList.length; i++) {
       // console.log(l[i].urlSlug, l[i].name);
       const entry: any = data[i];
       // eslint-disable-next-line array-callback-return
       entry?.scheduled?.map((entry: any) => {
-        if (!l[i].urlSlug) {
-          console.log(l[i], "is null  xxxxxxxxxxxxxx");
+        if (!workingList[i].urlSlug) {
+          console.log(workingList[i], "is null  xxxxxxxxxxxxxx");
           return null;
         }
         if (entry.inventory.reservation !== "available") {
           noavail.push({
-            slug: l[i].urlSlug,
-            venue_id: l[i].businessid,
+            slug: workingList[i].urlSlug,
+            venue_id: workingList[i].businessid,
             party_size: party_size,
             date: entry.date,
             note: entry.inventory.reservation,
           });
         } else {
           avail.push({
-            slug: l[i].urlSlug,
-            venue_id: l[i].businessid,
+            slug: workingList[i].urlSlug,
+            venue_id: workingList[i].businessid,
             party_size: party_size,
             date: entry.date,
           });
@@ -106,17 +111,33 @@ const redis = getRedis();
       return acc;
     }, {});
 
-    // console.log("These have availability");
-    // console.log(JSON.stringify(groupedAvail, null, 2));
+    // Include today and filter out dates in the past
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set to beginning of day for accurate comparison
 
-    const dates = Object.keys(groupedAvail).sort();
-    // console.log("dates as keys");
-    // console.log(dates);
+    const dates = Object.keys(groupedAvail)
+      .filter((date) => {
+        // Create date with YYYY-MM-DD format to avoid timezone issues
+        const [year, month, day] = date.split("-").map(Number);
+        const dateToProcess = new Date(year, month - 1, day); // month is 0-indexed in JS Date
+        return dateToProcess >= currentDate; // This already includes today since we're using >= comparison
+      })
+      .sort();
+
+    let totalEntries = 0;
+    for (const k of dates) {
+      totalEntries += groupedAvail[k].length;
+    }
+    console.log(`Total number of entries to process: ${totalEntries}`);
 
     for (const k of dates) {
+      console.log(`Processing reservations for date: ${k}`);
       const answers: Record<string, any> = {};
       try {
-        for (const e of groupedAvail[k]) {
+        const randomized_avail = [...groupedAvail[k]].sort(
+          () => Math.random() - 0.5
+        );
+        for (const e of randomized_avail) {
           console.log(
             `finding reservation for ${e.slug} ${e.date} ${e.party_size}`
           );

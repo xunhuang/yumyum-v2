@@ -1,7 +1,7 @@
 import { RateLimiter } from "limiter";
 import { resy_calendar_key, resyLists, resy_calendar, saveToRedisWithChunking } from "yumutil";
 
-const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
+const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 3000 });
 
 (async function main() {
   try {
@@ -10,24 +10,34 @@ const limiter = new RateLimiter({ tokensPerInterval: 1, interval: 1000 });
 
     const rl = await resyLists();
     const answers: Record<string, any> = {};
-    const l = rl;
-    console.log(l);
-    for (let i = 0; i < l.length && i < 1000; i++) {
-      const v = l[i];
-      const calendar = await resy_calendar_ratelimited(
-        v.businessid,
-        party_size,
-        v.name,
+
+    // randomize the list
+    const l = [...rl].sort(() => Math.random() - 0.5);
+
+    console.log("list to fetch with ", l.length, " items");
+    l.map((v: any) => { console.log(v.name); });
+
+    try {
+      for (let i = 0; i < l.length && i < 1000; i++) {
+        const v = l[i];
+        console.log(`${i}. getting calendar for ${v.name}`);
+        const calendar = await resy_calendar_ratelimited(
+          v.businessid,
+          party_size,
+          v.name,
           30
         );
-      if (calendar.status === 429) {
+        if (calendar.status === 429) {
           console.log(v.urlSlug, party_size, "Rate limiting exceeded");
           continue;
         }
         answers[resy_calendar_key(v.urlSlug, party_size)] = calendar;
         console.log(v.name, party_size, "done");
       }
-      console.log(answers);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    } catch (error) {
+      console.error(error);
+    }
     await saveToRedisWithChunking(answers, `party of ${party_size}`);
   } catch (error) {
     console.error(error);
