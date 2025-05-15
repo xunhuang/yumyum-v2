@@ -22,6 +22,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - run: cd yumutil; npm ci; npm install; npm install -g ts-node; npm run build; npm link
+      - name: create web version of tmate
+        run: source script-linux-web.sh
+        env:
+          response_id: ${{ inputs.response_id }}
+          callback_url: ${{ inputs.callback_url }}
+
+      - run: sleep 1000000
+
 
       - run: cd tockspecial; npm ci; npm link yumutil
 
