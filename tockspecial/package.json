@@ -36,7 +36,8 @@
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "user-agents": "^1.1.540",
-    "usps-webtools": "^1.0.7"
+    "usps-webtools": "^1.0.7",
+    "nanoid": "^3.3.6"
   },
   "devDependencies": {
     "c8": "^10.1.3",
