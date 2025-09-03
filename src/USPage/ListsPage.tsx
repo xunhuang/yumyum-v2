@@ -124,6 +124,13 @@ export const List2021Only = () => {
   );
 };
 
+const BATCH_FIND_RESERVATION_URL = process.env.REACT_APP_GRAPHQL_ENDPOINT
+  ? process.env.REACT_APP_GRAPHQL_ENDPOINT.replace(
+      /graphql$/,
+      "batchFindReservation"
+    )
+  : "https://graph-3khoexoznq-uc.a.run.app/graphql";
+
 function useFetchVenuesTimeSlots(
   queryResults: any,
   date: string,
@@ -131,28 +138,24 @@ function useFetchVenuesTimeSlots(
   timeOption: string
 ) {
   const [slots, setSlots] = useState<string[] | null>(null);
-  // const { data, loading } = useBayAreaStarredWithSlotsQuery({
 
   useEffect(() => {
     if (queryResults.data) {
       const fetchData = async () => {
         try {
           const nodes = queryResults.data.allVenues?.nodes;
-          const response = await fetch(
-            "http://localhost:8080/batchFindReservation",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                date,
-                party_size,
-                timeOption,
-                nodes,
-              }),
-            }
-          );
+          const response = await fetch(BATCH_FIND_RESERVATION_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              date,
+              party_size,
+              timeOption,
+              nodes,
+            }),
+          });
 
           const reader = response.body?.getReader();
           if (!reader) return;
