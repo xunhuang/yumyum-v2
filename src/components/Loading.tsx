@@ -1,6 +1,7 @@
 import { Button, Spin } from 'antd';
 
 export const Loading = () => {
+
   return (
     <span>
       <Spin size="large" />

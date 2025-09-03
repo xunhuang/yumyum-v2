@@ -2,7 +2,7 @@ import "antd/dist/antd.css";
 
 import { Tabs } from "antd";
 import Link from "antd/lib/typography/Link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
@@ -141,13 +141,15 @@ export const List2021Only = () => {
   );
 };
 
-export const ListStarsOnly = () => {
-  const metro = useMetro();
-  const [date] = useRecoilState(SelectedDateState);
-  const [party_size] = useRecoilState(SelectedPartySize);
-  const [timeOption] = useRecoilState(SelectedTimeOption);
-
-  const { data, loading } = useBayAreaStarredWithSlotsQuery({
+function useFetchVenuesTimeSlots(
+  metro: string,
+  date: string,
+  party_size: number,
+  timeOption: string
+) {
+  const [slots, setSlots] = useState<string[] | null>(null);
+  // const { data, loading } = useBayAreaStarredWithSlotsQuery({
+  const { data, loading } = useBayAreaPlatesWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -156,18 +158,96 @@ export const ListStarsOnly = () => {
     },
   });
 
+  useEffect(() => {
+    if (data) {
+      const fetchData = async () => {
+        try {
+          const nodes = data.allVenues?.nodes;
+          const response = await fetch(
+            "http://localhost:8080/batchFindReservation",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                date,
+                party_size,
+                timeOption,
+                nodes,
+              }),
+            }
+          );
+
+          const reader = response.body?.getReader();
+          if (!reader) return;
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            // Decode and parse the chunk
+            const chunk = new TextDecoder().decode(value);
+            const newResults = chunk
+              .split("\n")
+              .filter((line) => line.trim())
+              .map((line) => JSON.parse(line));
+
+            // Append new results to existing slots
+            setSlots((prevSlots) => {
+              if (!prevSlots) return newResults;
+              return [...prevSlots, ...newResults];
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching reservations:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [data]);
+  if (loading) {
+    return { data: null, loading: true };
+  }
+  return { slots, loading };
+}
+
+export const ListStarsOnly = () => {
+  const metro = useMetro();
+  const [date] = useRecoilState(SelectedDateState);
+  const [party_size] = useRecoilState(SelectedPartySize);
+  const [timeOption] = useRecoilState(SelectedTimeOption);
+
+  // const { data, loading } = useBayAreaStarredWithSlotsQuery({
+  //   variables: {
+  //     metro: metro,
+  //     date: date,
+  //     party_size: party_size,
+  //     timeOption: timeOption,
+  //   },
+  // });
+
+  const { slots, loading } = useFetchVenuesTimeSlots(
+    metro,
+    date,
+    party_size,
+    timeOption
+  );
+
   if (loading) {
     return <Loading />;
   }
 
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={data?.allVenues?.nodes}
-    ></RestaurantList>
-  );
+  return <pre>{JSON.stringify(slots, null, 2)}</pre>;
+  // return (
+  //   <RestaurantList
+  //     date={date}
+  //     party_size={party_size}
+  //     timeOption={timeOption}
+  //     list={data?.allVenues?.nodes}
+  //   ></RestaurantList>
+  // );
 };
 
 export const ListAllLoggedInOnly = () => {

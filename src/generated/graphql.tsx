@@ -231,7 +231,6 @@ export type Query = Node & {
    * which can only query top level fields if they are in a particular form.
    */
   query: Query;
-  reservationInfo?: Maybe<ReservationInfo>;
   /** Reads a single `Venue` using its globally unique `ID`. */
   venue?: Maybe<Venue>;
   venueByKey?: Maybe<Venue>;
@@ -258,12 +257,6 @@ export type QueryNodeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryReservationInfoArgs = {
-  url: Scalars['String'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryVenueArgs = {
   nodeId: Scalars['ID'];
 };
@@ -272,16 +265,6 @@ export type QueryVenueArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryVenueByKeyArgs = {
   key: Scalars['String'];
-};
-
-export type ReservationInfo = {
-  __typename?: 'ReservationInfo';
-  businessid?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['Float']>;
-  longitude?: Maybe<Scalars['Float']>;
-  reservation?: Maybe<Scalars['String']>;
-  resyCityCode?: Maybe<Scalars['String']>;
-  urlSlug?: Maybe<Scalars['String']>;
 };
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
@@ -437,10 +420,10 @@ export type Venue = Node & {
   guide?: Maybe<Scalars['String']>;
   imageList?: Maybe<Scalars['String']>;
   key: Scalars['String'];
-  latitude?: Maybe<Scalars['Float']>;
+  latitude: Scalars['Float'];
   localarea?: Maybe<Scalars['String']>;
   localname?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
+  longitude: Scalars['Float'];
   menuurl?: Maybe<Scalars['String']>;
   metro?: Maybe<Scalars['String']>;
   michelinId?: Maybe<Scalars['String']>;
@@ -796,10 +779,10 @@ export type VenueInput = {
   guide?: InputMaybe<Scalars['String']>;
   imageList?: InputMaybe<Scalars['String']>;
   key: Scalars['String'];
-  latitude?: InputMaybe<Scalars['Float']>;
+  latitude: Scalars['Float'];
   localarea?: InputMaybe<Scalars['String']>;
   localname?: InputMaybe<Scalars['String']>;
-  longitude?: InputMaybe<Scalars['Float']>;
+  longitude: Scalars['Float'];
   menuurl?: InputMaybe<Scalars['String']>;
   metro?: InputMaybe<Scalars['String']>;
   michelinId?: InputMaybe<Scalars['String']>;
@@ -1066,7 +1049,7 @@ export type BayAreaAllWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaAllWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaStarredWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1077,7 +1060,7 @@ export type BayAreaStarredWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaStarredWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayArea2021WithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1088,7 +1071,7 @@ export type BayArea2021WithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayArea2021WithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaBibWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1099,7 +1082,7 @@ export type BayAreaBibWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaBibWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaLegacyWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1110,7 +1093,7 @@ export type BayAreaLegacyWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaLegacyWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaLegacyWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
   metro: Scalars['String'];
@@ -1121,7 +1104,7 @@ export type BayAreaPlatesWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaPlatesWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaNearbySlotsQueryVariables = Exact<{
   date: Scalars['String'];
@@ -1135,32 +1118,32 @@ export type BayAreaNearbySlotsQueryVariables = Exact<{
 }>;
 
 
-export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaNearbySlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
-export type VenuAvailabilityFragment = { __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null };
+export type VenuAvailabilityFragment = { __typename?: 'Venue', myReservationUrl?: string | null, nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null };
 
 export type BayAreaQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type BayAreaOfflineQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type BayAreaOfflineQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
 export type MetroTbdQueryVariables = Exact<{
   metro: Scalars['String'];
 }>;
 
 
-export type MetroTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null } | null> } | null };
+export type MetroTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null } | null> } | null };
 
-export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude?: number | null, longitude?: number | null, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null };
+export type VenuMainInfoFragment = { __typename?: 'Venue', nodeId: string, name?: string | null, stars?: string | null, city?: string | null, cuisine?: string | null, priceline?: string | null, withOnlineReservation?: string | null, coverImage?: string | null, latitude: number, longitude: number, timezone?: string | null, michelinslug?: string | null, address?: string | null, reservation?: string | null, key: string, vintage?: string | null, close?: boolean | null, businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null };
 
 export type CreateVenueMutationVariables = Exact<{
   name: Scalars['String'];
@@ -1190,20 +1173,13 @@ export type CreateVenueMutationVariables = Exact<{
 
 export type CreateVenueMutation = { __typename?: 'Mutation', createVenue?: { __typename?: 'CreateVenuePayload', venue?: { __typename?: 'Venue', key: string, name?: string | null } | null } | null };
 
-export type LookupReservationInfoQueryVariables = Exact<{
-  url: Scalars['String'];
-}>;
-
-
-export type LookupReservationInfoQuery = { __typename?: 'Query', reservationInfo?: { __typename?: 'ReservationInfo', businessid?: string | null, urlSlug?: string | null, resyCityCode?: string | null, latitude?: number | null, longitude?: number | null, reservation?: string | null } | null };
-
 export type MetroReservationQueryVariables = Exact<{
   metro: Scalars['String'];
   reservation: Scalars['String'];
 }>;
 
 
-export type MetroReservationQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', key: string, name?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, city?: string | null, region?: string | null, businessid?: string | null, reservation?: string | null } | null> } | null };
+export type MetroReservationQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', key: string, name?: string | null, longitude: number, latitude: number, address?: string | null, city?: string | null, region?: string | null, businessid?: string | null, reservation?: string | null } | null> } | null };
 
 export type RepopulateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -1219,7 +1195,7 @@ export type RepopulateVenueInfoMutationVariables = Exact<{
 }>;
 
 
-export type RepopulateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: { __typename?: 'UpdateVenuePayload', clientMutationId?: string | null, venue?: { __typename?: 'Venue', key: string, name?: string | null, michelinslug?: string | null, michelinobjectid?: string | null, coverImage?: string | null, cuisine?: string | null, imageList?: string | null, latitude?: number | null, longitude?: number | null, stars?: string | null, url?: string | null } | null } | null };
+export type RepopulateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKey?: { __typename?: 'UpdateVenuePayload', clientMutationId?: string | null, venue?: { __typename?: 'Venue', key: string, name?: string | null, michelinslug?: string | null, michelinobjectid?: string | null, coverImage?: string | null, cuisine?: string | null, imageList?: string | null, latitude: number, longitude: number, stars?: string | null, url?: string | null } | null } | null };
 
 export type UpdateVenueInfoMutationVariables = Exact<{
   key: Scalars['String'];
@@ -1237,7 +1213,7 @@ export type UpdateVenueInfoMutation = { __typename?: 'Mutation', updateVenueByKe
 export type UsaReservationTbdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsaReservationTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', name?: string | null, region?: string | null, city?: string | null, longitude?: number | null, latitude?: number | null, address?: string | null, metro?: string | null, key: string } | null> } | null };
+export type UsaReservationTbdQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', totalCount: number, nodes: Array<{ __typename?: 'Venue', name?: string | null, region?: string | null, city?: string | null, longitude: number, latitude: number, address?: string | null, metro?: string | null, key: string } | null> } | null };
 
 export type VenueByKeyWithSlotsQueryVariables = Exact<{
   key: Scalars['String'];
@@ -1247,16 +1223,16 @@ export type VenueByKeyWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type VenueByKeyWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null, monthlySlots?: Array<{ __typename?: 'DateAvailability', date?: string | null, slots?: Array<string | null> | null, url?: string | null }> | null } | null> } | null };
+export type VenueByKeyWithSlotsQuery = { __typename?: 'Query', allVenues?: { __typename?: 'VenuesConnection', nodes: Array<{ __typename?: 'Venue', slots?: Array<string> | null, myReservationUrl?: string | null, nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude: number, localarea?: string | null, localname?: string | null, longitude: number, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null, monthlySlots?: Array<{ __typename?: 'DateAvailability', date?: string | null, slots?: Array<string | null> | null, url?: string | null }> | null } | null> } | null };
 
 export type VenueByKeyQueryVariables = Exact<{
   key: Scalars['String'];
 }>;
 
 
-export type VenueByKeyQuery = { __typename?: 'Query', venueByKey?: { __typename?: 'Venue', nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null } | null };
+export type VenueByKeyQuery = { __typename?: 'Query', venueByKey?: { __typename?: 'Venue', nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude: number, localarea?: string | null, localname?: string | null, longitude: number, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null } | null };
 
-export type VenueAllOtherFieldsFragment = { __typename?: 'Venue', nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude?: number | null, localarea?: string | null, localname?: string | null, longitude?: number | null, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null };
+export type VenueAllOtherFieldsFragment = { __typename?: 'Venue', nodeId: string, vintage?: string | null, accomondation?: string | null, address?: string | null, area?: string | null, autodetected?: string | null, bookatableClientid?: string | null, bookatablePartnerCode?: string | null, bookingnotes?: string | null, businessId?: string | null, businessid?: string | null, city?: string | null, close?: boolean | null, closehours?: string | null, connectionid?: string | null, country?: string | null, countryIso?: string | null, coverImage?: string | null, creationTime?: string | null, cuisine?: string | null, currency?: string | null, devnotes?: string | null, distinction?: string | null, email?: string | null, fulladdress?: string | null, guide?: string | null, imageList?: string | null, key: string, latitude: number, localarea?: string | null, localname?: string | null, longitude: number, menuurl?: string | null, metro?: string | null, michelinId?: string | null, michelineOnlineReservation?: boolean | null, name?: string | null, oldImages?: string | null, openhours?: string | null, otherReservation?: string | null, phone?: string | null, priceline?: string | null, realurl?: string | null, region?: string | null, reservation?: string | null, reservationHint?: string | null, reservationUrl?: string | null, resyCityCode?: string | null, resyUrlSlug?: string | null, rsvpSupport?: string | null, sf?: string | null, showvenue?: boolean | null, stars?: string | null, tags?: string | null, timezone?: string | null, tockUrlSlug?: string | null, url?: string | null, urlSlug?: string | null, withOnlineReservation?: string | null, workqueue?: string | null, zip?: string | null };
 
 export const VenuMainInfoFragmentDoc = gql`
     fragment VenuMainInfo on Venue {
@@ -1276,11 +1252,14 @@ export const VenuMainInfoFragmentDoc = gql`
   reservation
   key
   vintage
+  close
+  businessid
+  urlSlug
+  resyCityCode
 }
     `;
 export const VenuAvailabilityFragmentDoc = gql`
     fragment VenuAvailability on Venue {
-  slots(date: $date, party_size: $party_size, timeOption: $timeOption)
   myReservationUrl(date: $date, party_size: $party_size, timeOption: $timeOption)
   ...VenuMainInfo
 }
@@ -1842,46 +1821,6 @@ export function useCreateVenueMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateVenueMutationHookResult = ReturnType<typeof useCreateVenueMutation>;
 export type CreateVenueMutationResult = Apollo.MutationResult<CreateVenueMutation>;
 export type CreateVenueMutationOptions = Apollo.BaseMutationOptions<CreateVenueMutation, CreateVenueMutationVariables>;
-export const LookupReservationInfoDocument = gql`
-    query LookupReservationInfo($url: String!) {
-  reservationInfo(url: $url) {
-    businessid
-    urlSlug
-    resyCityCode
-    latitude
-    longitude
-    reservation
-  }
-}
-    `;
-
-/**
- * __useLookupReservationInfoQuery__
- *
- * To run a query within a React component, call `useLookupReservationInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useLookupReservationInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLookupReservationInfoQuery({
- *   variables: {
- *      url: // value for 'url'
- *   },
- * });
- */
-export function useLookupReservationInfoQuery(baseOptions: Apollo.QueryHookOptions<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>(LookupReservationInfoDocument, options);
-      }
-export function useLookupReservationInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>(LookupReservationInfoDocument, options);
-        }
-export type LookupReservationInfoQueryHookResult = ReturnType<typeof useLookupReservationInfoQuery>;
-export type LookupReservationInfoLazyQueryHookResult = ReturnType<typeof useLookupReservationInfoLazyQuery>;
-export type LookupReservationInfoQueryResult = Apollo.QueryResult<LookupReservationInfoQuery, LookupReservationInfoQueryVariables>;
 export const MetroReservationDocument = gql`
     query MetroReservation($metro: String!, $reservation: String!) {
   allVenues(condition: {close: false, reservation: $reservation, metro: $metro}) {

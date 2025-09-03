@@ -123,7 +123,7 @@ const AvailablilityLoader = new DataLoader(batchGetUserById, {
     cacheMap: myCache, // disable for dev
 });
 
-async function singleVenueSearch(
+export async function singleVenueSearch(
     venue: VenueVendorInfo, date: string, party_size: number, timeOption: string
 ): Promise<string[] | null> {
     const vendor = getVendor(venue.reservation);

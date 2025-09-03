@@ -137,7 +137,6 @@ query BayAreaNearbySlots(
 }
 
 fragment VenuAvailability on Venue {
-  slots(date: $date, party_size: $party_size, timeOption: $timeOption)
   myReservationUrl(
     date: $date
     party_size: $party_size
@@ -187,4 +186,8 @@ fragment VenuMainInfo on Venue {
   reservation
   key
   vintage
+  close
+  businessid
+  urlSlug
+  resyCityCode
 }

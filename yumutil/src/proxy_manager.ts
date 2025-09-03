@@ -63,6 +63,7 @@ export const initializationPromise = initializeProxyList();
 export async function rinseProxyList(
   timeoutMs: number = 5000
 ): Promise<string[]> {
+  await waitForInitialization();
   const testUrl: string = `https://api.resy.com/4/find?lat=0&long=0&day=${dayjs()
     .add(7, "days")
     .format("YYYY-MM-DD")}&party_size=2&venue_id=7074`;
@@ -83,43 +84,9 @@ export async function rinseProxyList(
   }
 
   for (const chunk of chunks) {
-    const proxyTests = chunk.map(async (proxyString) => {
-      const [host, port, username, password] = proxyString.split(":");
-      const proxyUrl = `http://${username}:${password}@${host}:${port}`;
-      const agent = new HttpsProxyAgent(proxyUrl);
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-        const response = await fetch(testUrl, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
-            "user-agent":
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-          },
-          method: "GET",
-          agent: agent,
-        });
-
-        clearTimeout(timeoutId);
-
-        if (response.status === 200 || response.status === 400) {
-          // 400 is okay as it might mean missing params but proxy worked
-          console.log(`Proxy working: ${proxyString}`);
-          return proxyString;
-        } else {
-          console.log(
-            `Proxy failed with status ${response.status}: ${proxyString}, proxy: ${proxyUrl}`
-          );
-          return null;
-        }
-      } catch (error) {
-        console.log(`Proxy failed with error: ${proxyString} - ${error}`);
-        return null;
-      }
-    });
+    const proxyTests = chunk.map((proxyString) =>
+      isProxyEntryWorking(proxyString, testUrl, timeoutMs)
+    );
 
     const results = await Promise.all(proxyTests);
     workingProxies.push(...results.filter((r): r is string => r !== null));
@@ -133,6 +100,50 @@ export async function rinseProxyList(
   workingProxyList = [...workingProxies];
 
   return workingProxies;
+}
+
+export async function isProxyEntryWorking(
+  proxyString: string,
+  testUrl: string = `https://api.resy.com/4/find?lat=0&long=0&day=${dayjs()
+    .add(7, "days")
+    .format("YYYY-MM-DD")}&party_size=2&venue_id=7074`,
+  timeoutMs: number = 5000
+): Promise<string | null> {
+  const [host, port, username, password] = proxyString.split(":");
+  const proxyUrl = `http://${username}:${password}@${host}:${port}`;
+  const agent = new HttpsProxyAgent(proxyUrl);
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    const response = await fetch(testUrl, {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        authorization: 'ResyAPI api_key="VbWk7s3L4KiK5fzlO7JD3Q5EYolJI7n5"',
+        "user-agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+      },
+      method: "GET",
+      agent: agent,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (response.status === 200 || response.status === 400) {
+      // 400 is okay as it might mean missing params but proxy worked
+      console.log(`Proxy working: ${proxyString}`);
+      return proxyString;
+    } else {
+      console.log(
+        `Proxy failed with status ${response.status}: ${proxyString}, proxy: ${proxyUrl}`
+      );
+      return null;
+    }
+  } catch (error) {
+    console.log(`Proxy failed with error: ${proxyString} - ${error}`);
+    return null;
+  }
 }
 
 /**
@@ -158,11 +169,19 @@ export async function ensureReliableProxies(
   return workingProxyList.length;
 }
 
-// Modify getRandomProxy to wait for initialization if needed
-export async function getRandomProxy(): Promise<string> {
+export async function waitForInitialization() {
   if (!isInitialized) {
     await initializationPromise;
   }
+}
+
+export function getWorkingProxyList() {
+  return workingProxyList;
+}
+
+// Modify getRandomProxy to wait for initialization if needed
+export async function getRandomProxy(): Promise<string> {
+  await waitForInitialization();
   if (workingProxyList.length === 0) {
     throw new Error("No proxies available");
   }
