@@ -1,7 +1,14 @@
 import { Button, Spin } from 'antd';
 
-export const Loading = () => {
-
+export const Loading = ({
+  initialLoading,
+  total,
+  fetchCompleted,
+}: {
+  initialLoading?: boolean;
+  total?: number;
+  fetchCompleted?: number;
+}) => {
   return (
     <span>
       <Spin size="large" />
@@ -17,6 +24,9 @@ export const Loading = () => {
         href="/"
       >
         Michelin Reservations Made Easy
+        {initialLoading && <span>Loading...</span>}
+        {total && <span>Total: {total}</span>}
+        {fetchCompleted && <span>Fetch Completed: {fetchCompleted}</span>}
       </Button>
     </span>
   );

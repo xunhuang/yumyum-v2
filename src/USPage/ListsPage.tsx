@@ -142,27 +142,19 @@ export const List2021Only = () => {
 };
 
 function useFetchVenuesTimeSlots(
-  metro: string,
+  queryResults: any,
   date: string,
   party_size: number,
   timeOption: string
 ) {
   const [slots, setSlots] = useState<string[] | null>(null);
   // const { data, loading } = useBayAreaStarredWithSlotsQuery({
-  const { data, loading } = useBayAreaPlatesWithSlotsQuery({
-    variables: {
-      metro: metro,
-      date: date,
-      party_size: party_size,
-      timeOption: timeOption,
-    },
-  });
 
   useEffect(() => {
-    if (data) {
+    if (queryResults.data) {
       const fetchData = async () => {
         try {
-          const nodes = data.allVenues?.nodes;
+          const nodes = queryResults.data.allVenues?.nodes;
           const response = await fetch(
             "http://localhost:8080/batchFindReservation",
             {
@@ -206,9 +198,9 @@ function useFetchVenuesTimeSlots(
 
       fetchData();
     }
-  }, [data, date, party_size, timeOption]);
+  }, [queryResults.data, date, party_size, timeOption]);
 
-  if (loading || !slots) {
+  if (queryResults.loading || !slots) {
     return { nodesWithSlots: null, loading: true };
   }
   const slotmap = slots.reduce<Record<string, any>>((acc, slot: any) => {
@@ -218,19 +210,26 @@ function useFetchVenuesTimeSlots(
     return acc;
   }, {} as Record<string, object>);
 
-  const nodesWithSlots = data?.allVenues?.nodes?.map((node) => {
-    if (node?.key) {
-      if (slotmap[node.key]?.slots) {
-        return {
-          ...node,
-          slots: slotmap[node.key]?.slots,
-        };
+  const nodesWithSlots = queryResults.data?.allVenues?.nodes?.map(
+    (node: any) => {
+      if (node?.key) {
+        if (slotmap[node.key]?.slots) {
+          return {
+            ...node,
+            slots: slotmap[node.key]?.slots,
+          };
+        }
+        return node;
       }
-      return node;
     }
-  });
+  );
 
-  return { restuarantList: nodesWithSlots, loading };
+  return {
+    restuarantList: nodesWithSlots,
+    initialLoading: queryResults.loading,
+    totalCount: queryResults.data?.allVenues?.nodes?.length,
+    fetchCompleted: slots.length || 0,
+  };
 }
 
 export const ListStarsOnly = () => {
@@ -239,36 +238,53 @@ export const ListStarsOnly = () => {
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
-  // const { data, loading } = useBayAreaStarredWithSlotsQuery({
-  //   variables: {
-  //     metro: metro,
-  //     date: date,
-  //     party_size: party_size,
-  //     timeOption: timeOption,
-  //   },
-  // });
+  const queryResults = useBayAreaStarredWithSlotsQuery({
+    variables: {
+      metro: metro,
+      date: date,
+      party_size: party_size,
+      timeOption: timeOption,
+    },
+  });
 
-  const { restuarantList, loading } = useFetchVenuesTimeSlots(
-    metro,
+  return FetchAndDisplayRestuarantList(
+    queryResults,
     date,
     party_size,
     timeOption
   );
 
-  if (loading || !restuarantList) {
-    return <Loading />;
+function FetchAndDisplayRestuarantList(
+  queryResults: any,
+  date: string,
+  party_size: number,
+  timeOption: string
+) {
+  const { restuarantList, initialLoading, totalCount, fetchCompleted } =
+    useFetchVenuesTimeSlots(queryResults, date, party_size, timeOption);
+  if (initialLoading || !restuarantList) {
+    return <Loading initialLoading={initialLoading} />;
   }
-
-  // return <pre>{JSON.stringify(slots, null, 2)}</pre>;
   return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={restuarantList as any}
-    ></RestaurantList>
+    <div>
+      {totalCount > 0 && fetchCompleted! < totalCount && (
+        <Loading
+          initialLoading={initialLoading}
+          total={totalCount}
+          fetchCompleted={fetchCompleted}
+        />
+      )}
+      <RestaurantList
+        date={date}
+        party_size={party_size}
+        timeOption={timeOption}
+        list={restuarantList as any}
+      ></RestaurantList>
+    </div>
   );
-};
+}
+
+
 
 export const ListAllLoggedInOnly = () => {
   const [profile] = useProfile();
