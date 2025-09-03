@@ -40,14 +40,13 @@ export class VendorOpentable extends VendorBase {
       party_size,
       timeOption
     );
-    if (typeof resbody.availability == "undefined") {
-      console.log("no avail response for resbody availability");
+    if (!resbody) {
+      console.log("error finding opentable reservation");
       return [];
     }
-    let slots = resbody.availability[date].timeSlots;
     let total: TimeSlots[] = [];
-    slots.forEach(function (slot: any) {
-      let datestr = dayjs.tz(slot.dateTime, venue.timezone)
+    resbody.forEach(function (slot: string) {
+      let datestr = dayjs.tz(slot, venue.timezone)
         .format();
       total.push({
         time: datestr,

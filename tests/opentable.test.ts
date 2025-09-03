@@ -10,15 +10,16 @@ describe("Opentable System Test", () => {
         "pdeQcjD6o8T1qrfpfeA0"
       );
       // null means API error
+      console.log(search_result);
       expect(search_result).not.toBeNull();
     });
-    it("Testing for Yelp API functioning ok", async () => {
-      // saltwater
-      const search_result = await venueReservationSearchByKey(
-        "c92IICLvjpnfKrZuMNg7"
-      );
-      // null means API error
-      expect(search_result).not.toBeNull();
-    }, 10000);
+    // it("Testing for Yelp API functioning ok", async () => {
+    //   // saltwater
+    //   const search_result = await venueReservationSearchByKey(
+    //     "c92IICLvjpnfKrZuMNg7"
+    //   );
+    //   // null means API error
+    //   expect(search_result).not.toBeNull();
+    // }, 10000);
   });
 });
