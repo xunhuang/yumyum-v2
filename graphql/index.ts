@@ -68,7 +68,7 @@ app.post('/batchFindReservation', async (req: any, res: any) => {
           resy_city_code: node.resyCityCode,
         };
         const slots = await singleVenueSearch(venue, date, party_size, timeOption);
-        writeLine({ nodeName: node.name, reservation: node.reservation, slots });
+        writeLine({ nodeName: node.name, key: node.key, reservation: node.reservation, slots });
       }
     } catch (e) {
       console.error('Error parsing request body:', e);

@@ -206,11 +206,31 @@ function useFetchVenuesTimeSlots(
 
       fetchData();
     }
-  }, [data]);
-  if (loading) {
-    return { data: null, loading: true };
+  }, [data, date, party_size, timeOption]);
+
+  if (loading || !slots) {
+    return { nodesWithSlots: null, loading: true };
   }
-  return { slots, loading };
+  const slotmap = slots.reduce<Record<string, any>>((acc, slot: any) => {
+    if ("key" in slot && typeof slot.key === "string") {
+      acc[slot.key] = slot;
+    }
+    return acc;
+  }, {} as Record<string, object>);
+
+  const nodesWithSlots = data?.allVenues?.nodes?.map((node) => {
+    if (node?.key) {
+      if (slotmap[node.key]?.slots) {
+        return {
+          ...node,
+          slots: slotmap[node.key]?.slots,
+        };
+      }
+      return node;
+    }
+  });
+
+  return { restuarantList: nodesWithSlots, loading };
 }
 
 export const ListStarsOnly = () => {
@@ -228,26 +248,26 @@ export const ListStarsOnly = () => {
   //   },
   // });
 
-  const { slots, loading } = useFetchVenuesTimeSlots(
+  const { restuarantList, loading } = useFetchVenuesTimeSlots(
     metro,
     date,
     party_size,
     timeOption
   );
 
-  if (loading) {
+  if (loading || !restuarantList) {
     return <Loading />;
   }
 
-  return <pre>{JSON.stringify(slots, null, 2)}</pre>;
-  // return (
-  //   <RestaurantList
-  //     date={date}
-  //     party_size={party_size}
-  //     timeOption={timeOption}
-  //     list={data?.allVenues?.nodes}
-  //   ></RestaurantList>
-  // );
+  // return <pre>{JSON.stringify(slots, null, 2)}</pre>;
+  return (
+    <RestaurantList
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+      list={restuarantList as any}
+    ></RestaurantList>
+  );
 };
 
 export const ListAllLoggedInOnly = () => {
