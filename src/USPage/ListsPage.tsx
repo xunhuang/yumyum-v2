@@ -14,7 +14,6 @@ import {
   useBayAreaLegacyWithSlotsQuery,
   useBayAreaOfflineQuery,
   useBayAreaPlatesWithSlotsQuery,
-  useBayAreaQuery,
   useBayAreaStarredWithSlotsQuery,
 } from "../generated/graphql";
 import {
@@ -43,11 +42,13 @@ export const ListPlatesOnly = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 export const ListBibOnly = () => {
@@ -65,11 +66,13 @@ export const ListBibOnly = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 export const ListMichelinLegacy = () => {
@@ -87,11 +90,13 @@ export const ListMichelinLegacy = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 export const List2021Only = () => {
@@ -109,11 +114,13 @@ export const List2021Only = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 
@@ -197,6 +204,7 @@ function useFetchVenuesTimeSlots(
         }
         return node;
       }
+      return node;
     }
   );
 
@@ -223,20 +231,29 @@ export const ListStarsOnly = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 
-function FetchAndDisplayRestuarantList(
-  queryResults: any,
-  date: string,
-  party_size: number,
-  timeOption: string
-) {
+interface FetchAndDisplayRestuarantListProps {
+  queryResults: any;
+  date: string;
+  party_size: number;
+  timeOption: string;
+}
+
+export function FetchAndDisplayRestuarantList({
+  queryResults,
+  date,
+  party_size,
+  timeOption,
+}: FetchAndDisplayRestuarantListProps) {
   const { restuarantList, initialLoading, totalCount, fetchCompleted } =
     useFetchVenuesTimeSlots(queryResults, date, party_size, timeOption);
   if (initialLoading || !restuarantList) {
@@ -284,11 +301,13 @@ export const ListAll = () => {
     },
   });
 
-  return FetchAndDisplayRestuarantList(
-    queryResults,
-    date,
-    party_size,
-    timeOption
+  return (
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
+      date={date}
+      party_size={party_size}
+      timeOption={timeOption}
+    />
   );
 };
 

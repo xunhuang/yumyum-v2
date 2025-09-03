@@ -5,7 +5,7 @@ import { Loading } from '../components/Loading';
 import { useBayAreaNearbySlotsQuery } from '../generated/graphql';
 import { SelectedDateState, SelectedPartySize, SelectedTimeOption } from '../HeaderFooter/SelectedDateState';
 import { useIPLocation, UserLocation } from './CookieGeoLocation';
-import { RestaurantList } from './RestaurantList';
+import { FetchAndDisplayRestuarantList } from "./ListsPage";
 
 export const NearbyVenues = () => {
   const location = useIPLocation();
@@ -24,7 +24,7 @@ const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
   const [date] = useRecoilState(SelectedDateState);
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
-  const first = useBayAreaNearbySlotsQuery({
+  const queryResults = useBayAreaNearbySlotsQuery({
     variables: {
       date: date,
       party_size: party_size,
@@ -36,23 +36,27 @@ const VenuesNearLocation = ({ location }: FrontPageNearLocationProp) => {
     },
   });
 
-  if (first.loading) {
+  // Move the delta expansion logic to useEffect to avoid calling setState during render
+  React.useEffect(() => {
+    if (
+      queryResults.data?.allVenues?.totalCount! < 100 &&
+      !queryResults.loading
+    ) {
+      console.log("no enough restuarnt found, expanding circle");
+      setDelta((prevDelta) => prevDelta * 2);
+    }
+  }, [queryResults.data?.allVenues?.totalCount, queryResults.loading]);
+
+  if (queryResults.loading) {
     return <Loading />;
   }
 
-  if (first.data?.allVenues?.totalCount! < 100) {
-    console.log("no enough restuarnt found, expanding circle " + delta);
-    setDelta(delta * 2);
-  }
-
   return (
-    <RestaurantList
+    <FetchAndDisplayRestuarantList
+      queryResults={queryResults}
       date={date}
       party_size={party_size}
       timeOption={timeOption}
-      list={first.data?.allVenues?.nodes}
-      userLocation={location}
-      sortByDistanceFromUser={true}
-    ></RestaurantList>
+    />
   );
 };
