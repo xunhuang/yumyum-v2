@@ -1,3 +1,4 @@
+import { myCache } from './myCache';
 import { VenueVendorInfo } from './yummodule/VendorBase';
 import { singleVenueSearch, YumYumVenueAvailabilityPlugin } from './YumYumVenueAvailabilityPlugin';
 
@@ -44,18 +45,23 @@ app.post('/batchFindReservation', async (req: any, res: any) => {
     } catch (_e) {
     }
   };
-  console.log("hello!");
 
-  let date, party_size, timeOption, nodes;
 
   if (req.body) {
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      ({ date, party_size, timeOption, nodes } = body);
-      console.log('Parsed parameters:', { date, party_size, timeOption, nodes });
-      for (const node of nodes) {
+      const { date, party_size, timeOption, nodes } = body;
+      const concurrency = 10;
+
+      // Create a queue of all nodes to process
+      const queue = [...nodes];
+
+      // Process nodes with max concurrency
+      const activePromises = new Set();
+
+      // Helper function to process a single node
+      const processNode = async (node: any) => {
         const venue: VenueVendorInfo = {
-          // these  came from the @requires 
           close: node.close,
           reservation: node.reservation,
           name: node.name,
@@ -67,8 +73,29 @@ app.post('/batchFindReservation', async (req: any, res: any) => {
           longitude: node.longitude,
           resy_city_code: node.resyCityCode,
         };
-        const slots = await singleVenueSearch(venue, date, party_size, timeOption);
+        const cacheKey = JSON.stringify({ key: venue.key, date, party_size, timeOption });
+        let slots = myCache.get(cacheKey);
+        if (slots === undefined) {
+          slots = await singleVenueSearch(venue, date, party_size, timeOption);
+          myCache.set(cacheKey, slots);
+        }
         writeLine({ nodeName: node.name, key: node.key, reservation: node.reservation, slots });
+      };
+
+      // Process queue with concurrency control
+      while (queue.length > 0 || activePromises.size > 0) {
+        // Fill up to max concurrency
+        while (queue.length > 0 && activePromises.size < concurrency) {
+          const node = queue.shift()!;
+          const promise = processNode(node).then(() => {
+            activePromises.delete(promise);
+          });
+          activePromises.add(promise);
+        }
+        // Wait for at least one promise to complete
+        if (activePromises.size > 0) {
+          await Promise.race(activePromises);
+        }
       }
     } catch (e) {
       console.error('Error parsing request body:', e);
