@@ -34,7 +34,7 @@ export const ListPlatesOnly = () => {
   const [timeOption] = useRecoilState(SelectedTimeOption);
   const metro = useMetro();
 
-  const { data, loading } = useBayAreaPlatesWithSlotsQuery({
+  const queryResults = useBayAreaPlatesWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -43,17 +43,11 @@ export const ListPlatesOnly = () => {
     },
   });
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={data?.allVenues?.nodes}
-    ></RestaurantList>
+  return FetchAndDisplayRestuarantList(
+    queryResults,
+    date,
+    party_size,
+    timeOption
   );
 };
 export const ListBibOnly = () => {
@@ -62,7 +56,7 @@ export const ListBibOnly = () => {
   const [timeOption] = useRecoilState(SelectedTimeOption);
   const metro = useMetro();
 
-  const { data, loading } = useBayAreaBibWithSlotsQuery({
+  const queryResults = useBayAreaBibWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -71,17 +65,11 @@ export const ListBibOnly = () => {
     },
   });
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={data?.allVenues?.nodes}
-    ></RestaurantList>
+  return FetchAndDisplayRestuarantList(
+    queryResults,
+    date,
+    party_size,
+    timeOption
   );
 };
 export const ListMichelinLegacy = () => {
@@ -90,7 +78,7 @@ export const ListMichelinLegacy = () => {
   const [timeOption] = useRecoilState(SelectedTimeOption);
   const metro = useMetro();
 
-  const { data, loading } = useBayAreaLegacyWithSlotsQuery({
+  const queryResults = useBayAreaLegacyWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -99,17 +87,11 @@ export const ListMichelinLegacy = () => {
     },
   });
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={data?.allVenues?.nodes}
-    ></RestaurantList>
+  return FetchAndDisplayRestuarantList(
+    queryResults,
+    date,
+    party_size,
+    timeOption
   );
 };
 export const List2021Only = () => {
@@ -118,7 +100,7 @@ export const List2021Only = () => {
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
-  const { data, loading } = useBayArea2021WithSlotsQuery({
+  const queryResults = useBayArea2021WithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -127,17 +109,11 @@ export const List2021Only = () => {
     },
   });
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={data?.allVenues?.nodes}
-    ></RestaurantList>
+  return FetchAndDisplayRestuarantList(
+    queryResults,
+    date,
+    party_size,
+    timeOption
   );
 };
 
@@ -253,6 +229,7 @@ export const ListStarsOnly = () => {
     party_size,
     timeOption
   );
+};
 
 function FetchAndDisplayRestuarantList(
   queryResults: any,
@@ -284,8 +261,6 @@ function FetchAndDisplayRestuarantList(
   );
 }
 
-
-
 export const ListAllLoggedInOnly = () => {
   const [profile] = useProfile();
   if (!profile) {
@@ -300,13 +275,7 @@ export const ListAll = () => {
   const [party_size] = useRecoilState(SelectedPartySize);
   const [timeOption] = useRecoilState(SelectedTimeOption);
 
-  const first = useBayAreaQuery({
-    variables: {
-      metro: metro,
-    },
-  });
-
-  const second = useBayAreaAllWithSlotsQuery({
+  const queryResults = useBayAreaAllWithSlotsQuery({
     variables: {
       metro: metro,
       date: date,
@@ -315,30 +284,11 @@ export const ListAll = () => {
     },
   });
 
-  if (first.loading) {
-    return <Loading />;
-  }
-
-  if (second.loading) {
-    return (
-      <RestaurantList
-        list={first.data?.allVenues?.nodes}
-        date={date}
-        party_size={party_size}
-        timeOption={timeOption}
-        showAvailableOnly={false}
-        showLoading={true}
-      ></RestaurantList>
-    );
-  }
-
-  return (
-    <RestaurantList
-      date={date}
-      party_size={party_size}
-      timeOption={timeOption}
-      list={second.data?.allVenues?.nodes}
-    ></RestaurantList>
+  return FetchAndDisplayRestuarantList(
+    queryResults,
+    date,
+    party_size,
+    timeOption
   );
 };
 
