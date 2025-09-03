@@ -232,65 +232,12 @@ async function validateOpentableId(opentable_id: string): Promise<boolean> {
     2,
     "dinner"
   );
-  if (!result.availability) {
-    console.log(
-      "opentable No longer available/functional when validating",
-      opentable_id
-    );
-    return false;
-  }
-  if (result.availability?.error?.message === "NOT_AVAILABLE") {
-    console.log(
-      "opentable No longer available/functional when validating",
-      opentable_id
-    );
+  if (!result) {
     return false;
   }
   return true;
 }
 
-export async function opentable_fetchAuthToken(): Promise<string | null> {
-  const cacheKey = "opentable_auth_token";
-  const cached_token = myCache.get(cacheKey);
-  if (cached_token) {
-    // console.log("opentable_fetchAuthToken cache hit");
-    return cached_token;
-  }
-
-  // don't change this URL lightly. It's from a partner page directly that came from
-  // https://vintnersresort.com/dining/
-  // this page still contains the #client-initial-state  in the HTML.
-  // when you land on this page, and refresh, the #client-initial-state
-  // is will vanish, and you will see the #primary-windows_vars in the HTML and that
-  // does not contain the auth token.
-  // currently this is the only way to get the auth token.
-  // when this breaks, we need to adopt the gql endpoint
-  const url = `https://www.opentable.com/john-ash-and-co-reservations-santa-rosa?restref=1477&lang=en-US&ot_source=Restaurant%20website`;
-
-  const w = await fetch(url, {
-    method: "get",
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-    },
-  });
-  const res = await w.text();
-  const $ = cheerio.load(res);
-
-  let scripts = $("#client-initial-state").html();
-  if (!scripts) {
-    console.log("no initial state in html file found for ", url);
-    return null;
-  }
-  let appConfig = JSON.parse(scripts);
-  if (!appConfig) {
-    throw new Error("Unable to fetch auth token for opentable");
-  }
-  const opentable_auth_token = appConfig.authToken || null;
-  if (opentable_auth_token) {
-    myCache.set(cacheKey, opentable_auth_token, 60 * 60);
-  }
-  return opentable_auth_token;
-}
 
 export async function opentable_fetchPrimaryWindowVars(
   businessid: string
@@ -343,25 +290,67 @@ export async function opentableFindReservation(
   party_size: number,
   timeOption: string
 ): Promise<any> {
-  let token = await opentable_fetchAuthToken();
-  let url = "https://www.opentable.com/restref/api/availability?lang=en-US";
-  let datetime =
-    timeOption === "dinner" ? date + "T19:00:00" : date + "T12:00:00";
-  let data = {
-    rid: businessid,
-    partySize: party_size,
-    dateTime: datetime,
-    enableFutureAvailability: false,
-  };
-  const w = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-      authorization: `Bearer ${token}`,
+
+  // let token = yield opentable_fetchCSRFToken();
+  const myHeaders = new Headers();
+  myHeaders.append("content-type", "application/json");
+  myHeaders.append("x-csrf-token", "eda2a880-4591-44e3-b7e0-9f7f03079bd3");
+  // myHeaders.append("x-csrf-token", token);
+
+  const time = timeOption === "dinner" ? "19:00" : "12:00";
+  const raw = JSON.stringify({
+    "operationName": "RestaurantsAvailability",
+    "variables": {
+      "onlyPop": false,
+      "forwardDays": 0,
+      "requireTimes": false,
+      "restaurantIds": [
+        parseInt(businessid)
+      ],
+      "date": date,
+      "time": time,
+      "partySize": party_size,
+      "databaseRegion": "NA"
     },
+    "extensions": {
+      "persistedQuery": {
+        "version": 1,
+        "sha256Hash": "b2d05a06151b3cb21d9dfce4f021303eeba288fac347068b29c1cb66badc46af"
+      }
+    }
   });
 
-  const json = await w.json();
-  return json;
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow" as RequestRedirect
+  };
+
+  const response = await fetch(
+    "https://www.opentable.com/dapi/fe/gql?optype=query&opname=RestaurantsAvailability", requestOptions);
+  const jsonResult = await response.json();
+  // console.log(JSON.stringify(jsonResult, null, 2));
+  if (jsonResult?.data?.availability[0]?.availabilityDays) {
+    const timeSlots: string[] = [];
+    // console.log(jsonResult.data.availability[0].availabilityDays);
+    jsonResult.data.availability[0].availabilityDays.forEach((day: any) => {
+      if (day.dayOffset === 0) {
+        // same day only 
+        day.slots.forEach((timeSlot: any) => {
+          if (timeSlot.isAvailable) {
+
+            const baseTime = new Date(`${date}T${time}`);
+            const offset = timeSlot.timeOffsetMinutes; // number
+            const adjustedTime = new Date(baseTime.getTime() + offset * 60 * 1000);
+            const datetime = dayjs(adjustedTime).format("YYYY-MM-DDTHH:mm:ss");
+            timeSlots.push(datetime);
+          }
+        });
+      }
+    });
+    return timeSlots;
+  } else {
+    return null;
+  }
 }
