@@ -129,7 +129,7 @@ const BATCH_FIND_RESERVATION_URL = process.env.REACT_APP_GRAPHQL_ENDPOINT
       /graphql$/,
       "batchFindReservation"
     )
-  : "https://graph-3khoexoznq-uc.a.run.app/graphql";
+  : "https://graph-3khoexoznq-uc.a.run.app/batchFindReservation";
 
 function useFetchVenuesTimeSlots(
   queryResults: any,
