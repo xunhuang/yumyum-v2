@@ -23,10 +23,8 @@ export const Loading = ({
         }}
         href="/"
       >
-        Michelin Reservations Made Easy
-        {initialLoading && <span>Loading...</span>}
-        {total && <span>Total: {total}</span>}
-        {fetchCompleted && <span>Fetch Completed: {fetchCompleted}</span>}
+        {!total && !fetchCompleted && "Michelin Reservations Made Easy"}
+        {total && `Progress: ${fetchCompleted} / ${total}`}
       </Button>
     </span>
   );
