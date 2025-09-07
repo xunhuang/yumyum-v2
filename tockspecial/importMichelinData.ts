@@ -200,7 +200,7 @@ async function findOutdatedEntries(): Promise<any> {
   for (var item of outdated) {
     if (["BIB_GOURMAND", "MICHELIN_PLATE", "1", "2", "ONE_STAR", "TWO_STAR", "selected"].includes(item.stars)) {
       console.log("Found outdated venue. Setting to MICHELIN_FORMER", item.name, item.key);
-      // await set_michelin_former(item.key);
+      await set_michelin_former(item.key);
     } 
   }
   return outdated;

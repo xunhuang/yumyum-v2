@@ -45,6 +45,7 @@ async function is_this_opentable(venue: any): Promise<boolean> {
     venue.latitude,
     venue.address
   );
+  console.log("found", found);
   if (found) {
     return true;
   }

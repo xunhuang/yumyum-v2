@@ -98,6 +98,7 @@ export async function opentable_basic_search_and_validate(
   latitude: number,
   address: string
 ): Promise<string | null> {
+  // console.log("opentable_basic_search_and_validate", term, longitude, latitude, address);
   const result = await opentable_basic_search(term, longitude, latitude);
 
   for (const entry of result) {
