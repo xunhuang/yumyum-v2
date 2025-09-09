@@ -1,4 +1,5 @@
 import { myCache } from './myCache';
+import { VendorAPIErrorBuckets, WeekWindowBuckets } from './VendorAPIErrorBuckets';
 import { VenueVendorInfo } from './yummodule/VendorBase';
 import { getVendor } from './yummodule/Vendors';
 
@@ -142,7 +143,16 @@ export async function singleVenueSearch(
         console.log(venue.name, 'Missing vendor implementation ', venue.reservation);
         return null;
     }
+
     const result = await vendor.venueSearchSafe(venue, date, party_size, timeOption);
+
+    let apiErrorBucket = VendorAPIErrorBuckets.get(venue.reservation);
+    if (!apiErrorBucket) {
+        apiErrorBucket = new WeekWindowBuckets();
+        VendorAPIErrorBuckets.set(venue.reservation, apiErrorBucket);
+    }
+    apiErrorBucket.add(result !== null);
+
     const return_v = result?.map(t => t.time) || null;
     return return_v;
 }

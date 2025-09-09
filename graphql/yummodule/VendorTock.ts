@@ -31,7 +31,7 @@ export class VendorTock extends VendorBase {
 
     let slots = response;
     if (!slots) {
-      return [];
+      throw new Error(`error finding tock reservation for venue ${venue.name}`);
     }
 
     slots.forEach(function (slot: any) {

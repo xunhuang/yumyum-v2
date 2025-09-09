@@ -27,8 +27,8 @@ export async function sevenrooms_find_reservation(
   const data = await response.json();
 
   let total: any = [];
-  if (!data.data) {
-    return [];
+  if (!data || !data.data) {
+    throw new Error(`error finding sevenrooms reservation for venue ${slug}`);
   }
 
   let dateslots = data.data.availability[date];

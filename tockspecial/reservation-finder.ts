@@ -114,7 +114,10 @@ async function is_this_closed(venue: any): Promise<boolean> {
       venue.key,
       isGoogleClosed ? "google places API" : "perplexity"
     );
+    console.log(`${venue.name} is closed`);
+    return true;
   }
+  console.log(`${venue.name} is open`);
   return false;
 }
 
@@ -141,14 +144,41 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 };
 
 (async function main(): Promise<void> {
-  const tbdlist = await BayAreaListWithTBD();
-  const worklist = tbdlist;
+  // Basic arg parsing for --all and --only (supports --only type or --only=type)
+  const args = process.argv.slice(2);
+  let onlyType: string | null = null;
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === "--only" && i + 1 < args.length && !args[i + 1].startsWith("-")) {
+      onlyType = args[i + 1];
+      i++;
+      continue;
+    }
+    if (a.startsWith("--only=")) {
+      onlyType = a.split("=", 2)[1] || null;
+      continue;
+    }
+  }
+
+  if (onlyType && !Object.keys(functionMap).includes(onlyType) && onlyType !== "TBD") {
+    console.error(
+      `Invalid --only value: ${onlyType}. Valid options: ${Object.keys(functionMap).join(", ")}`
+    );
+    process.exit(1);
+  }
+
+  // Build initial worklist, then optionally filter by reservation type
+  const allList = await BayAreaListAll();
+  const worklist = onlyType
+    ? allList.filter((v: any) => v.reservation === onlyType)
+    : allList;
 
   console.log(`Found ${worklist.length} venues to check`);
   for (const venue of worklist) {
     console.log(
       `Searching for ${venue.name} - ${venue.address} ****************************************************************`
     );
+    // Default behavior: try venue's current reservation type first, then search all
     const reservation = venue.reservation;
     const func = functionMap[reservation];
     if (func) {
@@ -189,6 +219,42 @@ query MyQuery {
   allVenues(
     filter: {
       reservation: { in: [ "TBD"] }
+      metro: { equalTo: "bayarea" }
+      close: { equalTo: false }
+    }
+  ) {
+    totalCount
+    nodes {
+      name
+      address
+      urlSlug
+      key
+      michelinslug
+      michelinId
+      url
+      realurl
+      michelinobjectid
+      tags
+      michelineOnlineReservation
+      longitude
+      latitude
+      city
+      region
+      reservation
+      businessid
+    }
+  }
+}`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json.data.allVenues.nodes;
+}
+
+async function BayAreaListAll() {
+  const query = `
+query MyQuery {
+  allVenues(
+    filter: {
       metro: { equalTo: "bayarea" }
       close: { equalTo: false }
     }

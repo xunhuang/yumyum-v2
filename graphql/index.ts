@@ -1,4 +1,5 @@
 import { myCache } from './myCache';
+import { VendorAPIErrorBuckets } from './VendorAPIErrorBuckets';
 import { VenueVendorInfo } from './yummodule/VendorBase';
 import { singleVenueSearch, YumYumVenueAvailabilityPlugin } from './YumYumVenueAvailabilityPlugin';
 
@@ -103,5 +104,17 @@ app.post('/batchFindReservation', async (req: any, res: any) => {
   }
   res.end();
 });
+
+app.get('/api/vendor-error-rates', (_req: any, res: any) => {
+  const rates: { [key: string]: { errors: number; total: number; rate: number } } = {};
+
+  for (const [vendor, bucket] of VendorAPIErrorBuckets.entries()) {
+    rates[vendor] = bucket.errorRate();
+  }
+
+  res.json(rates);
+});
+
+
 
 app.listen(8080);

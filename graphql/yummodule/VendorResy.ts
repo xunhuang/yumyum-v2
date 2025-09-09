@@ -27,7 +27,10 @@ export class VendorResy extends VendorBase {
     timeOption: string
   ): Promise<TimeSlots[]> {
     const data = await resyFindReservation(venue.businessid!, date, party_size);
-    if (data && data.results.venues[0]) {
+    if (!data) {
+      throw new Error(`error finding resy reservation for venue ${venue.name}`);
+    }
+    if (data.results.venues[0]) {
       const slots = data.results.venues[0].slots.map((s: any) => s.date.start);
       const uniqueSlots = [...new Set(slots)];
 
@@ -35,9 +38,8 @@ export class VendorResy extends VendorBase {
         time: dayjs.tz(slot as string, venue.timezone).format(),
       }));
       return timeSlots;
-    } else {
-      return [] as TimeSlots[];
     }
+    return [] as TimeSlots[];
   }
 
   getReservationUrl(

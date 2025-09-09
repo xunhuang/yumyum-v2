@@ -41,8 +41,7 @@ export class VendorOpentable extends VendorBase {
       timeOption
     );
     if (!resbody) {
-      console.log("error finding opentable reservation");
-      return [];
+      throw new Error(`error finding opentable reservation for venue ${venue.name}`);
     }
     let total: TimeSlots[] = [];
     resbody.forEach(function (slot: string) {

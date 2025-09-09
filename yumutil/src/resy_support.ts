@@ -124,6 +124,7 @@ mutation MyMutation {
 `;
 
   const json = await yumyumGraphQLCall(query);
+  console.log(`resy_set_venue_to_tbd ${venue_key} ${json}`);
   return json;
 }
 
