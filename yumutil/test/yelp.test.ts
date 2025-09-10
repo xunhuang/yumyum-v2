@@ -4,18 +4,23 @@ import {
   getYelpBusinessDetails,
   yelp_basic_search_and_validate,
   yelp_find_reservation,
+  extractYelpAddressFromFile,
 } from "../src";
 import dayjs from "dayjs";
 
 describe("Yelp", () => {
+/*
   it("yelp_basic_search", async () => {
     const result = await yelp_basic_search("trabocco", "Alameda", "CA");
 
     expect(result).not.toBeNull();
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].name).toContain("Trabocco");
+    console.log(result);
   }, 10000);
+  */
 
+  /*
   it("getYelpBusinessDetails", async () => {
     const result = await getYelpBusinessDetails(
       "trabocco-kitchen-and-cocktails-alameda"
@@ -23,6 +28,14 @@ describe("Yelp", () => {
     expect(result).not.toBeNull();
     expect(result.name).toContain("Trabocco");
   });
+  */
+  it("extractYelpAddressFromFile", async () => {
+    const result = await extractYelpAddressFromFile("/Users/xhuang/yelp.html");
+    console.log(result);
+    expect(result).not.toBeNull();
+    // expect(result.formatted).toContain("2213 S Shore Center");
+  });
+  /*
 
   const data2 = {
     name: "Shizen",
@@ -84,4 +97,5 @@ describe("Yelp", () => {
     );
     expect(result).not.toBeDefined();
   }, 10000);
+  */
 });

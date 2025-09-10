@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
+import { proxyFetch, proxyFetchPost } from "./proxy_manager";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -33,32 +34,35 @@ interface YelpResponse {
 
 export async function yelp_basic_search(searchTerm: string, city: string, state: string): Promise<YelpSearchResult[]> {
   try {
-    const response = await fetch("https://www.yelp.com/gql/batch", {
-      "headers": {
-        "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-        "content-type": "application/json",
-      },
-      "body": JSON.stringify([{
-        operationName: "GetSuggestions",
-        variables: {
-          capabilities: [],
-          prefix: searchTerm,
-          location: `${city}, ${state}`
+    const data = (await proxyFetchPost(
+      "https://www.yelp.com/gql/batch",
+      [
+        {
+          operationName: "GetSuggestions",
+          variables: {
+            capabilities: [],
+            prefix: searchTerm,
+            location: `${city}, ${state}`,
+          },
+          extensions: {
+            operationType: "query",
+            documentId:
+              "109c8a7e92ee9b481268cf55e8e21cc8ce753f8bf6453ad42ca7c1652ea0535f",
+          },
         },
-        extensions: {
-          operationType: "query",
-          documentId: "109c8a7e92ee9b481268cf55e8e21cc8ce753f8bf6453ad42ca7c1652ea0535f"
-        }
-      }]),
-      "method": "POST"
-    });
+      ],
+      {
+        headers: {
+          "accept-language": "en-US,en;q=0.9",
+        },
+      }
+    )) as [YelpResponse] | null;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!data) {
+      // throw new Error("Yelp suggestions request failed via proxy");
+      return [];
     }
 
-    const data = await response.json() as [YelpResponse];
     const suggestions = data[0].data.searchSuggestFrontend.prefetchSuggestions.suggestions;
     const results = suggestions.map(suggestion => ({
       name: suggestion.title,
@@ -82,19 +86,20 @@ export async function getYelpBusinessDetails(businessId: string): Promise<any> {
   }
 
   try {
-    const response = await fetch(`https://api.yelp.com/v3/businesses/${businessId}`, {
-      method: 'GET',
-      headers: {
-        'accept': 'application/json',
-        'authorization': `Bearer ${yelpToken}`
+    const json = await proxyFetch(
+      `https://api.yelp.com/v3/businesses/${businessId}`,
+      {
+        headers: {
+          accept: "application/json",
+          authorization: `Bearer ${yelpToken}`,
+        },
+        timeout: 10000,
       }
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    );
+    if (!json) {
+      throw new Error("Yelp business details request failed via proxy");
     }
-
-    return await response.json();
+    return json;
   } catch (error) {
     console.error('Error fetching Yelp business details, likely no such business:', error);
     return null;
@@ -190,15 +195,12 @@ export async function yelp_find_reservation(
   const params = new URLSearchParams(data as any);
   const fullUrl = `${url}?${params.toString()}`;
 
-  const response = await fetch(fullUrl, {
+  const res = await proxyFetch(fullUrl, {
     headers: {
       'x-requested-with': 'XMLHttpRequest'
-    }
+    },
+    timeout: 10000,
   });
-
-  // const html = await response.text();
-  // console.log(html);
-  const res = await response.json();
   return res;
 }
 

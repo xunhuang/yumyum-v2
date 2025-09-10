@@ -1,6 +1,7 @@
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
 import dayjs from "dayjs";
+import { classifyError, logClassifiedError, ClassifiedError, ErrorType } from "./error_types";
 
 const webshareToken = process.env.WEBSHARE_IO_TOKEN;
 if (!webshareToken) {
@@ -220,29 +221,50 @@ export function createProxyAgent(proxyString: string): HttpsProxyAgent<string> {
  * @param options - Additional fetch options
  * @returns The response data
  */
-export async function proxyFetch(
+async function proxyRequest(
   url: string,
-  options: { headers?: any; timeout?: number } = {}
+  init: {
+    method: string;
+    headers?: any;
+    timeout?: number;
+    body?: any;
+    rawBody?: boolean;
+  },
+  opName: string
 ): Promise<any> {
   const randomProxy = await getRandomProxy();
   const agent = createProxyAgent(randomProxy);
 
-  const timeout = options.timeout || 10000;
+  const timeout = init.timeout || 10000;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
+  const headersIn = init.headers || {};
+  const hasContentType = Object.keys(headersIn).some(
+    (h) => h.toLowerCase() === "content-type"
+  );
+
+  const defaultHeaders = {
+    accept: "application/json, text/plain, */*",
+    "user-agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  } as Record<string, string>;
+
+  const finalHeaders = {
+    ...defaultHeaders,
+    ...(!hasContentType && init.body != null && !init.rawBody
+      ? { "content-type": "application/json" }
+      : {}),
+    ...headersIn,
+  } as Record<string, string>;
+
+  const payload = init.body != null ? (init.rawBody ? init.body : JSON.stringify(init.body)) : undefined;
+
   try {
-    console.log(
-      `ProxyURL:  ${randomProxy}, (${workingProxyList.length} working proxies)`
-    );
     const response = await fetch(url, {
-      headers: {
-        accept: "application/json, text/plain, */*",
-        "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-        ...options.headers,
-      },
-      method: "GET",
+      headers: finalHeaders,
+      method: init.method,
+      body: payload as any,
       agent: agent,
       signal: controller.signal as any,
     });
@@ -250,15 +272,24 @@ export async function proxyFetch(
     clearTimeout(timeoutId);
 
     if (response.status !== 200) {
-      console.log(
-        "proxyFetch error",
+      // Classify the error based on HTTP status
+      const classifiedError = classifyError(
+        new Error(`HTTP ${response.status}`),
+        randomProxy,
         url,
-        response.status,
-        "removing proxy",
-        randomProxy
+        response.status
       );
-      // Remove failed proxy from the working list
-      removeFailedProxy(randomProxy);
+
+      logClassifiedError(classifiedError, opName);
+
+      // Only remove proxy if it's a proxy error, not a target website error
+      if (classifiedError.type === ErrorType.PROXY_ERROR) {
+        console.log(`${opName}: Removing failed proxy ${randomProxy}`);
+        removeFailedProxy(randomProxy);
+      } else if (classifiedError.type === ErrorType.TARGET_WEBSITE_ERROR) {
+        console.log(`${opName}: Target website error, keeping proxy ${randomProxy}`);
+      }
+
       return null;
     }
 
@@ -266,29 +297,44 @@ export async function proxyFetch(
       const json = await response.json();
       return json;
     } catch (error) {
-      console.log(
-        "proxyFetch JSON parse error",
+      // JSON parse error - likely a proxy issue if we got HTML instead of JSON
+      const classifiedError = classifyError(
+        error,
+        randomProxy,
         url,
-        "removing proxy",
-        randomProxy
+        response.status
       );
-      // Remove failed proxy from the working list
-      removeFailedProxy(randomProxy);
+
+      logClassifiedError(classifiedError, opName + " JSON parse");
+
+      if (classifiedError.type === ErrorType.PROXY_ERROR) {
+        console.log(`${opName}: Removing proxy due to JSON parse error ${randomProxy}`);
+        removeFailedProxy(randomProxy);
+      }
+
       return null;
     }
   } catch (error) {
-    console.log("proxyFetch fetch error", error, "removing proxy", randomProxy);
-    // Remove failed proxy from the working list
-    removeFailedProxy(randomProxy);
+    // Classify the error
+    const classifiedError = classifyError(
+      error,
+      randomProxy,
+      url
+    );
 
-    // If all proxies are exhausted, try to rinse and find working ones
+    logClassifiedError(classifiedError, opName + " fetch");
+
+    // Only remove proxy if it's a proxy error
+    if (classifiedError.type === ErrorType.PROXY_ERROR) {
+      console.log(`${opName}: Removing failed proxy ${randomProxy}`);
+      removeFailedProxy(randomProxy);
+    }
+
     if (workingProxyList.length === 0) {
       console.log(
         "All proxies failed, rinsing proxy list to find working ones"
       );
       const rinseResult = await rinseProxyList();
-
-      // If rinsing didn't find any working proxies, fall back to initial list
       if (rinseResult.length === 0) {
         console.log(
           "No working proxies found after rinsing, resetting to initial list"
@@ -298,5 +344,162 @@ export async function proxyFetch(
     }
 
     return null;
+  }
+}
+
+export async function proxyFetch(
+  url: string,
+  options: { headers?: any; timeout?: number } = {}
+): Promise<any> {
+  return proxyRequest(
+    url,
+    { method: "GET", headers: options.headers, timeout: options.timeout },
+    "proxyFetch"
+  );
+}
+
+/**
+ * Performs a POST request through a random working proxy.
+ * - Sends JSON by default; pass `rawBody: true` to send a pre-serialized string/Buffer.
+ * @param url - Endpoint to POST to
+ * @param body - Request body (object for JSON, or string/Buffer when `rawBody`)
+ * @param options - headers/timeout and `rawBody` flag
+ * @returns Parsed JSON on 200, otherwise null. Removes failed proxies from pool.
+ */
+export async function proxyFetchPost(
+  url: string,
+  body: any,
+  options: { headers?: any; timeout?: number; rawBody?: boolean } = {}
+): Promise<any> {
+  return proxyRequest(
+    url,
+    {
+      method: "POST",
+      headers: options.headers,
+      timeout: options.timeout,
+      body,
+      rawBody: options.rawBody,
+    },
+    "proxyFetchPost"
+  );
+}
+
+/**
+ * Enhanced proxy request with detailed error reporting
+ * Use this when you need to understand what type of error occurred
+ */
+export async function proxyRequestWithErrorDetails(
+  url: string,
+  init: {
+    method: string;
+    headers?: any;
+    timeout?: number;
+    body?: any;
+    rawBody?: boolean;
+  },
+  opName: string
+): Promise<{ data: any; error: ClassifiedError | null }> {
+  const randomProxy = await getRandomProxy();
+  const agent = createProxyAgent(randomProxy);
+
+  const timeout = init.timeout || 10000;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  const headersIn = init.headers || {};
+  const hasContentType = Object.keys(headersIn).some(
+    (h) => h.toLowerCase() === "content-type"
+  );
+
+  const defaultHeaders = {
+    accept: "application/json, text/plain, */*",
+    "user-agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  } as Record<string, string>;
+
+  const finalHeaders = {
+    ...defaultHeaders,
+    ...(!hasContentType && init.body != null && !init.rawBody
+      ? { "content-type": "application/json" }
+      : {}),
+    ...headersIn,
+  } as Record<string, string>;
+
+  const payload = init.body != null ? (init.rawBody ? init.body : JSON.stringify(init.body)) : undefined;
+
+  try {
+    const response = await fetch(url, {
+      headers: finalHeaders,
+      method: init.method,
+      body: payload as any,
+      agent: agent,
+      signal: controller.signal as any,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (response.status !== 200) {
+      const classifiedError = classifyError(
+        new Error(`HTTP ${response.status}`),
+        randomProxy,
+        url,
+        response.status
+      );
+
+      logClassifiedError(classifiedError, opName);
+
+      if (classifiedError.type === ErrorType.PROXY_ERROR) {
+        removeFailedProxy(randomProxy);
+      }
+
+      return { data: null, error: classifiedError };
+    }
+
+    try {
+      const json = await response.json();
+      return { data: json, error: null };
+    } catch (error) {
+      const classifiedError = classifyError(
+        error,
+        randomProxy,
+        url,
+        response.status
+      );
+
+      logClassifiedError(classifiedError, opName + " JSON parse");
+
+      if (classifiedError.type === ErrorType.PROXY_ERROR) {
+        removeFailedProxy(randomProxy);
+      }
+
+      return { data: null, error: classifiedError };
+    }
+  } catch (error) {
+    const classifiedError = classifyError(
+      error,
+      randomProxy,
+      url
+    );
+
+    logClassifiedError(classifiedError, opName + " fetch");
+
+    if (classifiedError.type === ErrorType.PROXY_ERROR) {
+      removeFailedProxy(randomProxy);
+    }
+
+    if (workingProxyList.length === 0) {
+      console.log(
+        "All proxies failed, rinsing proxy list to find working ones"
+      );
+      const rinseResult = await rinseProxyList();
+      if (rinseResult.length === 0) {
+        console.log(
+          "No working proxies found after rinsing, resetting to initial list"
+        );
+        workingProxyList = await listProxiesFromWebshare();
+      }
+    }
+
+    return { data: null, error: classifiedError };
   }
 }
