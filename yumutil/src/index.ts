@@ -13,3 +13,5 @@ export * from "./sevenrooms_support";
 export * from "./uspsLookupStreet";
 export * from "./proxy_manager";
 export * from "./yelp_html_parser";
+export * from "./puppeteerFetch";
+export * from "./fetchHard";

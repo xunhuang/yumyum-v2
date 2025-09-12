@@ -5,62 +5,42 @@ import {
   yelp_basic_search_and_validate,
   yelp_find_reservation,
   extractYelpAddressFromFile,
+  proxyFetch,
 } from "../src";
 import dayjs from "dayjs";
 
+const data2 = {
+  name: "Shizen",
+  address: "370 14th St.",
+  city: "San Francisco",
+  region: "California",
+  longitude: -122.4216544,
+  latitude: 37.7682494,
+  slug: "shizen-san-francisco-2",
+  businessid: "CYttYTEiQuhSfo3SEh79fA",
+};
+
 describe("Yelp", () => {
-/*
   it("yelp_basic_search", async () => {
     const result = await yelp_basic_search("trabocco", "Alameda", "CA");
-
     expect(result).not.toBeNull();
     expect(result.length).toBeGreaterThan(0);
     expect(result[0].name).toContain("Trabocco");
     console.log(result);
-  }, 10000);
-  */
+  }, 100000);
 
-  /*
-  it("getYelpBusinessDetails", async () => {
+  it("getYelpBusinessDetails_fail", async () => {
     const result = await getYelpBusinessDetails(
       "trabocco-kitchen-and-cocktails-alameda"
     );
-    expect(result).not.toBeNull();
-    expect(result.name).toContain("Trabocco");
-  });
-  */
-  it("extractYelpAddressFromFile", async () => {
-    const result = await extractYelpAddressFromFile("/Users/xhuang/yelp.html");
-    console.log(result);
-    expect(result).not.toBeNull();
-    // expect(result.formatted).toContain("2213 S Shore Center");
-  });
-  /*
+    expect(result).toBeNull();
+  }, 100000);
 
-  const data2 = {
-    name: "Shizen",
-    address: "370 14th St.",
-    city: "San Francisco",
-    region: "California",
-    longitude: -122.4216544,
-    latitude: 37.7682494,
-    slug: "shizen-san-francisco-2",
-    businessid: "CYttYTEiQuhSfo3SEh79fA",
-  };
-
-  it("yelp_find_reservation", async () => {
-    const date = dayjs().add(7, "days").format("YYYY-MM-DD");
-    const result = await yelp_find_reservation(
-      data2.slug,
-      data2.businessid,
-      data2.longitude,
-      data2.latitude,
-      date,
-      2,
-      "dinner"
-    );
+  it("getYelpBusinessDetails_success", async () => {
+    const result = await getYelpBusinessDetails("shizen-san-francisco-2");
     expect(result).not.toBeNull();
-  });
+    expect(result.restaurantName).toContain("Shizen");
+  }, 100000);
 
   it("yelp_basic_search_and_validate", async () => {
     const result = await yelp_basic_search_and_validate(
@@ -72,8 +52,10 @@ describe("Yelp", () => {
       data2.region
     );
     expect(result).not.toBeNull();
-    expect(result.name).toContain(data2.name);
+
+    console.log(result);
     expect(result.slug).toContain(data2.slug);
+    expect(result.name).toContain(data2.name);
     expect(result.businessid).toContain(data2.businessid);
   }, 10000);
 
@@ -97,5 +79,20 @@ describe("Yelp", () => {
     );
     expect(result).not.toBeDefined();
   }, 10000);
-  */
+});
+
+describe.only("YelpTest", () => {
+  it("yelp_find_reservation", async () => {
+    const date = dayjs().add(7, "days").format("YYYY-MM-DD");
+    const result = await yelp_find_reservation(
+      data2.slug,
+      data2.businessid,
+      data2.longitude,
+      data2.latitude,
+      date,
+      2,
+      "dinner"
+    );
+    expect(result).not.toBeNull();
+  });
 });

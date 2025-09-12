@@ -1,7 +1,12 @@
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
 import dayjs from "dayjs";
-import { classifyError, logClassifiedError, ClassifiedError, ErrorType } from "./error_types";
+import {
+  classifyError,
+  logClassifiedError,
+  ClassifiedError,
+  ErrorType,
+} from "./error_types";
 
 const webshareToken = process.env.WEBSHARE_IO_TOKEN;
 if (!webshareToken) {
@@ -258,7 +263,12 @@ async function proxyRequest(
     ...headersIn,
   } as Record<string, string>;
 
-  const payload = init.body != null ? (init.rawBody ? init.body : JSON.stringify(init.body)) : undefined;
+  const payload =
+    init.body != null
+      ? init.rawBody
+        ? init.body
+        : JSON.stringify(init.body)
+      : undefined;
 
   try {
     const response = await fetch(url, {
@@ -280,14 +290,16 @@ async function proxyRequest(
         response.status
       );
 
-      logClassifiedError(classifiedError, opName);
+      // logClassifiedError(classifiedError, opName);
 
       // Only remove proxy if it's a proxy error, not a target website error
       if (classifiedError.type === ErrorType.PROXY_ERROR) {
         console.log(`${opName}: Removing failed proxy ${randomProxy}`);
         removeFailedProxy(randomProxy);
       } else if (classifiedError.type === ErrorType.TARGET_WEBSITE_ERROR) {
-        console.log(`${opName}: Target website error, keeping proxy ${randomProxy}`);
+        console.log(
+          `${opName}: Target website error, keeping proxy ${randomProxy}`
+        );
       }
 
       return null;
@@ -308,7 +320,9 @@ async function proxyRequest(
       logClassifiedError(classifiedError, opName + " JSON parse");
 
       if (classifiedError.type === ErrorType.PROXY_ERROR) {
-        console.log(`${opName}: Removing proxy due to JSON parse error ${randomProxy}`);
+        console.log(
+          `${opName}: Removing proxy due to JSON parse error ${randomProxy}`
+        );
         removeFailedProxy(randomProxy);
       }
 
@@ -316,11 +330,7 @@ async function proxyRequest(
     }
   } catch (error) {
     // Classify the error
-    const classifiedError = classifyError(
-      error,
-      randomProxy,
-      url
-    );
+    const classifiedError = classifyError(error, randomProxy, url);
 
     logClassifiedError(classifiedError, opName + " fetch");
 
@@ -425,7 +435,12 @@ export async function proxyRequestWithErrorDetails(
     ...headersIn,
   } as Record<string, string>;
 
-  const payload = init.body != null ? (init.rawBody ? init.body : JSON.stringify(init.body)) : undefined;
+  const payload =
+    init.body != null
+      ? init.rawBody
+        ? init.body
+        : JSON.stringify(init.body)
+      : undefined;
 
   try {
     const response = await fetch(url, {
@@ -475,11 +490,7 @@ export async function proxyRequestWithErrorDetails(
       return { data: null, error: classifiedError };
     }
   } catch (error) {
-    const classifiedError = classifyError(
-      error,
-      randomProxy,
-      url
-    );
+    const classifiedError = classifyError(error, randomProxy, url);
 
     logClassifiedError(classifiedError, opName + " fetch");
 

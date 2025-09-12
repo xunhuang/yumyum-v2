@@ -1,10 +1,15 @@
 import { getDistance } from "geolib";
-import { venueNameSimilar, addressMatch } from "./utils";
+import {
+  venueNameSimilar,
+  addressMatch,
+  get_longlat_from_address,
+} from "./utils";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
 import { proxyFetch, proxyFetchPost } from "./proxy_manager";
+import { fetchHardJson, fetchHardJsonPost } from "./fetchHard";
 
 dayjs.extend(timezone);
 dayjs.extend(utc);
@@ -32,9 +37,13 @@ interface YelpResponse {
   };
 }
 
-export async function yelp_basic_search(searchTerm: string, city: string, state: string): Promise<YelpSearchResult[]> {
+export async function yelp_basic_search(
+  searchTerm: string,
+  city: string,
+  state: string
+): Promise<YelpSearchResult[]> {
   try {
-    const data = (await proxyFetchPost(
+    const data = (await fetchHardJsonPost(
       "https://www.yelp.com/gql/batch",
       [
         {
@@ -63,47 +72,28 @@ export async function yelp_basic_search(searchTerm: string, city: string, state:
       return [];
     }
 
-    const suggestions = data[0].data.searchSuggestFrontend.prefetchSuggestions.suggestions;
-    const results = suggestions.map(suggestion => ({
+    const suggestions =
+      data[0].data.searchSuggestFrontend.prefetchSuggestions.suggestions;
+    const results = suggestions.map((suggestion) => ({
       name: suggestion.title,
       address: suggestion.subtitle,
       redirectUrl: suggestion.redirectUrl,
       slug: suggestion.redirectUrl?.replace(/^\/biz\//, ""),
     }));
 
-    return results.filter(result => result.slug);
-
+    return results.filter((result) => result.slug);
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-export async function getYelpBusinessDetails(businessId: string): Promise<any> {
-  const yelpToken = process.env.YELP_API_KEY;
-  if (!yelpToken) {
-    throw new Error('YELP_API_KEY environment variable is not set');
-  }
-
-  try {
-    const json = await proxyFetch(
-      `https://api.yelp.com/v3/businesses/${businessId}`,
-      {
-        headers: {
-          accept: "application/json",
-          authorization: `Bearer ${yelpToken}`,
-        },
-        timeout: 10000,
-      }
-    );
-    if (!json) {
-      throw new Error("Yelp business details request failed via proxy");
-    }
-    return json;
-  } catch (error) {
-    console.error('Error fetching Yelp business details, likely no such business:', error);
-    return null;
-  }
+// API expired so not using this anymore, $299 a month, can't afford it
+export async function getYelpBusinessDetails(slug: string): Promise<any> {
+  const json = await fetchHardJson(
+    `https://www.yelp.com/reservations/${slug}/props`
+  );
+  return json;
 }
 
 export async function yelp_basic_search_and_validate(
@@ -114,16 +104,20 @@ export async function yelp_basic_search_and_validate(
   city: string,
   state: string
 ): Promise<any | null> {
-
   const results = await yelp_basic_search(term, city, state);
   for (const entry of results) {
     const details = await getYelpBusinessDetails(entry.slug);
     if (!details) {
+      console.log("Yelp business details not found for ", entry.slug);
       continue;
     }
 
-    const entryLongitude = details.coordinates.longitude;
-    const entryLatitude = details.coordinates.latitude;
+    const bizInfo = details.yrSearchWidgetData.bizInfo;
+
+    const fulladdress = entry.address + ", " + state;
+
+    const entryLongitude = bizInfo.bizLong;
+    const entryLatitude = bizInfo.bizLat;
 
     // Calculate distance in meters between the target location and this business
     const distance = getDistance(
@@ -137,30 +131,42 @@ export async function yelp_basic_search_and_validate(
     }
 
     // Check if name matches and address matches
-    if (venueNameSimilar(term, entry.name) &&
-      await addressMatch(details.location.address1, address, details.location.city, details.location.state)) {
+    if (
+      venueNameSimilar(term, entry.name) &&
+      (await addressMatch(fulladdress, address, city, state))
+    ) {
       // Check if the business has a reservation system
       try {
-        const reservation_data = await yelp_find_reservation(entry.slug, details.id, longitude, latitude, dayjs().add(-1, 'day').format('YYYY-MM-DD'), 2, "dinner");
+        const reservation_data = await yelp_find_reservation(
+          entry.slug,
+          bizInfo.bizId,
+          longitude,
+          latitude,
+          dayjs().add(-1, "day").format("YYYY-MM-DD"),
+          2,
+          "dinner"
+        );
         if (reservation_data.availability_profile === "no_avail") {
           continue;
         }
       } catch (error) {
-        console.error('Yelp Error finding reservation during validation:', error);
+        console.error(
+          "Yelp Error finding reservation during validation:",
+          error
+        );
         continue;
       }
       return {
         name: entry.name,
         slug: entry.slug,
-        businessid: details.id,
-        address: details.location.address1,
-        city: details.location.city,
-        state: details.location.state
+        businessid: bizInfo.bizId,
+        address: entry.address,
+        city: city,
+        state: state,
       };
     }
   }
 }
-
 
 export async function yelp_find_reservation(
   slug: string,
@@ -169,11 +175,11 @@ export async function yelp_find_reservation(
   latitude: number,
   date: string,
   party_size: number,
-  timeOption: string,
+  timeOption: string
 ): Promise<any> {
   let url = `https://www.yelp.com/reservations/${slug}/search_availability`;
 
-  let datetime = (timeOption === "dinner") ? "19:00:00" : "12:00:00";
+  let datetime = timeOption === "dinner" ? "19:00:00" : "12:00:00";
 
   let data = {
     append_request: "false",
@@ -197,13 +203,12 @@ export async function yelp_find_reservation(
 
   const res = await proxyFetch(fullUrl, {
     headers: {
-      'x-requested-with': 'XMLHttpRequest'
+      "x-requested-with": "XMLHttpRequest",
     },
     timeout: 10000,
   });
   return res;
 }
-
 
 export async function process_for_yelp(
   saveChanges: boolean,
@@ -227,11 +232,7 @@ export async function process_for_yelp(
     return false;
   }
   if (saveChanges) {
-    await yelp_set_venue_reservation(
-      key,
-      result.slug,
-      result.businessid
-    );
+    await yelp_set_venue_reservation(key, result.slug, result.businessid);
   } else {
     console.log("found yelp venue but not saving ", result);
   }
@@ -241,7 +242,7 @@ export async function process_for_yelp(
 export async function yelp_set_venue_reservation(
   venue_key: string,
   urlSlug: string,
-  businessid: string,
+  businessid: string
 ): Promise<void> {
   const query = `
 mutation MyMutation {
@@ -272,10 +273,25 @@ export async function validateYelpVenueInfo(venue: any): Promise<boolean> {
   if (!venueNameSimilar(venue.name, yelp_entity.name)) {
     return false;
   }
-  if (!addressMatch(yelp_entity.location.address1, venue.address, yelp_entity.location.city, yelp_entity.location.state)) {
+  if (
+    !addressMatch(
+      yelp_entity.location.address1,
+      venue.address,
+      yelp_entity.location.city,
+      yelp_entity.location.state
+    )
+  ) {
     return false;
   }
-  const reservation_data = await yelp_find_reservation(venue.urlSlug, venue.businessid, venue.longitude, venue.latitude, dayjs().add(-1, 'day').format('YYYY-MM-DD'), 2, "dinner");
+  const reservation_data = await yelp_find_reservation(
+    venue.urlSlug,
+    venue.businessid,
+    venue.longitude,
+    venue.latitude,
+    dayjs().add(-1, "day").format("YYYY-MM-DD"),
+    2,
+    "dinner"
+  );
   if (reservation_data.availability_profile === "no_avail") {
     return false;
   }
