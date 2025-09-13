@@ -81,7 +81,7 @@ describe("Yelp", () => {
   }, 10000);
 });
 
-describe.only("YelpTest", () => {
+describe("YelpTest", () => {
   it("yelp_find_reservation", async () => {
     const date = dayjs().add(7, "days").format("YYYY-MM-DD");
     const result = await yelp_find_reservation(

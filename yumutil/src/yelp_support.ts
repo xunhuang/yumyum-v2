@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { yumyumGraphQLCall } from "./yumyumGraphQLCall";
-import { proxyFetch, proxyFetchPost } from "./proxy_manager";
+import { proxyFetch, proxyFetchNTries, proxyFetchPost } from "./proxy_manager";
 import { fetchHardJson, fetchHardJsonPost } from "./fetchHard";
 
 dayjs.extend(timezone);
@@ -201,12 +201,16 @@ export async function yelp_find_reservation(
   const params = new URLSearchParams(data as any);
   const fullUrl = `${url}?${params.toString()}`;
 
-  const res = await proxyFetch(fullUrl, {
-    headers: {
-      "x-requested-with": "XMLHttpRequest",
+  const res = await proxyFetchNTries(
+    fullUrl,
+    {
+      headers: {
+        "x-requested-with": "XMLHttpRequest",
+      },
+      timeout: 10000,
     },
-    timeout: 10000,
-  });
+    3
+  );
   return res;
 }
 

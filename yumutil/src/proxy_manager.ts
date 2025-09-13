@@ -368,6 +368,24 @@ export async function proxyFetch(
   );
 }
 
+export async function proxyFetchNTries(
+  url: string,
+  options: { headers?: any; timeout?: number } = {},
+  numRetries: number = 3
+): Promise<any> {
+  for (let i = 0; i < numRetries; i++) {
+    const result = await proxyRequest(
+      url,
+      { method: "GET", headers: options.headers, timeout: options.timeout },
+      "proxyFetchNTries"
+    );
+    if (result) {
+      return result;
+    }
+  }
+  return null;
+}
+
 /**
  * Performs a POST request through a random working proxy.
  * - Sends JSON by default; pass `rawBody: true` to send a pre-serialized string/Buffer.
