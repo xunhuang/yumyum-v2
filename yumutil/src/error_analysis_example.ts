@@ -114,3 +114,4 @@ export async function testErrorScenarios(): Promise<void> {
 if (require.main === module) {
   testErrorScenarios().catch(console.error);
 }
+
