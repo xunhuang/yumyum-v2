@@ -13,6 +13,7 @@
   "description": "",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@types/cheerio": "^0.22.35",
     "@types/jest": "^29.5.12",
     "@types/long": "^5.0.0",
     "@types/node": "^20.14.2",
