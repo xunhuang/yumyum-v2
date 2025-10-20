@@ -11,6 +11,7 @@ import type { Browser, ElementHandle, Frame, Page } from 'puppeteer';
 import { parseDocument } from 'htmlparser2';
 import { selectAll } from 'css-select';
 import type { Element as DomElement } from 'domhandler';
+import { setVenueReservationToNone, setVenueToClosed } from 'yumutil';
 
 import places from './places';
 
@@ -347,27 +348,6 @@ async function captureScreenshot(targetPage: Page, targetPath: `${string}.png`):
   // await openInViewer(targetPath);
 }
 
-async function waitForReservationData(page: Page): Promise<void> {
-  await page
-    .waitForFunction(() => {
-      const global = window as typeof window & { AF_initDataChunkQueue?: unknown };
-      const queue = global.AF_initDataChunkQueue;
-      if (!Array.isArray(queue)) {
-        return false;
-      }
-
-      return queue.some((chunk) => {
-        if (!chunk || typeof chunk !== 'object') {
-          return false;
-        }
-
-        const data = (chunk as { data?: unknown }).data;
-        return Array.isArray(data) && data.length > 0;
-      });
-    }, { timeout: 20000 })
-    .catch(() => undefined);
-}
-
 type DataSlotRecord = {
   tagName: string;
   dataSlot: string;
@@ -521,11 +501,23 @@ function findMapReservationURLFromHtml(html: string): string | null {
   return null;
 }
 
+function isGoogleRservationPageClosed(html: string) {
+  const $ = cheerio.load(html);
+  const nodes = $("g-accordion-expander");
+  for (const n of nodes) {
+    const text = $(n).text().trim();
+    if (text.startsWith("Temporarily closed") || text.startsWith("Permanently closed")) {
+      return true;
+    }
+  }
+  return false;
+
+}
+
 async function navigateToGoogleReservationURL(): Promise<void> {
   try {
     const browser = await createStealthBrowser();
     try {
-      const n = places[0];
       for (const place of places) {
         const searchQuery = place.node.name + ' ' + place.node.city + ' ' + place.node.region;
         const cachedReservation = await readCachedSearchHtml(searchQuery);
@@ -534,6 +526,16 @@ async function navigateToGoogleReservationURL(): Promise<void> {
           const url = findMapReservationURLFromHtml(html);
           if (!url) {
             console.log('No URL found for ', searchQuery);
+            const isClosed = isGoogleRservationPageClosed(html);
+            if (isClosed) {
+              console.log('Google reservation page is closed for ', searchQuery);
+              console.log('Setting venue to closed for ', place.node.key);
+              await setVenueToClosed(place.node.key, 'google places web search');
+              continue;
+            } else {
+              console.log('Google reservation page is open but not reservation system ', searchQuery);
+              await setVenueReservationToNone(place.node.key, "google places web search");
+            }
             continue;
           }
 
@@ -563,3 +565,4 @@ main().catch((error) => {
   console.error('Fatal error:', error instanceof Error ? error.message : error);
   process.exitCode = 1;
 });
+

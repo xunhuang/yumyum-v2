@@ -32,6 +32,29 @@ export async function checkIfVenueIsClosedAndActOnIt(
   }
   return false;
 }
+export async function setVenueReservationToNone(
+  venue_key: string,
+  reason: string
+): Promise<any> {
+  const escapedReason = reason.replace(/"/g, '\\"');
+  const query = `
+mutation MyMutation {
+  updateVenueByKey(input: {venuePatch: {
+    reservation: "none"
+    withOnlineReservation: "false"
+    devnotes: "${escapedReason}"
+  }, key: "${venue_key}"}) {
+  venue {
+    name
+    key
+  }
+  }
+}
+`;
+
+  const json = await yumyumGraphQLCall(query);
+  return json;
+}
 
 export async function setVenueToClosed(
   venue_key: string,
