@@ -213,7 +213,6 @@ const functionMap: { [key: string]: (venue: any) => Promise<boolean> } = {
 })();
 
 async function BayAreaListWithTBD() {
-  // reservation: { in: ["opentable", "resy", "tock", "TBD"] }
   const query = `
 query MyQuery {
   allVenues(

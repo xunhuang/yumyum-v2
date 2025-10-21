@@ -11,9 +11,9 @@ import type { Browser, ElementHandle, Frame, Page } from 'puppeteer';
 import { parseDocument } from 'htmlparser2';
 import { selectAll } from 'css-select';
 import type { Element as DomElement } from 'domhandler';
-import { setVenueReservationToNone, setVenueToClosed } from 'yumutil';
+import { setVenueReservationToNone, setVenueToClosed, BayAreaListWithTBD } from 'yumutil';
 
-import places from './places';
+// import places from './places';
 
 puppeteer.use(StealthPlugin());
 
@@ -365,22 +365,22 @@ function collectDataSlotsFromHtml(html: string): DataSlotRecord[] {
     .filter((record) => Boolean(record.dataSlot));
 }
 
-async function extractDataSlots(page: Page): Promise<DataSlotRecord[]> {
-  const html = await page.content();
-  return collectDataSlotsFromHtml(html);
-}
+// async function extractDataSlots(page: Page): Promise<DataSlotRecord[]> {
+//   const html = await page.content();
+//   return collectDataSlotsFromHtml(html);
+// }
 
-function printDataSlots(label: string, slots: DataSlotRecord[]): void {
-  if (slots.length === 0) {
-    console.warn(`${label} did not expose any elements with [data-slot].`);
-    return;
-  }
+// function printDataSlots(label: string, slots: DataSlotRecord[]): void {
+//   if (slots.length === 0) {
+//     console.warn(`${label} did not expose any elements with [data-slot].`);
+//     return;
+//   }
 
-  console.log(`${label} [data-slot] elements (${slots.length}):`);
-  slots.forEach((record, index) => {
-    console.log(`  ${index + 1}. <${record.tagName}> data-slot="${record.dataSlot}"`);
-  });
-}
+//   console.log(`${label} [data-slot] elements (${slots.length}):`);
+//   slots.forEach((record, index) => {
+//     console.log(`  ${index + 1}. <${record.tagName}> data-slot="${record.dataSlot}"`);
+//   });
+// }
 
 async function performSearchAndCaptureScreenshot(
   browser: Browser,
@@ -413,6 +413,7 @@ async function performSearchAndCaptureScreenshot(
 }
 
 async function performSearchForPlaces(): Promise<void> {
+  const places = await BayAreaListWithTBD();
   const args = new Set(process.argv.slice(2));
   const useCache = !args.has('--no-cache');
 
@@ -428,7 +429,7 @@ async function performSearchForPlaces(): Promise<void> {
     const page = initialPage ?? (await browser.newPage());
 
     for (const place of places) {
-      const searchQuery = place.node.name + ' ' + place.node.city + ' ' + place.node.region;
+      const searchQuery = place.name + ' ' + place.city + ' ' + place.region;
       const url = await performSearchAndCaptureScreenshot(browser, page, searchQuery, { useCache });
       console.log(url);
     }
@@ -515,11 +516,14 @@ function isGoogleRservationPageClosed(html: string) {
 }
 
 async function navigateToGoogleReservationURL(): Promise<void> {
+  const places = await BayAreaListWithTBD();
+  console.log('Places: ', places.length);
+  console.log('Places: ', places);
   try {
     const browser = await createStealthBrowser();
     try {
       for (const place of places) {
-        const searchQuery = place.node.name + ' ' + place.node.city + ' ' + place.node.region;
+        const searchQuery = place.name + ' ' + place.city + ' ' + place.region;
         const cachedReservation = await readCachedSearchHtml(searchQuery);
         if (cachedReservation && cachedReservation.html) {
           const html = cachedReservation.html;
@@ -529,12 +533,12 @@ async function navigateToGoogleReservationURL(): Promise<void> {
             const isClosed = isGoogleRservationPageClosed(html);
             if (isClosed) {
               console.log('Google reservation page is closed for ', searchQuery);
-              console.log('Setting venue to closed for ', place.node.key);
-              await setVenueToClosed(place.node.key, 'google places web search');
+              console.log('Setting venue to closed for ', place.key);
+              await setVenueToClosed(place.key, 'google places web search');
               continue;
             } else {
               console.log('Google reservation page is open but not reservation system ', searchQuery);
-              await setVenueReservationToNone(place.node.key, "google places web search");
+              await setVenueReservationToNone(place.key, "google places web search");
             }
             continue;
           }

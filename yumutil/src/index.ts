@@ -15,3 +15,4 @@ export * from "./proxy_manager";
 export * from "./yelp_html_parser";
 export * from "./puppeteerFetch";
 export * from "./fetchHard";
+export * from "./data";
