@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node
 
+import { customsearch } from '@googleapis/customsearch';
 import path from 'path';
 import fs from 'fs/promises';
 import { createHash } from 'crypto';
@@ -11,7 +12,8 @@ import type { Browser, ElementHandle, Frame, Page } from 'puppeteer';
 import { parseDocument } from 'htmlparser2';
 import { selectAll } from 'css-select';
 import type { Element as DomElement } from 'domhandler';
-import { setVenueReservationToNone, setVenueToClosed, BayAreaListWithTBD, sevenrooms_set_venue_reservation } from 'yumutil';
+import { setVenueReservationToNone, setVenueToClosed, BayAreaListWithTBD, sevenrooms_set_venue_reservation, getYelpBusinessDetails, yelp_set_venue_reservation } from 'yumutil';
+
 
 // import places from './places';
 
@@ -611,6 +613,24 @@ async function navigateToGoogleReservationURL(): Promise<void> {
           } else {
             const partner = extractBookingPartner(pageContent);
             console.log('Booking partner: ', partner);
+            if (partner === 'yelp') {
+              const query = searchQuery + ' yelp online reservations';
+              const url = await findYelprReservationURLFromGoogle(query);
+
+              const slug = findYelprSlugFromURL(url || '');
+              if (slug) {
+                const details = await getYelpBusinessDetails(slug);
+                if (details) {
+                  const bizInfo = details.yrSearchWidgetData.bizInfo;
+                  const bizId = bizInfo.bizId;
+                  console.log('Yelp business ID: ', bizId);
+                  console.log('Yelp business slug: ', slug);
+                  console.log('key: ', place.key);
+                  await yelp_set_venue_reservation(place.key, slug, bizId);
+
+                }
+              }
+            }
           }
           await page.close();
         };
@@ -623,9 +643,58 @@ async function navigateToGoogleReservationURL(): Promise<void> {
   }
 }
 
+
+async function findYelprReservationURLFromGoogle(query: string): Promise<string | null> {
+  const key = process.env.GOOGLE_CLOUD_API;
+  const engineId = process.env.GOOGLE_CSE_ID;
+  const search = customsearch('v1');
+  const res = await search.cse.list({
+    auth: key,
+    cx: engineId,
+    q: query,
+  });
+
+  console.log('Res: ', res.data.items);
+  console.log('Query: ', query);
+
+  if (res.data.items && Array.isArray(res.data.items)) {
+    const yelpReservationItem = res.data.items.find(
+      (item: any) => typeof item.link === 'string' && item.link.startsWith("https://www.yelp.com/reservations")
+    );
+    if (yelpReservationItem) {
+      return yelpReservationItem.link || null;
+    }
+  }
+
+  return null;
+}
+
+function findYelprSlugFromURL(url: string): string | null {
+  // Extract the slug segment from URLs like:
+  // https://www.yelp.com/reservations/yafa-carmel-by-the-sea-2/sddssdsd/?dssdsdsd
+  // Goal: return the 'yafa-carmel-by-the-sea-2' part (just after '/reservations/')
+  const match = url?.match(/\/reservations\/([^\/?#]+)/);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return null;
+}
+
 async function main(): Promise<void> {
   // await performSearchForPlaces();
   await navigateToGoogleReservationURL();
+
+  // const url = await findYelprReservationURLFromGoogle("yafa san franciso yelp reservations");
+  // const slug = findYelprSlugFromURL(url || '');
+  // if (slug) {
+  //   const details = await getYelpBusinessDetails(slug);
+  //   if (details) {
+  //     console.log('Details: ', details);
+  //     const bizInfo = details.yrSearchWidgetData.bizInfo;
+  //     const bizId = bizInfo.bizId,
+  //       yelp_set_venue_reservation(key, result.slug, result.businessid);
+  //   }
+  // }
 }
 
 main().catch((error) => {
