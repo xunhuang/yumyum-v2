@@ -515,6 +515,47 @@ function isGoogleRservationPageClosed(html: string) {
 
 }
 
+export function extractBookingPartner(html: string): string | null {
+  const $ = cheerio.load(html);
+
+  // Find the section containing the anchor phrase
+  const section = $("div:has(:contains('Booking times are provided in partnership with'))").first();
+  if (!section.length) return null;
+
+  // Prefer the <img alt="Yelp"> tag (usually most reliable)
+  const alt = section.find('img[alt]').attr('alt');
+  if (alt && alt.trim()) return alt.trim().toLowerCase();
+
+  // Fallback: find a nearby span with short text (e.g., "Yelp")
+  const anchor = section.find(":contains('Booking times are provided in partnership with')").first();
+  if (anchor.length) {
+    const candidate = anchor
+      .parent()
+      .nextAll()
+      .add(anchor.nextAll())
+      .find('span')
+      .add(section.find('span'))
+      .filter((_: any, el: any) => {
+        const text = $(el).text().trim();
+        return text && text.length <= 30 && !/provided in partnership/i.test(text);
+      })
+      .first()
+      .text()
+      .trim();
+
+    if (candidate) return candidate.toLowerCase();
+  }
+
+  // Final fallback: scan for any short span text
+  const anySpan = section
+    .find('span')
+    .toArray()
+    .map((el: any) => $(el).text().trim())
+    .find((t: any) => t && t.length <= 30 && !/provided in partnership/i.test(t));
+
+  return anySpan ? anySpan.toLowerCase() : null;
+}
+
 async function navigateToGoogleReservationURL(): Promise<void> {
   const places = await BayAreaListWithTBD();
   console.log('Places: ', places.length);
@@ -567,6 +608,9 @@ async function navigateToGoogleReservationURL(): Promise<void> {
             } else {
               console.log('Unknown slot URL: ', sloturl);
             }
+          } else {
+            const partner = extractBookingPartner(pageContent);
+            console.log('Booking partner: ', partner);
           }
           await page.close();
         };
