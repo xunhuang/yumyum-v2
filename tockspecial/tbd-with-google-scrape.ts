@@ -11,7 +11,7 @@ import type { Browser, ElementHandle, Frame, Page } from 'puppeteer';
 import { parseDocument } from 'htmlparser2';
 import { selectAll } from 'css-select';
 import type { Element as DomElement } from 'domhandler';
-import { setVenueReservationToNone, setVenueToClosed, BayAreaListWithTBD } from 'yumutil';
+import { setVenueReservationToNone, setVenueToClosed, BayAreaListWithTBD, sevenrooms_set_venue_reservation } from 'yumutil';
 
 // import places from './places';
 
@@ -549,6 +549,25 @@ async function navigateToGoogleReservationURL(): Promise<void> {
           const pageContent = await page.content();
           const sloturl = findSlotURLFromHtml(pageContent);
           console.log('Slot URL: ', sloturl);
+          if (sloturl) {
+            if (sloturl.startsWith("https://www.sevenrooms.com/explore/")) {
+              // Extract the sevenrooms slug from the sloturl, which is the segment after /explore/ and before the next /
+              const match = sloturl.match(/sevenrooms\.com\/explore\/([^\/]+)/);
+              if (match && match[1]) {
+                const sevenroomsSlug = match[1];
+                console.log('Extracted Sevenrooms slug:', sevenroomsSlug);
+                if (sevenroomsSlug) {
+                  await sevenrooms_set_venue_reservation(place.key, sevenroomsSlug);
+                }
+                // you can use sevenroomsSlug as needed here
+              } else {
+                console.log('Could not extract Sevenrooms slug from slot URL');
+              }
+              console.log('Sevenrooms slot URL: ', sloturl);
+            } else {
+              console.log('Unknown slot URL: ', sloturl);
+            }
+          }
           await page.close();
         };
       }
