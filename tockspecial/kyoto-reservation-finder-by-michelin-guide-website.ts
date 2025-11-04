@@ -4,7 +4,19 @@ import { load as cheerioLoad } from "cheerio";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import puppeteer from "puppeteer";
+import { Browser, Handler, Page, executablePath } from "puppeteer"
+
+
+// puppeteer-extra is a drop-in replacement for puppeteer,
+// it augments the installed puppeteer with plugin functionality
+import puppeteer from "puppeteer-extra";
+
+// add stealth plugin and use defaults (all evasion techniques)
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+
+import * as pp from "puppeteer";
+
+puppeteer.use(StealthPlugin());
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -101,7 +113,17 @@ async function scrapeOmakaseInquiry(
   );
 
   // const browser = await puppeteer.launch({ headless: true });
-  const browser = await puppeteer.launch({ headless: false });
+  // const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+    ],
+  }).catch(error => {
+    console.error('Failed to launch browser:', error);
+    throw error;
+  });
 
   try {
     const page = await browser.newPage();
@@ -117,6 +139,7 @@ async function scrapeOmakaseInquiry(
 
     const responseJson = JSON.parse(body);
     const slots = [];
+    // console.log(responseJson);
 
     if (responseJson?.time_slots) {
       for (const timeslot of responseJson.time_slots) {
@@ -232,9 +255,9 @@ function convertGMTToJapanTime(t: string) {
   const date = process.argv[2] || dayjs().tz("Asia/Tokyo").format("YYYY-MM-DD");
   const numPeople = 2;
   try {
-    const restaurants = kyotoList.filter(
-      (v: { name: string }) => v.name === "Kenya"
-    );
+    // const restaurants = kyotoList.filter(
+    //   (v: { name: string }) => v.name === "Kenya"
+    // );
     const restaurants = kyotoList;
     for (let v of restaurants) {
       try {
@@ -248,11 +271,11 @@ function convertGMTToJapanTime(t: string) {
         }
         var slots: string[] = [];
         if (reservation_link.includes("tablecheck")) {
-          slots = await findAvailableSlotsTablecheck(
-            reservation_link,
-            date,
-            numPeople
-          );
+          // slots = await findAvailableSlotsTablecheck(
+          //   reservation_link,
+          //   date,
+          //   numPeople
+          // );
         } else if (reservation_link.includes("omakaseje")) {
           slots = await scrapeOmakaseInquiry(reservation_link, date, numPeople);
         }
