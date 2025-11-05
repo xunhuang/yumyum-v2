@@ -4,17 +4,10 @@ import { load as cheerioLoad } from "cheerio";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { Browser, Handler, Page, executablePath } from "puppeteer"
 
 
-// puppeteer-extra is a drop-in replacement for puppeteer,
-// it augments the installed puppeteer with plugin functionality
 import puppeteer from "puppeteer-extra";
-
-// add stealth plugin and use defaults (all evasion techniques)
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-
-import * as pp from "puppeteer";
 
 puppeteer.use(StealthPlugin());
 
@@ -22,6 +15,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const kyotoList = JSON.parse(fs.readFileSync("kyoto.json", "utf8"));
+// const kyotoList = JSON.parse(fs.readFileSync("nara.json", "utf8"));
 const CACHE_FILE = "kyoto-reservation-cache.json";
 
 type ReservationCache = Record<string, string | null>;
