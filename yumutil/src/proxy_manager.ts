@@ -57,9 +57,6 @@ async function initializeProxyList() {
   }
 }
 
-// Initialize immediately and export the promise
-export const initializationPromise = initializeProxyList();
-
 /**
  * Tests and filters the proxy list to only keep working proxies
  * @param testUrl - URL to test proxies against
@@ -177,7 +174,7 @@ export async function ensureReliableProxies(
 
 export async function waitForInitialization() {
   if (!isInitialized) {
-    await initializationPromise;
+    await initializeProxyList();
   }
 }
 
