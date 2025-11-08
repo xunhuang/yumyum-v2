@@ -3,7 +3,7 @@ import { TimeSlots, VendorBase, VenueVendorInfo } from "./VendorBase";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { getRedis } from "../yumutil/src/saveToRedisWithChunking";
+import { getRedisTockDb } from "../yumutil/src/saveToRedisWithChunking";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -24,7 +24,7 @@ export class VendorTock extends VendorBase {
     party_size: number,
     timeOption: string
   ): Promise<TimeSlots[]> {
-    const redis = getRedis();
+    const redis = getRedisTockDb();
     const response: any = await redis.get(`${venue.url_slug}-${date}`);
 
     let total: any = [];
