@@ -149,40 +149,12 @@ export async function isProxyEntryWorking(
   }
 }
 
-/**
- * Rinses the proxy list and sets the working proxy list to only include reliable proxies
- * @param forceRefresh - Whether to force a refresh even if working proxies exist
- * @returns The number of working proxies
- */
-export async function ensureReliableProxies(
-  forceRefresh: boolean = false
-): Promise<number> {
-  if (forceRefresh || workingProxyList.length === 0) {
-    console.log("Refreshing proxy list...");
-    const rinseResult = await rinseProxyList();
-    if (rinseResult.length > 0) {
-      workingProxyList = rinseResult;
-      return workingProxyList.length;
-    } else {
-      console.log("No working proxies found, using initial list");
-      workingProxyList = await listProxiesFromWebshare();
-      return workingProxyList.length;
-    }
-  }
-  return workingProxyList.length;
-}
-
 export async function waitForInitialization() {
   if (!isInitialized) {
     await initializeProxyList();
   }
 }
 
-export function getWorkingProxyList() {
-  return workingProxyList;
-}
-
-// Modify getRandomProxy to wait for initialization if needed
 export async function getRandomProxy(): Promise<string> {
   await waitForInitialization();
   if (workingProxyList.length === 0) {
