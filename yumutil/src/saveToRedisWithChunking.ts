@@ -1,11 +1,16 @@
 import { Redis } from "@upstash/redis";
-import dotenv from 'dotenv'; 
+import dotenv from "dotenv";
 
 // this loads from .env file in current directory (not ~/.env)
 dotenv.config();
 
-if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-  throw new Error("UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set");
+if (
+  !process.env.UPSTASH_REDIS_REST_URL ||
+  !process.env.UPSTASH_REDIS_REST_TOKEN
+) {
+  throw new Error(
+    "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set"
+  );
 }
 
 const redis = new Redis({
@@ -13,7 +18,7 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
-export function getRedis() {
+export function getRedisTockDb() {
   return redis;
 }
 
@@ -26,7 +31,8 @@ export async function saveToRedisWithChunking(
     try {
       console.log(`${tag} Chunk size: ${Object.keys(chunk).length} keys`);
       console.log(
-        `${tag} Total size: ${new TextEncoder().encode(JSON.stringify(chunk)).length
+        `${tag} Total size: ${
+          new TextEncoder().encode(JSON.stringify(chunk)).length
         } bytes`
       );
       // Use a pipeline to set keys and their TTLs
@@ -40,9 +46,12 @@ export async function saveToRedisWithChunking(
       console.log("REDIS ERROR for " + e);
     }
   }
-};
+}
 
-function chunkObject(obj: Record<string, any>, chunkSizeInBytes: number): Record<string, any>[] {
+function chunkObject(
+  obj: Record<string, any>,
+  chunkSizeInBytes: number
+): Record<string, any>[] {
   const chunks: Record<string, any>[] = [];
   let chunk: Record<string, any> = {};
 

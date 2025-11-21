@@ -1,10 +1,9 @@
-import { simpleFetchGet } from "yumutil";
+import { getRandomProxy, simpleFetchGet } from "yumutil";
 import fs from "fs";
 import { load as cheerioLoad } from "cheerio";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-
 
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
@@ -106,31 +105,51 @@ async function scrapeOmakaseInquiry(
     guestsCount
   );
 
+  const proxyString = await getRandomProxy();
+  const [host, port, username, password] = proxyString.split(":");
+  const proxyArg =
+    host && port ? `--proxy-server=http://${host}:${port}` : undefined;
+  console.log(`Using proxy: ${proxyString}`);
+
   // const browser = await puppeteer.launch({ headless: true });
   // const browser = await puppeteer.launch({ headless: false });
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-    ],
-  }).catch(error => {
-    console.error('Failed to launch browser:', error);
-    throw error;
-  });
+  const browser = await puppeteer
+    .launch({
+      headless: false,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        ...(proxyArg ? [proxyArg] : []),
+      ],
+    })
+    .catch((error) => {
+      console.error("Failed to launch browser:", error);
+      throw error;
+    });
 
   try {
     const page = await browser.newPage();
+    if (username && password) {
+      await page.authenticate({ username, password });
+    }
+
+    console.log(`Going to 1`);
     await page.goto(landingUrl, { waitUntil: "networkidle2" });
+    console.log(`Going to 2`);
     await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log(`Going to 3 ${inquiryUrl}`);
     await page.goto(inquiryUrl, { waitUntil: "networkidle2" });
+    console.log(`Going to 4`);
 
     await page.waitForSelector("body", { timeout: 10000 });
+    console.log(`Going to 5`);
 
     const bodyText = await page.content();
+    console.log(`Going to 6`);
     const $ = cheerioLoad(bodyText);
     const body = $("body").text();
 
+    console.log(body);
     const responseJson = JSON.parse(body);
     const slots = [];
     // console.log(responseJson);
