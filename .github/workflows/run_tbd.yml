@@ -2,8 +2,6 @@ name: Run TBD Determination for reservation systems
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   setup-build-publish-deploy:
