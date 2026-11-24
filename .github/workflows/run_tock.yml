@@ -2,8 +2,6 @@ name: Run Tock scraping
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0/45 * * * *"
 
 jobs:
   setup-build-publish-deploy:
